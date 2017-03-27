@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 作为模板使用,不要在服务端返回此页面 -->
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <meta name="description" content="简单直接的后台"/>
+    <link rel="stylesheet" type="text/css" href="mg/css/public.css"/>
+</head>
+<body>
+<div id="header" class="canvassing-abs">
+    <div class="header-cont w900 clearfix">
+        <h1 class="header-logo">
+            <a target="_top" href="articles">ALL</a>
+        </h1>
+        <ul id="J_navList" class="header-nav">
+            <li class="new-up"><a href="lucky_draw" target="_top">大转盘<sup></sup></a></li>
+            <li><a href="articles" target="_top">文章列表<sup></sup></a></li>
+            <li class="new-up"><a href="code" target="_top">激活码<sup></sup></a></li>
+            <li><a href="upload_media" target="_top">轮播图/mp4</a></li>
+            <li class="new-up"><a href="point_shop_mg" target="_top">积分商城<sup></sup></a></li>
+            <li><a href="mg" target="_top">参数配置<sup></sup></a></li>
+            <li><a href="all" target="_top">服务状态</a></li>
+            <li><a href="http://jztpy.sincetimes.com" target="_blank">预览</a></li>
+        </ul>
+    </div>
+</div>
+<script src="js/jquery-1.10.1.min.js"></script>
+<script src="js/util.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    (function () {
+        var pageName = {
+                    'index.html':0,
+                    'download.html':1,
+                    'onlinedemo.html':2,
+                    'um.html':3,
+                    'thirdproject.html':4,
+                    'changelog.html':5,
+                    'helper.html':6,
+                    'document.html':-1
+                },
+                path = parent.location.pathname,
+                arr = path.split("/"),
+                name = arr[arr.length - 1],
+                navList = util.$G("J_navList");
+        for (var property in pageName) {
+            if (property == name) {
+                navList.children[pageName[property]].className += " cur";
+            }
+        }
+    })();
+</script>
+</body>
+</html>

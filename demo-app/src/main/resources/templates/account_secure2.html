@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>个人中心</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<script type="text/javascript">
+    function check(form){
+    	console.log(form.name.value, form.password.value, form.female.value);
+		if(form.name.value==''){
+			alert("名字不能为空");
+			return false;
+		}
+		if(form.password.value==''){
+			alert("密码不能为空");
+			return false;
+		}
+		return true;
+	}
+    /*变换默认图片*/
+    function change_gender(obj){			
+    	console.log(obj.value, obj.checked, obj);
+    	if($('#pic').val()!=''){
+    		console.log('return', $('#pic').val()!='');
+    		return;
+    	}
+    	if(obj.checked==false){
+    		$('#_pic_show').attr("src","/mg/images/boy.png");
+    		$('#_pic_show').attr("onerror","this.onerror='';src='/mg/images/boy.png'");
+    	}else{//female
+    		console.log("on");
+    		$('#_pic_show').attr("src","/mg/images/girl.png");
+    		$('#_pic_show').attr("onerror","this.onerror='';src='/mg/images/girl.png'");
+    	}
+    }
+	/*点击图片选择*/
+	function _open_pic() 
+    { 
+         document.getElementById("pic").click(); 
+    } 
+	/*显示刚刚选择的图片*/
+	function showImg(fileObj,imgId) {
+    	console.log(imgId);
+    	var file=fileObj.files[0];
+    	var r = new FileReader();
+    	r.readAsDataURL(file);
+    	$(r).load(function() {
+        	$('#'+imgId).attr("src", this.result);
+    	})
+	}
+</script>
+<body>
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+<nav class="navbar navbar-default navbar-inverse navbar-fixed-top"
+		role="navigation">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
+					class="icon-bar"></span><span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">主界面</a>
+		</div>
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">角色</a></li>
+				<li><a href="#">用户</a></li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown">导航<strong class="caret"></strong></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">用户</a></li>
+						<li><a href="#">角色</a></li>
+						<li class="divider"></li>
+						<li><a href="#">状态监控</a></li>
+						<li class="divider"></li>
+						<li><a href="#">日志监控</a></li>
+					</ul></li>
+			</ul>
+			<form class="navbar-form navbar-left" role="search">
+				<div class="form-group">
+					<input type="text" class="form-control" />
+				</div>
+				<button type="submit" class="btn btn-default">Submit</button>
+			</form>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#">监控主页面</a></li>
+				<li class="dropdown">
+				
+				<a href="#" class="dropdown-toggle"
+					data-toggle="dropdown"><img height="24" width="24" th:src="${pic}" onerror="this.onerror='';src='/mg/images/head.png'"/><strong class="caret"></strong></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">a</a></li>
+						<li><a href="#">b</a></li>
+						<li><a href="#">c</a></li>
+						<li class="divider"></li>
+						<li><a href="#">d</a></li>
+					</ul></li>
+			</ul>
+		</div>
+	</nav>
+	<!--  -->
+	<div id="wrapper">
+	<div class="row clearfix">
+		<div class="col-md-2 column" >
+			<div class="page-sidebar" style="position: fixed">
+				 <ul>
+            		<li>
+                		<a>Item</a>
+                	<ul class="sub-menu light">
+                		<li>
+                		<a>CCCCCCC</a>
+                		</li>
+                		<li>
+                		<a>CCCCCCC</a>
+                		</li>
+                		<li>
+                		<a>CCCCCCC</a>
+                		</li>
+                		<li>
+                		<a>CCCCCCC</a>
+                		</li>
+                		<li>
+                		<a>CCCCCCC</a>
+                		</li>
+                	</ul>
+                	</li>
+                </ul>
+			</div>
+		</div>
+		<div class="col-md-10 column">
+			<div class="row clearfix">
+				<div class="col-md-8 column">
+				    <img th:if="${user.pic}" height="120" width="120" th:src="${user.pic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-circle img-responsive center-block"/>
+					<img th:if="${user.pic==null}" height="120" width="120" th:src="${user.gender.defaultPic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-circle img-responsive center-block"/> 
+				    
+					<form role="form" action="sign_in_submit" enctype="multipart/form-data" method="post">
+						<div class="form-group">
+							<input type="file" id="pic" name="pic" style="display: none" th:attr="onchange=${'showImg(this,''_pic_show'')'}"/>
+							<img height="180" id="_pic_show" name="_pic_show" width="180" onclick="_open_pic()" class="img-circle img-responsive center-block" th:src="${pic}" onerror="this.onerror='';src='/mg/images/boy.png'"/>
+						</div>
+						<label th:if="${tips}" th:text="${tips}" style="color: red;"></label>
+						<div class="form-group">
+							 <label for="name">name</label>
+							 <input type="text" class="form-control" id="name" name="name"/>
+						</div>
+						<div class="form-group">
+							 <label for="password">password</label>
+							 <input type="password" class="form-control" id="password" name="password"/>
+						</div>
+						<div class="checkbox">
+							 <label class="label label-info"><input type="checkbox" id="female" name="female" onchange="change_gender(this)"/>female</label>
+						</div> 
+						<button type="submit" class="btn btn-info" onclick="return check(this.form)">Sign Up</button>
+						<input class="btn btn-default" type="button" value="Cancle" onclick="javascript:history.back()" />
+					</form>
+				</div>
+				<div class="col-md-4 column">
+					<blockquote>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+						</p> <small>Someone famous <cite>Source Title</cite></small>
+					</blockquote>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		</div>
+		</div>
+	</div>
+</div>
+			<div id="footer">
+    		@ sincetimes
+		</div>
+</body>
+</html>

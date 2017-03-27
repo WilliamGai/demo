@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>角色管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<script type="text/javascript">
+	function clear_all_score() {
+		console.log("危险请求");
+		$.ajax({
+			type : "POST",
+			/* dataType: 'json',  */
+			url : "http://service.sincetimes.com/moon/clear_all_score",
+			data : {
+				sign : "clearall"
+			},
+			success : function(data) {
+				console.log(data)
+				$('.text_field').show().html("result:" + data);
+			},
+			error : function() {
+				$('.text_field').show().html("获取结果失败");
+			}
+		});
+	}
+</script>
+<body>
+	
+	<div th:fragment="content" >
+	<!-- container有边距 -->
+	<div class="container">
+		<button type="button" class="btn btn-default ">创建角色</button>
+		<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default btn-success" data-toggle="modal">创建一个新的轮播图配置</a>
+		<!-- 添加轮播图配置 start -->
+		<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">
+							创建角色
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form role="form" class="form-inline" action="add_lunbo_cf" method="post">
+                			<div class="modal-body">
+                				<label for="role_id">角色ID(唯一)</label>
+		    					<input name="role_id" id="role_id"/>
+        						<input placeholder="说明" class="form-control" name ="desc" id="desc" />
+								<br/>
+							</div>
+                			<div class="modal-footer">
+                				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('你确认要提交创建?');" />
+                			</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h3>用户信息</h3>
+		<h3 class="text_field"></h3>
+		<h4>
+		<span th:text="${data}"></span>
+		</h4>
+<!-- 		<span th:text="${data2}"></span>
+		<h2 th:text="${users}"></h2>
+		-->
+		<span th:text="${user}"></span> 
+		<table  class="table table-condensed table-bordered table-hover">
+			<caption>用户列表</caption>
+			<tr>
+				<th>序号</th>
+				<th>用户ID</th>
+				<th>登录名</th>
+				<th>性别</th>
+				<th>头像</th>
+				<th>昵称</th>
+				<th>密码</th>
+				<th>状态</th>
+				<th/>
+			</tr>
+			<tr th:each="item, iterStat: ${users}">
+				<td th:text="${iterStat.index}+1"></td>
+				<td th:text="${item.id}"></td>
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.gender.name}"></td>
+				<td>
+					<img th:if="${item.pic}" height="24" width="24" th:src="${item.pic}" onerror="this.onerror='';src='images/boy.png'"/>
+					<img th:if="${item.pic==null}" height="24" width="24" th:src="${item.gender.defaultPic}" onerror="this.onerror='';src='images/boy.png'"/>
+				</td>
+				<td th:text="${item.nickname}"></td>
+				<td th:text="${item.password}"></td>
+				<td th:text="${item.status}"></td>
+				<td><a th:href="${'user?openid='+item.name}">重置密码</a></td>
+				<td><a th:href="${'user?openid='+item.name}">配置权限</a></td>
+			</tr>
+		</table>
+		<!-- <button onclick="clear_all_score()">清除所有用户的分数,并清空排行榜</button> -->
+		</div>
+		</div>
+	</body>
+</html>

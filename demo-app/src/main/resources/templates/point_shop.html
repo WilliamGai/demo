@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>积分商城</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+
+<script type="text/javascript">
+function showImg(fileObj,imgId) {
+    console.log(imgId);
+    var file=fileObj.files[0];
+    var r = new FileReader();
+    r.readAsDataURL(file);
+    $(r).load(function() {
+        $('#'+imgId).attr("src", this.result);
+    })
+}
+
+function delete_goods(shop_sn, sn){
+	console.log('delete goods shop_sn='+shop_sn,', sn='+ sn);
+	if(confirm("你确定要删除此商品?删除后激活码也将不存在了")){
+		$.post("del_goods", {"shop_sn":shop_sn,"sn":sn},function(data){
+			console.log("start delete_goods,shop_sn="+shop_sn+"sn="+ sn);
+			if(data.result == 1){
+				alert('操作成功!');
+				document.location.href = "point_shop_mg?shop_sn="+shop_sn;
+			}else{
+				document.location.href = "point_shop_mg?shop_sn="+shop_sn;
+			}
+		});
+	}
+}
+function up_goods(shop_sn, sn){
+	console.log('shop_sn='+shop_sn,'sn='+ sn);
+	$.post("up_goods", {"shop_sn":shop_sn,"sn":sn},function(data){
+		console.log("start up_goods,shop_sn="+shop_sn+", sn="+ sn);
+		
+		if(data.result == 1){
+			alert('操作成功!');
+			document.location.href = "point_shop_mg?shop_sn="+shop_sn;
+		}else{
+			document.location.href = "point_shop_mg?shop_sn="+shop_sn;
+		}
+	});
+}
+</script>
+<body>
+<!--  -->
+<div id="wrapper">
+	<iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+	<div class="container">
+    <div class="col-md-2 column">
+        <div class="panel-group" id="panel-731088">
+            <div th:each="item:${shop_list}" class="panel panel-default">
+                <div class="panel-heading">
+                    <a th:text="${item.shop_name}" class="panel-title" data-toggle="collapse" data-parent="#panel-731088" th:href="${'#'+item.shop_name+'_id'}"></a>
+                </div>
+                <div th:id="${item.shop_name+'_id'}" th:class="${item.sn==shop.sn}?'panel-collapse in':'panel-collapse collapse'">
+                    <div th:text="${item.shop_desc}" class="panel-body">
+                    </div>
+                    <a th:href="${'del_shop?shop_sn='+item.sn}" onclick="javascript:return confirm('确认要删除商店?');">删除</a>
+                     <a th:href="${'point_shop_mg?shop_sn='+item.sn}">进入商店</a>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+<!--             <a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default btn-info" data-toggle="modal">创建商店</a>
+ -->        </div>
+    </div>
+    <div class="col-md-10 column">
+     	<!-- <p>商店列表</p>
+     	<p th:text="${#lists.size(shop_list)}"></p>
+     	<p th:each="item:${shop_list}" th:text="${item}"></p>
+     	
+     	<p th:text="${shop}"></p>
+     	<p th:text="${shop.sn}"></p>
+     	<p th:text="${shop.shop_name}"></p> -->
+     	<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default btn-success" data-toggle="modal">创建商店</a>
+			<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">
+								创建商店
+							</h4>
+						</div>
+			<div class="modal-body">
+				<form role="form" class="form-inline" action="add_shop" method="post" enctype="multipart/form-data">
+                	<div class="modal-body">
+		    			<input name="shop_sn" th:value="jztpy" />
+        				<input placeholder="商店名称" class="form-control" name ="shop_name" id="shop_name" />
+        				<input placeholder="商店描述" class="form-control" name ="shop_desc" id="shop_desc" />
+        				<label for="open_time">开启时间</label>
+        				<input value="2016-12-16-14:00:00" class="form-control" name ="open_time" id="open_time" />
+					</div>
+					
+                	<div class="modal-footer">
+                		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('创建后商店信息不能修改，你确认要提交创建?');" />
+                	</div>
+				</form>
+			</div>
+			</div>
+			</div>
+			</div>
+			<!--创建商店 end -->
+			<!-- 新增商品 start -->
+			<a id="modal-180034" href="#modal-container-180034" role="button" class="btn btn-default btn-success" data-toggle="modal">添加商品</a>
+        	<div class="modal fade" id="modal-container-180034" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3  class="modal-title" id="myModalLabel">
+                        	新增货架
+                        </h3>
+                        <p th:text="${'[商店编号 :'+shop.sn+'][商店名称:'+shop.shop_name+']'}" class="modal-title" id="myModalLabel"/>
+                    </div>
+                    <form role="form" class="form-inline" action="add_goods" method="post" enctype="multipart/form-data">
+                    	<div class="modal-body">
+		    			<input type="hidden" name="shop_sn" th:value="${shop.sn}" />
+        				<input placeholder="商品名称" class="form-control" name ="goods_name" id="goods_name" />
+        				<input placeholder="商品描述" class="form-control" name ="goods_desc" id="goods_desc" />
+        				<input placeholder="兑换积分" class="form-control" name ="point_need" id="point_need" />
+        				<img alt="140x140" id ="img" width="140" height="140" class="img-rounded" />
+        				<input type="file" name="file" onchange="showImg(this,'img')"/>
+        				<label for="input_code_file">上传激活码</label>
+        				<input type="file" id="input_code_file" name="code_file"/>
+						</div>
+					
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确认要重添加商品?');" />
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 新增商品 end -->
+        <!-- 修改物品 start TAGS-->
+        <div th:each="i,iterStat: ${shop.shelfs}" class="modal fade" th:id="${'form_motai' + i.sn}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 th:text="${'修改物品  [商品序列号 :'+i.sn+']'}" class="modal-title" id="myModalLabel"></h3>
+                        <p th:text="${'[商店编号 :'+shop.sn+'][商店名称:'+shop.shop_name+']'}" class="modal-title" id="myModalLabel"/>
+                    </div>
+                    <form role="form" class="form-inline" action="edit_goods" method="post" enctype="multipart/form-data">
+                    	<div class="modal-body">
+		    			<input type="hidden" name="shop_sn" th:value="${shop.sn}" />
+		    			<input type="hidden" name ="sn" th:value="${i.sn}"/>
+        				<input placeholder="商品名称" class="form-control" name ="goods_name" id="goods_name" th:value="${i.goods_name}"/>
+        				<input placeholder="商品描述" class="form-control" name ="goods_desc" id="goods_desc" th:value="${i.goods_desc}"/>
+        				<input placeholder="兑换积分" class="form-control" name ="point_need" id="point_need" th:value="${i.points_need}"/>
+        				<img alt="140x140" th:src="${i.pic_url}" th:id ="${'pic'+i.sn}" width="140" height="140" class="img-rounded" />
+         			    <input type="file" name="file" th:attr="onchange=${'showImg(this,''pic'+i.sn+''')'}" /><!-- onchange="showImg(this,'img2')" -->
+        				
+        				<label for="input_code_file">上传激活码</label>
+        				<input type="file" id="input_code_file" name="code_file"/>
+						</div>
+					
+                    	<div class="modal-footer">
+                        	<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确认要提交修改商品?');" />
+                    	</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 修改物品 end -->
+        <h2 th:text="${shop.shop_name+':'+shop.sn}"></h2>
+       
+        <p class="text-muted" th:text="${shop.shop_desc}"></p>
+         <br/>
+         <label class="text-danger">积分排行榜预览(可能会超时)URI:</label><a th:href="${'shop_debug_simple&#47;'+shop.sn}"  th:text="${'shop_draw_debug_simple&#47;'+shop.sn}" class="text-danger"></a>
+    	<br/>
+    	<hr/>
+
+    <div class="col-md-6 column">
+        <div th:each="i,iterStat: ${shop.shelfs}" class="form-inline">
+        	<label th:text="${iterStat.index}" class="text-info"></label>
+            <img  width="140" height="140" th:src="${i.pic_url}" onerror="this.onerror='';src='images/no.png'" class="img-rounded"/>
+            <div class="form-group">
+                <label th:text="${i.goods_name+':[sn='+i.sn+']'}" class="text-info">商品名称</label>
+                <br/>
+                <label class="text-muted">兑换积分:</label><label th:text="${i.points_need}" class="text-info"></label>
+                <br/>
+                <label class="text-muted">商品描述:</label><label th:text="${#strings.abbreviate(i.goods_desc,15)}"  data-toggle="tooltip" th:title="${i.goods_desc}"></label>
+                <br/>
+                <label class="text-muted">激活码剩余/已领取:</label><label th:text="${i.left_codes_num+'/'+i.rmvd_codes_num}" ></label>
+                <br/>
+<!--                 <button  class="btn btn-default btn-warning" onclick="javascript:return confirm('删除商品后不能恢复，确认要删除?');">删除</button>
+ -->            <button  class="btn btn-default btn-warning" th:onclick="${'delete_goods('''+shop.sn+''','''+i.sn+''')'}">删除</button>
+            	<button  class="btn btn-default btn-info" type="submit" th:href="${'#form_motai'+i.sn}" role="button" data-toggle="modal">修改</button>
+            	<button	 class="btn btn-default btn-info" th:onclick="${'up_goods('''+shop.sn+''','''+i.sn+''')'}">↑</button>
+            </div>
+            <hr/>
+        </div>
+        </div>
+    </div>
+	
+       </div><!-- container end -->
+
+
+		
+		<div id="footer">
+    		@ sincetimes
+		</div>
+	</div>
+</body>
+</html>

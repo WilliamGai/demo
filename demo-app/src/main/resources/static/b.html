@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>测试ajax和跨域访问</title>
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<script type="text/javascript">
+$(document).ready(function(){
+    $.ajax({
+        type: "POST",
+       /*  dataType: 'json', */
+        url: "http://service.sincetimes.com/moon/testjdbc",
+        data: {
+            openid: "testajax",
+            sign: "testsign"
+        },
+        success: function(data) { 
+        	console.log(data)
+        	$('.detial_f').show().html(data);
+        },
+        error: function() {
+            alert("fail!!!,请刷新再试!");
+        }
+    });
+});
+</script>
+<body>
+	<div class="button_control">
+		<button onClick ="getpara()" class="button_start">按钮</button>
+	</div>
+	<div class="test">
+		<p class="detial_f"></p>
+	</div>
+</body>
+</html>

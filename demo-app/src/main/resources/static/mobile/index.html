@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>舰指太平洋官网</title>
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<script type="text/javascript">
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+$(document).ready(function(){
+    var id = getQueryString("id");
+    $.ajax({
+        type: "GET",
+       /*  dataType: 'json', */
+        url: "http://jztpy.sincetimes.com:8061/hq_website/article",
+        data: {
+            id:'75',
+            sign: "testsign"
+        },
+        success: function(data) { 
+        	console.log(data)
+        	$('.a_content').show().html(data.content);
+        },
+        error: function() {
+            alert("--fail!!!,请刷新再试!");
+        }
+    });
+});
+
+</script>
+<body>
+    <article class="article" id="article">
+        <div class="a_content"></div>
+    </article>
+	<div class="button_control">
+		<button onClick ="getpara()" class="button_start">按钮</button>
+	</div>
+	<div class="test">
+		<p class="detial_f"></p>
+	</div>
+</body>
+</html>

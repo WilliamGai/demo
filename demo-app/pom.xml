@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>demo-app</artifactId>
+	<version>55</version>
+	<name>${project.artifactId}</name>
+	<url>http://maven.apache.org</url>
+	<parent>
+		<groupId>com.sincetimes.website</groupId>
+		<artifactId>demo-app-parent</artifactId>
+		<version>0.0.1</version>
+		<relativePath>../demo-app-parent</relativePath>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>com.sincetimes.website</groupId>
+			<artifactId>demo-core-spring</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sincetimes.website</groupId>
+			<artifactId>demo-core-redis</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+		<dependency>
+    		<groupId>com.google.protobuf</groupId>
+   		 	<artifactId>protobuf-java</artifactId>
+		</dependency>
+		<!-- distributed start-->
+		<!-- distributed.rpc.dubbo -->
+		<dependency>
+    		<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<exclusions>
+          		<exclusion>
+          			<!-- 不去除也能打包并运行,但是mvn run就会以内使用这里的旧版本spring而出错,仔细起见也要去除 -->
+           			<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+          		</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.zookeeper</groupId>
+    		<artifactId>zookeeper</artifactId>
+    		<exclusions>
+          		<exclusion>
+          			<!-- 项目使用logback, 去除所有的log4j -->
+           			<groupId>log4j</groupId>
+            		<artifactId>log4j</artifactId>
+          		</exclusion>
+          		<exclusion>
+           			 <groupId>org.slf4j</groupId>
+      				 <artifactId>slf4j-log4j12</artifactId>
+          		</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+    		<groupId>com.github.sgroschupf</groupId>
+    		<artifactId>zkclient</artifactId>
+		</dependency>
+		<!-- distributed.rpc.dubbo end -->
+		<!-- distributed end-->
+		<!-- 监控  有了spring boot admin client 则不需要引入actuator
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		 监控end -->
+		<!-- spring boot admin监控 client 
+		<dependency>
+    		<groupId>de.codecentric</groupId>
+    		<artifactId>spring-boot-admin-starter-client</artifactId>
+		</dependency>
+		spring boot admin监控 client end-->
+		<!-- spring boot admin监控end-->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-server-ui</artifactId>
+		</dependency> 
+		<!-- spring boot admin监控end-->
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

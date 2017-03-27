@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Login</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="description" content="slick Login"/>
+		<meta name="author" content="346126185@qq.com"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	</head>
+	<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="js/modernizr.js"></script>
+	<script type="text/javascript" src="js/placeholder.js"></script>
+	<body>
+	    <span th:text="${data}"></span>
+	    <br/>
+	    <span th:text="${username}"></span>
+	    <br/>
+		<span th:text="${password}"></span>
+		<form id="slick-login">
+			<input type="text" name="username" class="placeholder" placeholder="name"/>
+			<input type="password" name="password" class="placeholder" placeholder="password"/>
+			<input type="submit" value="Log In"/>
+		</form>
+	</body>
+</html>

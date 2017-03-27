@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.sincetimes.website</groupId>
+	<artifactId>demo-parent</artifactId>
+	<version>0.0.1</version>
+	<name>${project.artifactId}</name>
+	<url>http://maven.apache.org</url>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.3.5.RELEASE</version>
+	</parent>
+	<packaging>pom</packaging>
+	<modules>
+		<module>../hq_website_app_demo_core</module>
+		<module>../hq_website_app_demo_security</module>
+		<module>../hq_website_app_demo</module>
+	</modules>
+<!-- 	<profiles>
+    	<profile>
+			<modules>
+				<module>../hq_website_app_demo_core</module>
+				<module>../hq_website_app_demo_security</module>
+			</modules>
+		</profile>
+	</profiles> -->
+	<dependencies>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.8</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
+</project>

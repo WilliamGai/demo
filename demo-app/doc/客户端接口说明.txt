@@ -1,0 +1,13 @@
+获取轮播图连接地址
+get_url_link?id=1
+获取参数
+
+
+获取文章列表，带有分页
+articles?type_ids=1_2&page_size=2&page_no=0
+
+获取单个的文章信息
+article?id=76
+
+
+http://localhost:8060/chakan_jifen/shop_01/?&openid=oSSKNwL2ckTrOtptEwLHeYRs9eIc

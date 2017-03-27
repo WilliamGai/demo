@@ -1,0 +1,11 @@
+自己监控自己只需在application.properties增加
+spring.boot.admin.url=http://localhost:8000
+即可
+但是如果引用或者间接引用
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+		</dependency>
+这样的依赖
+则链接状态会变为DOWN
+因此server和client要分开

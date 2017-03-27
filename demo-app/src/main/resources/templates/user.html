@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>查询修改用户信息</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" href="css/table.css" />
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+/* 重置用户属性*/
+	function setuser(obj) {
+		var input_v = $(obj).prev().text(); //的单元格的值
+		var input_f = $(obj).prev().prev().text(); //的单元格的值
+		var input_k = $(obj).prev().prev().prev().text(); //的单元格的值
+		console.log(input_k);
+		console.log(input_f);
+		console.log(input_v);
+		$.ajax({
+			type : "POST",
+			/* dataType: 'json',  */
+			url : "http://service.sincetimes.com/moon/setuser",
+			data : {
+				k : input_k,
+				f : input_f,
+				v : input_v
+			},
+			success : function(data) {
+				console.log(data)
+				$('.text_field').show().html("result:" + data);
+			},
+			error : function() {
+				alert("fail!!!,请刷新再试!");
+			}
+		});
+	}
+	/*清楚用户分数以及排行榜*/
+	function clear_user_score(openid) {
+		console.log(openid);
+		$.ajax({
+			type : "POST",
+			/* dataType: 'json',  */
+			url : "http://service.sincetimes.com/moon/clear_user_score",
+			data : {
+				openid : openid
+			},
+			success : function(data) {
+				console.log(data)
+				$('.text_field').show().html(" 清除分数结果:" + data);
+				setTimeout("window.location.reload()", 1000);//延迟一秒后刷新页面
+				
+			},
+			error : function() {
+				$('.text_field').show().html(" 返回结果失败");
+			}
+		});
+	}
+</script>
+<body>
+    <h4><a href="javascript:;" onClick="javascript:history.back(-1);">&lt;返回</a></h4>
+	<h3>查询修改用户信息</h3>
+	<h3 class="text_field"></h3>
+	<table th:if="${list}" class="gridtable">
+		<caption>用户的所有属性</caption>
+		<tr>
+			<th>openid</th>
+			<th>field</th>
+			<th>value</th>
+			<th></th>
+		</tr>
+		<tr th:each="item: ${list}">
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.value}"></td>
+			<td th:text="${item.value2}" contentEditable="true"></td>
+			<td onclick="setuser(this)"><a href="javascript:;">更新并刷新</a></td>
+		</tr>
+	</table>
+	<img th:if="${headpic}" th:src="${headpic}" height="64" width="64" />
+	<form name="finduser" action="user" method="get">
+		<input type="text" name="who" placeholder="输入昵称或者openid" /> <br /> <input
+			name="submit" type="submit" value="查找" />
+	</form>
+	<br />
+	<a href="user">刷新</a>
+	<!-- 	<p th:if="${list!=null}"> th:if="${list!=null}"</p>
+	<p th:if="${list==null}"> th:if="${list==null}"</p>
+	<p th:if="${list}"> th:if="${list}"</p>
+	<p th:if="${#lists.isEmpty(list)}">empty</p> -->
+	<br />
+	<br />
+    <button th:if="${openid}" th:onclick="${'clear_user_score('''+openid+''')'}">清除此用户的分数,以及排行榜</button>
+
+
+</body>
+</html>
