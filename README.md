@@ -1,8 +1,6 @@
 # demo
 spring boot, redis ,dubbo, guava, zookeeper
- ``` xml
 
-```
 ``` xml
 demo-app-->demo-app-parent
     |
