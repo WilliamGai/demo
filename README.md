@@ -1,6 +1,5 @@
-# demo
-spring boot, redis ,dubbo, guava, zookeeper
-
+# 图文发布，编辑活动的restFul风格的网站后台。
+spring boot, redis ,dubbo, guava, zookeeper， spring boot admin
 ``` xml
 demo-app-->demo-app-parent
     |
