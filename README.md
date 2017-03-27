@@ -1,9 +1,24 @@
 # demo
 spring boot, redis ,dubbo, guava, zookeeper
  ``` xml
-demo-redis-->demo-parent
+
+```
+``` xml
+demo-app-->demo-app-parent
     |
-    |--demo-core-common
+    |--demo-core-spring
+    |     |
+    |     |--demo-core-common
+    |     |
+    |     |--spring-boot-starter-web
+    |     |
+    |     |--spring-boot-starter-web
     |
-    |--spring-boot-starter-redis
+    |--demo-core-redi-->demo-core-parent
+    |     |
+    |     |--demo-core-common
+    |     |
+    |     |--spring-boot-starter-redis
+    |
+    |--spring-boot-starter-jdbc
 ```
