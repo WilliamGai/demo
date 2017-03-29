@@ -3,8 +3,6 @@ package com.sincetimes.website.app.event;
 import java.nio.charset.Charset;
 /**
  * 2016年11月15日17:33:09
- * @author BAO
- *
  */
 public interface EventConstant {
     static final Charset UTF_8 = Charset.forName("UTF-8");

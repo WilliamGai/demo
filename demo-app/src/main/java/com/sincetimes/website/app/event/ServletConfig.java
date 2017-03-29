@@ -8,9 +8,9 @@ import com.sincetimes.website.core.common.support.LogCore;
 
 @Configuration
 public class ServletConfig {
-	 @Bean
-	    public ServletRegistrationBean servletRegistrationBean() {
-		 	LogCore.BASE.info("{} injected", ServletConfig.class.getSimpleName());
-	        return new ServletRegistrationBean(new MyServlet(), "/servlet");
-	    }
+	@Bean
+	public ServletRegistrationBean servletRegistrationBean() {
+		LogCore.BASE.info("{} injected", ServletConfig.class.getSimpleName());
+		return new ServletRegistrationBean(new MyServlet(), "/servlet");
+	}
 }

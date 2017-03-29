@@ -15,13 +15,12 @@ import com.sincetimes.website.redis.jedis.spring.JedisWrapperBase;
 
 /***
  * sorted set<name,0>
- * 
  * dict <id, user>可用dict id,hash>扩展
  * <br>
  */
 @Component
 public class UserProvider extends JedisWrapperBase{
-	private static final String LOGIN_USERS_SET = "users^set";
+	private static final String USERS_SET = "users^set";
 	private static final String USER_LATEST_ID_KEY = "users_latest_id";//用户自增ID键
 	
 	public static UserProvider inst() {
@@ -29,7 +28,7 @@ public class UserProvider extends JedisWrapperBase{
 	}
 	
 	public void saveOrUpdateUser(UserVO user) {
-		zadd(LOGIN_USERS_SET, 0, user.getName());
+		zadd(USERS_SET, 0, user.getName());
 		set(user.getName(), user.toJSONString());
 	}
 
@@ -41,10 +40,10 @@ public class UserProvider extends JedisWrapperBase{
 	 * @see JedisWrapper#zcard
 	 */
 	public Long getUsersNum(){
-		return zcard(LOGIN_USERS_SET);
+		return zcard(USERS_SET);
 	}
 	public Map<String, UserVO> getAllUsers() {
-		Set<String> _set = zrange(LOGIN_USERS_SET, 0, -1);
+		Set<String> _set = zrange(USERS_SET, 0, -1);
 		return _set.stream()
 				.map(this::getUserByName)
 				.filter(Objects::nonNull)
@@ -52,7 +51,7 @@ public class UserProvider extends JedisWrapperBase{
 	}
 
 	public void deleteUser(String name) {
-		zrem(LOGIN_USERS_SET, name);
+		zrem(USERS_SET, name);
 		del(name);
 	}
 

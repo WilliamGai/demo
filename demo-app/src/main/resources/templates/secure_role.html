@@ -5,7 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="secure_template">
 <head>
-<title>角色管理</title>
+<title>权限管理</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
@@ -38,27 +38,32 @@
 	<div th:fragment="content" >
 	<!-- container有边距 -->
 	<div class="container">
-		<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default" data-toggle="modal">创建一个新的角色</a>
-		<!-- 添加角色 start -->
+		<div th:if="${role==null}">
+			<h1>角色不存在</h1>
+			<a href="secure_roles">返回角色列表</a>
+		</div>
+		<div th:if="${role}">
+		<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default" data-toggle="modal">添加权限</a>
+		<!-- 添加权限start -->
 		<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 						<h4 class="modal-title" id="myModalLabel">
-							创建角色
+							添加权限
 						</h4>
 					</div>
 					<div class="modal-body">
-						<form role="form" class="form-inline" action="add_role" method="post">
+						<form role="form" class="form-inline" action="add_role_permission" method="post">
                 			<div class="modal-body">
-                				<label for="role_id">角色ID(唯一)</label>
-		    					<input name="role_id" id="role_id"/>
+                			    <input type="hidden" name="role_id" th:value="${role.id}" />
+                				<label for="permission_name">名称:</label>
+		    					<input name="permission_name" id="permission_name"/>
 		    					<br/>
+		    					<label for="uri">URI:</label>
+		    					<input name="uri" id="uri"/>
 		    					<br/>
-		    					<label for="role_name">角色名称</label>
-		    					<input name="role_name" id="role_name"/>
-								<br/>
 							</div>
                 			<div class="modal-footer">
                 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -69,28 +74,27 @@
 				</div>
 			</div>
 		</div>
-		<h3>角色配置</h3>
-		<table  class="table table-condensed table-bordered table-hover">
-			<caption>角色列表</caption>
-			<tr style="background: blue">
+		<h3 th:if="${#lists.isEmpty(role.permissions)}">无权限</h3>
+		<br/>
+		<br/>
+		<br/>
+		<table th:if="${#lists.isEmpty(role.permissions)==false}" class="table table-condensed table-bordered table-hover">
+			<caption>权限列表</caption>
+			<tr style="background:purple;">
 				<th>序号</th>
-				<th>角色ID</th>
-				<th>登录名</th>
-				<th>权限条数</th>
-				<th>状态</th>
-				<th/>
+				<th>名称</th>
+				<th>uri</th>
 				<th/>
 			</tr>
-			<tr th:each="item, iterStat: ${roles}">
+			<tr th:each="item, iterStat: ${role.permissions}">
 				<td th:text="${iterStat.index}+1"></td>
-				<td th:text="${item.id}"></td>
 				<td th:text="${item.name}"></td>
-				<td th:text="${item.permissions.size()}"></td>
-				<td th:text="${item.status}"></td>
-				<td><a th:href="${'delete_role?role_id='+item.id}">删除</a></td>
-				<td><a th:href="${'secure_role?role_id='+item.id}">查看</a></td>
+				<td th:text="${item.uri}"></td>
+				<td><a th:href="${'delete_role_permission?index='+iterStat.index+'&amp;role_id='+role.id}">删除</a></td>
 			</tr>
 		</table>
+		</div>
+		
 		</div>
 		</div>
 	</body>

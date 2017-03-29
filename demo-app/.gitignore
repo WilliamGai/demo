@@ -1,1 +1,3 @@
 /target/
+#windows 文件上传目录
+/src/main/webapp/upload

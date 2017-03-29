@@ -1,20 +1,29 @@
 package com.sincetimes.website.app.security.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sincetimes.website.vo.JsonVOBase;
 
 public class RoleVO extends JsonVOBase implements Serializable{
 	private static final long serialVersionUID = 8534234567721694017L;
-	private int id;
+	private String id;
 	private String name; //unique
-	private List<String> permissions;
-	
-	public int getId() {
+	private List<Permission> permissions = new ArrayList<>();
+	private byte status;// -1已删除
+	public RoleVO() {
+		super();
+	}
+	public RoleVO(String id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -23,10 +32,23 @@ public class RoleVO extends JsonVOBase implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public List<String> getPermissions() {
+	public List<Permission> getPermissions() {
 		return permissions;
 	}
-	public void setPermissions(List<String> permissions) {
+	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
+	}
+	public void addPermission(Permission permission) {
+		permissions.add(permission);
+		
+	}
+	public void deletePermission(int index) {
+		permissions.remove(index);
+	}
+	public byte getStatus() {
+		return status;
+	}
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 }

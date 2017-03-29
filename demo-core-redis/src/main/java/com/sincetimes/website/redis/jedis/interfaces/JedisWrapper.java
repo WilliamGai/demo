@@ -96,15 +96,14 @@ public interface JedisWrapper{
 		return template().excute((jedis) -> jedis.hdel(makeKey(name), field));
 	}
 	
+	/** Time complexity: O(1) */
 	default Boolean hexists(String name, String field){
 		return template().excute((jedis) -> jedis.hexists(makeKey(name), field));
 	}
-	/**
-	 * sort set
-	 */
+	
+	/** sort set */
 	default long zadd(String name, double score, String member) {
 		return template().excute((jedis) -> jedis.zadd(makeKey(name), score, member));
-
 	}
 	
 	/**zrevrange 复杂度是O(logN +M)。M是返回参数个数 */

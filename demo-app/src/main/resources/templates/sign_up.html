@@ -56,63 +56,14 @@
 </script>
 <body>
 <div id="wrapper">
-<nav class="navbar navbar-default navbar-inverse navbar-fixed-top"
-		role="navigation">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
-					class="icon-bar"></span><span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">主界面</a>
-		</div>
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">角色</a></li>
-				<li><a href="#">用户</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">导航<strong class="caret"></strong></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">用户</a></li>
-						<li><a href="#">角色</a></li>
-						<li class="divider"></li>
-						<li><a href="#">状态监控</a></li>
-						<li class="divider"></li>
-						<li><a href="#">日志监控</a></li>
-					</ul></li>
-			</ul>
-			<form class="navbar-form navbar-left" role="search">
-				<div class="form-group">
-					<input type="text" class="form-control" />
-				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
-			</form>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">监控主页面</a></li>
-				<li class="dropdown">
-				
-				<a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"><img height="24" width="24" th:src="${pic}" onerror="this.onerror='';src='/mg/images/head.png'"/><strong class="caret"></strong></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">a</a></li>
-						<li><a href="#">b</a></li>
-						<li><a href="#">c</a></li>
-						<li class="divider"></li>
-						<li><a href="#">d</a></li>
-					</ul></li>
-			</ul>
-		</div>
-	</nav>
-	<h3>用户信息</h3>
-	
+	<h3>用户注册</h3>
 	<!-- 12 363 -->
 	<div class="col-md-12 column">
 			<div class="row clearfix">
 				<div class="col-md-4 column">
 				</div>
 				<div class="col-md-3 column">
-					<form role="form" class="form-horizontal" action="sign_in_submit" enctype="multipart/form-data" method="post">
+					<form role="form" class="form-horizontal" action="sign_up_submit" enctype="multipart/form-data" method="post">
 						<div class="form-group">
 							<input type="file" id="pic" name="pic" style="display: none" th:attr="onchange=${'showImg(this,''_pic_show'')'}"/>
 							<img height="180" id="_pic_show" name="_pic_show" width="180" onclick="_open_pic()" class="img-circle img-responsive center-block" th:src="${pic}" onerror="this.onerror='';src='/mg/images/boy.png'"/>
@@ -127,15 +78,15 @@
 							 </div>
 						</div>
 						<div class="form-group">
-							 <label class="col-sm-3 control-label" for="nickname">nickname</label>
-							 <div class="col-sm-9">
-							 	<input type="text" class="form-control" id="nickname" name="nickname"/>
-							 </div>
-						</div>
-						<div class="form-group">
 							 <label class="col-sm-3 control-label" for="password">password</label>
 							 <div class="col-sm-9">
 							 	<input type="password" class="form-control" id="password" name="password"/>
+							 </div>
+						</div>
+						<div class="form-group">
+							 <label class="col-sm-3 control-label" for="nickname">nickname</label>
+							 <div class="col-sm-9">
+							 	<input type="text" class="form-control" id="nickname" name="nickname"/>
 							 </div>
 						</div>
 						<div class="form-group">
@@ -158,35 +109,6 @@
 			</div>
 		</div>
 	<!-- 12 363 end -->
-	<h3 class="text_field"></h3>
-	<h4>
-		<span th:text="${data}"></span>
-	</h4>
-	<h4>
-		<span th:text="${data2}"></span>
-	</h4>
-	<table class="gridtable">
-		<caption>用户列表</caption>
-		<tr>
-			<th>序号</th>
-			<th>用户ID</th>
-			<th>登录名</th>
-			<th>头像</th>
-			<th>密码</th>
-			<th>状态</th>
-			<th/>
-		</tr>
-		<tr th:each="item, iterStat: ${users}">
-			<td th:text="${iterStat.index}+1"></td>
-			<td th:text="${item.id}"></td>
-			<td th:text="${item.name}"></td>
-			<td><img height="24" width="24" th:src="${item.pic}" onerror="this.onerror='';src='images/head.png'"/></td>
-			<td th:text="${item.password}"></td>
-			<td th:text="${item.status}"></td>
-			<td><a th:href="${'user?openid='+item.name}">查看</a></td>
-		</tr>
-	</table>
-
 	<!-- <button onclick="clear_all_score()">清除所有用户的分数,并清空排行榜</button> -->
 			<div id="footer">
     		@ sincetimes

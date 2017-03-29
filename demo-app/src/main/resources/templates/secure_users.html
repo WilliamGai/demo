@@ -39,14 +39,6 @@
 	<!-- container有边距 -->
 	<div class="container">
 		<h3>用户信息</h3>
-		<h3 class="text_field"></h3>
-		<h4>
-		<span th:text="${data}"></span>
-		</h4>
-<!-- 		<span th:text="${data2}"></span>
-		<h2 th:text="${users}"></h2>
-		-->
-		<span th:text="${user}"></span> 
 		<table  class="table table-condensed table-bordered table-hover">
 			<caption>用户列表</caption>
 			<tr>
@@ -58,6 +50,8 @@
 				<th>昵称</th>
 				<th>密码</th>
 				<th>状态</th>
+				<th/>
+				<th/>
 				<th/>
 			</tr>
 			<tr th:each="item, iterStat: ${users}">
@@ -72,9 +66,10 @@
 				<td th:text="${item.nickname}"></td>
 				<td th:text="${item.password}"></td>
 				<td th:text="${item.status}"></td>
-				<td><a th:href="${'user?openid='+item.name}">重置密码</a></td>
-				<td><a th:href="${'user?openid='+item.name}">配置角色</a></td>
-				<td><a th:href="${'user?openid='+item.name}"><span class="glyphicon glyphicon-trash"></span></a></td>
+				<td><a th:href="${'user?user_name='+item.name}">重置密码</a></td>
+				<td><a th:href="${'secure_user_config?user_name='+item.name}">配置角色</a></td>
+				<td><a th:href="${'secure_user?user_name='+item.name}">查看</a></td>
+				<td><a th:href="${'user?user_name='+item.name}"><span class="glyphicon glyphicon-trash"></span></a></td>
 			</tr>
 		</table>
 		<!-- <button onclick="clear_all_score()">清除所有用户的分数,并清空排行榜</button> -->

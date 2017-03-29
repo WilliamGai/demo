@@ -15,7 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sincetimes.website.app.security.AccountManager;
+import com.sincetimes.website.app.security.SecurityManager;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.app.stats.DataVO;
 import com.sincetimes.website.app.stats.StatsManager;
@@ -52,7 +52,7 @@ public class MGController implements CommandLineRunner {
 		model.addAttribute("bilist", bilist);
 		Object _old_user = req.getSession().getAttribute("user");
 		if(_old_user instanceof UserVO && "admin".equals(((UserVO)_old_user).getName())){
-			Collection<UserVO> user_list = AccountManager.inst().getAllUsers();
+			Collection<UserVO> user_list = SecurityManager.inst().getAllUsers();
 			model.addAttribute("user_list", user_list);
 		}
 

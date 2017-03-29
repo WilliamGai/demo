@@ -18,7 +18,7 @@ import com.sincetimes.website.core.spring.controller.ControllerInterface;
 
 @Controller
 @Order(value = 7)
-public class AccountController implements ControllerInterface {
+public class SecurityController implements ControllerInterface {
 
 	private static final String ACCOUNT_PICS_PATH = "account_pics";
 	@RequestMapping("/login")
@@ -27,12 +27,12 @@ public class AccountController implements ControllerInterface {
 		Object redirect_url = req.getAttribute("redirect_url");
 		LogCore.BASE.info("redirect_url:{}, user in session:{}", redirect_url, _old_user);
 		if(Util.isEmpty(redirect_url)){
-			redirect_url ="mg/code";
+			redirect_url ="mg/secure_user";
 		}
 		model.addAttribute("redirect_url",redirect_url);
 		ParamResult result = null;
 		if(Util.nonEmpty(username, password)){
-		    result = AccountManager.inst().pass(username, password);
+		    result = SecurityManager.inst().pass(username, password);
 			if(result.isSuccess()){
 				req.getSession().setAttribute("user", result.get());
 				LogCore.BASE.info("login sucess!, redirect to ---->:{}", redirect_url);
@@ -63,8 +63,8 @@ public class AccountController implements ControllerInterface {
 	 * sign up
 	 * <br>注册
 	 */
-	@RequestMapping("/sign_in_submit")
-	void sign_in_submit(
+	@RequestMapping("/sign_up_submit")
+	void sign_up_submit(
 			Model model, 
 			String name, 
 			String nickname, 
@@ -76,7 +76,7 @@ public class AccountController implements ControllerInterface {
 		if(!Util.nonEmpty(name, password)){
 			model.addAttribute("tips", "名称或密码不可为空");
 		}
-		AccountManager.inst().signUp(name, nickname, password, female, pic);
+		SecurityManager.inst().signUp(name, nickname, password, female, pic);
 		LogCore.BASE.info("sign_in_submit name={}, password={}, female={}, pic={}", name, password, female, pic);
 		redirect(resp, "login");
 	}

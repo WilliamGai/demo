@@ -2,9 +2,12 @@ package com.sincetimes.website.app.security.vo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.sincetimes.website.app.security.GenderType;
+import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.vo.JsonVOBase;
 
 public class UserVO extends JsonVOBase implements Serializable{
@@ -22,6 +25,13 @@ public class UserVO extends JsonVOBase implements Serializable{
 	private long lastLoginTime;
 	private byte status;// -1已删除
 	
+	private transient String createTimeStr;
+	private transient String updateTimeStr;
+	private transient String lastLoginTimeStr;
+	private transient List<String> roleNames = new ArrayList<>();
+	private List<RoleVO> roles = new ArrayList<>();
+	private Set<Permission> permissions = new HashSet<>();//权限列表,从role取得
+
 	public UserVO() {
 		super();
 	}
@@ -127,5 +137,68 @@ public class UserVO extends JsonVOBase implements Serializable{
 
 	public void setStatus(byte status) {
 		this.status = status;
+	}
+	
+	public String getCreateTimeStr() {
+		return createTimeStr;
+	}
+
+	public void setCreateTimeStr(String createTimeStr) {
+		this.createTimeStr = createTimeStr;
+	}
+
+	public String getUpdateTimeStr() {
+		return updateTimeStr;
+	}
+
+	public void setUpdateTimeStr(String updateTimeStr) {
+		this.updateTimeStr = updateTimeStr;
+	}
+
+	public String getLastLoginTimeStr() {
+		return lastLoginTimeStr;
+	}
+
+	public void setLastLoginTimeStr(String lastLoginTimeStr) {
+		this.lastLoginTimeStr = lastLoginTimeStr;
+	}
+
+	public List<String> getRoleNames() {
+		return roleNames;
+	}
+
+	public void setRoleNames(List<String> roleNames) {
+		this.roleNames = roleNames;
+	}
+
+	public List<RoleVO> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<RoleVO> roles) {
+		this.roles = roles;
+	}
+
+	public Set<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(Set<Permission> permissions) {
+		this.permissions = permissions;
+	}
+	
+	/**
+	 * @param roleId
+	 * @return 已经存在或者roleId为空返回false
+	 */
+	public boolean addRoleId(String roleId) {
+		if(Util.isEmpty(roleId)){
+			return false;
+		}
+		if(roleIds.contains(roleId)){
+			return false;
+		}
+		roleIds.add(roleId);
+		return true;
 	}
 }

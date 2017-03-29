@@ -19,22 +19,22 @@
 					<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
 						class="icon-bar"></span><span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home">Home</span></a>
+				<a class="navbar-brand" th:href="${'/mg/secure_user'}"><span class="glyphicon glyphicon-home">Home</span></a>
 			</div>
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/mg/sercure_roles">角色列表</a></li>
-					<li><a href="/mg/sercure_accounts">用户列表</a></li>
+					<li class="active"><a href="/mg/secure_roles">角色列表</a></li>
+					<li><a href="/mg/secure_users">用户列表</a></li>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">监控<strong class="caret"></strong></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">功能列表<strong class="caret"></strong></a>
 						<ul class="dropdown-menu">
-							<li><a href="#">用户</a></li>
-							<li><a href="#">角色</a></li>
+							<li><a href="/mg/articles">图文编辑</a></li>
+							<li><a href="/mg/upload_media">轮播图</a></li>
 							<li class="divider"></li>
-							<li><a href="/mg/all">访问记录</a></li>
+							<li><a href="/mg/point_shop_mg">积分商城</a></li>
 							<li class="divider"></li>
-							<li><a href="#">日志监控</a></li>
+							<li><a href="code">激活码</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -53,27 +53,28 @@
 							<li class="divider"></li>
 							<li><a href="/hi">AdminServer</a></li>
 							<li class="divider"></li>
-							
 							<!-- admin client -->
-									<li>------<span class="glyphicon glyphicon-wrench">调试</span>-------------</li>
-									<li><a href="/health" target="_blank">health</a></li>
-									<li><a href="/mappings" target="_blank">mappings</a></li>
-									<li><a href="/env" target="_blank">env</a></li>
-									<li><a href="/metrics " target="_blank">metrics </a></li>
-									<li><a href="/trace" target="_blank">trace</a></li>
-									<li><a href="/beans" target="_blank">beans</a></li>
-									<li><a href="/configprops" target="_blank">configprops</a></li>
-									<li><a href="/autoconfig" target="_blank">autoconfig</a></li>
-									<li><a href="/dump" target="_blank">dump</a></li>
+							<li>------<span class="glyphicon glyphicon-wrench">调试</span>-------------</li>
+							<li><a href="/health" target="_blank">health</a></li>
+							<li><a href="/mappings" target="_blank">mappings</a></li>
+							<li><a href="/env" target="_blank">env</a></li>
+							<li><a href="/metrics " target="_blank">metrics </a></li>
+							<li><a href="/trace" target="_blank">trace</a></li>
+							<li><a href="/beans" target="_blank">beans</a></li>
+							<li><a href="/configprops" target="_blank">configprops</a></li>
+							<li><a href="/autoconfig" target="_blank">autoconfig</a></li>
+							<li><a href="/dump" target="_blank">dump</a></li>
 							<!-- admin client end-->
 						</ul>
 					</li>
 					<li><a href="#">监控主页面</a></li>
+					<li>
+						<img th:if="${user.pic}" height="40" width="40" th:src="${user.pic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-circle img-responsive center-block"/>
+						<img th:if="${user.pic==null}" height="40" width="40" th:src="${user.gender.defaultPic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-circle img-responsive center-block"/>
+					</li>
 					<li class="dropdown">
 			    		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			    			<strong th:text="${'你好,'+user.name}"></strong>	
-							<img th:if="${user.pic}" height="16" width="16" th:src="${user.pic}" onerror="this.onerror='';src='/mg/images/head.png'"/>
-							<img th:if="${user.pic==null}" height="16" width="16" th:src="${user.gender.defaultPic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-circle img-responsive center-block"/>
 							<strong class="caret"></strong>
 						</a>
 						<ul class="dropdown-menu">

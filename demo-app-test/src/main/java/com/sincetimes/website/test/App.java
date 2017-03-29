@@ -9,14 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.core.common.support.JSONBuilder;
-import com.sincetimes.website.core.common.support.MD5;
 @Controller
 @SpringBootApplication
 public class App {
 	@RequestMapping("/")
 	@ResponseBody
 	Object home(HttpServletRequest req) {
-		MD5
 		return JSONBuilder.create()
 				.append("ip", req.getRemoteAddr())
 				.append("realIp", req.getAttribute("p_real_ip")+"")

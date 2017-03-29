@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>个人中心</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<script type="text/javascript">
+    function check(form){
+    	console.log(form.name.value, form.password.value, form.female.value);
+		if(form.name.value==''){
+			alert("名字不能为空");
+			return false;
+		}
+		if(form.password.value==''){
+			alert("密码不能为空");
+			return false;
+		}
+		return true;
+	}
+    /*变换默认图片*/
+    function change_gender(obj){			
+    	console.log(obj.value, obj.checked, obj);
+    	if($('#pic').val()!=''){
+    		console.log('return', $('#pic').val()!='');
+    		return;
+    	}
+    	if(obj.checked==false){
+    		$('#_pic_show').attr("src","/mg/images/boy.png");
+    		$('#_pic_show').attr("onerror","this.onerror='';src='/mg/images/boy.png'");
+    	}else{//female
+    		console.log("on");
+    		$('#_pic_show').attr("src","/mg/images/girl.png");
+    		$('#_pic_show').attr("onerror","this.onerror='';src='/mg/images/girl.png'");
+    	}
+    }
+	/*点击图片选择*/
+	function _open_pic() 
+    { 
+         document.getElementById("pic").click(); 
+    } 
+	/*显示刚刚选择的图片*/
+	function showImg(fileObj,imgId) {
+    	console.log(imgId);
+    	var file=fileObj.files[0];
+    	var r = new FileReader();
+    	r.readAsDataURL(file);
+    	$(r).load(function() {
+        	$('#'+imgId).attr("src", this.result);
+    	})
+	}
+</script>
+<body>
+	<div th:fragment="content" >
+	<div class="container" >
+		<div class="row clearfix" style="margin-top: 5%">
+			<div class="col-md-2 column" >
+				<div class="page-sidebar" style="position: fixed">
+					<ul class="nav nav-list">
+            			<!-- <li class="nav-header">角色</li> -->
+            			<li class="active"><a href="#"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+            			<li><a href="/mg/articles">图文编辑</a></li>
+            			<li><a href="/mg/articles">轮播图</a></li>
+            			<li class="divider"></li>
+            			<li><a href="/mg/code">激活码</a></li>
+            			<li><a href="/mg/upload_media">大转盘</a></li>
+            			<li class="divider"></li>
+ 						<li><a href="/mg/point_shop_mg">积分商城</a></li>
+        			</ul>
+				</div>
+			</div>
+			<div class="col-md-10 column">
+				<div class="row clearfix">
+					<div class="col-md-8 column">
+				    	<img th:if="${user.pic}" height="120" width="120" th:src="${user.pic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-rounded img-responsive k"/>
+						<img th:if="${user.pic==null}" height="120" width="120" th:src="${user.gender.defaultPic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-rounded img-responsive"/> 
+						<br/>
+						<br/>
+						<label>登录名:</label><label th:text="${user.name}" class="text-info"></label>
+						<br/>
+						<label>昵称:</label><label th:text="${user.nickname}" class="text-info"></label>
+						<br/>
+						<label>密码:</label><label th:text="${user.password}" class="text-info"></label>
+						<br/>
+						<label>角色:</label><label th:text="${user.roleNames}" class="text-info"></label>
+						<br/>
+						<label>创建时间:</label><label th:text="${user.createTimeStr}" class="text-info"></label>
+						<br/>
+						<label>上次登录时间:</label><label th:text="${user.lastLoginTimeStr}" class="text-info"></label>
+						<br/>
+						<div class="container">
+							
+						</div>
+					</div>
+						<div class="col-md-4 column">
+							<blockquote>
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+							</p> 
+							<small>Someone famous <cite>Source Title</cite></small>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
