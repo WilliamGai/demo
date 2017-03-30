@@ -93,11 +93,11 @@ return:
 
 ## 3 获取文章详情
   
-  ### url：
+### url：
     
     (http://demo.williamy.xin/article?id=122)
   
-  ### 参数说明:
+### 参数说明:
 ``` xml
   {
 "article": {
