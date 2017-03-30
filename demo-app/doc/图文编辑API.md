@@ -1,10 +1,10 @@
 # 前端访问API
 ## 1 幻灯片
-### 1.1 url:
+ url:
 ``` xml
 http://demo.williamy.xin:8060/get_lunbo?lunbo_group_no=hq_lunbo_01
 ```
-### 1.2 return:
+ return:
 ``` json
 {
 "group_no": "hq_lunbo_01",
@@ -30,17 +30,17 @@ http://demo.williamy.xin:8060/get_lunbo?lunbo_group_no=hq_lunbo_01
 }
 ```
 ## 2 文章列表
-### 2.1 url:
+ url:
 ``` xml
 http://demo.williamy.xin:8060/articles?type_ids=xinwengonggao&page_no=0&page_size=5
 ```
-### 2.2参数说明：
+参数说明：
 ``` xml
 type_ids：文章类型ID,多个文章类型用下划线“_”连接
 page_no:第几页，从0开始
 page_size:每页的大小
 ```
-### return:
+return:
 ``` json
 {
 "pages_num": 1,
