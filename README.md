@@ -1,5 +1,8 @@
 # 图文发布，编辑活动的restFul风格的网站后台。
-spring boot, redis ,dubbo, guava, zookeeper， spring boot admin
+spring boot, redis ,dubbo, guava cache, zookeeper， spring boot admin
+## 项目结构
+  
+  如图所示，
 ``` xml
 demo-app-->demo-app-parent
     |
@@ -19,3 +22,13 @@ demo-app-->demo-app-parent
     |
     |--spring-boot-starter-jdbc
 ```
+## demo-core-parent
+  每次更新前需要更新本地包
+  mvn clean install
+  ```xml
+            demo-core-parent
+             ↑
+             |--demo-core-common
+             |--demo-core-spring
+             |--demo-core-redis
+ ```
