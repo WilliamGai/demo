@@ -65,7 +65,7 @@ mvn spring-boot:run -D spring.profiles.active=jztpy -D ip=119.29.52.126 -D serve
 </VirtualHost>
 ``` 
 ### 2.2 使用Nginx:
-``` json
+``` xml
 upstream demo.williamy.xin{
         server 127.0.0.1:8060 weight=1;
     }
