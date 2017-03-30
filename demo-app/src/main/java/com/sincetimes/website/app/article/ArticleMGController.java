@@ -174,8 +174,8 @@ public class ArticleMGController implements ControllerInterface {
 			return;
 		}
 		/*如果存在直接返回*/
-		if(ArticleManager.inst().getArticleTypes().containsKey(type_id)){
-			rsp.sendRedirect("articles?type_id="+type_id);
+		if(ArticleManager.inst().getArticleTypes().containsKey(type_id.get())){
+			rsp.sendRedirect("articles?type_id="+type_id.get());
 			return;
 		}
 		ArticleType tp = new ArticleType();
@@ -190,7 +190,7 @@ public class ArticleMGController implements ControllerInterface {
 			tp.setUpdate_time(System.currentTimeMillis());
 		}
 		ArticleManager.inst().saveOrUpdateArticleType(tp);
-		rsp.sendRedirect("articles?type_id="+type_id);
+		rsp.sendRedirect("articles?type_id="+type_id.get());
 	}
 	@RequestMapping("/delete_article_type")
 	void delete_article_type(HttpServletRequest req, HttpServletResponse resp, @RequestParam Optional<String> type_id){
