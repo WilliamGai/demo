@@ -9,9 +9,9 @@ demo-app-->demo-app-parent
     |     |
     |     |--spring-boot-starter-web
     |     |
-    |     |--spring-boot-starter-web
+    |     |--spring-boot-starter-thymeleaf
     |
-    |--demo-core-redi-->demo-core-parent
+    |--demo-core-redis-->demo-core-parent
     |     |
     |     |--demo-core-common
     |     |
