@@ -30,11 +30,15 @@ return:
 }
 ```
 ## 2 文章列表
-url:
+### url:
 ``` xml
 http://demo.williamy.xin:8060/articles?type_ids=xinwengonggao&page_no=0&page_size=5
 ```
-return:
+### 参数说明：
+#### type_ids：文章类型ID,多个文章类型用下划线“_”连接
+#### page_no:第几页，从0开始
+#### page_size:每页的大小
+### return:
 ``` json
 {
 "pages_num": 1,
