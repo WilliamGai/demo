@@ -1,9 +1,7 @@
 # 前端访问API
 ## 1 幻灯片
  url:
-``` xml
-http://demo.williamy.xin:8060/get_lunbo?lunbo_group_no=hq_lunbo_01
-```
+[ http://demo.williamy.xin/get_lunbo?lunbo_group_no=hq_lunbo_01]
  return:
 ``` json
 {
@@ -31,9 +29,7 @@ http://demo.williamy.xin:8060/get_lunbo?lunbo_group_no=hq_lunbo_01
 ```
 ## 2 文章列表
  url:
-``` xml
-http://demo.williamy.xin:8060/articles?type_ids=xinwengonggao&page_no=0&page_size=5
-```
+[http://demo.williamy.xin/articles?type_ids=xinwengonggao_hangyedongtai&page_no=0&page_size=5]
 参数说明：
 ``` xml
 type_ids：文章类型ID,多个文章类型用下划线“_”连接
@@ -92,3 +88,4 @@ return:
 ```
 
 ## 3 文章详情
+
