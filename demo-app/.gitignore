@@ -1,3 +1,5 @@
 /target/
+/src/main/resources/application-jztpy.properties
 #windows 文件上传目录
 /src/main/webapp/upload
+/src/main/resources/application-guanwang.properties
