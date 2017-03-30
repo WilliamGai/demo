@@ -1,24 +1,39 @@
 #app
 #embed tomcat without jsp
 
-启动命令示例
+## 1启动命令示例
+### 1.1
+``` xml
 java -jar target/XXX.jar --spring.profiles.active=dev --logging.level.org.springframework.web=debug --logging.level.com.sincetimes=debug
+```
 或
+``` xml
 java -classpath XXX.jar org.springframework.boot.loader.JarLauncher  --spring.profiles.active=dev
+```
 或
+``` xml
 java -jar target/XXX.jar --spring.profiles.active=dev
+```
 或
+``` xml
 java -jar  -Xms8000m -Xmx8000m -Xmn6000m -Xss256k -XX:PermSize=64m -Dcom.sun.management.jmxremote.port=8999 -Djava.rmi.server.hostname=123.56.78.9 -Dcom.sun.managent.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false   XXX.jar --spring.profiles.active=dev
-
+```
+### 1.2
 mvn 启动命令：
+``` xml
 mvn spring-boot:run -D spring.profiles.active=guanwang
+```
 或
+``` xml
 mvn spring-boot:run -D spring.profiles.active=jztpy -D ip=119.29.52.126
+``` 
 或者
+``` xml
 mvn spring-boot:run -D spring.profiles.active=jztpy -D ip=119.29.52.126 -D server.port=8060
-
-服务器部署
-使用Apache:
+```
+## 2 服务器部署
+### 2.1 使用Apache:
+``` xml
 <VirtualHost *:80>
         ServerName app.sincetimes.com
         DocumentRoot /data/web/guanwang_app/static_src
@@ -48,8 +63,8 @@ mvn spring-boot:run -D spring.profiles.active=jztpy -D ip=119.29.52.126 -D serve
                 DirectoryIndex index.html
         </Directory>
 </VirtualHost>
-
-使用Nginx:
+``` 
+### 2.2 使用Nginx:
 upstream demo.williamy.xin{
         server 127.0.0.1:8060 weight=1;
     }
