@@ -1,7 +1,7 @@
-#app
-#embed tomcat without jsp
+# 提供RestFul风格的后台服务
+##(embed tomcat without jsp)
 
-## 1启动命令示例
+## 1 启动命令示例
 ### 1.1
 ``` xml
 java -jar target/XXX.jar --spring.profiles.active=dev --logging.level.org.springframework.web=debug --logging.level.com.sincetimes=debug
@@ -65,6 +65,7 @@ mvn spring-boot:run -D spring.profiles.active=jztpy -D ip=119.29.52.126 -D serve
 </VirtualHost>
 ``` 
 ### 2.2 使用Nginx:
+``` json
 upstream demo.williamy.xin{
         server 127.0.0.1:8060 weight=1;
     }
@@ -109,4 +110,5 @@ upstream demo.williamy.xin{
             root  html;
         }
 }
+```
 
