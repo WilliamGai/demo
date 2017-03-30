@@ -2,6 +2,8 @@
 ## 1 幻灯片
  url:
 (http://demo.williamy.xin/get_lunbo?lunbo_group_no=hq_lunbo_01)
+
+
  return:
 ``` json
 {
@@ -30,6 +32,8 @@
 ## 2 文章列表
  url:
 (http://demo.williamy.xin/articles?type_ids=xinwengonggao_hangyedongtai&page_no=0&page_size=5)
+  
+  
 参数说明：
 ``` xml
 type_ids：文章类型ID,多个文章类型用下划线“_”连接
