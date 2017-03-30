@@ -24,6 +24,9 @@ demo-app-->demo-app-parent
 ```
 ## 2.更新demo-core-parent
   每次更新前需要更新本地包
+  - 其中demo-core-common提供和限制了设计模式，线程,IO,加载,注入等操作
+  - demo-core-spring 提供对spring的依赖和接口扩展
+  - demo-core-redis 提供了对redis的依赖,使用jedis和redis连接池
   mvn clean install
 ```xml
             demo-core-parent
