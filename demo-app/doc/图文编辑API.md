@@ -98,7 +98,7 @@ return:
     (http://demo.williamy.xin/article?id=122)
   
   ### 参数说明：
-  ``` json
+  ``` xml
   {
 "article": {
 "id": 122,
