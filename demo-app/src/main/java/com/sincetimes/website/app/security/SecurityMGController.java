@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sincetimes.website.app.security.interfaces.SecureControllerInterface;
 import com.sincetimes.website.app.security.vo.RoleVO;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.DataResult;
@@ -18,12 +19,12 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.ParamResult;
 import com.sincetimes.website.core.common.support.Result;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 
 @Controller
 @Order(value = 6)
 @RequestMapping("/mg")
-public class SecurityMGController implements ControllerInterface {
+public class SecurityMGController implements SecureControllerInterface, ControllerInterface {
 	
 	/**
 	 * 用户管理列表
@@ -46,12 +47,7 @@ public class SecurityMGController implements ControllerInterface {
 		setUser(model, req);
 		return "secure_roles";
 	}
-	public void setUser(Model model, HttpServletRequest req) {
-		Object _user = req.getSession().getAttribute("user");
-		if(_user instanceof UserVO){
-			model.addAttribute("user", _user);
-		}
-	}
+
 	/**  用户登录后主界面 */
 	@RequestMapping("/secure_user")
 	String secure_user(Model model, String user_name, HttpServletRequest req) {

@@ -13,7 +13,7 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.ParamResult;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 
 @Controller
 public class LoginController implements ControllerInterface {

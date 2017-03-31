@@ -14,7 +14,7 @@ import redis.clients.jedis.Tuple;
  */
 public interface JedisWrapper{
 	
-	public JedisPoolTemplate template();
+	JedisPoolTemplate template();
 	
 	/**可以覆盖此方*/
 	default String makeKey(String key) {

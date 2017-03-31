@@ -13,7 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Param;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 /**
  * 激活码
  */

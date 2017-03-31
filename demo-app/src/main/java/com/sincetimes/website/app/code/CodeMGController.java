@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import com.sincetimes.website.app.file.FileManager;
-import com.sincetimes.website.app.file.function.MutlipartFileConsumer;
+import com.sincetimes.website.app.file.function.FileConsumer;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 /**
  * 激活码
  * TODO LRU缓存
@@ -75,11 +75,11 @@ public class CodeMGController implements ControllerInterface{
 			HttpServletResponse resp){
 		
 		List<String> codes = new ArrayList<>();
-		MutlipartFileConsumer consume = (m)-> codes.addAll(FileManager.inst().readFileLines(m));
+		FileConsumer consume = (m)-> codes.addAll(FileManager.inst().readFileLines(m));
 		
-		Map<String, MutlipartFileConsumer> comsumeMap = new HashMap<>();
+		Map<String, FileConsumer> comsumeMap = new HashMap<>();
 		comsumeMap.put("code_file", consume);
-		FileManager.inst().handle_multi_file(comsumeMap, req);
+		FileManager.inst().handleMultiFile(comsumeMap, req);
 		
 		String create_by = getSessionAttrFncOrElse(req, "user", UserVO::getName, "unknown");
 		CodeManager.inst().addCodeInfo(code_sn.get(), create_by, code_name.get(), code_desc.get(), fresh_type.get(), open_time.get(), close_time.get(), codes);
@@ -97,11 +97,11 @@ public class CodeMGController implements ControllerInterface{
 			HttpServletResponse resp){
 		
 		List<String> codes = new ArrayList<>();
-		MutlipartFileConsumer consume = (m)-> codes.addAll(FileManager.inst().readFileLines(m));
+		FileConsumer consume = (m)-> codes.addAll(FileManager.inst().readFileLines(m));
 		
-		Map<String, MutlipartFileConsumer> comsumeMap = new HashMap<>();
+		Map<String, FileConsumer> comsumeMap = new HashMap<>();
 		comsumeMap.put("code_file", consume);
-		FileManager.inst().handle_multi_file(comsumeMap, req);
+		FileManager.inst().handleMultiFile(comsumeMap, req);
 		
 		CodeManager.inst().editCodeInfo(code_sn, open_time.get(), close_time.get(), codes);
 		redirect(resp, "code?sn="+code_sn);

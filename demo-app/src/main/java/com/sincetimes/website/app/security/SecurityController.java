@@ -14,7 +14,7 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.ParamResult;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 
 @Controller
 @Order(value = 7)
@@ -72,7 +72,7 @@ public class SecurityController implements ControllerInterface {
 			String female,
 			StandardMultipartHttpServletRequest freq,
 			HttpServletResponse resp){
-		String pic = FileManager.inst().upload_file_simple(freq, ACCOUNT_PICS_PATH);
+		String pic = FileManager.inst().uploadFileSimple(freq, ACCOUNT_PICS_PATH);
 		if(!Util.nonEmpty(name, password)){
 			model.addAttribute("tips", "名称或密码不可为空");
 		}

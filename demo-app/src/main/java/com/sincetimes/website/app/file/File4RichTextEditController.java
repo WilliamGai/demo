@@ -28,6 +28,7 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Sys;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 import com.sincetimes.website.core.spring.manger.SpringManager;
 @RestController
 @Order(value = 6)
@@ -35,7 +36,7 @@ import com.sincetimes.website.core.spring.manger.SpringManager;
 /**
  * 富文本编辑器的上传文件请求和打开文件管理器的请求
  */
-public class FileController4RichTextEdit implements CommandLineRunner {
+public class File4RichTextEditController implements ControllerInterface {
 	public static final HashMap<String, List<String>> EXT_MAP = new HashMap<>();//支持的文件类型，目前不限制
 	public static final List<String> IMGE_TYPES =Arrays.asList("gif","jpg","jpeg","png","bmp");
 	static{
@@ -44,15 +45,16 @@ public class FileController4RichTextEdit implements CommandLineRunner {
 		EXT_MAP.put("media", Arrays.asList("swf","flv","mp3","wav","wma","wmv","mid","avi","mpg","asf","rm","rmvb"));
 		EXT_MAP.put("file", Arrays.asList("doc","docx","xls","xlsx","ppt","htm","html","txt","zip","rar","gz","bz2"));
 	}
-	/*
-	 * 等价于
-	 * 	public static Comparator<HashMap<String, Object>> TYPE_COMPARAOR_FUNC =(hashA, hashB)-> {
-		int comparison = ((Boolean)hashB.get("is_dir")).compareTo((Boolean)hashA.get("is_dir"));
-		if (comparison == 0) {
-			comparison = ((String)hashA.get("filetype")).compareTo((String)hashB.get("filetype"));
-		}
-		return comparison;
-	};
+	/**
+	 * 
+	  <pre>等价于下面的比较器等价于{@code
+	  	public static Comparator<HashMap<String, Object>> TYPE_COMPARAOR_FUNC =(hashA, hashB)-> {
+			int comparison = ((Boolean)hashB.get("is_dir")).compareTo((Boolean)hashA.get("is_dir"));
+			if (comparison == 0) {
+				comparison = ((String)hashA.get("filetype")).compareTo((String)hashB.get("filetype"));
+			}
+			return comparison;
+		};}<pre>
 	 */
 	public static Comparator<HashMap<String, Object>> DIR_COMPARAOR_FUNC =(hashA, hashB)-> {
 		return ((Boolean)hashB.get("is_dir")).compareTo((Boolean)hashA.get("is_dir"));
@@ -72,10 +74,7 @@ public class FileController4RichTextEdit implements CommandLineRunner {
 	@RequestMapping("/file_manager_json")
 	public Object fileManager(HttpServletRequest req, HttpServletResponse rsp){
 		String dirPath = "upload/";
-		String rootPath = req.getServletContext().getRealPath("/");
-		if(Sys.isLinux()){
-			rootPath = SpringManager.inst().upload_path;
-		}
+		String rootPath = getRootFilePath(req);
 		rootPath += dirPath;
 		
 		//根目录URL，可以指定绝对路径，比如 http://www.yoursite.com/attached/
@@ -177,10 +176,7 @@ public class FileController4RichTextEdit implements CommandLineRunner {
 			//rootPath/dirPath/dirName/ymdPath/fileName
 			String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 			String dirPath = "upload/";
-			String rootPath = req.getServletContext().getRealPath("/");
-			if(Sys.isLinux()){
-				rootPath = SpringManager.inst().upload_path;
-			}
+			String rootPath = getRootFilePath(req);
 			String filePath = dirPath + dirName+ "/"+ ymdPath;
 			/*新文件名字的命名规则**/
 			Function<String ,String> nameFunc = FileManager.inst()::randomFileName;
@@ -199,7 +195,7 @@ public class FileController4RichTextEdit implements CommandLineRunner {
 				return getError("上传目录没有写权限。");
 			}
 
-			String url = FileManager.inst().upload_single_file(rootPath, filePath, nameFunc, req);
+			String url = FileManager.inst().uploadSingleFile(rootPath, filePath, nameFunc, req);
 			LogCore.BASE.info("file request={}, requestStr={}, url={}", req, req.toString(), url);
 			LogCore.BASE.info("file requestjson={}", req.toString());
 
@@ -212,9 +208,5 @@ public class FileController4RichTextEdit implements CommandLineRunner {
 	
 	private String getError(String message) {
 		return JSONBuilder.creatJsonString("error", 1, "message", message);
-	}
-	public void run(String... args) throws SQLException {
-		int orderValue = this.getClass().getAnnotation(Order.class).value();
-		LogCore.BASE.info("{} init start! the order is {} !!! ", this.getClass().getName(), orderValue);
 	}
 }

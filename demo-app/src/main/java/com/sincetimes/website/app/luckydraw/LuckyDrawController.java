@@ -20,7 +20,7 @@ import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Param;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 
 /**
  * 大转盘 TODO:设置奖品信息过期时间为半年

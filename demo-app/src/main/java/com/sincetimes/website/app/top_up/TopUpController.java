@@ -14,7 +14,7 @@ import com.sincetimes.website.core.common.support.HttpUtil;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.MD5;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 
 
 

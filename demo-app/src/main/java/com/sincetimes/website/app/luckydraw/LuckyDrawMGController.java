@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import com.sincetimes.website.app.file.FileManager;
-import com.sincetimes.website.app.file.function.MutlipartFileConsumer;
+import com.sincetimes.website.app.file.function.FileConsumer;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.app.stats.DataVO;
 import com.sincetimes.website.app.wx_gzh.GzhManager;
@@ -32,7 +32,7 @@ import com.sincetimes.website.core.common.support.Sys;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 import com.sincetimes.website.core.spring.manger.SpringManager;
 /**
  * 激活码
@@ -139,10 +139,7 @@ public class LuckyDrawMGController implements ControllerInterface{
 		String dirName = Objects.toString(req.getParameter("dir"), "image");
 		String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 		String dirPath = "upload/";
-		String rootPath = req.getServletContext().getRealPath("/");
-		if(Sys.isLinux()){
-			rootPath = SpringManager.inst().upload_path;
-		}
+		String rootPath = getRootFilePath(req);
 		String filePath = dirPath + dirName+ "/"+ ymdPath;
 		String saveUrl = req.getContextPath() + "/" + filePath;
 		
@@ -150,20 +147,20 @@ public class LuckyDrawMGController implements ControllerInterface{
 		
 		List<String> names = new ArrayList<>();
 		
-		MutlipartFileConsumer consume = (m)->{
+		FileConsumer consume = (m)->{
 			FileManager.inst().save(realpath, m).ifPresent(f->names.add(f.getName()));
 		};
 		
 		List<String> codes = new ArrayList<>();
-		MutlipartFileConsumer consume2 = (m)->{
+		FileConsumer consume2 = (m)->{
 			List<String> rst = FileManager.inst().readFileLines(m);
 			codes.addAll(rst);
 		};
-		Map<String, MutlipartFileConsumer> comsumeMap = new HashMap<>();
+		Map<String, FileConsumer> comsumeMap = new HashMap<>();
 		comsumeMap.put("code_file", consume2);
 		comsumeMap.put("file", consume);
 		
-		FileManager.inst().handle_multi_file(comsumeMap, req);
+		FileManager.inst().handleMultiFile(comsumeMap, req);
 		String pic_url = null;
 		if(!Util.isEmpty(names)){
 			pic_url = saveUrl + names.get(0);
@@ -190,10 +187,7 @@ public class LuckyDrawMGController implements ControllerInterface{
 		String dirName = Objects.toString(req.getParameter("dir"), "image");
 		String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 		String dirPath = "upload/";
-		String rootPath = req.getServletContext().getRealPath("/");
-		if(Sys.isLinux()){
-			rootPath = SpringManager.inst().upload_path;
-		}
+		String rootPath = getRootFilePath(req);
 		String filePath = dirPath + dirName+ "/"+ ymdPath;
 		String saveUrl = req.getContextPath() + "/" + filePath;
 		
@@ -201,12 +195,12 @@ public class LuckyDrawMGController implements ControllerInterface{
 		
 		List<String> names = new ArrayList<>();
 		
-		Map<String, MutlipartFileConsumer> comsumeMap = new HashMap<>();
-		MutlipartFileConsumer consume = (m)->{
+		Map<String, FileConsumer> comsumeMap = new HashMap<>();
+		FileConsumer consume = (m)->{
 			FileManager.inst().save(realpath, m).ifPresent(f->names.add(f.getName()));
 		};
 		List<String> codes = new ArrayList<>();
-		MutlipartFileConsumer consume2 = (m)->{
+		FileConsumer consume2 = (m)->{
 			List<String> rst = FileManager.inst().readFileLines(m);
 			codes.addAll(rst);
 		};
@@ -214,7 +208,7 @@ public class LuckyDrawMGController implements ControllerInterface{
 		comsumeMap.put("code_file", consume2);
 		comsumeMap.put("file", consume);
 		
-		FileManager.inst().handle_multi_file(comsumeMap, req);
+		FileManager.inst().handleMultiFile(comsumeMap, req);
 		String pic_url = null;
 		if(!Util.isEmpty(names)){
 			pic_url = saveUrl + names.get(0);

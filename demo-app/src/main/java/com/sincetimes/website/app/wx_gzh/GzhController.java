@@ -15,7 +15,7 @@ import com.sincetimes.website.core.common.support.DataResult;
 import com.sincetimes.website.core.common.support.HttpUtil;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 
 
 /** 微信公众号 */

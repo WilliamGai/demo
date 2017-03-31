@@ -3,6 +3,8 @@ package com.sincetimes.website.app.lunbo;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +20,9 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import com.sincetimes.website.app.file.FileManager;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.LogCore;
+import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 /**
  * 轮播图和视频等多媒体信息
  */
@@ -52,13 +55,20 @@ public class MediaMGController implements ControllerInterface {
 	@RequestMapping("/edit_lunbo_empty_page")
 	void upload_media_submit_lunbo(@RequestParam Optional<String>desc, @RequestParam Optional<String>img_url_cdn,  @RequestParam int id,@RequestParam String group_no, @RequestParam Optional<String> link_url, StandardMultipartHttpServletRequest freq, HttpServletResponse resp) throws IOException {
 		LogCore.BASE.info("edit_lunbo_empty_page,desc={}, group_no={}, img_url_cdn={},id={},link_url={}",desc, group_no, img_url_cdn, id, link_url);
-		String img_url = FileManager.inst().upload_file_simple(freq, "lunbotu" + group_no);
+		String img_url = FileManager.inst().uploadFileSimple(freq, "lunbotu" + group_no);
 		MediaManager.inst().editLunboPage(group_no, id, desc, img_url_cdn ,link_url, img_url);
 		resp.sendRedirect("upload_media?group_no="+group_no);
 	}
+	/**
+	 * 上传音视频
+	 * @param id
+	 * @param freq
+	 * @param resp
+	 * @throws IOException
+	 */
 	@RequestMapping("/upload_media_submit_video")
 	void upload_media_submit_video(@RequestParam Optional<String> id,  StandardMultipartHttpServletRequest freq, HttpServletResponse resp) throws IOException {
-		FileManager.inst().upload_file_simple(freq, "video");
+		FileManager.inst().uploadFileSimple(freq, "/upload/video", Function.identity());
 		resp.sendRedirect("upload_media");
 	}
 	/*创建一个轮播图*/

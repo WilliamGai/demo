@@ -18,7 +18,7 @@ import org.springframework.web.context.ContextLoader;
 import com.sincetimes.website.app.rpc.dubbo.DubboManagerTest;
 import com.sincetimes.website.core.common.manager.annotation.ManangerOrder;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 @RestController
 @Order(value = 5)
 public class RpcControllerTest implements ControllerInterface{

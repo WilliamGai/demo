@@ -1,4 +1,4 @@
-package com.sincetimes.website.core.spring.controller;
+package com.sincetimes.website.core.spring.interfaces;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,8 +14,8 @@ import org.springframework.core.annotation.Order;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 
-public interface ControllerInterface extends CommandLineRunner {
-
+public interface ControllerInterface extends CommandLineRunner, FilePathInterface {
+	
 	default void run(String... args) throws SQLException {
 		LogCore.CORE.info("{} init start! the order is {} !!! ", this.getClass().getName(), this.getClass().getAnnotation(Order.class));
 	}

@@ -19,7 +19,7 @@ import com.sincetimes.website.core.common.support.Util;
 /**
  * 用于‘继承’的接口, 在不修改原来类本身和父类的情况下增加方法,实现多重继承
  */
-public interface InputFileSupport {
+public interface InputFileSupport{
 	public static int STATUS_OK = 1;
 	public static int STATUS_FAIL = 0;
 	/**
@@ -71,7 +71,7 @@ public interface InputFileSupport {
 		}
 	}
 	/**
-	 * 
+	 * 返回保存后的文件
 	 * @param realpath 保存路径
 	 * @param nameFunc 根据原始文件名来重新命名,如果为空则保留原文件名
 	 * @return 1成功, 0失败
@@ -107,7 +107,12 @@ public interface InputFileSupport {
 		Function<String ,String> nameFunc = this::randomFileName;
 		return save(realpath, file, nameFunc);
 	}
-	
+	/**
+	 * 
+	 * 命名示例："a.PNG"返回"23_56_12_1234.png"
+	 * @param fileName 原始文件名
+	 * @return 重新随机的文件名
+	 */
 	default String randomFileName(String fileName) {
 		String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();//检查后缀名
 		String newFileName = TimeTool.formatTime(System.currentTimeMillis(), "HH_mm_ss_") + new Random().nextInt(1000);

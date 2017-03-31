@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sincetimes.website.app.stats.StatsManager;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 import com.sincetimes.website.manager.DataManager;
 /**
  * 处理一般的请求

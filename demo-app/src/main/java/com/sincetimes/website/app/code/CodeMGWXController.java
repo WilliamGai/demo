@@ -14,7 +14,7 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import com.sincetimes.website.app.file.FileManager;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.controller.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 import com.sincetimes.website.redis.jedis.JedisPoolTemplate;
 /**
  * 微信礼包激活码快捷生成
@@ -30,7 +30,7 @@ public class CodeMGWXController implements ControllerInterface{
 //		SingleFileCallBack<byte[]> consume = (m)->  ;
 //		String base64Str = new String(Base64.getEncoder().encodeToString(data));
 		
-		byte[] data = FileManager.inst().do_single_file(FileManager.inst()::readFileBytes, req);
+		byte[] data = FileManager.inst().excuteFile(FileManager.inst()::readFileBytes, req);
 		if(!Util.isEmpty(data)){
 			return "_jihuoma_wx";
 		}
@@ -68,7 +68,7 @@ public class CodeMGWXController implements ControllerInterface{
 			LogCore.BASE.info("empty param: code_sn");
 			return;
 		}
-		byte[] data = FileManager.inst().do_single_file(FileManager.inst()::readFileBytes, req);
+		byte[] data = FileManager.inst().excuteFile(FileManager.inst()::readFileBytes, req);
 		if(!Util.isEmpty(data)){
 			String base64Str = new String(Base64.getEncoder().encodeToString(data));
 			String imgkey = code_sn.get()+"img_url";
