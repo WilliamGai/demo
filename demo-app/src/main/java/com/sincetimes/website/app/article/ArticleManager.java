@@ -17,6 +17,7 @@ import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.manager.annotation.ManangerInject;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Result;
+import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.manager.DataManager;
 @ManangerInject
 @Component
@@ -48,7 +49,8 @@ public class ArticleManager extends ManagerBase {
 	 * 初始化标题名称和阅读人数
 	 */
 	public static Article initArticle(Article art){
-		art.setType_name(Objects.toString(ARTICLE_TYPE_MAP.get(art.getType_id()).getName(), art.getType_id()+""));
+		String type_name = Util.toNullDefalut(ARTICLE_TYPE_MAP.get(art.getType_id()), ArticleType::getName, art.getType_id()+"");
+		art.setType_name(type_name);
 		art.setRead_num(DataManager.inst().getCountByDb(KEY_ARTICLE_BROWES_NUM, art.getId()));
 		return art;
 	}
