@@ -91,12 +91,11 @@ return:
 ```
 
 ## 3 获取文章详情
-  
-### url：
-    
-    (http://demo.williamy.xin/article?id=122)
-  
-### 参数说明:
+  
+- url:  
+(http://demo.williamy.xin/article?id=122)
+  
+- return:  
 ``` xml
   {
 "article": {
