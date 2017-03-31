@@ -29,10 +29,9 @@
 "info": "hq_lunbo_01"
 }
 ```
-## 2 文章列表
- url:
-(http://demo.williamy.xin/articles?type_ids=xinwengonggao_hangyedongtai&page_no=0&page_size=5)
-  
+## 2 文章列表  
+- url:(http://demo.williamy.xin/articles?type_ids=news&page_no=0&page_size=5)  
+- url:(http://demo.williamy.xin/articles?type_ids=campus_social&page_no=0&page_size=5)  
   
 参数说明：
 ``` xml
