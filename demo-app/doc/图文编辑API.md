@@ -29,10 +29,9 @@
 "info": "hq_lunbo_01"
 }
 ```
-## 2 文章列表
- url:
-(http://demo.williamy.xin/articles?type_ids=xinwengonggao_hangyedongtai&page_no=0&page_size=5)
-  
+## 2 文章列表  
+- url:(http://demo.williamy.xin/articles?type_ids=news&page_no=0&page_size=5)  
+- url:(http://demo.williamy.xin/articles?type_ids=campus_social&page_no=0&page_size=5)  
   
 参数说明：
 ``` xml
@@ -92,12 +91,11 @@ return:
 ```
 
 ## 3 获取文章详情
-  
-### url：
-    
-    (http://demo.williamy.xin/article?id=122)
-  
-### 参数说明:
+  
+- url:  
+(http://demo.williamy.xin/article?id=122)
+  
+- return:  
 ``` xml
   {
 "article": {
