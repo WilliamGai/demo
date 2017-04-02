@@ -18,9 +18,9 @@
 <body>
 	<div th:fragment="content" >
 	<div class="container">
+	    <a href="/mg/audio">刷新fresh</a>
 		<div th:if="${role==null}">
 			<h1>不存在</h1>
-			<a href="#">刷新fresh</a>
 		</div>
 		<div>
 		<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default" data-toggle="modal">上传音乐</a>
@@ -77,6 +77,11 @@
 				<td><a th:href="${'delete_role_permission?index='+iterStat.index}">删除</a></td>
 			</tr>
 		</table>
+		<div th:each="item, iterStat: ${list}">
+			<audio th:src="${path+'/'+item.name}" controls="controls">
+						您的浏览器不支持 audio 标签。
+			</audio>
+		</div>
 		</div>
 		</div>
 		</div>
