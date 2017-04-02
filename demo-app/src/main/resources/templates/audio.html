@@ -95,8 +95,37 @@
 	        if (bgAudio.loadStatus != 'unload') {
 	            return;
 	        }
-	        /* playAudio(); */
+	         playAudio(); 
 	    };
+	    
+	    //bqjz start
+	        //控制音乐暂停播放
+    /* 
+	        var audio = $('#Audio')[0];
+    var v = 0;
+    $('#music_C').click(function() {
+
+        if (v == 0) {
+            audio.pause();
+            $('#music_C').attr("src", "imgs/yinyue-1.png");
+            v = 1;
+            $('#music_C').css({
+                "animation": "none",
+            });
+        } else if (v == 1) {
+            audio.play();
+            $('#music_C').attr("src", "imgs/yinyue-2.png");
+            $('#music_C').css({
+                "animation": "Mrotate 4s linear infinite;",
+            })
+            v = 0;
+        }
+    });
+    //触摸自动播放音乐 （ios只有触发才播放音乐)
+    $(document).one("touchstart",function(){
+        audio.play();
+    }); */
+	    //bqjz end
 </script>
 <body>
 	<div th:fragment="content" >
