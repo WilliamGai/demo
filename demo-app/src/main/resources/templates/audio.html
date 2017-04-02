@@ -20,11 +20,11 @@
 	<div class="container">
 		<div th:if="${role==null}">
 			<h1>不存在</h1>
-			<a href="secure_roles">返回</a>
+			<a href="secure_roles">刷新fresh</a>
 		</div>
 		<div>
-		<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default" data-toggle="modal">添加权限</a>
-		<!-- 添加权限start -->
+		<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default" data-toggle="modal">上传音乐</a>
+		<!-- add start -->
 		<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -58,18 +58,26 @@
 			<tr style="background:purple;">
 				<th>序号</th>
 				<th>名称</th>
-				<th>uri</th>
+				<th>type</th>
+				<th>size</th>
+				<th>path</th>
 				<th/>
 			</tr>
 			<tr th:each="item, iterStat: ${list}">
 				<td th:text="${iterStat.index}+1"></td>
 				<td th:text="${item.name}"></td>
+				<td th:text="${item.type}"></td>
+				<td th:text="${item.size}"></td>
+				<td>
+					<audio th:src="${path+'/'+item.name}" controls="controls">
+						您的浏览器不支持 audio 标签。
+					</audio>
+				</td>
 				<td th:text="${item.uri}"></td>
-				<td><a th:href="${'delete_role_permission?index='+iterStat.index+'&amp;role_id='+role.id}">删除</a></td>
+				<td><a th:href="${'delete_role_permission?index='+iterStat.index}">删除</a></td>
 			</tr>
 		</table>
 		</div>
-		
 		</div>
 		</div>
 	</body>

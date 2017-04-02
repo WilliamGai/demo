@@ -22,16 +22,14 @@ public class BootInterceptor implements HandlerInterceptor {
 	// 1
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object arg2) {
 		long begin_nao_time = System.nanoTime();
-		String realIp = HttpHeadUtil.getRealIpAddr(req);
 		if (req.getRequestURI().contains("error")) {
 			LogCore.BASE.error("{}-------------------get one error request! {},arg2={}, referer={}", req.getRequestURI(), arg2, req.getHeader("referer"));
 			return true;
 		}
 		if (LogCore.BASE.isDebugEnabled()) {
-			LogCore.BASE.debug("{}----------------begin,realip={},req params:{},Origin={}", req.getRequestURI(),
-					realIp, HttpHeadUtil.getParamsMap(req), req.getHeader("Origin"));
+			LogCore.BASE.debug("{}----------------begin,ip={},req params:{},Origin={}", req.getRequestURI(),
+					req.getRemotePort(), HttpHeadUtil.getParamsMap(req), req.getHeader("Origin"));
 		}
-		req.setAttribute("p_real_ip", realIp);
 		req.setAttribute("begin_nao_time", begin_nao_time);
 		LogCore.BASE.debug("{}--------------begin req,Uri= {}", this.hashCode(), req.getRequestURI());
 		return true;
@@ -50,11 +48,10 @@ public class BootInterceptor implements HandlerInterceptor {
 			return;
 		}
 		long begin_nao_time = (Long)begin_nao_time_str ;
-		String real_ip = (String) req.getAttribute("p_real_ip");
-		long interval = System.nanoTime() - begin_nao_time;
+ 		long interval = System.nanoTime() - begin_nao_time;
 		
 		LogCore.BASE.info(this.hashCode() + "{}==========={}=========end,id={},params:{}, from:{},e:{}", uri,
-				interval / 1000000, _count.getAndIncrement(), HttpHeadUtil.getParamsMap(req), real_ip, arg3);
+				interval / 1000000, _count.getAndIncrement(), HttpHeadUtil.getParamsMap(req), req.getRemotePort(), arg3);
 		statEvent(uri, interval);
 	}
 

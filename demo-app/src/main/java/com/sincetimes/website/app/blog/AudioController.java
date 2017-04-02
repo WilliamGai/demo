@@ -13,9 +13,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,16 +50,24 @@ import com.sincetimes.website.redis.jedis.excample.JedisServiceDemo;
 @RequestMapping("/mg")
 public class AudioController implements SecureControllerInterface, ControllerInterface{
 
+	private static final String UPLOAD_AUDIO_PATH = "/upload/audio";
+
 	@RequestMapping("/audio")
-	public Object audio(Model model, HttpServletRequest req) {
+	public Object audio(Model model,String filter, HttpServletRequest req) {
 		setUser(model, req);
-		ArrayList<?> list = new ArrayList<>();
-		model.addAttribute("list", list);
+		String rootPath = getRootFilePath(req);
+	
+		File dir = new File(rootPath + UPLOAD_AUDIO_PATH);
+		if(dir.isDirectory()){
+			List<FileInfo> list = Stream.of(dir.listFiles()).map(FileInfo::new).collect(Collectors.toList());
+			model.addAttribute("list", list);
+		}
+		model.addAttribute("path", UPLOAD_AUDIO_PATH);
 		return "audio";
 	}
 	@RequestMapping("/add_audio")
 	void add_audio(@RequestParam Optional<String> id,  StandardMultipartHttpServletRequest freq, HttpServletResponse resp) throws IOException {
-		FileManager.inst().uploadFileSimple(freq, "/upload/audio", Function.identity());
+		FileManager.inst().uploadFileSimple(freq, UPLOAD_AUDIO_PATH, Function.identity());
 		resp.sendRedirect("audio");
 	}
 	

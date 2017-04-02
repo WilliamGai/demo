@@ -59,7 +59,11 @@ public class TimeTool {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
 		return format.parse(s).getTime();
 	}
+	/**
+	 * formatTime(System.currentTimeMillis(), "yyyy-MM-dd-HH:mm:ss");会new 一个format
+	 * @return
+	 */
 	public static String getLocalTime(){
-		return formatTime(System.currentTimeMillis(), "yyyy-MM-dd-HH:mm:ss");
+		return SDF.get().format(new Date());
 	}
 }

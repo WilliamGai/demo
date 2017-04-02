@@ -61,7 +61,9 @@ public class HttpHeadUtil {
 		resp.setHeader("Allow", "GET");
 		/* 跨域 end */
 	}
-	
+	/**
+	 * 获取真实的IP地址
+	 */
 	public static String getRealIpAddr(HttpServletRequest req) {
 	    String ip = req.getHeader("x-forwarded-for");
 	    if(ip == null || ip.length() == 0 ||"unknown".equalsIgnoreCase(ip)) {

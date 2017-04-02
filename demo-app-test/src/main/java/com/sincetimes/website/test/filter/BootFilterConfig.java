@@ -1,8 +1,5 @@
 package com.sincetimes.website.test.filter;
 
-import org.apache.catalina.filters.RemoteIpFilter;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

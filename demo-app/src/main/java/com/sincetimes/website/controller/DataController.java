@@ -34,7 +34,7 @@ public class DataController implements ControllerInterface {
 
 	@RequestMapping("/downloadhits/{os}")
 	public String download(HttpServletRequest req, @PathVariable String os,String openid, String ip) {
-		String real_ip = req.getAttribute("p_real_ip")+"";
+		int real_ip = req.getRemotePort();
 		LogCore.BASE.info("downloadhits openid={},realIp={},os={}",openid, real_ip, os);
 		StatsManager.inst().incr(os);
 		return os;
