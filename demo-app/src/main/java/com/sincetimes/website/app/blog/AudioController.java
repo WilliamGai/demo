@@ -1,21 +1,9 @@
 package com.sincetimes.website.app.blog;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,28 +11,17 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.support.StandardServletEnvironment;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import com.sincetimes.website.app.file.FileManager;
 import com.sincetimes.website.app.security.interfaces.SecureControllerInterface;
-import com.sincetimes.website.core.common.core.SysException;
-import com.sincetimes.website.core.common.core.Utils;
-import com.sincetimes.website.core.common.port.PortInstance;
-import com.sincetimes.website.core.common.support.HTMLFilter;
-import com.sincetimes.website.core.common.support.HttpUtil;
-import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
-import com.sincetimes.website.core.spring.manger.SpringManager;
-import com.sincetimes.website.redis.jedis.excample.JedisServiceDemo;
 @Controller
 @Order(value = 5)
 @RequestMapping("/mg")

@@ -78,7 +78,7 @@
 			</tr>
 		</table>
 		<div th:each="item, iterStat: ${list}">
-			<audio th:src="${path+'/'+item.name}" controls="controls">
+			<audio th:src="${path+'/'+item.name}" controls="controls" autoplay="autoplay">
 						您的浏览器不支持 audio 标签。
 			</audio>
 		</div>

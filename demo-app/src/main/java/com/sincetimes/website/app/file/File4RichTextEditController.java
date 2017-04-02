@@ -1,7 +1,6 @@
 package com.sincetimes.website.app.file;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,11 +23,9 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import com.alibaba.fastjson.JSONObject;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.Sys;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
-import com.sincetimes.website.core.spring.manger.SpringManager;
 @RestController
 @Order(value = 6)
 @RequestMapping("/mg")
