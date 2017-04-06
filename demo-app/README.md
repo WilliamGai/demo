@@ -1,5 +1,5 @@
 # 提供RestFul风格的后台服务
-## (embed tomcat without jsp)
+-(embed tomcat without jsp)
 
 ## 1 启动命令示例，注意参数位置
 ### 1.1
