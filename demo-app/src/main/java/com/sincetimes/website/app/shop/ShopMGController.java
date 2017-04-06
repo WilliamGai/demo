@@ -22,12 +22,10 @@ import com.sincetimes.website.app.file.FileManager;
 import com.sincetimes.website.app.file.function.FileConsumer;
 import com.sincetimes.website.app.stats.DataVO;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.Sys;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
-import com.sincetimes.website.core.spring.manger.SpringManager;
 /**
  * 积分兑换商城
  */
