@@ -1,22 +1,28 @@
 # 提供RestFul风格的后台服务
 ## (embed tomcat without jsp)
 
-## 1 启动命令示例
+## 1 启动命令示例，注意参数位置
 ### 1.1
-``` xml
-java -jar target/XXX.jar --spring.profiles.active=dev --logging.level.org.springframework.web=debug --logging.level.com.sincetimes=debug
-```
-或
-``` xml
-java -classpath XXX.jar org.springframework.boot.loader.JarLauncher  --spring.profiles.active=dev
-```
-或
+java -jar
 ``` xml
 java -jar target/XXX.jar --spring.profiles.active=dev
 ```
-或
+java -classpath(不建议)
+``` xml
+java -classpath XXX.jar org.springframework.boot.loader.JarLauncher  --spring.profiles.active=dev
+```
+日志级别
+``` xml
+java -jar target/XXX.jar --spring.profiles.active=dev --logging.level.org.springframework.web=debug --logging.level.com.sincetimes=debug
+```
+调整jvm参数和启动jconsole
 ``` xml
 java -jar  -Xms8000m -Xmx8000m -Xmn6000m -Xss256k -XX:PermSize=64m -Dcom.sun.management.jmxremote.port=8999 -Djava.rmi.server.hostname=123.56.78.9 -Dcom.sun.managent.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false   XXX.jar --spring.profiles.active=dev
+```
+在某些服务器会清除/tmp目录的情况下添加系统参数`java.io.tmpdir`或者application参数`server.tomcat.basedir`
+``` xml
+java -jar -Djava.io.tmpdir=/data/temp app-52.jar --spring.profiles.active=demo  
+java -jar  app-55.jar  --spring.profiles.active=demo --server.tomcat.basedir=./tmp2
 ```
 ### 1.2
 mvn 启动命令：
