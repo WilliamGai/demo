@@ -138,7 +138,7 @@
 			<div th:if="${item.type.name=='图片'}">
 				<img height="60" width="60" src="images/no.png"/>
 			</div>
-			<a th:class="${'btn btn-small small btn-danger'}" th:href="${'delete_item?key='+item.key+'id='+page.id}" onclick="javascript:return confirm('确认要删除?删除后不能恢复！');">删除</a>
+			<a th:class="${'btn btn-small small btn-danger'}" th:href="${'delete_item?key='+item.key+'&amp;id='+page.id}" onclick="javascript:return confirm('确认要删除?删除后不能恢复！');">删除</a>
 			<hr/>
 		</div>
 		<!-- 例子start 
