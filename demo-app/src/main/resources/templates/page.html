@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>自定义页面模板</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<script type="text/javascript">
+	/*点击图片选择*/
+	function _open_pic(src) 
+    { 
+		 console.log('_open_pic', src);
+         document.getElementById(src).click(); 
+    } 
+	/*显示刚刚选择的图片*/
+	function showImg(fileObj,imgId) {
+    	console.log(imgId);
+    	var file=fileObj.files[0];
+    	var r = new FileReader();
+    	r.readAsDataURL(file);
+    	$(r).load(function() {
+        	$('#'+imgId).attr("src", this.result);
+    	})
+	}
+</script>
+</head>
+<body>
+	<div th:fragment="content" >
+	
+	<div class="container">
+	    <a href="/mg/page">刷新</a>
+		<div th:if="${role==null}">
+			<h1>不存在</h1>
+		</div>
+			<div class="col-md-2 column" >
+				<div class="page-sidebar" style="position: fixed">
+					<ul class="nav nav-list">
+            			<li th:each="pg, iterStat: ${pages}"><a th:href="${'/mg/page_template?id='+pg.id}"><i th:text="${pg.name+id+pg.id+(id==pg.id)}" th:class="${id==pg.id?'glyphicon glyphicon-flag':''}"></i></a></li>
+        			</ul>
+				</div>
+			</div>
+			<div class="col-md-10 column">
+					<a id="modal-303937" href="#modal-container-303937" role="button" class="btn btn-default" data-toggle="modal">增加模板</a>
+		<!-- add template start -->
+		<div class="modal fade" id="modal-container-303937" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">
+							创建一个模板页面
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form role="form" class="form-inline" action="add_template" method="post">
+							<input type="hidden" name="template_id" th:value="${template_id}" />
+                			<label>编号(No):</label>
+		    				<input name="id" id="id"/>
+		    				<br/>
+		    				<label>名称:</label>
+		    				<input name="name" id="name"/>
+                			<div class="modal-footer">
+                				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确定创建?');" />
+                			</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- add template end -->
+		<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default" data-toggle="modal">增加组件</a>
+		<!-- add start -->
+		<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 th:text="${'请选择一个组件类型['+page.name+','+page.id+']'}" class="modal-title" id="myModalLabel"></h4>
+					</div>
+					<div class="modal-body">
+						<form role="form" class="form-inline" action="add_item_type" method="post">
+							<input type="hidden" name="id" th:value="${id}" />
+                			<label>编号(No):</label>
+		    				<input name="key" id="key"/>
+		    				<br/>
+		    				<label>名称:</label>
+		    				<input name="name" id="name"/>
+		    				<br/>
+		    				<label>类型:</label>
+							<select id="type_id" name="type_id">
+								<option th:each="a_type: ${type_list}" th:value="${a_type.id}" th:text="${a_type.name}"></option>
+							</select>
+                			<div class="modal-footer">
+                				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确定添加?');" />
+                			</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- add end -->
+		<h3 th:if="${#lists.isEmpty(list)}">无audio</h3>
+		<h3 th:text="${page}"></h3>
+		<h3 th:text="${pages}"></h3>
+		<div th:each="item, iterStat: ${page.items.values()}">
+			<div th:if="${item.type.name=='文本'}">
+				<label th:text="${item}"></label>
+				<label th:text="${item.name}"></label>
+				<label th:text="${item.key}"></label>
+				<label th:text="${item.type.name}"></label>
+				<form role="form" class="form-inline" action="edit_item?">
+					<label th:text="${item.name}"></label><br/>
+					<label th:text="${item.key}"></label><br/>
+					<label th:text="${item.type.name}"></label><br/>
+					<input type="hidden" name="id" th:value="${id}" />
+					<input type="hidden" name="key" th:value="${item.key}" />
+					<input type="text" id="desc" name="desc"/>
+					<button type="submit" th:class="${item==1}?'btn btn-default btn-success':'btn btn-default btn-warning'">保存</button>
+        			<a th:class="${'btn btn-small small btn-danger'}" th:href="${'delete_lunbo_page'}" onclick="javascript:return confirm('确认要删除?删除后不能恢复！');">删除</a>
+				</form>
+				<hr/>
+			</div>
+			<div th:if="${item.type.name=='图片'}">
+				<label th:text="${item}"></label>
+				<form role="form" class="form-inline" action="edit_item?"  enctype="multipart/form-data" method="post">
+					<!-- 图片 -->
+					<label th:text="${'名称:'+item.name}"></label><br/>
+					<label th:text="${'编号:'+item.key}"></label><br/>
+					<label th:text="${'类型:'+item.type.name}"></label><br/>
+					<!-- th:onclick="${'delete_article('''+item.id+''')'}" -->
+<!-- 				<input type="file"  th:id ="pic+${item.key}" name="pic" style="display: none"  th:attr="onchange='showImg(this,_pic_show${item.key})'"/>
+ -->  				<input type="file"  th:id ="${'pic'+item.key}" name="pic" style="display: none"  th:attr="onchange=${'showImg(this,''_pic_show'+item.key+''')'}"/>
+					<img height="180"  th:id ="${'_pic_show'+item.key}" name="_pic_show" width="180" th:onclick="${'_open_pic(''pic'+item.key+''')'}" th:src="${pic}" onerror="this.onerror='';src='images/no.png'"/>
+					<!-- 图片end -->
+					<label th:text="${item.key}"></label><br/>
+					<input type="hidden" name="id" th:value="${id}" />
+					<input type="hidden" name="key" th:value="${item.key}" />
+					<button type="submit" th:class="${item==1}?'btn btn-default btn-success':'btn btn-default btn-warning'">保存</button>
+        			<a th:class="${'btn btn-small small btn-danger'}" th:href="${'delete_lunbo_page'}" onclick="javascript:return confirm('确认要删除?删除后不能恢复！');">删除</a>
+				</form>
+				<hr/>
+			<hr/>
+			</div>
+		</div>
+		<!-- 例子start 
+		<form th:each="i,iterStat: ${page.lunbos}" role="form" class="form-inline" action="edit_lunbo_empty_page" method="post" enctype="multipart/form-data">
+            <img th:id ="${'pic'+iterStat.index}" width="180" height="120" th:src="${i.img_url}"  onerror="this.onerror='';src='images/no.png'" />
+            <div class="form-group">
+                <input type="hidden" name="id" th:value="${iterStat.index}" />
+                <input type="hidden" name="group_no" th:value="${lunbo.group_no}" />
+                <input type="text" th:id="${i.link_url+iterStat.index}" name="link_url"  th:value="${i.link_url}"/>
+                <label th:for="${i.link_url+iterStat.index}">文章链接</label>
+                <input type="file" name="file"  th:attr="onchange=${'showImg(this,''pic'+iterStat.index+''')'}"/>
+ 				<input type="text" id="desc" name="desc"  th:value="${i.desc}"/>
+                <label>描述</label>
+           
+            <br/>
+            <button type="submit" th:class="${i.status==1}?'btn btn-default btn-success':'btn btn-default btn-warning'">保存</button>
+        	<a  class="btn btn-default btn-info" th:href="${'up_lunbo_page?group_no='+lunbo.group_no+'&amp;ordinal='+iterStat.index}">↑</a>
+        	<a  th:class="${user_name=='admin'?'btn btn-default btn-danger ':'btn btn-default btn-danger disabled'}" th:href="${'delete_lunbo_page?group_no='+lunbo.group_no+'&amp;ordinal='+iterStat.index}" onclick="javascript:return confirm('确认要删除轮播图?删除后不能恢复！');">删除轮播图配置</a>
+        	</div>
+        <hr/>
+        </form>
+                    例子end -->
+		<br/>
+		<br/>
+		<br/>
+		</div>
+		</div>
+		</div>
+	</body>
+</html>

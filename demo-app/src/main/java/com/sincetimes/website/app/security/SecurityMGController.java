@@ -24,7 +24,7 @@ import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 @Controller
 @Order(value = 6)
 @RequestMapping("/mg")
-public class SecurityMGController implements SecureControllerInterface, ControllerInterface {
+public class SecurityMGController implements SecureControllerInterface {
 	
 	/**
 	 * 用户管理列表

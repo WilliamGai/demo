@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.Serializable;
 
 import com.sincetimes.website.core.common.support.TimeTool;
-import com.sincetimes.website.vo.JsonVOBase;
+import com.sincetimes.website.vo.VOBase;
 
-public class FileInfo extends JsonVOBase implements Serializable{
+public class FileInfo extends VOBase implements Serializable{
 	private static final long serialVersionUID = -234490286367021892L;
 	private String name;
 	private String type;

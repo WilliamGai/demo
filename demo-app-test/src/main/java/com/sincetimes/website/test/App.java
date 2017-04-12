@@ -1,10 +1,14 @@
 package com.sincetimes.website.test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,7 +28,31 @@ public class App {
 	String main() {
 		return "main";
 	}
-	
+	@RequestMapping("/test")
+	String test(Model model) {
+		TestObject o = new TestObject();
+		o.name = "heihie";
+		o.map.put("b", "d");
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("A", "A1");
+		map.put("B", "B1");
+		model.addAttribute("data", o);
+		model.addAttribute("mp", map);
+		return "test";
+	}
+	@RequestMapping("/tst")
+	@ResponseBody
+	Object tst() {
+		TestObject o = new TestObject();
+		o.name = "heihie";
+		o.map.put("b", "d");
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("A", "A1");
+		map.put("B", "B1");
+		return map;
+	}
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(App.class, args);
 	}

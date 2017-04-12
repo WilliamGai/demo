@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sincetimes.website.app.security.GenderType;
-import com.sincetimes.website.vo.JsonVOBase;
+import com.sincetimes.website.vo.VOBase;
 /**
  * TODO
  * <br>
  * 与UserVO分开
  *
  */
-public class UserProfileVO extends JsonVOBase implements Serializable{
+public class UserProfileVO extends VOBase implements Serializable{
 	private static final long serialVersionUID = 4198397105905294368L;
 	private int id;
 	private String name;//登录名 unique

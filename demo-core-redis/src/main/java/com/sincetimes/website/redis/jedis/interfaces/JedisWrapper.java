@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.redis.jedis.JedisPoolTemplate;
 
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
 /**
  * 方便与spring解耦
@@ -20,9 +21,9 @@ public interface JedisWrapper{
 	default String makeKey(String key) {
 		return this.getClass().getCanonicalName().concat(":").concat(key);
 	}
-	
+	/** Time complexity: O(1) */
 	default Boolean exist(String name) {
-		return template().excute((jedis) -> jedis.exists(name));
+		return template().excute((jedis) -> jedis.exists(makeKey(name)));
 	}
 	/*** 查询 **/
 	default String get(String name) {
@@ -63,10 +64,23 @@ public interface JedisWrapper{
 	}
 
 	/** hash */
+	/**
+	 * Time complexity: O(1)
+	 * @return 新建hash字段为1,覆盖已有的返回0
+	 */
 	default long hset(String name, String field, String value) {
 		return template().excute((jedis) -> jedis.hset(makeKey(name), field, value));
 	}
-	
+	/**
+	 * 
+	 * @param name
+	 * @param hash 不可以为空
+	 * @return ok或抛异常
+	 * @see {@link Jedis#hmset}
+	 */
+	default String hmset(String name, Map<String, String> hash) {
+		return template().excute((jedis) -> jedis.hmset(makeKey(name), hash));
+	}
 	/** 获取所有的key */
 	default Set<String> hkeys(String name) {
 		return template().excute((jedis) -> jedis.hkeys(makeKey(name)));
@@ -83,11 +97,20 @@ public interface JedisWrapper{
 	}
 	
 	/**时间复杂度 O(1) */
+	default Long hget(String name, String field, long value) {
+		return template().excute((jedis) -> jedis.hincrBy(makeKey(name), field, value));
+
+	}
+	/**时间复杂度 O(1) */
 	default String hget(String name, String field) {
 		return template().excute((jedis) -> jedis.hget(makeKey(name), field));
 
 	}
+	/**时间复杂度O(N) (with N being the number of fields)<br>当要获取同一个hash多个字段时请用此方法*/
+	default List<String> hmget(String name, String... fields) {
+		return template().excute((jedis) -> jedis.hmget(makeKey(name), fields));
 
+	}
 	default Map<String, String> hgetall(String name) {
 		return template().excute((jedis) -> jedis.hgetAll(makeKey(name)));
 	}

@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sincetimes.website.vo.JsonVOBase;
+import com.sincetimes.website.vo.VOBase;
 
-public class RoleVO extends JsonVOBase implements Serializable{
+public class RoleVO extends VOBase implements Serializable{
 	private static final long serialVersionUID = 8534234567721694017L;
 	private String id;
 	private String name; //unique

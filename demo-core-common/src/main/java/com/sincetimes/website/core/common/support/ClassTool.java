@@ -15,13 +15,13 @@ public class ClassTool {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T getField(Object r, String filedName) {
+	public static <T> T getFieldValue(Object r, String fieldName) {
 		try {
-			Field f = r.getClass().getDeclaredField(filedName);
+			Field f = r.getClass().getDeclaredField(fieldName);
 			f.setAccessible(true);
 			return (T) f.get(r);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogCore.BASE.error("getFieldValue err:{}", e);
 			return null;
 		}
 	}
@@ -33,7 +33,7 @@ public class ClassTool {
 			try {
 				map.put(field.getName(), field.get(r));
 			} catch (Exception e) {
-				e.printStackTrace();
+				LogCore.BASE.error("getFields err:{}", e);
 			}
 		});
 		return map;
@@ -48,7 +48,7 @@ public class ClassTool {
 			try {
 				map.put(field.getName(), field.get(r));
 			} catch (Exception e) {
-				LogCore.BASE.error("getFields err:{}", e);
+				LogCore.BASE.error("getFields(r,p) err:{}", e);
 			}
 		});
 		return map;

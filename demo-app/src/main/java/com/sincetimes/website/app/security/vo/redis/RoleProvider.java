@@ -20,22 +20,15 @@ import com.sincetimes.website.core.spring.manger.SpringManager;
 import com.sincetimes.website.redis.jedis.spring.JedisWrapperBase;
 
 /**
- * 1. getNameById(id)
- * <br>
- * 2. getAllRoles();
- * <br>
- * 3. getRoleById(id);
- * <br>
- * 4. deleteById(id)
- * <br>
- * 5. existId(id)
- * <br>
- * 6. getNamesByIds(ids ...);
- * <br>
+ * 1. getNameById(id) <br>
+ * 2. getAllRoles(); <br>
+ * 3. getRoleById(id);  <br>
+ * 4. deleteById(id) <br>
+ * 5. existId(id)  <br>
+ * 6. getNamesByIds(ids ...); <br>
  * 7. getNameById(id)
  * TODO:
- * dict<id, roleVo> 
- * <br>
+ * dict<id, roleVo>  <br>
  * hash<name,id>
  * @see {@link UserProvider}
  */

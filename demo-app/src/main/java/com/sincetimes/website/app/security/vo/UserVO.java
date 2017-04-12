@@ -8,9 +8,9 @@ import java.util.Set;
 
 import com.sincetimes.website.app.security.GenderType;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.vo.JsonVOBase;
+import com.sincetimes.website.vo.VOBase;
 
-public class UserVO extends JsonVOBase implements Serializable{
+public class UserVO extends VOBase implements Serializable{
 	private static final long serialVersionUID = -12245282415965949L;
 	private int id;
 	private String name;//登录名 unique

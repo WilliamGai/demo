@@ -25,7 +25,7 @@ import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 @Controller
 @Order(value = 5)
 @RequestMapping("/mg")
-public class AudioController implements SecureControllerInterface, ControllerInterface{
+public class AudioController implements SecureControllerInterface{
 
 	private static final String UPLOAD_AUDIO_PATH = "/upload/audio";
 

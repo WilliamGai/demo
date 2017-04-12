@@ -1,10 +1,9 @@
 package com.sincetimes.website.app.article;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.sincetimes.website.core.common.support.TimeTool;
 
 public class Article {
 	private int id;//auto incr
@@ -24,7 +23,6 @@ public class Article {
 	private String updated_by;
 	
 	//
-	private static final SimpleDateFormat _DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH:mm");
 	private transient String type_name;
 	private transient String create_time_str;
 	private transient String update_time_str;
@@ -103,7 +101,7 @@ public class Article {
 
 	public void setCreate_time(long create_time) {
 		if(0 != create_time){
-			this.setCreate_time_str(_DATE_FORMAT.format(new Date(create_time)));
+			this.setCreate_time_str(TimeTool.formatTime(create_time, "yyyy-MM-dd-HH:mm"));
 		}
 		this.create_time = create_time;
 	}
@@ -146,7 +144,7 @@ public class Article {
 
 	public void setUpdate_time(long update_time) {
 		if(0 != update_time){
-			this.update_time_str = _DATE_FORMAT.format(new Date(update_time));
+			this.update_time_str = TimeTool.formatTime(update_time, "yyyy-MM-dd-HH:mm");
 		}
 		this.update_time = update_time;
 	}

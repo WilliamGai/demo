@@ -75,6 +75,17 @@ public class Util {
 		}
 		return s;
 	}
+	/**
+	 * @param t
+	 * @param func s如果不为empty,则执行此表达式
+	 * @param emptyDefalut 如果t为empty直接返回这个值
+	 */
+	public static <R> R toEmpyDefalut(String t,Function<String, R> func, R emptyDefalut){
+		if(Util.isEmpty(t)){
+			return emptyDefalut;
+		}
+		return func.apply(t);
+	}
 	public static <T> T toNullDefalut(T s, T nullDefalut){
 		if(null == s){
 			return nullDefalut;
