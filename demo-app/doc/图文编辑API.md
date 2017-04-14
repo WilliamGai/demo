@@ -135,4 +135,11 @@ return:
 从防守角度讲，前排肉盾推荐适合闪避的或者血量高的船，比如前卫号，虽然没什么闪避，但是血很多，依旧能抗。后排也推荐放一个肉盾或者闪避高的船，避免后排被远程攻击的迅速秒掉，然后中排受到威胁。而其他的后排选手则选命中暴击高的输出船，如果对方没有攻击后排的船，他们就可以肆意输出啦。<br />"
 }
 }
-```
+```  
+---  
+## 1 图文编辑
+ url:
+(https://github.com/WilliamGai/demo/blob/master/demo-app/doc/%E5%9B%BE%E6%96%87%E7%BC%96%E8%BE%91API.md)  
+## 2 自定义模板 
+ url:
+(https://github.com/WilliamGai/demo/blob/master/demo-app/doc/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BFAPI.md) 
