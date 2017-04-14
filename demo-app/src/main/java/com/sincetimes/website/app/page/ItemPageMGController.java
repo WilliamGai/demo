@@ -32,17 +32,17 @@ public class ItemPageMGController implements SecureControllerInterface {
 	String pageTemplate(Model model, HttpServletRequest req, String template_id){
 		setUser(model, req);
 		model.addAttribute("type_list", ItemType.values());
-		Collection<ItemPage> pages = ItemPageManager.inst().getAllItemPages(template_id).values();
-		ItemPage page = ItemPageTemplateManager.inst().getItemPageById(template_id);
-		if(null == page){
-			page = pages.stream().findFirst().orElse(new ItemPage());
-		}
-		LogCore.BASE.info("get itemPage={}", page);
 		Collection<ItemPage> templatePages = ItemPageTemplateManager.inst().getAllItemPages().values();
-		model.addAttribute("page", page);//TODO: rmv
+		Collection<ItemPage> pages = ItemPageManager.inst().getAllItemPages(template_id).values();
+		ItemPage templatePage = ItemPageTemplateManager.inst().getItemPageById(template_id);
+		if(null == templatePage){
+			templatePage = templatePages.stream().findFirst().orElse(new ItemPage());
+		}
+		LogCore.BASE.info("get templatePage={}", templatePage);
+		model.addAttribute("page", templatePage);//TODO: rmv
 		model.addAttribute("pages", pages);
 		model.addAttribute("templatePages", templatePages);
-		model.addAttribute("template_id", Objects.toString(page.getId(), template_id));
+		model.addAttribute("template_id", Objects.toString(templatePage.getId(), template_id));
 		LogCore.BASE.debug("all itemPages={}", pages);
 		return "page";
 	}
