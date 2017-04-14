@@ -13,36 +13,6 @@
 <link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
 <script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
 <script type="text/javascript">
-	/*点击图片选择*/
-	function _open_pic(src) 
-    { 
-		 console.log('_open_pic', src);
-         document.getElementById(src).click(); 
-    } 
-	/*显示刚刚选择的图片*/
-	function showImg(fileObj,imgId) {
-    	console.log(imgId);
-    	var file=fileObj.files[0];
-    	var r = new FileReader();
-    	r.readAsDataURL(file);
-    	$(r).load(function() {
-        	$('#'+imgId).attr("src", this.result);
-    	})
-	}
-	/***/
-	function up_goods(shop_sn, sn){
-		console.log('shop_sn='+shop_sn,'sn='+ sn);
-		$.post("up_goods", {"shop_sn":shop_sn,"sn":sn},function(data){
-			console.log("start up_goods,shop_sn="+shop_sn+", sn="+ sn);
-		
-			if(data.result == 1){
-				alert('操作成功!');
-				document.location.href = "point_shop_mg?shop_sn="+shop_sn;
-			}else{
-				document.location.href = "point_shop_mg?shop_sn="+shop_sn;
-			}
-		});
-	}
 </script>
 </head>
 <body>
@@ -62,6 +32,7 @@
 		<div class="col-md-10 column">
 		    <h2 th:if="${page}" th:text="${page.id+':'+page.name}"></h2>
 			<a th:href="${'page_template?id='+template_id}">查看模板</a><hr/>
+			<a th:href="${'/pages_rst?template_id='+template_id}">预览所有页面</a><hr/>
 		 	<a th:if="${template_id}" class="btn btn-default btn-info" th:href="${'page_editor?template_id='+template_id}">+ New</a>
 			<!-- <h3 th:text="${page}"></h3>
 			<h3 th:text="${pages}"></h3> -->
