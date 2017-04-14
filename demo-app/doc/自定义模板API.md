@@ -1,5 +1,12 @@
 # 自定义模板API
-## 1 获取某个页面
+## 1 创建模板和创建页面
+### 1.1 登陆后点击`自定义模板`
+ ![icon](imgs/page_guide.PNG)
+### 1.1 进入模板编辑页面选择`查看页面列表`
+ ![icon](imgs/page_guide2.PNG)
+### 1.1 点击`新建`增加一个页面
+ ![icon](imgs/page_guide3.PNG)
+## 2 获取某个页面
  url:
 (http://demo.williamy.xin/page_rst?template_id=products&id=3)  
   
@@ -67,7 +74,7 @@ id:自动生成的ID,随着新页面创建自增
 }
 }
 ```
-## 2 文章列表  
+## 3 文章列表  
 - url:(http://demo.williamy.xin/pages_rst?template_id=products)  
  
   
