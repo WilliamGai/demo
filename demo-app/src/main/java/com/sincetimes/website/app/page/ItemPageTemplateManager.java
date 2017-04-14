@@ -8,22 +8,22 @@ import org.springframework.stereotype.Component;
 import com.sincetimes.website.app.page.vo.Item;
 import com.sincetimes.website.app.page.vo.ItemPage;
 import com.sincetimes.website.app.page.vo.ItemPageProvider;
-import com.sincetimes.website.app.page.vo.PageProviderManager;
+import com.sincetimes.website.app.page.vo.ItemPageProviderManager;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.manager.annotation.ManangerInject;
 @ManangerInject
 @Component
-public class PageTemplateManager extends ManagerBase {
+public class ItemPageTemplateManager extends ManagerBase {
 	
 	/**模板*/
 	private ItemPageProvider templateProvider = null;
-	public static PageTemplateManager inst() {
-		return ManagerBase.inst(PageTemplateManager.class);
+	public static ItemPageTemplateManager inst() {
+		return ManagerBase.inst(ItemPageTemplateManager.class);
 	}
 
 	@Override
 	public void init() {
-		templateProvider = PageProviderManager.provider();
+		templateProvider = ItemPageProviderManager.provider();
 	}
 	
 	public List<Item> getItemsWithSort(String id) {

@@ -20,10 +20,11 @@ import com.sincetimes.website.redis.jedis.interfaces.JedisWrapper;
 import com.sincetimes.website.redis.jedis.spring.JedisWrapperBase;
 /***
  * 页面
- * 通过继承此类可以使数据在不同的域,但是需要将不同的模板类型下面的页面实例分布在不同的域,又因为类是spring注入的。因此使用clone来实现
+ * 因为类是spring注入的。因此使用clone来创建控制不同域的实例
  * sorted set<name,0>
  * dict <id, hash>
  * <br>
+ * @see CloneableSupport
  */
 @Component
 public class ItemPageProvider extends JedisWrapperBase implements CloneableSupport<ItemPageProvider>{
@@ -75,9 +76,14 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	public Long getItemPagesNum(){
 		return zcard(PAGES_SET);
 	}
-	
+	/**
+	 * @return not null
+	 */
 	public Map<String, ItemPage> getAllItemPages() {
 		Set<String> _set = zrange(PAGES_SET, 0, -1);
+		if(Util.isEmpty(_set)){
+			return new HashMap<>();
+		}
 		return _set.stream()
 				.map(this::getItemPageById)
 				.filter(Objects::nonNull)
@@ -121,5 +127,10 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	public Long applyItemPageId() {
 		return incr(KEY_LAST_ITEM_PAGE_ID);
 	}
-
+	public Long visit(String id) {
+		if(!existItemPageById(id)){
+			return -1L;
+		}
+		return hincrBy(id, HASH_FILED_PAGE_VISITS, 1L);
+	}
 }

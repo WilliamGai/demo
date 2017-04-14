@@ -21,7 +21,7 @@ import com.sincetimes.website.core.common.support.Util;
 @Controller
 @Order(value = 7)
 @RequestMapping("/mg")
-public class PageTemplateMGController implements SecureControllerInterface {
+public class ItemPageTemplateMGController implements SecureControllerInterface {
 	
 	@ResponseBody
 	@RequestMapping("/items_reload")
@@ -33,13 +33,13 @@ public class PageTemplateMGController implements SecureControllerInterface {
 	String pageTemplate(Model model, HttpServletRequest req, String id){
 		setUser(model, req);
 		model.addAttribute("type_list", ItemType.values());
-		ItemPage page = PageTemplateManager.inst().getItemPageById(id);
+		ItemPage page = ItemPageTemplateManager.inst().getItemPageById(id);
+		Collection<ItemPage> pages = ItemPageTemplateManager.inst().getAllItemPages().values();
 		if(null == page){
-			page = new ItemPage();
+			page = pages.stream().findFirst().orElse(new ItemPage());
 		}
 		LogCore.BASE.info("get itemPage={}", page);
-		Collection<ItemPage> pages = PageTemplateManager.inst().getAllItemPages().values();
-		List<Item> items= PageTemplateManager.inst().getItemsWithSort(id);
+		List<Item> items= ItemPageTemplateManager.inst().getItemsWithSort(id);
 		model.addAttribute("page", page);
 		model.addAttribute("items", items);
 		model.addAttribute("pages", pages);
@@ -52,7 +52,7 @@ public class PageTemplateMGController implements SecureControllerInterface {
 	@RequestMapping("/page_template_rst")
 	@ResponseBody
 	Object page_rst(String template_id){
-		return PageTemplateManager.inst().getItemPageById(template_id);
+		return ItemPageTemplateManager.inst().getItemPageById(template_id);
 	}
 	
 	@RequestMapping("/add_item")
@@ -61,7 +61,7 @@ public class PageTemplateMGController implements SecureControllerInterface {
 			redirect(resp, "page_template");
 			return;
 		}
-		ItemPage itemPage = PageTemplateManager.inst().getItemPageById(id);
+		ItemPage itemPage = ItemPageTemplateManager.inst().getItemPageById(id);
 		if(null == itemPage){
 			redirect(resp, "page_template");
 			return;
@@ -70,7 +70,7 @@ public class PageTemplateMGController implements SecureControllerInterface {
 		Item it = new Item(key, name, tp);
 		it.setCreateTime(System.currentTimeMillis());
 		itemPage.putIfAbsent(key, it);
-		PageTemplateManager.inst().saveOrUpdateItemPage(itemPage);
+		ItemPageTemplateManager.inst().saveOrUpdateItemPage(itemPage);
 		redirect(resp, "page_template?id=" + id);
 	}
 	
@@ -80,7 +80,7 @@ public class PageTemplateMGController implements SecureControllerInterface {
 			redirect(resp, "page_template");
 			return;
 		}
-		PageTemplateManager.inst().removeItem(id, key);
+		ItemPageTemplateManager.inst().removeItem(id, key);
 		redirect(resp, "page_template?id=" + id);
 	}
 	@RequestMapping("/delete_template")
@@ -89,7 +89,7 @@ public class PageTemplateMGController implements SecureControllerInterface {
 			redirect(resp, "page_template");
 			return;
 		}
-		PageTemplateManager.inst().removeTemplate(id);
+		ItemPageTemplateManager.inst().removeTemplate(id);
 		redirect(resp, "page_template");
 	}
 
@@ -100,14 +100,14 @@ public class PageTemplateMGController implements SecureControllerInterface {
 			redirect(resp, "page_template");
 			return;
 		}
-		ItemPage itemPage = PageTemplateManager.inst().getItemPageById(id);
+		ItemPage itemPage = ItemPageTemplateManager.inst().getItemPageById(id);
 		if(null != itemPage){
 			redirect(resp, "page_template?id=" + id);
 			return;
 		}
 		itemPage = new ItemPage(id, name);
 		itemPage.setId(id);
-		PageTemplateManager.inst().saveOrUpdateItemPage(itemPage);
+		ItemPageTemplateManager.inst().saveOrUpdateItemPage(itemPage);
 		redirect(resp, "page_template?id=" + id);
 	}
 }

@@ -55,7 +55,7 @@
 					<h3>模板列表</h3>
 				</div>
 				<ul class="nav nav-list">
-            		<li th:each="pg, iterStat: ${templatePages}"><a th:href="${'/mg/page?template_id='+pg.id}"><i th:text="${pg.name+id+pg.id+(template_id==pg.id)}" th:class="${template_id==pg.id?'glyphicon glyphicon-flag':''}"></i></a></li>
+            		<li th:each="pg, iterStat: ${templatePages}"><a th:href="${'/mg/page?template_id='+pg.id}"><i th:text="${pg.name+'('+pg.id+')'}" th:class="${template_id==pg.id?'glyphicon glyphicon-flag':''}"></i></a></li>
         		</ul>
 			</div>
 		</div>

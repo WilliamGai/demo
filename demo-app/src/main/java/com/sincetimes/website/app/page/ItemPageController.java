@@ -21,12 +21,13 @@ import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
  */
 @RestController
 @Order(value = 8)
-public class PageController implements ControllerInterface {
+public class ItemPageController implements ControllerInterface {
 
 	@ResponseBody
 	@RequestMapping("/page_rst")
 	public Object getPageByJson(String template_id, String id){
-		return PageManager.inst().getItemPageById(template_id, id);
+		ItemPageManager.inst().visit(template_id, id);
+		return ItemPageManager.inst().getItemPageById(template_id, id);
 	}
 	
 	@RequestMapping("/pages")

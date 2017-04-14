@@ -118,7 +118,10 @@ public interface JedisWrapper{
 	default long hdel(String name, String field){
 		return template().excute((jedis) -> jedis.hdel(makeKey(name), field));
 	}
-	
+	/**value*/
+	default Long hincrBy(String name, String field, final long value){
+		return template().excute((jedis) -> jedis.hincrBy(makeKey(name), field, value));
+	}
 	/** Time complexity: O(1) */
 	default Boolean hexists(String name, String field){
 		return template().excute((jedis) -> jedis.hexists(makeKey(name), field));

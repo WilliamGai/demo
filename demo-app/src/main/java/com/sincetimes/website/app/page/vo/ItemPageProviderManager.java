@@ -3,7 +3,7 @@ package com.sincetimes.website.app.page.vo;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PageProviderManager {
+public class ItemPageProviderManager {
 	private static final Map<String, ItemPageProvider> instances = new HashMap<>();
 	public static ItemPageProvider provider(String name){
 		return instances.computeIfAbsent(name, (k)->createProviderCopyWithSubspace(k));
