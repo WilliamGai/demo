@@ -20,6 +20,7 @@ import com.sincetimes.website.app.file.interfaces.InputFileSupport;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.interfaces.FilePathInterface;
 import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
 /**
@@ -77,6 +78,9 @@ public class FileManager extends JedisManagerBase implements InputFileSupport, F
 		});}</pre>
 	 */
 	public String uploadSingleFile(String rootPath, String filePath, Function<String, String> nameFunc, StandardMultipartHttpServletRequest freq) {
+		if(Util.isEmpty(freq.getMultiFileMap())){
+			return null;
+		}
 		StopWatch stopWatch = new StopWatch("upfile");
 		stopWatch.start("save file");
 		
@@ -85,9 +89,11 @@ public class FileManager extends JedisManagerBase implements InputFileSupport, F
 		LogCore.BASE.info("saveRootPath={}, filePath={}, realpath={}", rootPath, filePath, realpath);
 		
 		Optional<File> newFile = excuteFile((m)->save(realpath, m, nameFunc), freq);
-
 		stopWatch.stop();
-		LogCore.BASE.info("upfile used time:{},\n update nums={}", stopWatch.prettyPrint());
+		LogCore.BASE.info("upfile used time:{},\n update newFile={}", stopWatch.prettyPrint(), newFile);
+		if(null == newFile){//如果没有上传的文件回返回null,由于提前判断正常情况下所以不会发生
+			return null;
+		}
 		if(newFile.isPresent()){
 			return saveUrl + newFile.get().getName();
 		}

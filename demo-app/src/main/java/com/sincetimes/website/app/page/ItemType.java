@@ -2,14 +2,22 @@ package com.sincetimes.website.app.page;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.sincetimes.website.app.page.builders.ItemBuiler;
+import com.sincetimes.website.app.page.builders.ItemPictureBuiler;
+import com.sincetimes.website.app.page.builders.ItemPictureListBuiler;
+import com.sincetimes.website.app.page.builders.ItemTextAreaBuiler;
+import com.sincetimes.website.app.page.builders.ItemTextAreaListBuiler;
+import com.sincetimes.website.app.page.builders.ItemTextBuiler;
+import com.sincetimes.website.app.page.vo.Item;
 public enum ItemType {
 	TEXT((byte) 1,	"文本"),
 	TEXT_AREA((byte) 2,	"长文本"),
-	TITLE_TEXT((byte) 3,  "带标题的长文本"),
+	TEXT_AREA_LIST((byte) 3,  "长文本组"),
 	RICH_TEXT((byte) 4,  "富文本"),
-	PICTURE((byte) 5, "图片"),//
-	PICTURE_LIST((byte) 6, "图片组"),//
-	TITLE_TEXT_LIST((byte) 7,  "带标题的长文本组");//
+	PICTURE((byte) 5, "图片"),
+	PICTURE_LIST((byte) 6, "图片组");
+
 	public final byte id;
 	public final String name;
 	
@@ -25,5 +33,21 @@ public enum ItemType {
 	}
 	public static ItemType getType(byte id){
 		return byteEnumMap.get(id);
+	}
+	public ItemBuiler<Item> getBuilder() {
+		switch (this) {
+		case TEXT:
+			return ItemTextBuiler.INSTACNCE;
+		case TEXT_AREA:
+			return ItemTextAreaBuiler.INSTACNCE;
+		case TEXT_AREA_LIST:
+			return ItemTextAreaListBuiler.INSTACNCE;
+		case PICTURE:
+			return ItemPictureBuiler.INSTACNCE;
+		case PICTURE_LIST:
+			return ItemPictureListBuiler.INSTACNCE;
+		default:
+			return null;
+		}
 	}
 }

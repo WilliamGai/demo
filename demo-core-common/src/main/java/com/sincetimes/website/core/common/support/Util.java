@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,6 +18,8 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sincetimes.website.core.common.extension.UnsafeStringWriter;
 
 public class Util {
@@ -103,6 +106,11 @@ public class Util {
 		}
 		return func.apply(t);
 	}
+	public static <T> void ifNotEmpty(T t, Consumer<? super T> consumer) {
+        if(!isEmpty(t)){
+        	consumer.accept(t);
+        }
+    }
 	public static boolean isEmpty(Object obj) {
 		return Objects.isNull(obj);
 	}
@@ -331,5 +339,9 @@ public class Util {
             p.close();
         }
     }
+
+	public static String prettyJsonStr(Object obj) {
+		return JSON.toJSONString(obj, SerializerFeature.PrettyFormat,SerializerFeature.WriteClassName, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);
+	}
 
 }

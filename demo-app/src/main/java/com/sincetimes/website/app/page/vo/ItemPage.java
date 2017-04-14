@@ -78,7 +78,11 @@ public class ItemPage extends VOBase{
 	public Map<String, Item> getItems() {
 		return items;
 	}
-
+	
+	public Item getItem(String key) {
+		return items.get(key);
+	}
+	
 	public void setItems(Map<String, Item> items) {
 		this.items = items;
 	}

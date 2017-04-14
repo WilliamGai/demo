@@ -14,7 +14,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.sincetimes.website.core.common.support.ClassTool;
 import com.sincetimes.website.core.common.support.Util;
-
+/**
+ * VOBase不可以出现 getXXX()方法
+ * @author BAO
+ *
+ */
 public abstract class VOBase {
 	/* fastJson */
 	public String toJSONString() {
