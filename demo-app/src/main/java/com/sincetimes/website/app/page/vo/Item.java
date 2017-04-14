@@ -27,7 +27,7 @@ public class Item extends VOBase implements CloneableSupport<Item>{
 	private String key;
 	private String name;//名称
 	private ItemType type;
-	private Object data;
+	private Object data;//可能为String, List<String>, List<ItemData>等
 	private long createTime;
 	private transient String createTimeStr;
 	

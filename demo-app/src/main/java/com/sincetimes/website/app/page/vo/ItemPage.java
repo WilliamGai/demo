@@ -13,9 +13,19 @@ import com.sincetimes.website.vo.VOBase;
 /**
  * 模板以及模板生成的页面
  * 都是从json获取
- * 对应的redis的结构
- * dict<id, hash>
+ * 对应的redis的结构:
+ * <pre>
+ *      dict{@code<id, hash>}
+ *              /
+ *             /
+ *       	 hash
+ *           /  \
+ *          /   ItemPage
+ *      visits
+ *</pre>
  * @author BAO
+ * TODO:
+ * 
  */
 public class ItemPage extends VOBase{
 	private String id;		//用户指定,unique

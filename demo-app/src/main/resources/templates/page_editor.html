@@ -77,6 +77,23 @@
 					<a class="btn btn-default" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
 				</form>
 			</div>
+			<div th:if="${item.type.name=='文本组'}">
+			 	<div th:each="i,iterStat : ${item.data}">
+					<input class="text-muted"  th:value="${i}" readonly="readonly"/>
+				</div>
+				<form role="form" class="form-inline"  th:action="${'page_save'}" method="post" enctype="multipart/form-data">
+					<!-- tmplt -->
+					<input type="hidden" name="template_id" th:value="${template_id}" />
+					<input type="hidden" name="id" th:value="${id}" />
+					<input type="hidden" name="key" th:value="${item.key}" />
+					<input type="hidden" name="type_id" th:value="${item.type.id}" />
+					<!-- tmplt end-->
+					<input type="text" placeholder="内容" name="desc"/>
+					<br/>
+					<button class="btn btn-default btn-sm" type="submit">保存</button>
+					<a class="btn btn-default" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+				</form>
+			</div>
 			<div th:if="${item.type.name=='长文本'}">
 				<form role="form" class="form-inline"  th:action="${'page_save'}" method="post" enctype="multipart/form-data">
 					<!-- tmplt -->

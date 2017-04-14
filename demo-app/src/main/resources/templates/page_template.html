@@ -107,6 +107,11 @@
 					<input type="text" value="标题" id="desc" name="desc" readonly="readonly"/>
 				</form>
 			</div>
+			<div th:if="${item.type.name=='文本组'}">
+				<form role="form" class="form-inline" th:each="i,iterStat : ${#numbers.sequence( 1, 3)}">
+					<input type="text" value="内容" id="desc" name="desc" readonly="readonly"/>
+				</form>
+			</div>
 			<div th:if="${item.type.name=='长文本'}">
 				<form role="form" class="form-inline">
 					<input type="text" value="标题" id="desc" name="desc" readonly="readonly"/>

@@ -9,9 +9,11 @@ import com.sincetimes.website.app.page.builders.ItemPictureListBuiler;
 import com.sincetimes.website.app.page.builders.ItemTextAreaBuiler;
 import com.sincetimes.website.app.page.builders.ItemTextAreaListBuiler;
 import com.sincetimes.website.app.page.builders.ItemTextBuiler;
+import com.sincetimes.website.app.page.builders.ItemTextListBuiler;
 import com.sincetimes.website.app.page.vo.Item;
 public enum ItemType {
 	TEXT((byte) 1,	"文本"),
+	TEXT_LIST((byte) 7, "文本组"),
 	TEXT_AREA((byte) 2,	"长文本"),
 	TEXT_AREA_LIST((byte) 3,  "长文本组"),
 	RICH_TEXT((byte) 4,  "富文本"),
@@ -38,6 +40,8 @@ public enum ItemType {
 		switch (this) {
 		case TEXT:
 			return ItemTextBuiler.INSTACNCE;
+		case TEXT_LIST:
+			return ItemTextListBuiler.INSTACNCE;
 		case TEXT_AREA:
 			return ItemTextAreaBuiler.INSTACNCE;
 		case TEXT_AREA_LIST:

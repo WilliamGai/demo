@@ -3,12 +3,6 @@ package com.sincetimes.website.app.page.builders;
 import java.util.Map;
 
 import com.sincetimes.website.app.page.vo.Item;
-/**
- * TODO:
- * 抽象buildItem
- * @author BAO
- *
- */
 public class ItemTextBuiler extends ItemBuiler<Item>{
 	private ItemTextBuiler(){
 	}
