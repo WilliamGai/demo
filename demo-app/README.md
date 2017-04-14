@@ -118,4 +118,4 @@ upstream demo.williamy.xin{
 }
 ```
 ### 3 客户端访问API目录
-- 目录(https://github.com/WilliamGai/demo/blob/master/demo-app/doc/README.md)
+- 地址(https://github.com/WilliamGai/demo/blob/master/demo-app/doc/README.md)
