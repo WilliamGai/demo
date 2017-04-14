@@ -16,62 +16,62 @@ id:自动生成的ID,随着新页面创建自增
  return:
 ``` json
 {
-"id": "3",
-"name": "游戏列表",
-"visits": 1,
-"items": {
-"features": {
-"key": "features",
-"name": "游戏特色",
-"type": "TEXT_AREA_LIST",
-"data": null,
-"createTime": 1492149150492,
-"createTimeStr": null
-},
-"brif": {
-"key": "brif",
-"name": "游戏名称",
-"type": "TEXT_AREA",
-"data": {
-"data": "测试文本",
-"name": "测试文本"
-},
-"createTime": 1492148963083,
-"createTimeStr": null
-},
-"icon": {
-"key": "icon",
-"name": "图标",
-"type": "PICTURE",
-"data": "/upload/pages/2017_04_14/14_26_00_864.png",
-"createTime": 1492148981859,
-"createTimeStr": null
-},
-"downloadurl": {
-"key": "downloadurl",
-"name": "下载链接",
-"type": "TEXT",
-"data": null,
-"createTime": 1492149055272,
-"createTimeStr": null
-},
-"imagelist": {
-"key": "imagelist",
-"name": "图片列表",
-"type": "PICTURE_LIST",
-"data": null,
-"createTime": 1492149089194,
-"createTimeStr": null
-},
-"platforms": {
-"key": "platforms",
-"name": "平台",
-"type": "TEXT",
-"data": null,
-"createTime": 1492149025353,
-"createTimeStr": null
-}
-}
+    "id": "3",
+    "name": "游戏列表",
+    "visits": 1,
+    "items": {
+        "features": {
+            "key": "features",
+            "name": "游戏特色",
+            "type": "TEXT_AREA_LIST",
+            "data": null,
+            "createTime": 1492149150492,
+            "createTimeStr": null
+        },
+        "brif": {
+            "key": "brif",
+            "name": "游戏名称",
+            "type": "TEXT_AREA",
+            "data": {
+                "data": "测试文本",
+                "name": "测试文本"
+            },
+            "createTime": 1492148963083,
+            "createTimeStr": null
+        },
+        "icon": {
+            "key": "icon",
+            "name": "图标",
+            "type": "PICTURE",
+            "data": "/upload/pages/2017_04_14/14_26_00_864.png",
+            "createTime": 1492148981859,
+            "createTimeStr": null
+        },
+        "downloadurl": {
+            "key": "downloadurl",
+            "name": "下载链接",
+            "type": "TEXT",
+            "data": null,
+            "createTime": 1492149055272,
+            "createTimeStr": null
+        },
+        "imagelist": {
+            "key": "imagelist",
+            "name": "图片列表",
+            "type": "PICTURE_LIST",
+            "data": null,
+            "createTime": 1492149089194,
+            "createTimeStr": null
+        },
+        "platforms": {
+            "key": "platforms",
+            "name": "平台",
+            "type": "TEXT",
+            "data": null,
+            "createTime": 1492149025353,
+            "createTimeStr": null
+        }
+    }
 }
 ```
 ## 3 文章列表  
