@@ -3,6 +3,7 @@ package com.sincetimes.website.app.page;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,14 +32,17 @@ public class ItemPageMGController implements SecureControllerInterface {
 	String pageTemplate(Model model, HttpServletRequest req, String template_id){
 		setUser(model, req);
 		model.addAttribute("type_list", ItemType.values());
-		ItemPage page = Util.isEmpty(template_id)?new ItemPage():ItemPageTemplateManager.inst().getItemPageById(template_id);
-		LogCore.BASE.info("get itemPage={}", page);
 		Collection<ItemPage> pages = ItemPageManager.inst().getAllItemPages(template_id).values();
+		ItemPage page = ItemPageTemplateManager.inst().getItemPageById(template_id);
+		if(null == page){
+			page = pages.stream().findFirst().orElse(new ItemPage());
+		}
+		LogCore.BASE.info("get itemPage={}", page);
 		Collection<ItemPage> templatePages = ItemPageTemplateManager.inst().getAllItemPages().values();
 		model.addAttribute("page", page);//TODO: rmv
 		model.addAttribute("pages", pages);
 		model.addAttribute("templatePages", templatePages);
-		model.addAttribute("template_id", template_id);
+		model.addAttribute("template_id", Objects.toString(page.getId(), template_id));
 		LogCore.BASE.debug("all itemPages={}", pages);
 		return "page";
 	}

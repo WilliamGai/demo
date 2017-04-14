@@ -2,6 +2,7 @@ package com.sincetimes.website.app.page;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,7 @@ public class ItemPageTemplateMGController implements SecureControllerInterface {
 		model.addAttribute("page", page);
 		model.addAttribute("items", items);
 		model.addAttribute("pages", pages);
-		model.addAttribute("id", id);
+		model.addAttribute("id", Objects.toString(page.getId(), id));
 		LogCore.BASE.debug("all itemPages={}", pages);
 		LogCore.BASE.debug("all items={}", items);
 		return "page_template";
