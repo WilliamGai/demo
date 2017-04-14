@@ -125,7 +125,7 @@
 				<td th:text="${item.visits}"></td>
 				<td><a th:href="${'page_editor?template_id='+template_id+'&amp;id='+item.id}">编辑</a></td>
 				<td><a th:href="${'page_delete?template_id='+template_id+'&amp;id='+item.id}">删除</a></td>
-				<td><a th:href="${'page_rst?template_id='+template_id+'&amp;id='+item.id}">预览</a></td>
+				<td><a th:href="${'/page_rst?template_id='+template_id+'&amp;id='+item.id}">预览</a></td>
 			</tr>
 		</table>
 		<!-- 例子end -->

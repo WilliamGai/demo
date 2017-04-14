@@ -55,7 +55,7 @@
 		 	<h2 th:if="${page}" th:text="${page.id+':'+page.name}"></h2>
  			<h4 th:if="${page}" th:text="${'阅读次数:'+page.visits}"></h4>
 			<a th:href="${'page_template?id='+template_id}">查看模板</a>
-			<a th:href="${'page_rst?template_id='+template_id+'&amp;id='+id}">显示json</a><hr/>
+			<a th:href="${'/page_rst?template_id='+template_id+'&amp;id='+id}">显示json</a><hr/>
 		 	<a th:if="${template_id}" class="btn btn-default btn-info" th:href="${'page_editor?template_id='+template_id}">+ New</a>
 			<!-- <h3 th:text="${items}"></h3>
 			<h3 th:text="${'id='+id}"></h3> -->

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sincetimes.website.core.common.support.JSONBuilder;
@@ -22,13 +23,10 @@ import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 @Order(value = 8)
 public class PageController implements ControllerInterface {
 
-	@RequestMapping("/page")
-	Object article(HttpServletRequest req, HttpServletResponse resp, @RequestParam Integer id,  @RequestParam Optional<Integer> id_pre, @RequestParam Optional<Integer> id_next) {
-		JSONBuilder jb = JSONBuilder.create();
-//		jb.append("article", new PageDetailVO(null));
-		//LogCore.BASE.info("query article result:{}", article);
-		//model.addAttribute("list", list);
-		return jb.buildJSON();
+	@ResponseBody
+	@RequestMapping("/page_rst")
+	public Object getPageByJson(String template_id, String id){
+		return PageManager.inst().getItemPageById(template_id, id);
 	}
 	
 	@RequestMapping("/pages")
