@@ -70,7 +70,6 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	 * @See {@link ItemPageProvider#_getItemPageById(String)}
 	 */
 	public ItemPage getItemPageById(String id) {
-		LogCore.BASE.debug("{},cache.size={}, cache.keys={},cache={}", subSpace, pageCache.asMap().size(), pageCache.asMap().keySet(), pageCache.asMap());
 		return pageCache.getValue(id, this::_getItemPageById);
 	}
 	/***
@@ -109,6 +108,7 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	 * @return not null
 	 */
 	public Map<String, ItemPage> getAllItemPages() {
+		LogCore.BASE.debug("subSpace={},cache.size={}, cache.keys={}", subSpace, pageCache.asMap().size(), pageCache.asMap().keySet());
 		Set<String> _set = zrange(PAGES_SET, 0, -1);
 		if(Util.isEmpty(_set)){
 			return new HashMap<>();
