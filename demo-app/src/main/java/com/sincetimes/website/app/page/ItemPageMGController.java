@@ -46,7 +46,20 @@ public class ItemPageMGController implements SecureControllerInterface {
 		LogCore.BASE.debug("all itemPages={}", pages);
 		return "page";
 	}
-	/** 编辑页面*/
+	/**增加一个空白页面*/
+	@RequestMapping("/page_add")
+	void page_add(HttpServletResponse resp, String template_id, String name){
+		String id = ItemPageManager.inst().applyItemPageId(template_id);
+		ItemPage itemPage = new ItemPage(id, name);
+		ItemPageManager.inst().saveOrUpdateItemPage(template_id, itemPage);
+		redirect(resp, "page_editor?template_id=" + template_id + "&id=" + id);
+	}
+	
+	/**
+	 * 编辑页面
+	 * @param template_id
+	 * @param id 如果不传入此参数会申请一个新的
+	 */
 	@RequestMapping("/page_editor")
 	String page_editor(Model model, HttpServletRequest req,String template_id, String id){
 		setUser(model, req);
@@ -54,7 +67,7 @@ public class ItemPageMGController implements SecureControllerInterface {
 		Collection<ItemPage> pages =  ItemPageManager.inst().getAllItemPages(template_id).values();
 		Collection<ItemPage> templatePages = ItemPageTemplateManager.inst().getAllItemPages().values();
 		if(Util.isEmpty(id)){
-			id = ItemPageManager.inst().applyItemPageId(template_id) + "";
+			id = ItemPageManager.inst().applyItemPageId(template_id);
 		}
 		List<Item> items= ItemPageManager.inst().getItemsWithSort4Edit(template_id, id);
 		ItemPage page = ItemPageManager.inst().getItemPageById(template_id, id);//TODO: rmv

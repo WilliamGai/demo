@@ -106,8 +106,8 @@ public class ItemPageManager extends ManagerBase {
 		ItemPageProviderManager.provider(templateId).saveOrUpdateItemPage(page);
 	}
 
-	public Long applyItemPageId(String templateId) {
-		return ItemPageProviderManager.provider(templateId).applyItemPageId();
+	public String applyItemPageId(String templateId) {
+		return ItemPageProviderManager.provider(templateId).applyItemPageId()+"";
 	}
 
 	public void removePageItem(String templateId, String id, String key) {

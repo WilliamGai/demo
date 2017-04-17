@@ -7,57 +7,37 @@
 <head>
 <title>个人中心</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
-<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
-<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
-<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
 <script type="text/javascript">
-    function check(form){
-    	console.log(form.name.value, form.password.value, form.female.value);
-		if(form.name.value==''){
-			alert("名字不能为空");
-			return false;
-		}
-		if(form.password.value==''){
-			alert("密码不能为空");
-			return false;
-		}
-		return true;
+	/** server event start*/
+	if(typeof(EventSource)!=="undefined")
+	{
+		var source=new EventSource("/doevent_trace");
+		//打开连接
+  		source.onopen=function(event)
+    	{
+  			console.log("onopen",event);
+    	};
+    	//错误信息
+  		source.onerror=function(e)
+    	{
+  			console.log("on err",e);
+    	};
+    	//处理接受到的消息
+  		source.onmessage=function(event)
+    	{
+  			console.log("onmessage",event);
+   	 		/* document.getElementById("result").innerHTML=event.data + "<br />";
+   	 		document.getElementById("_lable").innerHTML=event.data + "<br />"; */
+    	};
 	}
-    /*变换默认图片*/
-    function change_gender(obj){			
-    	console.log(obj.value, obj.checked, obj);
-    	if($('#pic').val()!=''){
-    		console.log('return', $('#pic').val()!='');
-    		return;
-    	}
-    	if(obj.checked==false){
-    		$('#_pic_show').attr("src","/mg/images/boy.png");
-    		$('#_pic_show').attr("onerror","this.onerror='';src='/mg/images/boy.png'");
-    	}else{//female
-    		console.log("on");
-    		$('#_pic_show').attr("src","/mg/images/girl.png");
-    		$('#_pic_show').attr("onerror","this.onerror='';src='/mg/images/girl.png'");
-    	}
-    }
-	/*点击图片选择*/
-	function _open_pic() 
-    { 
-         document.getElementById("pic").click(); 
-    } 
-	/*显示刚刚选择的图片*/
-	function showImg(fileObj,imgId) {
-    	console.log(imgId);
-    	var file=fileObj.files[0];
-    	var r = new FileReader();
-    	r.readAsDataURL(file);
-    	$(r).load(function() {
-        	$('#'+imgId).attr("src", this.result);
-    	})
+	else
+  	{	
+		console.log("your browser does not support server-sent events");
+  		document.getElementById("result").innerHTML="Sorry, your browser does not support server-sent events...";
 	}
+	/** server event end */
 </script>
+</head>
 <body>
 	<div th:fragment="content" >
 	<div class="container" >

@@ -1,31 +1,42 @@
 package com.sincetimes.website.app.page.vo;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-import com.sincetimes.website.core.common.support.ClassTool;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.vo.VOBase;
 /**
  * 模板以及模板生成的页面
  * 都是从json获取
  * 对应的redis的结构:
- * <pre>
- *      dict{@code<id, hash>}
- *              /
- *             /
- *       	 hash
- *           /  \
- *          /   ItemPage
- *      visits
- *</pre>
- * @author BAO
- * TODO:
+ * <pre>{@code
+ * --------------最简单的存储-----------------------------------------
  * 
+ *       使用hmget(id, 'page', 'visits'); 时间复杂度O(2):
+ *       dict<id, hash>
+ *              /  |
+ *             /  ItemPage
+ *            /  
+ *           /   
+ *        visits
+ *      
+ * ---------------要实现可以单独查看页面的某几个属性的存储来节省带宽------------------
+ *  
+ *    使用hgetall时间复杂度O(N):
+ *           dict<id, hash>
+ *                     /
+ *                    /
+ *              ItemPage(hash)
+ *            /    /    |   \  \  
+ *    page.name   |     |    |  ...
+ *           page.visits|   page.items.key1
+ *                      |
+ *                 page.items.key2
+ *}              
+ *</pre>
+ * @see ItemPageProvider#saveOrUpdateItemPage
  */
 public class ItemPage extends VOBase{
 	private String id;		//用户指定,unique
@@ -97,16 +108,13 @@ public class ItemPage extends VOBase{
 		this.items = items;
 	}
 
-	/**
-	 * 
-	 */
-	public static void main2(String args[]){
-		ItemPage r = new ItemPage();
-		Predicate<Field> special = field->((Modifier.STATIC|Modifier.TRANSIENT|Modifier.FINAL)&field.getModifiers()) != 0;
- 		Map<String, Object> map = ClassTool.getFields(r, special.negate());
-		System.out.println(map);
-	}
 	public Item removeItem(String key) {
 		return items.remove(key);
+	}
+	public Map<String, String> createItemsStringMap() {
+		if(Util.isEmpty(items)){
+			return new HashMap<>();
+		}
+		return items.values().stream().collect(Collectors.toMap(Item::getKey, Item::toJSONString));
 	}
 }

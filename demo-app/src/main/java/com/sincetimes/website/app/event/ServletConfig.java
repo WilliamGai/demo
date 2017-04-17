@@ -13,4 +13,9 @@ public class ServletConfig {
 		LogCore.BASE.info("{} injected", ServletConfig.class.getSimpleName());
 		return new ServletRegistrationBean(new MyServlet(), "/servlet");
 	}
+	@Bean
+	public ServletRegistrationBean eventTraces() {
+		LogCore.BASE.info("{} injected", TraceServlet.class.getSimpleName());
+		return new ServletRegistrationBean(new TraceServlet(), "/event_svlt_traces");
+	}
 }

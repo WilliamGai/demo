@@ -88,7 +88,10 @@ id:自动生成的ID,随着新页面创建自增
 }
 ```
 ## 3 文章列表  
+
 - url:(http://demo.williamy.xin/pages_rst?template_id=products)  
+
+- url:(http://demo.williamy.xin/pages_rst?template_id=games)(使用中的示例)
  
   
 参数说明：

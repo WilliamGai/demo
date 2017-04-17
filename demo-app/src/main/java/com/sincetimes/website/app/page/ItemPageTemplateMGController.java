@@ -40,11 +40,12 @@ public class ItemPageTemplateMGController implements SecureControllerInterface {
 			page = pages.stream().findFirst().orElse(new ItemPage());
 		}
 		LogCore.BASE.info("get itemPage={}", page);
-		List<Item> items= ItemPageTemplateManager.inst().getItemsWithSort(id);
+		String fixedId = Objects.toString(page.getId(), id);
+		List<Item> items= ItemPageTemplateManager.inst().getItemsWithSort(fixedId);
 		model.addAttribute("page", page);
 		model.addAttribute("items", items);
 		model.addAttribute("pages", pages);
-		model.addAttribute("id", Objects.toString(page.getId(), id));
+		model.addAttribute("id", fixedId);
 		LogCore.BASE.debug("all itemPages={}", pages);
 		LogCore.BASE.debug("all items={}", items);
 		return "page_template";

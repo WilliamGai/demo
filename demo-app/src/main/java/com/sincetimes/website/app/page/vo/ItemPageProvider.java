@@ -19,19 +19,21 @@ import com.sincetimes.website.core.spring.manger.SpringManager;
 import com.sincetimes.website.redis.jedis.interfaces.JedisWrapper;
 import com.sincetimes.website.redis.jedis.spring.JedisWrapperBase;
 /***
- * 页面
- * 因为类是spring注入的。因此使用clone来创建控制不同域的实例
+ * 页面操作内容提供者
+ * ItemPageProvider是spring注入的。用clone来创建控制不同域的ItemPageProvider实例
  * sorted set<name,0>
  * dict <id, hash>
  * <br>
  * @see CloneableSupport
+ * @see ItemPage
+ * @see<a href="https://github.com/WilliamGai/demo/tree/master/demo-app/doc"/>redis存储对象</a>
  */
 @Component
 public class ItemPageProvider extends JedisWrapperBase implements CloneableSupport<ItemPageProvider>{
 	private static final String PAGES_SET = "pages^set";
 	private static final String HASH_FILED_PAGE = "page";
 	private static final String HASH_FILED_PAGE_VISITS = "visits";//访问次数
-	private static final String KEY_LAST_ITEM_PAGE_ID = "last_item_page_id";
+	private static final String KEY_LAST_ITEM_PAGE_ID = "last_item_page_id";//页面自增ID
 
 	public String subSpace = "";//域
 	public void setSubSpace(String subSpace){
@@ -48,15 +50,19 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	public static ItemPageProvider inst() {
 		return SpringManager.inst().getBean(ItemPageProvider.class);
 	}
+	/*重要方法*/
+	
 	/**
-	 * 模板页面
-	 * @param itemPage
+	 * 页面的持久化
+	 * 分开存储的方式{@code hmset(itemPage.getId(), itemPage.createItemsStringMap());}
+	 * @param itemPage 要存储的页面
 	 */
 	public void saveOrUpdateItemPage(ItemPage itemPage) {
 		zadd(PAGES_SET, 0, itemPage.getId());
 		hset(itemPage.getId(), HASH_FILED_PAGE, itemPage.toJSONString());
 	}
 	/**
+	 * 页面的读取
 	 * @See {@link ItemPageProvider#existItemPageById(String)}
 	 */
 	public ItemPage getItemPageById(String id) {
@@ -70,6 +76,7 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 		page.setVisits(visits);
 		return page;
 	}
+	/*重要方法end*/
 	/**
 	 * @see JedisWrapper#zcard
 	 */

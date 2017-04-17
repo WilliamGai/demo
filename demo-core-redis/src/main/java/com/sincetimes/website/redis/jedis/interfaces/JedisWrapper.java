@@ -111,6 +111,7 @@ public interface JedisWrapper{
 		return template().excute((jedis) -> jedis.hmget(makeKey(name), fields));
 
 	}
+	/**时间复杂度: O(N), where N is the total number of entries*/
 	default Map<String, String> hgetall(String name) {
 		return template().excute((jedis) -> jedis.hgetAll(makeKey(name)));
 	}

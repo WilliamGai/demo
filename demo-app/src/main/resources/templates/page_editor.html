@@ -6,12 +6,6 @@
       layout:decorator="secure_template">
 <head>
 <title>编辑页面</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
-<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
-<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
-<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
 <script type="text/javascript">
 	/*点击图片选择*/
 	function _open_pic(src) 
@@ -38,7 +32,6 @@
 </head>
 <body>
 	<div th:fragment="content" >
-	
 	<div class="container">
 		<div class="row clearfix" style="margin-top: 5%">
 		<div class="col-md-2 column" >
@@ -52,46 +45,82 @@
 			</div>
 		</div>
 		<div class="col-md-10 column">
-		 	<h2 th:if="${page}" th:text="${page.id+':'+page.name}"></h2>
- 			<h4 th:if="${page}" th:text="${'阅读次数:'+page.visits}"></h4>
+		 	<h2 class="text-info" th:if="${page}" th:text="${page.name}"></h2>
+ 			<h4 class="text-success" th:if="${page}" th:text="${'页面ID:'+page.id+',阅读次数:'+page.visits}"></h4>
 			<a th:href="${'page_template?id='+template_id}">查看模板</a>
 			<a th:href="${'/page_rst?template_id='+template_id+'&amp;id='+id}">显示json</a><hr/>
-		 	<a th:if="${template_id}" class="btn btn-default btn-info" th:href="${'page_editor?template_id='+template_id}">+ New</a>
+			<!-- add page start -->
+			<a id="modal-303937" href="#modal-container-303937" role="button" class="btn btn-default" data-toggle="modal">创建文章</a>
+			<br/>
+			<br/>
+			<div class="modal fade" id="modal-container-303937" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">
+								创建一个页面
+							</h4>
+						</div>
+						<div class="modal-body">
+							<form role="form" class="form-inline" action="page_add" method="post">
+								<input type="hidden" name="template_id" th:value="${template_id}" />
+                				<!-- <label>编号(No):</label>
+		    					<input name="id" id="id"/>
+		    					<br/> -->
+		    					<label>名称:</label>
+		    					<input name="name" id="name"/>
+                				<div class="modal-footer">
+                					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确定创建?');" />
+                				</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- add page end -->
 			<!-- <h3 th:text="${items}"></h3>
 			<h3 th:text="${'id='+id}"></h3> -->
 		<div th:each="item, iterStat: ${items}">
-<!-- 			<label th:text="${item}"></label><br/>
- -->			<label th:text="${'名称:'+item.name}"></label><br/>
+<!-- 		<label th:text="${item}"></label><br/>
+ -->		<label th:text="${'说明:'+item.name}"></label><br/>
 			<label th:text="${'编号:'+item.key}"></label><br/>
 			<label th:text="${'类型:'+item.type.name}" class="text-warning"></label><br/>
 			<div th:if="${item.type.name=='文本'}">
-				<form role="form" class="form-inline"  th:action="${'page_save'}" method="post" enctype="multipart/form-data">
+				<form role="form" class="form-inline "  th:action="${'page_save'}" method="post" enctype="multipart/form-data">
 					<!-- tmplt -->
 					<input type="hidden" name="template_id" th:value="${template_id}" />
 					<input type="hidden" name="id" th:value="${id}" />
 					<input type="hidden" name="key" th:value="${item.key}" />
 					<input type="hidden" name="type_id" th:value="${item.type.id}" />
 					<!-- tmplt end-->
-					<input type="text" th:value="${item.data}" placeholder="内容" id="desc" name="desc"/>
+					<div class="form-group">
+						<input class="form-control" type="text" th:value="${item.data}" placeholder="内容" id="desc" name="desc"/>
+					</div>
 					<button class="btn btn-default btn-sm" type="submit">保存</button>
-					<a class="btn btn-default" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
 				</form>
 			</div>
-			<div th:if="${item.type.name=='文本组'}">
+			<div class="form-inline" th:if="${item.type.name=='文本组'}">
 			 	<div th:each="i,iterStat : ${item.data}">
-					<input class="text-muted"  th:value="${i}" readonly="readonly"/>
+			 	    <div class="form-group">
+						<input class="text-muted form-control" th:value="${i}" readonly="readonly"/>
+					</div>
 				</div>
-				<form role="form" class="form-inline"  th:action="${'page_save'}" method="post" enctype="multipart/form-data">
+				<form role="form" class="form-inline" th:action="${'page_save'}" method="post" enctype="multipart/form-data">
 					<!-- tmplt -->
 					<input type="hidden" name="template_id" th:value="${template_id}" />
 					<input type="hidden" name="id" th:value="${id}" />
 					<input type="hidden" name="key" th:value="${item.key}" />
 					<input type="hidden" name="type_id" th:value="${item.type.id}" />
 					<!-- tmplt end-->
-					<input type="text" placeholder="内容" name="desc"/>
+					<div class="form-group">
+						<input class="form-control" type="text" placeholder="内容" name="desc"/>
+					</div>
 					<br/>
 					<button class="btn btn-default btn-sm" type="submit">保存</button>
-					<a class="btn btn-default" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
 				</form>
 			</div>
 			<div th:if="${item.type.name=='长文本'}">
@@ -112,7 +141,7 @@
 					</textarea>
 					<br/>
 					<button class="btn btn-default btn-sm" type="submit">保存</button>
-					<a class="btn btn-default" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
 				</form>
 			</div>
 			<div th:if="${item.type.name=='长文本组'}">
@@ -135,7 +164,7 @@
 					</textarea>
 					<br/>
 					<button class="btn btn-default btn-sm" type="submit">保存</button>
-					<a class="btn btn-default" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
 				</form>
 			</div>
 			<div th:if="${item.type.name=='图片'}">
@@ -146,11 +175,11 @@
 					<input type="hidden" name="key" th:value="${item.key}" />
 					<input type="hidden" name="type_id" th:value="${item.type.id}" />
 					<!-- tmplt end-->
-					<img th:each="m, iterStat: ${item.data}" height="50" width="60" th:src="${m}" onerror="this.onerror='';src='/mg/images/default.png'"/>
+					<img class="img-rouded" th:each="m, iterStat: ${item.data}" height="80" width="100" th:src="${m}" onerror="this.onerror='';src='/mg/images/no.png'"/>
 					<input type="file" th:id="${'pic'+item.key}" name="pic" style="display: none" th:attr="onchange=${'showImg(this,'+'''_pic_show'+item.key+''')'}"/>
-					<img height="60" th:id="${'_pic_show'+item.key}" name="_pic_show" width="60" th:onclick="${'_open_pic('+'''pic'+item.key+''')'}" th:src="${pic}" onerror="this.onerror='';src='/mg/images/default.png'"/>
+					<img class="img-thumbnail" height="80" th:id="${'_pic_show'+item.key}" name="_pic_show" width="80" th:onclick="${'_open_pic('+'''pic'+item.key+''')'}" th:src="${pic}" onerror="this.onerror='';src='/mg/images/default.png'"/>
 					<button class="btn btn-default btn-sm" type="submit">保存</button>
-					<a class="btn btn-default" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
 				</form>
 			</div>
 			<div th:if="${item.type.name=='图片组'}">
@@ -161,11 +190,11 @@
 					<input type="hidden" name="key" th:value="${item.key}" />
 					<input type="hidden" name="type_id" th:value="${item.type.id}" />
 					<!-- tmplt end-->
-					<img th:each="m, iterStat: ${item.data}" height="50" width="60" th:src="${m}" onerror="this.onerror='';src='/mg/images/default.png'"/>
+					<img class="img-rouded" th:each="m, iterStat: ${item.data}" height="80" width="100" th:src="${m}" onerror="this.onerror='';src='/mg/images/no.png'"/>
 					<input type="file" th:id="${'pic'+item.key}" name="pic" style="display: none" th:attr="onchange=${'showImg(this,'+'''_pic_show'+item.key+''')'}"/>
-					<img height="60" th:id="${'_pic_show'+item.key}" name="_pic_show" width="60" th:onclick="${'_open_pic('+'''pic'+item.key+''')'}" th:src="${pic}" onerror="this.onerror='';src='/mg/images/ddd.png'"/>
+					<img class="img-thumbnail" height="80" th:id="${'_pic_show'+item.key}" name="_pic_show" width="80" th:onclick="${'_open_pic('+'''pic'+item.key+''')'}" th:src="${pic}" onerror="this.onerror='';src='/mg/images/ddd.png'"/>
 					<button class="btn btn-default btn-sm" type="submit">保存</button>
-					<a class="btn btn-default" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
 				</form>
 			</div>
 			<hr/>
