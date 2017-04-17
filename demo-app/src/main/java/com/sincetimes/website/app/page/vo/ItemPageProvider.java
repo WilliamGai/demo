@@ -36,8 +36,9 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	private static final String KEY_LAST_ITEM_PAGE_ID = "last_item_page_id";//页面自增ID
 
 	public String subSpace = "";//域
-	public void setSubSpace(String subSpace){
+	public ItemPageProvider setSubSpace(String subSpace){
 		this.subSpace = subSpace;
+		return this;
 	}
 	/***覆盖接口的default方法*/
 	@Override

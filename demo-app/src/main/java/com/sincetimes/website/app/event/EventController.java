@@ -78,6 +78,7 @@ public class EventController implements ControllerInterface {
 	/* 测试  start*/
 	/**
 	 * 测试例子
+	 * 极坐标实现钟表旋转
 	 * <a href="http://demo.williamy.xin/event.html">每2秒推送时间(请用chrome打开)</a>
 	 */
 	@RequestMapping("/getmsg")

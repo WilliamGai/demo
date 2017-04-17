@@ -11,7 +11,7 @@ import com.sincetimes.website.core.common.cache.MyCache;
  * TODO:
  * distributed
  * Listener
- * 将ConcurrentHashMap 改为 LRUCache,使用最简单的缓存
+ * 将ConcurrentHashMap 改为 LRUCache,使用最简单的缓存<br>
  * 复杂的缓存参考{@link MyCache}
  */
 public class EventMsgContext {

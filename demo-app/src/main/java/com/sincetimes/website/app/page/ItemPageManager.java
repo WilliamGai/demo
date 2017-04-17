@@ -66,12 +66,12 @@ public class ItemPageManager extends ManagerBase {
 		if(!existPageTemplate(templateId)){
 			return;
 		}
-		ItemPage page = ItemPageProviderManager.provider(templateId).getItemPageById(id);
+		ItemPage page = getItemPageById(templateId, id);
 
 		if(null == page){//新创建一个页面
 			page = templateProvider.getItemPageById(templateId);
 		}
-		Item item = page.getItem(key);;
+		Item item = page.getItem(key);
 		if(null == item){
 			item = templateProvider.getItemPageById(templateId).getItem(key);
 		}
