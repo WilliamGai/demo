@@ -11,7 +11,7 @@
 	/** server event start*/
 	if(typeof(EventSource)!=="undefined")
 	{
-		var source=new EventSource("/doevent_trace");
+		var source=new EventSource("/hourlinks/doevent_trace");
 		//打开连接
   		source.onopen=function(event)
     	{
