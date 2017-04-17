@@ -33,11 +33,12 @@ public class ItemPageMGController implements SecureControllerInterface {
 		setUser(model, req);
 		model.addAttribute("type_list", ItemType.values());
 		Collection<ItemPage> templatePages = ItemPageTemplateManager.inst().getAllItemPages().values();
-		Collection<ItemPage> pages = ItemPageManager.inst().getAllItemPages(template_id).values();
 		ItemPage templatePage = ItemPageTemplateManager.inst().getItemPageById(template_id);
 		if(null == templatePage){
 			templatePage = templatePages.stream().findFirst().orElse(new ItemPage());
 		}
+		String fixedId = Objects.toString(templatePage.getId(), template_id);
+		Collection<ItemPage> pages = ItemPageManager.inst().getAllItemPages(fixedId).values();
 		LogCore.BASE.info("get templatePage={}", templatePage);
 		model.addAttribute("page", templatePage);//TODO: rmv
 		model.addAttribute("pages", pages);

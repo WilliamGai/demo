@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.sincetimes.website.core.common.cache.MyCache;
 import com.sincetimes.website.core.common.support.CloneableSupport;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
@@ -26,6 +27,7 @@ import com.sincetimes.website.redis.jedis.spring.JedisWrapperBase;
  * <br>
  * @see CloneableSupport
  * @see ItemPage
+ * @see MyCache
  * @see<a href="https://github.com/WilliamGai/demo/tree/master/demo-app/doc"/>redis存储对象</a>
  */
 @Component
@@ -36,8 +38,14 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	private static final String KEY_LAST_ITEM_PAGE_ID = "last_item_page_id";//页面自增ID
 
 	public String subSpace = "";//域
+	public MyCache<String, ItemPage> pageCache = new MyCache<>(1000, 4);
+
 	public ItemPageProvider setSubSpace(String subSpace){
 		this.subSpace = subSpace;
+		return this;
+	}
+	/** TODO:缓存*/
+	public ItemPageProvider init(){
 		return this;
 	}
 	/***覆盖接口的default方法*/
@@ -52,21 +60,34 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 		return SpringManager.inst().getBean(ItemPageProvider.class);
 	}
 	/*重要方法*/
-	
+	/** 
+	 * @see ItemPageProvider#_saveOrUpdateItemPage(String, ItemPage) 
+	 */
+	public void saveOrUpdateItemPage(ItemPage itemPage) {
+		pageCache.putValue(itemPage.getId(), itemPage, this::_saveOrUpdateItemPage);
+	}
 	/**
-	 * 页面的持久化
+	 * @See {@link ItemPageProvider#_getItemPageById(String)}
+	 */
+	public ItemPage getItemPageById(String id) {
+		LogCore.BASE.debug("{},cache.size={}, cache.keys={},cache={}", subSpace, pageCache.asMap().size(), pageCache.asMap().keySet(), pageCache.asMap());
+		return pageCache.getValue(id, this::_getItemPageById);
+	}
+	/***
+	 * 内部实现,禁止其他地方调用<br>
+	 * 页面的持久化<br>
 	 * 分开存储的方式{@code hmset(itemPage.getId(), itemPage.createItemsStringMap());}
 	 * @param itemPage 要存储的页面
 	 */
-	public void saveOrUpdateItemPage(ItemPage itemPage) {
+	private final void _saveOrUpdateItemPage(String id, ItemPage itemPage){
 		zadd(PAGES_SET, 0, itemPage.getId());
 		hset(itemPage.getId(), HASH_FILED_PAGE, itemPage.toJSONString());
 	}
 	/**
-	 * 页面的读取
+	 * 内部实现,禁止其他调用
 	 * @See {@link ItemPageProvider#existItemPageById(String)}
 	 */
-	public ItemPage getItemPageById(String id) {
+	private final ItemPage _getItemPageById(String id) {
 		if(!existItemPageById(id)){
 			return null;
 		}
@@ -140,5 +161,10 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 			return -1L;
 		}
 		return hincrBy(id, HASH_FILED_PAGE_VISITS, 1L);
+	}
+	@Override
+	public ItemPageProvider afterInit() {
+		pageCache = new MyCache<>(1000, 4);
+		return this;
 	}
 }

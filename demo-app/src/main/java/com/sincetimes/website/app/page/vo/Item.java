@@ -88,4 +88,10 @@ public class Item extends VOBase implements CloneableSupport<Item>{
 	public Object cloneThis() throws CloneNotSupportedException {
 		return this.clone();
 	}
+
+	@Override
+	public Item afterInit() {
+		return this;
+	}
+
 }

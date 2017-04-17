@@ -3,11 +3,10 @@ package com.sincetimes.website.core.common.support;
 import java.util.function.Consumer;
 
 /**
- * gof.6:Prototype<br>
- * @since jse version >=1.8
- * @author BAO
- */
-public interface CloneableSupport<T extends CloneableSupport<?>> extends Cloneable{
+ * 已经被CloneableSupport代替
+ * */
+@Deprecated
+public interface CloneableInterface<T extends CloneableInterface<?>> extends Cloneable{
 	/**对克隆的对象进行操作,推荐*/
 	public default T createClone(Consumer<T> consumer){
 		T t = createClone();
@@ -20,14 +19,12 @@ public interface CloneableSupport<T extends CloneableSupport<?>> extends Cloneab
 		T t = null;
 		try {
 			t = (T)cloneThis();
-			t.afterInit();
 		} catch (CloneNotSupportedException e) {
 			LogCore.BASE.error("class {} clone err:",this.getClass().getSimpleName(), e);
 		}
 		return t;
 	}
-	/**子类填充{@code clone()}即可<br/>不要外部调用*/
+	/**子类填充{@code clone()}<br/>不要外部调用*/
 	Object cloneThis() throws CloneNotSupportedException;
-	T afterInit();
 }
 

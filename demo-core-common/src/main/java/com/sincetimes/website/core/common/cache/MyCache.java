@@ -1,5 +1,6 @@
 package com.sincetimes.website.core.common.cache;
 
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -55,5 +56,9 @@ public class MyCache<K, V> {
 
 	public CacheStats getStats() {
 		return cache.stats();
+	}
+	
+	public  ConcurrentMap<K, V>  asMap() {
+		return cache.asMap();
 	}
 }
