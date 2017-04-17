@@ -19,7 +19,6 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.ParamResult;
 import com.sincetimes.website.core.common.support.Result;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 
 @Controller
 @Order(value = 6)

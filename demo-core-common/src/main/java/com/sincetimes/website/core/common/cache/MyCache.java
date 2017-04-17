@@ -11,6 +11,7 @@ import com.sincetimes.website.core.common.support.LogCore;
 
 /**
  * 单机缓存
+ * 清空缓存要使用cache.invalidateAll();
  */
 public class MyCache<K, V> {
 	private Cache<K, V> cache = null;

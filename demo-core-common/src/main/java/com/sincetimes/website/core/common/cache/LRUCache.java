@@ -8,7 +8,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * afterNodeInsertion(boolean evict)来移除最老的
  * afterNodeAccess(Node<K,V> e)来标记不活跃
  * @see LinkedHashMap
- * @see LRUCache#
  */
 public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 

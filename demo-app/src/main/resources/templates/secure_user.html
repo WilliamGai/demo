@@ -26,14 +26,14 @@
   		source.onmessage=function(event)
     	{
   			console.log("onmessage",event);
-   	 		/* document.getElementById("result").innerHTML=event.data + "<br />";
-   	 		document.getElementById("_lable").innerHTML=event.data + "<br />"; */
+   	 		document.getElementById("msg_result").innerHTML+=event.data + "<br />";
+   	 	    /* document.getElementById("_lable").innerHTML=event.data + "<br />"; */
     	};
 	}
 	else
   	{	
 		console.log("your browser does not support server-sent events");
-  		document.getElementById("result").innerHTML="Sorry, your browser does not support server-sent events...";
+  		document.getElementById("msg_result").innerHTML="Sorry, your browser does not support server-sent events...";
 	}
 	/** server event end */
 </script>
@@ -86,7 +86,7 @@
 							<p>
 								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
 							</p> 
-							<small>Someone famous <cite>Source Title</cite></small>
+							<small>Someone famous <cite>Source Title</cite><br/><cite id="msg_result"></cite></small>
 							</blockquote>
 						</div>
 					</div>
