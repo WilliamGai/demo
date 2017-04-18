@@ -125,14 +125,14 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 				.filter(Objects::nonNull)
 				.collect(Collectors.toMap(ItemPage::getId, Function.identity()));
 	}
-	public static <T, U extends Comparable<U>> Comparator<T> comparing(
-            Function<T, U> keyExtractor)
+	public static <T, U extends Comparable<? super U>> Comparator<T> comparing(
+            Function<? super T, ? extends U> keyExtractor)
     {
         Objects.requireNonNull(keyExtractor);
         return (Comparator<T> & Serializable)
             (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
     }
-	public List<ItemPage> getAllItemPagesWithSort(Function<ItemPage, Integer> keyExtractor) {
+	public <U extends Comparable<? super U>> List<ItemPage> getAllItemPagesWithSort(Function<ItemPage, ? extends Comparable<?>> keyExtractor) {
 		Set<String> _set = zrange(PAGES_SET, 0, -1);
 		if(Util.isEmpty(_set)){
 			return new ArrayList<>();
@@ -140,7 +140,7 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 		return _set.stream()
 				.map(this::getItemPageById)
 				.filter(Objects::nonNull)
-				.sorted(comparing(ItemPage::getId))
+//				.sorted(Comparator.comparing(keyExtractor))
 				.collect(Collectors.toList());
 	}
 

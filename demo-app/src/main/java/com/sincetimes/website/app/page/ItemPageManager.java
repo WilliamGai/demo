@@ -1,13 +1,10 @@
 package com.sincetimes.website.app.page;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
 
@@ -102,7 +99,6 @@ public class ItemPageManager extends ManagerBase {
 		return ItemPageProviderManager.provider(templateId).getAllItemPages();
 	}
 	
-
 	public void saveOrUpdateItemPage(String templateId, ItemPage page) {
 		if(!existPageTemplate(templateId)){
 			return;
