@@ -64,7 +64,7 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	public ItemPage deleteItemPage(String id) {
 		return pageCache.removeValue(id, this::_deleteItemPage);
 	}
-	private final void _deleteItemPage(String id) {
+	private void _deleteItemPage(String id) {
 		zrem(PAGES_SET, id);
 		del(id);
 	}
@@ -79,7 +79,7 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	 * 分开存储的方式{@code hmset(itemPage.getId(), itemPage.createItemsStringMap());}
 	 * @param itemPage 要存储的页面
 	 */
-	private final void _saveOrUpdateItemPage(String id, ItemPage itemPage){
+	private void _saveOrUpdateItemPage(String id, ItemPage itemPage){
 		zadd(PAGES_SET, 0, itemPage.getId());
 		hset(itemPage.getId(), HASH_FILED_PAGE, itemPage.toJSONString());
 	}
