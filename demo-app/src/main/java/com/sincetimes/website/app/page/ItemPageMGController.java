@@ -55,6 +55,12 @@ public class ItemPageMGController implements SecureControllerInterface {
 		ItemPageManager.inst().saveOrUpdateItemPage(template_id, itemPage);
 		redirect(resp, "page_editor?template_id=" + template_id + "&id=" + id);
 	}
+	/**删除*/
+	@RequestMapping("/page_delete")
+	void page_delete(HttpServletResponse resp, String template_id, String id){
+		ItemPageManager.inst().removePage(template_id, id);
+		redirect(resp, "page?template_id=" + template_id);
+	}
 	
 	/**
 	 * 编辑页面

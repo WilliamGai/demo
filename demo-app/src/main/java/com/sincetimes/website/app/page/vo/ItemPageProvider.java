@@ -1,5 +1,6 @@
 package com.sincetimes.website.app.page.vo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -60,20 +61,20 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 		return SpringManager.inst().getBean(ItemPageProvider.class);
 	}
 	/*重要方法*/
+	public ItemPage deleteItemPage(String id) {
+		return pageCache.removeValue(id, this::_deleteItemPage);
+	}
+	private final void _deleteItemPage(String id) {
+		zrem(PAGES_SET, id);
+		del(id);
+	}
 	/** 
 	 * @see ItemPageProvider#_saveOrUpdateItemPage(String, ItemPage) 
 	 */
 	public void saveOrUpdateItemPage(ItemPage itemPage) {
 		pageCache.putValue(itemPage.getId(), itemPage, this::_saveOrUpdateItemPage);
 	}
-	/**
-	 * @See {@link ItemPageProvider#_getItemPageById(String)}
-	 */
-	public ItemPage getItemPageById(String id) {
-		return pageCache.getValue(id, this::_getItemPageById);
-	}
 	/***
-	 * 内部实现,禁止其他地方调用<br>
 	 * 页面的持久化<br>
 	 * 分开存储的方式{@code hmset(itemPage.getId(), itemPage.createItemsStringMap());}
 	 * @param itemPage 要存储的页面
@@ -83,7 +84,13 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 		hset(itemPage.getId(), HASH_FILED_PAGE, itemPage.toJSONString());
 	}
 	/**
-	 * 内部实现,禁止其他调用
+	 * @See {@link ItemPageProvider#_getItemPageById(String)}
+	 */
+	public ItemPage getItemPageById(String id) {
+		return pageCache.getValue(id, this::_getItemPageById);
+	}
+	
+	/**
 	 * @See {@link ItemPageProvider#existItemPageById(String)}
 	 */
 	private final ItemPage _getItemPageById(String id) {
@@ -118,11 +125,25 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 				.filter(Objects::nonNull)
 				.collect(Collectors.toMap(ItemPage::getId, Function.identity()));
 	}
-
-	public void deleteItemPage(String id) {
-		zrem(PAGES_SET, id);
-		del(id);
+	public static <T, U extends Comparable<U>> Comparator<T> comparing(
+            Function<T, U> keyExtractor)
+    {
+        Objects.requireNonNull(keyExtractor);
+        return (Comparator<T> & Serializable)
+            (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
+    }
+	public List<ItemPage> getAllItemPagesWithSort(Function<ItemPage, Integer> keyExtractor) {
+		Set<String> _set = zrange(PAGES_SET, 0, -1);
+		if(Util.isEmpty(_set)){
+			return new ArrayList<>();
+		}
+		return _set.stream()
+				.map(this::getItemPageById)
+				.filter(Objects::nonNull)
+				.sorted(comparing(ItemPage::getId))
+				.collect(Collectors.toList());
 	}
+
 	/**
 	 * @param id nullable
 	 * @return

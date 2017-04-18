@@ -85,6 +85,8 @@ public class SecurityManager extends ManagerBase {
 		if(null == user){
 			user = new UserVO(name, SHA256.sha256(password));
 			user.setId(UserProvider.inst().applyNewUserId());
+			user.setCreateTime(System.currentTimeMillis());
+			user.setLastLoginTime(System.currentTimeMillis());
 		}
 		if(!Util.isEmpty(pic)){
 			user.setPic(pic);
@@ -117,6 +119,9 @@ public class SecurityManager extends ManagerBase {
 		boolean rst = Objects.equals(_password, _sha256_password);
 		LogCore.BASE.info("name:{},password:{}, _sha256_password:{}, passwordneeded:{},reslut:{}", name, password, _sha256_password, _password, rst);
 		if (rst) {
+			user.setLastLoginTime(user.getLoginTime());
+			user.setLoginTime(System.currentTimeMillis());
+			saveOrUpdateUser(user);
 			return new ParamResult().success().put(user);
 		}
 		return new ParamResult(WRONG_PASSWORD, "wrong password");
@@ -203,6 +208,13 @@ public class SecurityManager extends ManagerBase {
 		if(user.addRoleId(roleId)){
 			UserProvider.inst().saveOrUpdateUser(user);
 		}
+	}
+
+	public void saveOrUpdateUser(UserVO user) {
+		if(null == user){
+			return;
+		}
+		UserProvider.inst().saveOrUpdateUser(user);
 	}
 	
 }

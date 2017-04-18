@@ -60,7 +60,7 @@ public class ItemPageTemplateManager extends ManagerBase {
 		templateProvider.saveOrUpdateItemPage(itemPage);
 	}
 
-	public void removeTemplate(String id) {
-		templateProvider.del(id);
+	public void removePage(String id) {
+		templateProvider.deleteItemPage(id);
 	}
 }

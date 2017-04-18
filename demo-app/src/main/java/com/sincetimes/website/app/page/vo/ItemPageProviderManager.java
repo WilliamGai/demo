@@ -9,7 +9,7 @@ public class ItemPageProviderManager {
 		return instances.computeIfAbsent(name, (k)->createProviderCopyWithSubspace(k));
 	}
 	/**创建副本*/
-	public static ItemPageProvider createProviderCopyWithSubspace(String key){
+	private static ItemPageProvider createProviderCopyWithSubspace(String key){
 		return provider().createClone(t->t.setSubSpace(key));
 	}
 	/**默认来源*/

@@ -91,7 +91,7 @@ public class ItemPageTemplateMGController implements SecureControllerInterface {
 			redirect(resp, "page_template");
 			return;
 		}
-		ItemPageTemplateManager.inst().removeTemplate(id);
+		ItemPageTemplateManager.inst().removePage(id);
 		redirect(resp, "page_template");
 	}
 

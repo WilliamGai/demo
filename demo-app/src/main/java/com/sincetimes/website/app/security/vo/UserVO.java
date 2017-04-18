@@ -23,11 +23,13 @@ public class UserVO extends VOBase implements Serializable{
 	private long updateTime;
 	private String createdBy;
 	private long lastLoginTime;
+	private long loginTime;
 	private byte status;// -1已删除
 	
 	private transient String createTimeStr;
 	private transient String updateTimeStr;
 	private transient String lastLoginTimeStr;
+	private transient String loginTimeStr;
 	private transient List<String> roleNames = new ArrayList<>();
 	private List<RoleVO> roles = new ArrayList<>();
 	private Set<Permission> permissions = new HashSet<>();//权限列表,从role取得
@@ -161,6 +163,22 @@ public class UserVO extends VOBase implements Serializable{
 
 	public void setLastLoginTimeStr(String lastLoginTimeStr) {
 		this.lastLoginTimeStr = lastLoginTimeStr;
+	}
+
+	public long getLoginTime() {
+		return loginTime;
+	}
+
+	public void setLoginTime(long loginTime) {
+		this.loginTime = loginTime;
+	}
+
+	public String getLoginTimeStr() {
+		return loginTimeStr;
+	}
+
+	public void setLoginTimeStr(String loginTimeStr) {
+		this.loginTimeStr = loginTimeStr;
 	}
 
 	public List<String> getRoleNames() {

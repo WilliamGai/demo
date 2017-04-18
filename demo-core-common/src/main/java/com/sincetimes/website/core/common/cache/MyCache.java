@@ -3,6 +3,7 @@ package com.sincetimes.website.core.common.cache;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import com.google.common.cache.Cache;
@@ -49,7 +50,10 @@ public class MyCache<K, V> {
 		func_put.accept(key, value);
 		return cache.asMap().put(key, value);
 	}
-
+	public V removeValue(K key, Consumer<K> func_del){
+		func_del.accept(key);
+		return cache.asMap().remove(key);
+	}
 	public long size() {
 		return cache.size();
 	}
