@@ -49,6 +49,22 @@ List<ArticleVO> list = articles.stream()
 			Collections.sort(fileList, DIR_COMPARAOR_FUNC.thenComparing(SIZE_COMPARAOR_FUNC));
 
 ```
+### Stream
+``` java 
+ 		Set<String> set = new HashSet<>();
+		set.add("1");
+		set.add("3");
+		set.add("9");
+		set.add("12");
+		set.add("10");
+		set.add("11");
+		set.add("81");
+		set.add("82");
+		Optional<Integer> max = set.stream().map(Integer::parseInt).collect(Collectors.toList()).stream().max(Integer::compareTo);
+		OptionalInt max2 = set.stream().mapToInt(Integer::parseInt).max();
+		Optional<Integer> max3 = set.stream().map(Integer::parseInt).max(Integer::compareTo);
+ 
+```
 ### debug
 ``` java
 			String prettyStr = JSON.toJSONString(json,SerializerFeature.PrettyFormat,SerializerFeature.WriteClassName, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);

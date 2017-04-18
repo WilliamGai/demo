@@ -53,7 +53,7 @@ public interface JedisWrapper{
 	default long setNx(String name, String value){
 		return template().excute((jedis) -> jedis.setnx(makeKey(name), value));
 	}
-	/*** 写入或增加 */
+	/*** 写入或增加 O(1)返回增加后的值 */
 	default Long incr(String name) {
 		return template().excute((jedis) -> jedis.incr(makeKey(name)));
 	}
@@ -133,7 +133,10 @@ public interface JedisWrapper{
 		return template().excute((jedis) -> jedis.zadd(makeKey(name), score, member));
 	}
 	
-	/**zrevrange 复杂度是O(logN +M)。M是返回参数个数 */
+	/**
+	 * zrevrange 复杂度是O(logN +M)。M是返回参数个数 
+	 * @return nullable
+	 */
 	default Set<String>  zrange(String name,final long start, final long end) {
 		return template().excute((jedis) -> jedis.zrange(makeKey(name), start, end));
 		

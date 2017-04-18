@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.sincetimes.website.core.common.support.CloneableSupport;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.vo.VOBase;
 /**
@@ -38,7 +39,7 @@ import com.sincetimes.website.vo.VOBase;
  *</pre>
  * @see ItemPageProvider#saveOrUpdateItemPage
  */
-public class ItemPage extends VOBase{
+public class ItemPage extends VOBase implements CloneableSupport<ItemPage>{
 	private String id;		//用户指定,unique
 	private String name;	//用户指定
 	private transient long visits;   //阅读次数,hash的一个值,ItemPage反序列化后恢复
@@ -116,5 +117,15 @@ public class ItemPage extends VOBase{
 			return new HashMap<>();
 		}
 		return items.values().stream().collect(Collectors.toMap(Item::getKey, Item::toJSONString));
+	}
+	
+	@Override
+	public Object cloneThis() throws CloneNotSupportedException {
+		return clone();
+	}
+	@Override
+	public ItemPage afterInit() {
+		items = new HashMap<>(items);
+		return this;
 	}
 }

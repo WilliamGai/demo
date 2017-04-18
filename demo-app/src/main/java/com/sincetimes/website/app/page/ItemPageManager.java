@@ -16,9 +16,10 @@ import com.sincetimes.website.app.page.vo.ItemPageProviderManager;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.manager.annotation.ManangerInject;
 import com.sincetimes.website.core.common.support.LogCore;
+import com.sincetimes.website.core.common.support.Util;
 @ManangerInject
 @Component
-public class ItemPageManager extends ManagerBase {
+public class ItemPageManager extends ManagerBase{
 	
 	/*模板*/
 	private ItemPageProvider templateProvider = null;
@@ -48,8 +49,8 @@ public class ItemPageManager extends ManagerBase {
 		Map<String, Item> templateItems = ItemPageProviderManager.provider().getAllItems(templateId);
 		Map<String, Item> contentItems = ItemPageProviderManager.provider(templateId).getAllItems(id);
 		templateItems.putAll(contentItems);
-		LogCore.BASE.debug("templateItems={}", templateItems);
-		LogCore.BASE.debug("contentItems={}", contentItems);
+		LogCore.BASE.debug("templateItems={}", Util.prettyJsonStr(templateItems.keySet()));
+		LogCore.BASE.debug("contentItems={}", Util.prettyJsonStr(contentItems.keySet()));
 		List<Item> items= new ArrayList<Item>(templateItems.values());
 		items.sort(Comparator.comparing(Item::getCreateTime));
 		return items;
@@ -67,13 +68,14 @@ public class ItemPageManager extends ManagerBase {
 			return;
 		}
 		ItemPage page = getItemPageById(templateId, id);
-
+		Item item = null;
 		if(null == page){//新创建一个页面
-			page = templateProvider.getItemPageById(templateId);
+			page = new ItemPage(id, null);
 		}
-		Item item = page.getItem(key);
+		item = page.getItem(key);
 		if(null == item){
-			item = templateProvider.getItemPageById(templateId).getItem(key);
+			Item templateItem = templateProvider.getItemPageById(templateId).getItem(key).createClone();
+			item = new Item(templateItem);
 		}
 		ItemType itemType = ItemType.getType(type_id);
 		if(null != itemType){
@@ -91,12 +93,22 @@ public class ItemPageManager extends ManagerBase {
 		}
 		return ItemPageProviderManager.provider(templateId).existItemPageById(id);
 	}
-
+	/**
+	 * 推荐使用 {@link ItemPageManager#getAllItemPagesWithSort(String)}
+	 * @param templateId
+	 */
+	@Deprecated
 	public Map<String, ItemPage> getAllItemPages(String templateId) {
 		if(!existPageTemplate(templateId)){
 			return new HashMap<>();
 		}
 		return ItemPageProviderManager.provider(templateId).getAllItemPages();
+	}
+	public List<ItemPage> getAllItemPagesWithSort(String templateId) {
+		if(!existPageTemplate(templateId)){
+			return new ArrayList<>();
+		}
+		return ItemPageProviderManager.provider(templateId).getAllItemPagesWithSort(ItemPage::getId);
 	}
 	
 	public void saveOrUpdateItemPage(String templateId, ItemPage page) {

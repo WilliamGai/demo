@@ -20,16 +20,15 @@ public abstract class ItemBuiler<T extends Item> {
 	 * @param newItem 要修改的Item
 	 * @return 返回修改后的newItem
 	 */
-	public abstract Item changeItem(Map<String, String[]> params, Item item);
+	public abstract Item changeItem(Map<String, String[]> params, final Item item);
 	
 	public Item buildItem(String key, String name, ItemType itemType, Map<String, String[]> params) {
 		Item item = new Item(key, name, itemType);
 		return changeItem(params, item);
 	}
 	/**创建模板或者文章的Item的副本*/
-	public Item buildItem(Item item, Map<String, String[]> params) {
-		LogCore.BASE.debug("params=", params);
-		Item newItem = item.createClone();
-		return changeItem(params, newItem);
+	public Item buildItem(final Item item, Map<String, String[]> params) {
+		LogCore.BASE.debug("params={}", params);
+		return changeItem(params, item);
 	}
 }

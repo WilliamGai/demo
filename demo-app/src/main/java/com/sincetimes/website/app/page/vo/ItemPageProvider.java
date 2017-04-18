@@ -1,12 +1,12 @@
 package com.sincetimes.website.app.page.vo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -45,10 +45,6 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 		this.subSpace = subSpace;
 		return this;
 	}
-	/** TODO:缓存*/
-	public ItemPageProvider init(){
-		return this;
-	}
 	/***覆盖接口的default方法*/
 	@Override
 	public String makeKey(String key){
@@ -72,7 +68,12 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	 * @see ItemPageProvider#_saveOrUpdateItemPage(String, ItemPage) 
 	 */
 	public void saveOrUpdateItemPage(ItemPage itemPage) {
-		pageCache.putValue(itemPage.getId(), itemPage, this::_saveOrUpdateItemPage);
+		_saveOrUpdateItemPage(itemPage.getId(), itemPage);
+//		pageCache.putValue(itemPage.getId(), itemPage, this::_saveOrUpdateItemPage);
+//		//LogCore.BASE.debug("after update cache={}", Util.prettyJsonStr(pageCache.asMap()));
+//		LogCore.BASE.debug("after update {}, cache={}", itemPage.getId(), Util.prettyJsonStr(pageCache.asMap().get(itemPage.getId())));
+//		LogCore.BASE.debug("?????????????????????={}", pageCache==ItemPageProviderManager.provider().pageCache);
+
 	}
 	/***
 	 * 页面的持久化<br>
@@ -87,7 +88,8 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	 * @See {@link ItemPageProvider#_getItemPageById(String)}
 	 */
 	public ItemPage getItemPageById(String id) {
-		return pageCache.getValue(id, this::_getItemPageById);
+		return _getItemPageById(id);
+//		return pageCache.getValue(id, this::_getItemPageById);
 	}
 	
 	/**
@@ -125,14 +127,12 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 				.filter(Objects::nonNull)
 				.collect(Collectors.toMap(ItemPage::getId, Function.identity()));
 	}
-	public static <T, U extends Comparable<? super U>> Comparator<T> comparing(
-            Function<? super T, ? extends U> keyExtractor)
-    {
-        Objects.requireNonNull(keyExtractor);
-        return (Comparator<T> & Serializable)
-            (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
-    }
-	public <U extends Comparable<? super U>> List<ItemPage> getAllItemPagesWithSort(Function<ItemPage, ? extends Comparable<?>> keyExtractor) {
+	/**
+	 * 带有排序的页面结果
+	 * @param keyExtractor 排序规则 比如按照ID:{@code ItemPage::getId} 按照访问次数:{@code ItemPage::getVisits}
+	 * @return 一个{@code ArrayList<ItemPage>;}
+	 */
+	public <U extends Comparable<? super U>> List<ItemPage> getAllItemPagesWithSort(Function<? super ItemPage, ? extends U> keyExtractor) {
 		Set<String> _set = zrange(PAGES_SET, 0, -1);
 		if(Util.isEmpty(_set)){
 			return new ArrayList<>();
@@ -140,7 +140,7 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 		return _set.stream()
 				.map(this::getItemPageById)
 				.filter(Objects::nonNull)
-//				.sorted(Comparator.comparing(keyExtractor))
+				.sorted(Comparator.comparing(keyExtractor))
 				.collect(Collectors.toList());
 	}
 
@@ -170,11 +170,18 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 		}
 		return getItemPageById(id).getItems();
 	}
-	@Override
-	public Object cloneThis() throws CloneNotSupportedException {
-		return clone();
-	}
-	public Long applyItemPageId() {
+
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized Long applyItemPageId() {
+		Set<String> ids = zrange(PAGES_SET, 0, 1);
+		if(Util.isEmpty(ids)){
+			return incr(KEY_LAST_ITEM_PAGE_ID);
+		}
+		Optional<Integer> max = ids.stream().map(Integer::parseInt).max(Integer::compareTo);
+		max.ifPresent((i)->set(KEY_LAST_ITEM_PAGE_ID, i.toString()));
 		return incr(KEY_LAST_ITEM_PAGE_ID);
 	}
 	public Long visit(String id) {
@@ -184,8 +191,13 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 		return hincrBy(id, HASH_FILED_PAGE_VISITS, 1L);
 	}
 	@Override
+	public Object cloneThis() throws CloneNotSupportedException {
+		return clone();
+	}
+	@Override
 	public ItemPageProvider afterInit() {
 		pageCache = new MyCache<>(1000, 4);
+		LogCore.BASE.info("{},clone, subSpace={} ",this.hashCode(), subSpace);
 		return this;
 	}
 }

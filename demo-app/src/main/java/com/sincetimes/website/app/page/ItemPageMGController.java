@@ -38,7 +38,7 @@ public class ItemPageMGController implements SecureControllerInterface {
 			templatePage = templatePages.stream().findFirst().orElse(new ItemPage());
 		}
 		String fixedId = Objects.toString(templatePage.getId(), template_id);
-		Collection<ItemPage> pages = ItemPageManager.inst().getAllItemPages(fixedId).values();
+		Collection<ItemPage> pages = ItemPageManager.inst().getAllItemPagesWithSort(template_id);
 		LogCore.BASE.info("get templatePage={}", templatePage);
 		model.addAttribute("page", templatePage);//TODO: rmv
 		model.addAttribute("pages", pages);
@@ -68,10 +68,14 @@ public class ItemPageMGController implements SecureControllerInterface {
 	 * @param id 如果不传入此参数会申请一个新的
 	 */
 	@RequestMapping("/page_editor")
-	String page_editor(Model model, HttpServletRequest req,String template_id, String id){
+	String page_editor(Model model, HttpServletRequest req, HttpServletResponse resp, String template_id, String id){
+		if(Util.isEmpty(template_id)){
+			redirect(resp, "page?template_id=" + template_id);
+			return null;
+		}
 		setUser(model, req);
 		model.addAttribute("type_list", ItemType.values());
-		Collection<ItemPage> pages =  ItemPageManager.inst().getAllItemPages(template_id).values();
+		Collection<ItemPage> pages =  ItemPageManager.inst().getAllItemPagesWithSort(template_id);
 		Collection<ItemPage> templatePages = ItemPageTemplateManager.inst().getAllItemPages().values();
 		if(Util.isEmpty(id)){
 			id = ItemPageManager.inst().applyItemPageId(template_id);
@@ -85,7 +89,7 @@ public class ItemPageMGController implements SecureControllerInterface {
 		model.addAttribute("template_id", template_id);
 		model.addAttribute("templatePages", templatePages);
 		LogCore.BASE.debug("all items={}", Util.prettyJsonStr(items));
-		LogCore.BASE.debug("all itemPages={}", pages);
+		LogCore.BASE.debug("all itemPages={}", Util.prettyJsonStr(pages.size()));
 		return "page_editor";
 	}
 	/** 保存页面修改数据 */
@@ -103,7 +107,7 @@ public class ItemPageMGController implements SecureControllerInterface {
 	}
 	/** 保存页面修改数据 */
 	@RequestMapping("/delete_page_item")
-	void item_remove(HttpServletResponse resp, String template_id, String id, String key){
+	void delete_page_item(HttpServletResponse resp, String template_id, String id, String key){
 		ItemPageManager.inst().removePageItem(template_id, id, key);
 		redirect(resp, "page_editor?template_id=" + template_id + "&id=" + id);
 	}
@@ -114,8 +118,8 @@ public class ItemPageMGController implements SecureControllerInterface {
 		return ItemPageManager.inst().getItemPageById(template_id, id);
 	}
 	
-	@RequestMapping("/add_page")
-	void add_template(HttpServletRequest req, HttpServletResponse resp, String template_id, String id, String name){
+/*	@RequestMapping("/add_page")
+	void add_page(HttpServletRequest req, HttpServletResponse resp, String template_id, String id, String name){
 		if(Util.isEmpty(id)){
 			redirect(resp, "page_template");
 			return;
@@ -130,4 +134,4 @@ public class ItemPageMGController implements SecureControllerInterface {
 		ItemPageManager.inst().saveOrUpdateItemPage(template_id, itemPage);
 		redirect(resp, "page_template?id=" + id);
 	}
-}
+*/}
