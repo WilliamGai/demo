@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.springframework.stereotype.Component;
 
@@ -108,7 +109,8 @@ public class ItemPageManager extends ManagerBase{
 		if(!existPageTemplate(templateId)){
 			return new ArrayList<>();
 		}
-		return ItemPageProviderManager.provider(templateId).getAllItemPagesWithSort(ItemPage::getId);
+		Function<ItemPage, Integer> comp = (p)->Integer.parseInt(p.getId());
+		return ItemPageProviderManager.provider(templateId).getAllItemPagesWithSort(comp);
 	}
 	
 	public void saveOrUpdateItemPage(String templateId, ItemPage page) {
