@@ -55,7 +55,6 @@ public class MGController implements CommandLineRunner {
 			Collection<UserVO> user_list = SecurityManager.inst().getAllUsers();
 			model.addAttribute("user_list", user_list);
 		}
-
 		return "mg";
 	}
 
@@ -78,6 +77,7 @@ public class MGController implements CommandLineRunner {
 		}
 		return JSONBuilder.creatJsonString("key", k, "bivalue", DataManager.inst().getBiValue(k));
 	}
+
 	@RequestMapping("/delete_bi")
 	@ResponseBody
 	Object delete_bi(String k) {
@@ -92,5 +92,4 @@ public class MGController implements CommandLineRunner {
 		List<DataVO> size_list = StatsManager.inst().getListSizes();
 		model.addAttribute("size_list", size_list);
 	}
-
 }

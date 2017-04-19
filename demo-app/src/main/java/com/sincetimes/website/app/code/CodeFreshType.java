@@ -43,7 +43,5 @@ public enum CodeFreshType {
 		default:
 			return this.name();
 		}
-		
 	}
-
 }

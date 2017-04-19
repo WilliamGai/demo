@@ -16,9 +16,9 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 /**
  * 使用serverEvent实现服务器主动给前端推送<br>
- * http1.1开始是长连接,类似多路复用。同个浏览器多个请求可以是同一个链接<br>
+ * 从http1.1开始是长连接,类似多路复用。同个浏览器多个请求是同一个tcp链接<br>
  * 如果使用nginx等配置反向代理，使用server event和websocket的时候。会出现间歇性的断开。这与proxy_read_timeout参数有关<br>
- * 如果是websocket建议使用心跳来解决。或者给websocket和server event配置单独的超时时间,比如一个小时的超时时间:<br>
+ * 可以给websocket和server event配置单独的超时时间,比如一个小时的超时时间:<br>
  * <pre>{@code nginx:
  * location ~ /hourlinks/ {
             proxy_http_version 1.1;
@@ -29,6 +29,7 @@ import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
             ...
         }
  * }</pre>
+ * 对于websocket建议使用心跳来解决。
  * server event如果浏览器出现断开一般是两种情况：<br>
  * 1.服务器的方法返回了,只能浏览器每隔一秒重新请求。实际上应该用while(true)挂起。也不能用子线程处理否则报异常。<br>
  * 2.使用了反向代理并配置了超时时间。浏览器返回结果失败报 net::ERR_INCOMPLETE_CHUNKED_ENCODING<br>

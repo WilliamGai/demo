@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.threadpool.ThreadPoolTool;
+/**
+ * 错误例子,会返回异常
+ */
 public class TraceServlet extends HttpServlet {
 	private static final long serialVersionUID = 7813050777381742351L;
 	@Override

@@ -68,12 +68,12 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	 * @see ItemPageProvider#_saveOrUpdateItemPage(String, ItemPage) 
 	 */
 	public void saveOrUpdateItemPage(ItemPage itemPage) {
-		_saveOrUpdateItemPage(itemPage.getId(), itemPage);
-//		pageCache.putValue(itemPage.getId(), itemPage, this::_saveOrUpdateItemPage);
-//		//LogCore.BASE.debug("after update cache={}", Util.prettyJsonStr(pageCache.asMap()));
-//		LogCore.BASE.debug("after update {}, cache={}", itemPage.getId(), Util.prettyJsonStr(pageCache.asMap().get(itemPage.getId())));
-//		LogCore.BASE.debug("?????????????????????={}", pageCache==ItemPageProviderManager.provider().pageCache);
-
+		pageCache.putValue(itemPage.getId(), itemPage, this::_saveOrUpdateItemPage);
+		//LogCore.BASE.debug("after update cache={}", Util.prettyJsonStr(pageCache.asMap()));
+		LogCore.BASE.debug("after update {}, cache={}", itemPage.getId(), Util.prettyJsonStr(pageCache.asMap().get(itemPage.getId())));
+		LogCore.BASE.debug("two pagecache compare={}", pageCache==ItemPageProviderManager.provider().pageCache.asMap());
+		LogCore.BASE.debug("tempate chache={}", Util.prettyJsonStr(ItemPageProviderManager.provider().pageCache.asMap()));
+		LogCore.BASE.debug("this chache={}", Util.prettyJsonStr(pageCache.asMap()));
 	}
 	/***
 	 * 页面的持久化<br>
@@ -88,8 +88,7 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	 * @See {@link ItemPageProvider#_getItemPageById(String)}
 	 */
 	public ItemPage getItemPageById(String id) {
-		return _getItemPageById(id);
-//		return pageCache.getValue(id, this::_getItemPageById);
+		return pageCache.getValue(id, this::_getItemPageById);
 	}
 	
 	/**
@@ -172,23 +171,32 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	}
 
 	/**
-	 * 
-	 * @return
+	 * 申请一个页面的自增ID
+	 * as same like:<br>
+	 * {@code ids.stream().mapToInt(Integer::parseInt).max();}
+	 * @return Long
 	 */
 	public synchronized Long applyItemPageId() {
 		Set<String> ids = zrange(PAGES_SET, 0, 1);
 		if(Util.isEmpty(ids)){
 			return incr(KEY_LAST_ITEM_PAGE_ID);
 		}
-		Optional<Integer> max = ids.stream().map(Integer::parseInt).max(Integer::compareTo);
-		max.ifPresent((i)->set(KEY_LAST_ITEM_PAGE_ID, i.toString()));
+		try {
+			Optional<Integer> max = ids.stream().map(Integer::parseInt).max(Integer::compareTo);
+			max.ifPresent((i)->set(KEY_LAST_ITEM_PAGE_ID, i.toString()));
+		} catch (Exception e) {
+			LogCore.BASE.warn("the redis-sortedSet's keysets all members should be numberical", e);
+		}
+		
 		return incr(KEY_LAST_ITEM_PAGE_ID);
 	}
 	public Long visit(String id) {
 		if(!existItemPageById(id)){
 			return -1L;
 		}
-		return hincrBy(id, HASH_FILED_PAGE_VISITS, 1L);
+		Long visits = hincrBy(id, HASH_FILED_PAGE_VISITS, 1L);
+		getItemPageById(id).setVisits(visits);
+		return visits;
 	}
 	@Override
 	public Object cloneThis() throws CloneNotSupportedException {

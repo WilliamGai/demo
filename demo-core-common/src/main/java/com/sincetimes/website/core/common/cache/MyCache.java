@@ -47,6 +47,7 @@ public class MyCache<K, V> {
 	}
 
 	public V putValue(K key, V value, BiConsumer<K, V> func_put) {
+		System.err.println("invoke cache"+key+","+value);
 		func_put.accept(key, value);
 		return cache.asMap().put(key, value);
 	}

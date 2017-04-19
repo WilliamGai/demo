@@ -26,8 +26,9 @@ public interface CloneableSupport<T extends CloneableSupport<?>> extends Cloneab
 		}
 		return t;
 	}
-	/**子类填充{@code clone()}即可<br/>不要外部调用*/
+	/** 子类填充{@code clone()}即可<br/>不需要外部调用*/
 	Object cloneThis() throws CloneNotSupportedException;
+	/** {@link Object#clone}是浅拷贝 ,可以在在这里写拷贝细节*/
 	T afterInit();
 }
 

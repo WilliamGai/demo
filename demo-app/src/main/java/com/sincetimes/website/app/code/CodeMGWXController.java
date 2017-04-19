@@ -25,10 +25,11 @@ public class CodeMGWXController implements ControllerInterface{
 	@Autowired
 	public JedisPoolTemplate jedisTemplate;
 	
+	@Deprecated
 	@RequestMapping("/edit_code_cf＿wx")
 	String  edit_code_cf＿wx(Model model, StandardMultipartHttpServletRequest req){
-//		SingleFileCallBack<byte[]> consume = (m)->  ;
-//		String base64Str = new String(Base64.getEncoder().encodeToString(data));
+		//SingleFileCallBack<byte[]> consume = (m)->  ;
+		//String base64Str = new String(Base64.getEncoder().encodeToString(data));
 		
 		byte[] data = FileManager.inst().excuteFile(FileManager.inst()::readFileBytes, req);
 		if(!Util.isEmpty(data)){
@@ -36,7 +37,7 @@ public class CodeMGWXController implements ControllerInterface{
 		}
 		String base64Str = new String(Base64.getEncoder().encodeToString(data));
 		model.addAttribute("data", base64Str);
-//		jedisTemplate.excute(jedis->jedis.set(key, value));
+		//jedisTemplate.excute(jedis->jedis.set(key, value));
 		return "_jihuoma_wx";
 	}
 	@RequestMapping("/jihuoma_wx")

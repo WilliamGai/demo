@@ -41,14 +41,6 @@ public class Item extends VOBase implements CloneableSupport<Item>{
 		this.type = type;
 	}
 	
-	public Item(Item item) {
-		key = item.key;
-		name = item.name;
-		type = item.type;
-		data = item.data;
-		createTime = item.createTime;
-	}
-
 	public String getKey() {
 		return key;
 	} 
@@ -99,7 +91,6 @@ public class Item extends VOBase implements CloneableSupport<Item>{
 
 	@Override
 	public Item afterInit() {
-		data = null;
 		return this;
 	}
 

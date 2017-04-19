@@ -12,12 +12,12 @@ public class TopUpTest {
 //	@org.junit.Test
 	public void Test(){
 		String url = "http://jztpy.sincetimes.com/cty_topup";
-		String mobile = "18640217026";
+		String mobile = "18301082100";//18210153252  18301082100
 		String openid="test";
 		String sign = new StringBuilder(MD5.md5(mobile.concat(openid))).reverse().toString();
         Map<String, String> map = new HashMap<>();
         map.put("mobile", mobile);
-        map.put("amount", "5000");
+        map.put("amount", "10000");
         map.put("openid", openid);
         map.put("sign", sign);
 		String rst = HttpUtil.post(url, map);

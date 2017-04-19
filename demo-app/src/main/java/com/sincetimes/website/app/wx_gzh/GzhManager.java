@@ -80,7 +80,6 @@ public class GzhManager extends ManagerBase {
 
 	/**
 	 * 获取用户的昵称和头像
-	 * 
 	 * @param openid
 	 * @return {nickname, headpic}可能为null<br>
 	 */

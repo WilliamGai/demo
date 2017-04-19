@@ -174,5 +174,4 @@ public class FileManager extends JedisManagerBase implements InputFileSupport, F
 		LogCore.BASE.info("up multi files used time:{}, fileUris={}", stopWatch.prettyPrint(), fileUris);
 		return fileUris;
 	}
-	
 }

@@ -16,8 +16,6 @@ import com.sincetimes.website.app.page.vo.ItemPageProvider;
 import com.sincetimes.website.app.page.vo.ItemPageProviderManager;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.manager.annotation.ManangerInject;
-import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.Util;
 @ManangerInject
 @Component
 public class ItemPageManager extends ManagerBase{
@@ -49,14 +47,16 @@ public class ItemPageManager extends ManagerBase{
 		}
 		Map<String, Item> templateItems = ItemPageProviderManager.provider().getAllItems(templateId);
 		Map<String, Item> contentItems = ItemPageProviderManager.provider(templateId).getAllItems(id);
-		templateItems.putAll(contentItems);
-		LogCore.BASE.debug("templateItems={}", Util.prettyJsonStr(templateItems.keySet()));
-		LogCore.BASE.debug("contentItems={}", Util.prettyJsonStr(contentItems.keySet()));
-		List<Item> items= new ArrayList<Item>(templateItems.values());
+		/* fatal err like this:templateItems.putAll(contentItems)*/
+		Map<String, Item> tempMap = new HashMap<>(templateItems);
+		tempMap.putAll(contentItems);
+		List<Item> items= new ArrayList<Item>(tempMap.values());
 		items.sort(Comparator.comparing(Item::getCreateTime));
 		return items;
 	}
-	/**不存在回返回null*/
+	/**
+	 * @return nullable
+	 */
 	public ItemPage getItemPageById(String templateId, String id) {
 		if(!existPageTemplate(templateId)){
 			return null;
@@ -75,8 +75,8 @@ public class ItemPageManager extends ManagerBase{
 		}
 		item = page.getItem(key);
 		if(null == item){
-			Item templateItem = templateProvider.getItemPageById(templateId).getItem(key).createClone();
-			item = new Item(templateItem);
+			Item templateItem = templateProvider.getItemPageById(templateId).getItem(key);
+			item = templateItem.createClone();
 		}
 		ItemType itemType = ItemType.getType(type_id);
 		if(null != itemType){
@@ -109,6 +109,7 @@ public class ItemPageManager extends ManagerBase{
 		if(!existPageTemplate(templateId)){
 			return new ArrayList<>();
 		}
+		//ItemPage::getWeight
 		Function<ItemPage, Integer> comp = (p)->Integer.parseInt(p.getId());
 		return ItemPageProviderManager.provider(templateId).getAllItemPagesWithSort(comp);
 	}

@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sincetimes.website.core.common.support.LogCore;
+/**
+ * 手写Servlet,支持server event
+ * @author BAO
+ *
+ */
 public class MyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Override

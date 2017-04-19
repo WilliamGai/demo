@@ -37,13 +37,13 @@ public class ItemPageMGController implements SecureControllerInterface {
 		if(null == templatePage){
 			templatePage = templatePages.stream().findFirst().orElse(new ItemPage());
 		}
-		String fixedId = Objects.toString(templatePage.getId(), template_id);
-		Collection<ItemPage> pages = ItemPageManager.inst().getAllItemPagesWithSort(template_id);
+		String fixedTemplateId = Objects.toString(templatePage.getId(), template_id);
+		Collection<ItemPage> pages = ItemPageManager.inst().getAllItemPagesWithSort(fixedTemplateId);
 		LogCore.BASE.info("get templatePage={}", templatePage);
 		model.addAttribute("page", templatePage);//TODO: rmv
 		model.addAttribute("pages", pages);
 		model.addAttribute("templatePages", templatePages);
-		model.addAttribute("template_id", Objects.toString(templatePage.getId(), template_id));
+		model.addAttribute("template_id", fixedTemplateId);
 		LogCore.BASE.debug("all itemPages={}", pages);
 		return "page";
 	}
@@ -80,8 +80,8 @@ public class ItemPageMGController implements SecureControllerInterface {
 		if(Util.isEmpty(id)){
 			id = ItemPageManager.inst().applyItemPageId(template_id);
 		}
-		List<Item> items= ItemPageManager.inst().getItemsWithSort4Edit(template_id, id);
-		ItemPage page = ItemPageManager.inst().getItemPageById(template_id, id);//TODO: rmv
+		List<Item> items= ItemPageManager.inst().getItemsWithSort4Edit(template_id, id);//fatal err!
+		ItemPage page = ItemPageManager.inst().getItemPageById(template_id, id);//TODO: rmv 
 		model.addAttribute("page", page);
 		model.addAttribute("pages", pages);
 		model.addAttribute("items", items);

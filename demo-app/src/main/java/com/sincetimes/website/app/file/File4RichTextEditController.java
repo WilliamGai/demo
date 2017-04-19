@@ -43,7 +43,7 @@ public class File4RichTextEditController implements ControllerInterface {
 	}
 	/**
 	 * 
-	  <pre>等价于下面的比较器等价于{@code
+	  <pre>下面的比较器等价于{@code
 	  	public static Comparator<HashMap<String, Object>> TYPE_COMPARAOR_FUNC =(hashA, hashB)-> {
 			int comparison = ((Boolean)hashB.get("is_dir")).compareTo((Boolean)hashA.get("is_dir"));
 			if (comparison == 0) {

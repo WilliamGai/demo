@@ -5,6 +5,7 @@ import java.util.Map;
 import com.sincetimes.website.app.page.ItemType;
 import com.sincetimes.website.app.page.vo.Item;
 import com.sincetimes.website.core.common.support.LogCore;
+import com.sincetimes.website.core.common.support.Util;
 /**
  * GOF.3/4 FactoryMethod TemplateMethod
  * @author BAO
@@ -28,7 +29,7 @@ public abstract class ItemBuiler<T extends Item> {
 	}
 	/**创建模板或者文章的Item的副本*/
 	public Item buildItem(final Item item, Map<String, String[]> params) {
-		LogCore.BASE.debug("params={}", params);
-		return changeItem(params, item);
+		LogCore.BASE.debug("params={}", Util.prettyJsonStr(params));
+		return changeItem(params, item.createClone());
 	}
 }

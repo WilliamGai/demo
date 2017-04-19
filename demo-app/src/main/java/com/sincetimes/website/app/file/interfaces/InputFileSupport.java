@@ -108,7 +108,6 @@ public interface InputFileSupport{
 		return save(realpath, file, nameFunc);
 	}
 	/**
-	 * 
 	 * 命名示例："a.PNG"返回"23_56_12_1234.png"
 	 * @param fileName 原始文件名
 	 * @return 重新随机的文件名
