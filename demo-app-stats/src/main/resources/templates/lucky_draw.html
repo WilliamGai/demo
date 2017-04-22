@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>大转盘</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<script type="text/javascript">
+function showImg(fileObj,imgId) {
+    console.log(imgId);
+    var file=fileObj.files[0];
+    var r = new FileReader();
+    r.readAsDataURL(file);
+    $(r).load(function() {
+        $('#'+imgId).attr("src", this.result);
+    })
+}
+
+function delete_item(sn, item_sn){
+	console.log('delete item lucky_draw_sn='+sn,', item_sn='+ item_sn);
+	if(confirm("你确定要删除此商品?删除后激活码也将不存在了")){
+		$.post("del_lucky_draw_item", {"sn":sn,"item_sn":item_sn},function(data){
+			console.log("start delete_item,sn="+sn+"item_sn="+ item_sn);
+			if(data.result == 1){
+				alert('操作成功!');
+				document.location.href = "lucky_draw?sn="+sn;
+			}else{
+				document.location.href = "lucky_draw?sn="+sn;
+			}
+		});
+	}
+}
+function delete_item_code_list(sn, item_sn){
+	console.log('delete_item_code_list lucky_draw_sn='+sn,', item_sn='+ item_sn);
+	if(confirm("你确定要删除此商品?删除后激活码也将不存在了")){
+		$.post("delete_item_code_list", {"sn":sn,"item_sn":item_sn},function(data){
+			console.log("start delete_item_code_list,sn="+sn+"item_sn="+ item_sn);
+			if(data.result == 1){
+				alert('操作成功!');
+				document.location.href = "lucky_draw?sn="+sn;
+			}else{
+				document.location.href = "lucky_draw?sn="+sn;
+			}
+		});
+	}
+}
+function up_lucky_draw_item(sn, item_sn){
+	console.log('sn='+sn,'item_sn='+ item_sn);
+	$.post("up_lucky_draw_item", {"sn": sn,"item_sn":item_sn},function(data){
+		console.log("start up_goods,sn="+ sn+", item_sn="+ item_sn);
+		
+		if(data.result == 1){
+			alert('操作成功!');
+			document.location.href = "lucky_draw?sn="+sn;
+		}else{
+			document.location.href = "lucky_draw?sn="+sn;
+		}
+	});
+}
+</script>
+<body>
+<!--  -->
+<div id="wrapper">
+	<iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+	<div class="container">
+        <div class="col-md-2 column">
+			<a th:each="item:${lucky_draw_infos}" th:href="${'lucky_draw?sn='+item.sn}" th:text="${item.name}" th:class="${lucky_draw_info.sn==item.sn?'list-group-item active':'list-group-item'}"></a>
+   		 </div>
+    
+    
+    <div class="col-md-10 column">
+    	<br/>
+         	<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default btn-success" data-toggle="modal">创建一个新的大转盘配置</a>
+			<!-- 添加大转盘配置 start -->
+			<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">
+								创建一个新的大转盘配置
+							</h4>
+						</div>
+			<div class="modal-body">
+				<form role="form" class="form-inline" action="add_lucky_draw_cf" method="post">
+                	<div class="modal-body">
+                		<label for="sn">大转盘编号(唯一)</label>
+		    			<input name="sn" id="sn"/>
+        				<input placeholder="大转盘名称" class="form-control" name ="name" id="name" />
+        				<input placeholder="大转盘描述" class="form-control" name ="desc" id="desc" />
+        				<label for="limit_num">每个周期抽奖次数限制</label>
+        				<input value="1" class="form-control" name ="limit_num" id="limit_num" />
+        				<label for="open_time">开启时间</label>
+        				<input value="2016-12-16-14:00:00" class="form-control" name ="open_time" id="open_time" />
+						<label for="close_time">关闭时间</label>
+						<input value="2016-12-16-14:00:00" class="form-control" name ="close_time" id="close_time" />
+						<label for="fresh">刷新规则</label>
+						<br/>
+						<select name="fresh_type" id="fresh">
+							<option value="1">永久</option>
+							<option value="2">每天</option>
+							<option value="3">每周一</option>
+							<option value="4">每月第一天</option>
+						</select>
+					</div>
+                	<div class="modal-footer">
+                		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('创建后信息不能修改，你确认要提交创建?');" />
+                	</div>
+				</form>
+			</div>
+			</div>
+			</div>
+			</div>
+			<!-- 添加大转盘配置 end -->
+			<!-- 修改大转盘 start -->
+			<a href="#modal-container-edit_lucky_draw_cf" role="button" class="btn btn-default btn-info" data-toggle="modal">编辑大转盘</a>
+			<div th:if="${lucky_draw_info}" class="modal fade" id="modal-container-edit_lucky_draw_cf" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 th:text="${'修改大转盘配置:'+lucky_draw_info.name}" class="modal-title" id="myModalLabel"></h4>
+						</div>
+			<div class="modal-body">
+				<form role="form" class="form-inline" action="edit_lucky_draw_cf" method="post">
+                	<div class="modal-body">
+                		<label>大转盘编号:</label>
+		    			<label th:text="${lucky_draw_info.sn}"></label>
+		    			<br/>
+		    			<label for="fresh">刷新规则 :</label><label th:text="${lucky_draw_info.fresh_type.name}" class="text-danger"></label>
+		    			<br/>
+		    			<input type="hidden" name = "sn" th:value="${lucky_draw_info.sn}"></input>
+		    			<br/>
+		    			<label for="limit_num">每个周期抽奖次数限制</label>
+        				<input th:value="${lucky_draw_info.limit_num}" class="form-control" name ="limit_num" id="limit_num" />
+		    			<br/>
+        				<label for="open_time">开启时间</label>
+        				<input th:value="${lucky_draw_info.open_time_str}" class="form-control" name ="open_time" id="open_time" />
+						<label for="close_time">关闭时间</label>
+						<input th:value="${lucky_draw_info.close_time_str}" class="form-control" name ="close_time" id="close_time" />
+						<br/>
+						<br/>
+					</div>
+                	<div class="modal-footer">
+                		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('你确认要提交修改?');" />
+                	</div>
+				</form>
+			</div>
+			</div>
+			</div>
+			</div>
+			<!-- 修改激活码 end -->
+			<!-- 新增商品 start -->
+			<a id="modal-180034" href="#modal-container-180034" role="button" class="btn btn-default btn-success" data-toggle="modal">添加商品</a>
+        	<div class="modal fade" id="modal-container-180034" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3  class="modal-title" id="myModalLabel">
+                        	新增货架
+                        </h3>
+                        <p th:text="${'[大转盘编号 :'+lucky_draw_info.sn+'][大转盘名称:'+lucky_draw_info.name+']'}" class="modal-title" id="myModalLabel"/>
+                    </div>
+                    <form role="form" class="form-inline" action="add_lucky_draw_item" method="post" enctype="multipart/form-data">
+                    	<div class="modal-body">
+		    			<input type="hidden" name="sn" th:value="${lucky_draw_info.sn}" />
+        				<input placeholder="奖品名称" class="form-control" name ="goods_name" id="goods_name" />
+        				<input placeholder="奖品描述" class="form-control" name ="goods_desc" id="goods_desc" />
+        				<input placeholder="权重" class="form-control" name ="weight" id="weight" />
+						<!-- <select name="goods_type" id="goods_type">
+							<option th:each="g_type: ${type_list}" th:value="${g_type.type}" th:text="${g_type.name}"></option>
+						</select> -->
+        				<input placeholder="每轮互斥组(默认为0)" class="form-control" name ="current_turn_sn" id="current_turn_sn" />
+        				<input placeholder="全局互斥组(默认为0)" class="form-control" name ="global_sn" id="global_sn" />
+        				<img alt="140x140" id ="img" width="140" height="140" class="img-rounded" />
+        				<input type="file" name="file" onchange="showImg(this,'img')"/>
+        				<label for="input_code_file">上传激活码</label>
+        				<input type="file" id="input_code_file" name="code_file"/>
+						</div>
+					
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确认要重添加奖品?');" />
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 新增商品 end -->
+        <!-- 修改物品 start TAGS-->
+        <div th:each="i,iterStat: ${lucky_draw_info.shelfs}" class="modal fade" th:id="${'form_motai' + i.sn}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 th:text="${'修改物品  [商品序列号 :'+i.sn+']'}" class="modal-title" id="myModalLabel"></h3>
+                        <p th:text="${'[大转盘编号 :'+lucky_draw_info.sn+'][大转盘名称:'+lucky_draw_info.name+']'}" class="modal-title" id="myModalLabel"/>
+                    </div>
+                    <form role="form" class="form-inline" action="edit_lucky_draw_item" method="post" enctype="multipart/form-data">
+                    	<div class="modal-body">
+		    			<input type="hidden" name="sn" th:value="${lucky_draw_info.sn}" />
+		    			<input type="hidden" name ="item_sn" th:value="${i.sn}"/>
+        				<label>商品名称</label>
+        				<input class="form-control" name ="goods_name" id="goods_name" th:value="${i.goods_name}"/>
+        				<label>商品描述</label>
+        				<input class="form-control" name ="goods_desc" id="goods_desc" th:value="${i.goods_desc}"/>
+        				<label>权重</label>
+        				<input class="form-control" name ="weight" id="weight" th:value="${i.weight}"/>
+						<br/>
+        				<label>每轮互斥组(默认为0)</label>
+        				<input class="form-control" name ="current_turn_sn" id="current_turn_sn" th:value="${i.current_turn_sn}"/>
+        				<label>全局互斥组(默认为0)</label>
+        				<input class="form-control" name ="global_sn" id="global_sn" th:value="${i.global_sn}"/>
+        				<img alt="140x140" th:src="${i.pic_url}" th:id ="${'pic'+i.sn}" width="140" height="140" class="img-rounded" />
+         			    <input type="file" name="file" th:attr="onchange=${'showImg(this,''pic'+i.sn+''')'}" /><!-- onchange="showImg(this,'img2')" -->
+        				
+        				<label for="input_code_file">上传激活码</label>
+        				<input type="file" id="input_code_file" name="code_file"/>
+						</div>
+					
+                    	<div class="modal-footer">
+                        	<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确认要提交修改?');" />
+                    	</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 修改物品 end -->
+        <a  th:class="${user_name=='admin'?'btn btn-default btn-danger ':'btn btn-default btn-danger disabled'}" th:href="${'delete_lucky_draw_cf?sn='+lucky_draw_info.sn}" onclick="javascript:return confirm('确认要删除大转盘配置?删除后信息不能恢复！');">删除大转盘</a>
+        
+			<div>
+			<h2 th:text="${lucky_draw_info.name}"></h2>
+			<p th:text="${lucky_draw_info.desc}"></p>
+			<label class="text-muted">大转盘URI:</label><a th:href="${'/get_lucky_draw_info?sn='+lucky_draw_info.sn+'&amp;who=test_no'}"  th:text="${'get_lucky_draw_info?sn='+lucky_draw_info.sn+'&amp;who=test_no'}"  class="text-muted"></a>
+    		<br/>
+    		<label class="text-muted">抽奖URI:</label><a th:href="${'/get_lucky_draw?sn='+lucky_draw_info.sn+'&amp;who=test_no'}"  th:text="${'get_lucky_draw?sn='+lucky_draw_info.sn+'&amp;who=test_no'}" class="text-muted"></a>
+    		<br/>
+    		<label class="text-danger">用户抽奖预览(慢)URL:</label><a th:href="${'lucky_draw_debug&#47;'+lucky_draw_info.sn}"  th:text="${'lucky_draw_debug&#47;'+lucky_draw_info.sn}" class="text-danger"></a>
+    		<br/>
+    		<label class="text-danger">用户抽奖预览(快)URL:</label><a th:href="${'lucky_draw_debug_simple&#47;'+lucky_draw_info.sn}"  th:text="${'lucky_draw_debug_simple&#47;'+lucky_draw_info.sn}" class="text-danger"></a>
+    		<br/>
+    		<!-- 一键测试start -->
+    		<a th:href="${'testdraw?sn='+lucky_draw_info.sn}" role="button" class="btn btn-default btn-danger" target="_blank">一键测试100次</a>
+    		<!-- 一键测试end -->
+			<hr/>
+			<label class="text-muted">大转盘名称:</label><label th:text="${lucky_draw_info.name}" class="text-info"></label>
+    		<br/>
+    		<label class="text-muted">大转盘KEY:</label><label th:text="${lucky_draw_info.sn}"></label>
+    		<br/>
+    		<label class="text-muted">大转盘每个周期抽取次数限制:</label><label th:text="${lucky_draw_info.limit_num}" class="text-danger"></label>
+    		<br/>
+    		<label class="text-muted">创建者:</label><label th:text="${lucky_draw_info.create_by}" class="text-success"></label>
+    		<br/>
+    		<label class="text-muted">创建时间:</label><label th:text="${lucky_draw_info.create_time_str} " class="text-success"></label>
+    		<br/>
+    		<label class="text-muted">大转盘描述:</label><label th:text="${lucky_draw_info.desc}"></label>
+    		<br/>
+    		<label class="text-muted">大转盘刷新:</label><label th:text="${lucky_draw_info.fresh_type.name}" class="text-danger"></label>
+    		<br/>
+    		<label class="text-muted">大转盘生效时间:</label><label th:text="${lucky_draw_info.open_time_str}" class="text-danger"></label>
+    		<br/>
+    		<label class="text-muted">大转盘失效时间:</label><label th:text="${lucky_draw_info.close_time_str}" class="text-danger"></label>
+    		<br/>
+    		<hr/>
+    		
+    		<div th:each="i,iterStat: ${lucky_draw_info.shelfs}" class="form-inline">
+    		<label th:text="${iterStat.index}" class="text-danger"></label>
+            <img  width="200" height="190" th:src="${i.pic_url}" onerror="this.onerror='';src='images/no.png'" class="img-rounded"/>
+            <div class="form-group">
+                <label th:text="${i.goods_name+':[sn='+i.sn+']'}" class="text-info">商品名称</label>
+                <br/>
+                <label class="text-muted">奖品描述:</label><label th:text="${i.goods_desc}" ></label>
+                <br/>
+                <label class="text-muted">权重:</label><label th:text="${i.weight}" class="text-danger"></label>
+                <br/>
+                <label class="text-muted">激活码剩余/领取:</label><label th:text="${i.left_codes_num+'/'+i.rmv_codes_num}" ></label>
+                <br/>
+                <label class="text-muted">每轮互斥组(0或空为允许重复):</label><label th:text="${i.current_turn_sn}" class="text-warning"></label>
+                <br/>
+                <label class="text-muted">全局互斥组(0或空为允许重复):</label><label th:text="${i.global_sn}" class="text-warning"></label>
+                <br/>
+                <button  class="btn btn-default btn-danger" th:onclick="${'delete_item('''+lucky_draw_info.sn+''','''+i.sn+''')'}">删除</button>
+             	<a class="btn btn-default btn-warning" th:onclick="${'delete_item_code_list('''+lucky_draw_info.sn+''','''+i.sn+''')'}">清除旧激活码</a>
+             	<button  class="btn btn-default btn-info" type="submit" th:href="${'#form_motai'+i.sn}" role="button" data-toggle="modal">修改</button>
+             	<button  class="btn btn-default btn-info" th:onclick="${'up_lucky_draw_item('''+lucky_draw_info.sn+''','''+i.sn+''')'}">↑</button>
+                
+             </div>
+                          
+            <hr/>
+        </div>
+    	</div>
+    	</div>
+        </div><!-- container end -->
+
+
+		
+		<div id="footer">
+    		@ sincetimes
+		</div>
+	</div>
+</body>
+</html>

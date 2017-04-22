@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>传送文件</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" href="css/table.css"/>
+<body>
+	<h3>激活码</h3>
+	<h1>
+		<span th:text="${data}"></span>
+	</h1>
+	<h4>
+		<span th:text="${data2}"></span>
+	</h4>
+	<h4>
+		<span th:text="${data3}"></span>
+	</h4>
+	<form action="upfile" method="post" enctype="multipart/form-data">
+		<select name="id">
+			<option th:each="id: ${ids}" th:value="${id}" th:text="${id}"></option>
+		</select>
+
+		<p>
+			文件<input type="file" name="file" />
+		</p>
+		<p>
+			<input type="submit" value="提交" />
+		</p>
+	</form>
+	<table class="gridtable">
+		<caption>列表大小一览</caption>
+		<tr>
+			<th>列表名字</th>
+			<th>列表大小</th>
+		</tr>
+		<tr th:each="item: ${size_list}">
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.value}"></td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>stats</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" href="./css/table.css"/>
+<link rel="stylesheet" type="text/css" href="./css/public.css"/>
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+	
+<body>
+<div id="wrapper">
+	<div class="container">
+	<div class="col-md-2 column" >
+		<div class="page-sidebar" style="position: fixed">
+			<h4 th:text="${'模板列表'}"></h4>
+			<ul class="nav nav-list">
+				<li th:each="pg, iterStat: ${configs}"><a th:href="${'/mg/stats_config?id='+pg.id}"><i th:text="${pg.name+'('+pg.id+')'}" th:class="${id==pg.id?'glyphicon glyphicon-flag':''}"></i></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-md-10 column">
+	<a th:href="${'/mg/stats_config?id='+config.id}">跳转到配置页面</a>
+	<div class="modal-body">
+		<!-- <form role="form" class="horm-horizontal" action="pay_query" method="post">
+			<div  class="horm-horizontal">
+			<label>uid:</label>
+			<input name="uid" id="uid" style="width:80px;"/>
+			<label>openid:</label>
+			<input name="openid" id="openid" style="width:80px;"/>
+			<label>订单号:</label>
+			<input name="billno" id="billno" style="width:80px;"/>
+			<div class="input-append date form_datetime" style="float:left">
+				<label>开始时间:</label>
+			    <input name="dateStart" id="dateStart" style="width:80px;"/>
+				<span class="add-on"><i class="icon-th"></i></span>
+			</div>
+			<div class="input-append date form_datetime" style="float:left">
+				<label>结束时间:</label>
+			    <input name="dateEnd" id="dateEnd" style="width:80px;"/>
+				<span class="add-on"><i class="icon-th"></i></span>
+			</div>
+			<input class="btn btn-sm" type="submit" value="查看"/>
+			</div>
+		</form> -->
+		<form role="form" class="horm-horizontal" action="pay_query" method="get">
+		    <div th:each="i,iterStat : ${filterItems}" >
+		    	<input type="hidden" name="id" th:value="${config.id}"/>
+		    		<div  th:if="${i.filterType.name=='字符串相等'}"  style="float:left">
+		    			<label th:text="${i.desc+':'}"></label>
+						<input type="text" th:name="${i.key}" id="inputValue" th:value="${i.inputValue}" style="width:100px;"/>
+					</div>
+					<div th:if="${i.filterType.name=='时间小于'}" class="input-append date form_datetime" style="float:left">
+						<label th:text="${i.desc+':'}"></label>
+			    		<input th:name="${i.key}" style="width:80px;" th:value="${i.inputValue}"/>
+						<span class="add-on"><i class="icon-th"></i></span>
+					</div>
+					<div th:if="${i.filterType.name=='时间大于'}" class="input-append date form_datetime" style="float:left">
+						<label th:text="${i.desc+':'}"></label>
+			    		<input th:name="${i.key}" style="width:80px;" th:value="${i.inputValue}"/>
+						<span class="add-on"><i class="icon-th"></i></span>
+					</div>
+			</div>
+			<div  style="float:left">
+				<input class="btn btn-sm" type="submit" value="查看"/>
+			</div>
+		</form>
+	</div>
+	<br/>
+	<hr/>
+	<p>查询结果</p>
+	<p th:if= "${page_nos}" th:text="${ (page_no+1)+'&frasl;'+pages_num+'共'+sum+'条记录'}"></p>
+	<p th:if= "${sumValue&gt;0}" th:text="${'单页求和:'+sumValue}"></p>
+	<p th:if= "${sumAllValues&gt;0}" th:text="${'全部求和:'+sumAllValues}"></p>
+	<table class="gridtable">
+		<!-- <caption>查询结果</caption> -->
+		<tr>
+			<th th:each="i,iterStat : ${columnItems}" th:text="${i.desc}"></th>
+		</tr>
+		<tr th:each="views: ${viewList}">
+			<td th:text="${v}" th:each="v: ${views}"></td>
+		</tr>
+	</table>
+		<ul th:if= "${page_nos}" class="pagination pagination-sm">
+			<li>
+  				<a style="cursor:pointer" th:if= "${(page_no-1)&gt;=0}" th:onclick="${'paging('''+(page_no-1)+''',''20'')'}">Prev</a>
+			</li>
+			<li th:each="no: ${page_nos}">
+	 			<a th:onclick="${'paging('''+no+''',''20'')'}" th:text="${(no+1)+'&nbsp;'}" th:style="${page_no==no}?'background-color:blue':'cursor:pointer'" ></a>
+			</li>
+  			<li>
+ 				<a style="cursor:pointer" th:if= "${(page_no+1)&lt;pages_num}" th:onclick="${'paging('''+(page_no+1)+''',''20'')'}">Next</a>
+   			</li>
+      	</ul>
+	</div>
+	</div>
+	</div>
+</body>
+<script type="text/javascript">
+	//   /*<![CDATA[*/   <![CDATA[ ]]>
+	//console.log('start js', window.location.href);
+    $(".form_datetime").datetimepicker({
+    	language:  'zh-CN',
+        format: "mm/dd/yyyy",
+        autoclose: true,
+        todayBtn: true,
+        todayHighlight: 1,
+        startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+    function paging(page_no, page_size){
+    	var url = window.location.href;
+    	url = changeUrlArg(url, "pageNo", page_no);
+    	url = changeUrlArg(url, "pageSize", page_size);
+    	console.log('paging page_no='+page_no,', page_size='+ page_size);
+    	/*<![CDATA[*/
+    	window.location=url;
+    	/*]]>*/
+    }
+    function changeUrlArg(url, arg, val){
+    	/*<![CDATA[*/
+        var pattern = arg+'=([^&]*)';
+        var replaceText = arg+'='+val;
+        return url.match(pattern) ? url.replace(eval('/('+ arg+'=)([^&]*)/gi'), replaceText) : (url.match('[\?]') ? url+'&'+replaceText : url+'?'+replaceText);
+        /*]]>*/
+    }
+
+</script>  
+</html>

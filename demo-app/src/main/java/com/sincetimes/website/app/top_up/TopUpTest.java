@@ -12,7 +12,8 @@ public class TopUpTest {
 //	@org.junit.Test
 	public void Test(){
 		String url = "http://jztpy.sincetimes.com/cty_topup";
-		String mobile = "18301082100";//18210153252  18301082100
+		//stats_config
+		String mobile = "18210153252";//18210153252  18301082100 13811279857
 		String openid="test";
 		String sign = new StringBuilder(MD5.md5(mobile.concat(openid))).reverse().toString();
         Map<String, String> map = new HashMap<>();

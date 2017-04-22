@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>角色管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<script type="text/javascript">
+	function clear_all_score() {
+		console.log("危险请求");
+		$.ajax({
+			type : "POST",
+			/* dataType: 'json',  */
+			url : "http://service.sincetimes.com/moon/clear_all_score",
+			data : {
+				sign : "clearall"
+			},
+			success : function(data) {
+				console.log(data)
+				$('.text_field').show().html("result:" + data);
+			},
+			error : function() {
+				$('.text_field').show().html("获取结果失败");
+			}
+		});
+	}
+</script>
+<body>
+	
+	<div th:fragment="content" >
+	<!-- container有边距 -->
+	<div class="container">
+		<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default" data-toggle="modal">创建一个新的角色</a>
+		<!-- 添加角色 start -->
+		<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">
+							创建角色
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form role="form" class="form-inline" action="add_role" method="post">
+                			<div class="modal-body">
+                				<label for="role_id">角色ID(唯一)</label>
+		    					<input name="role_id" id="role_id"/>
+		    					<br/>
+		    					<br/>
+		    					<label for="role_name">角色名称</label>
+		    					<input name="role_name" id="role_name"/>
+								<br/>
+							</div>
+                			<div class="modal-footer">
+                				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('你确认要提交创建?');" />
+                			</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h3>角色配置</h3>
+		<table  class="table table-condensed table-bordered table-hover">
+			<caption>角色列表</caption>
+			<tr style="background: blue">
+				<th>序号</th>
+				<th>角色ID</th>
+				<th>登录名</th>
+				<th>权限条数</th>
+				<th>状态</th>
+				<th/>
+				<th/>
+			</tr>
+			<tr th:each="item, iterStat: ${roles}">
+				<td th:text="${iterStat.index}+1"></td>
+				<td th:text="${item.id}"></td>
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.permissions.size()}"></td>
+				<td th:text="${item.status}"></td>
+				<td><a th:href="${'delete_role?role_id='+item.id}">删除</a></td>
+				<td><a th:href="${'secure_role?role_id='+item.id}">查看</a></td>
+			</tr>
+		</table>
+		</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>舰指太平洋-资讯详情</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="css/newsdetail.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/newsDetial.js"></script>
+</head>
+<script>
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    $(document).ready(function(){
+        var id = getQueryString("id");
+        var id_pre = getQueryString("id_pre");
+        var id_next = getQueryString("id_next");
+        $.ajax({
+            type: "get",
+            /*  dataType: 'json', */
+            url: "/article",
+            data: {
+                id: id,
+                id_pre: id_pre,
+                id_next: id_next
+            },
+            success: function(data) {
+
+                var pre_id=data.pre_id;
+                var pre_title=data.pre_title;
+
+                var next_id=data.next_id;
+                var next_title=data.next_title;
+
+                var article =data.article;
+                var content = article.content;
+
+                var title=article.title;
+                var dt_clickNum = article.read_num;
+
+                var dt = new Date(article.time);
+                console.log('time',article.time);
+                var f_dt = dt.getFullYear()+"-"+(dt.getUTCMonth()+1)+"-"+dt.getDate();
+
+                //$(".dt_text_C").empty();
+                $(".nd_test_C").empty();
+                $(".article_time").empty();
+                $(".dt_clickNum").empty();
+                $(".nd_p_1").empty();
+                $(".nd_test_C").append(content);
+                $(".article_time").append(f_dt);
+                $(".nd_p_1").append(title);
+                $(".dt_clickNum").append('点击数：'+dt_clickNum);
+
+                console.log(data);
+                console.log("content=",content);
+
+                //下一篇
+                if(pre_id){
+                    var pre_link = "newsDetail.html?id="+pre_id
+                    $(".pre_article_href").append(
+                            "<a href='"+pre_link
+                            +"'><p class='dt_bt_p'>上一篇："
+                            +pre_title
+                            +"...</p></a>");
+                }
+                if(next_id){
+                    var next_link = "newsDetail.html?id="+next_id
+                    $(".pre_article_href").append(
+                            "<a href='"+next_link
+                            +"'><p class='dt_bt_p'>下一篇："
+                            +next_title
+                            +"...</p></a>");
+                }
+
+
+            },
+            error: function() {
+                alert("fail!!!,请刷新再试!");
+            }
+        });
+    });
+</script>
+<body>
+    <div class="container">
+       <div class="head">
+            <div class="hd_C">
+                <div class="hd_left_C">
+                    <ul class="hd_ul">
+                        <li class="hd_li_1 hd_li_left">
+                           <a href="index.html">
+                               <p style="border-right:2px solid white;" class="hd_p_top">
+                                <img src="imgs/gfsy.png" alt="">
+                                <span>官方首页</span>
+                               </p>
+                                <p class="hd_p_bootom">HOME</p>
+                           </a>
+                        </li>
+                        <li class="hd_li_1 hd_li_left">
+                           <a href="news.html">
+                               <p class="hd_p_top">
+                                <img src="imgs/xwzx.png" alt="">
+                                <span>新闻资讯</span>
+                               </p>
+                                <p class="hd_p_bootom">NEWS</p>
+                           </a>
+                        </li>
+                    </ul>
+                    <ul class="hd_ul hd_ul_2">
+                        <li class="hd_li_2">
+                            <img class="light light_1" src="imgs/hd_light.png" alt="">
+                        </li>
+                        <li class="hd_li_2">
+                            <img class="light light_1 show_light" src="imgs/hd_light.png" alt="">
+                        </li>
+                    </ul>
+                </div>
+                <img class="hd_logo" src="imgs/logo.png" alt="">
+                <div class="hd_right_C">
+                    <ul class="hd_ul">
+                        <li class="hd_li_1 hd_li_right">
+                            <a href="newsDocument.html">
+                                <p style="border-right:2px solid white;" class="hd_p_top">
+                                <img src="imgs/hd_yxzl.png" alt="">
+                                <span>游戏资料</span>
+                                </p>
+                                <p class="hd_p_bootom">DATA</p>
+                            </a>
+                        </li>
+                        <li class="hd_li_1 hd_li_right">
+                            <a href="http://forum.sincetimes.com/forum.php?mod=forumdisplay&fid=40">
+                                <p class="hd_p_top">
+                                <img src="imgs/xwzx.png" alt="">
+                                <span>官方论坛</span>
+                                </p>
+                                <p class="hd_p_bootom">FORUM</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="hd_ul hd_ul_2">
+                        <li class="hd_li_2">
+                            <img class="light light_2" src="imgs/hd_light.png" alt="">
+                        </li>
+                        <li class="hd_li_2">
+                            <img class="light light_2" src="imgs/hd_light.png" alt="">
+                        </li>
+                    </ul>
+                </div>
+                <!-- 微信 -->
+                <div class="wx_C">
+                    <img class="wx_logo" src="imgs/wx_logo.png" alt="">
+                    <p style="color:#8fd940;">关注微信公众号</p>
+                    <p>海量活动抢先看</p>
+                    <img class="hd_r_arrow" src="imgs/right_arrow.png" alt="">
+                </div>
+                <!-- 微信 box-->
+                <div class="wx_box">
+                    <div class="wx_left_b">
+                        <p class="wx_title">微信公众号</p>
+                        <p class="wx_text">关注<span>《舰指太平洋》</span>，获取福利活动等官方一手资讯。</p>
+                    </div>
+                    <img class="ios_code" src="imgs/aa.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <!-- 详情 -->
+            <div class="nd_content">
+            <!-- title -->
+                <div class="news_t_C">
+                    <span class="news_title">新闻资讯</span>
+                    <ul class="news_t_ul">
+                        <li>
+                            <a href="#">舰指太平洋首页</a>
+                        </li>
+                        <li>&nbsp>&nbsp</li>
+                        <li>
+                            <a href="#">新闻公告</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- detail -->
+                <div class="nd_detail">
+                    <div class="nd_title">
+                        <p class="nd_p_1"></p>
+                        <p class="nd_p_2">
+                            <span>《舰指太平洋》</span>
+                            <span>运营团队</span>
+                            <span class="article_time"></span>
+                        </p>
+                        <!-- <a class="back_index" href="#">>&nbsp返回首页</a> -->
+                    </div>
+                    <div class="nd_test_C">
+                        <p style="margin-top:42px;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp在新版本上线的同时，等级达到50级，就可以开启“舰长系统”专用能力“配备舰长”。为每艘战舰配备一名舰长，舰长的属性会增加到对应舰船上。通过不断战斗累积经验，从而获取更加强大的舰长属性。才能在波澜壮阔的海战中站稳脚步，成为海洋霸主之一。</p>
+                        <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp体现实力与命运的王者争霸赛，是个聚集了大规模战舰、极限搭配、舰长能力的新模式。在这里不光会遭遇到大规模伤害的围攻，找寻队伍里的弱点名门。考验持久作战能力的同时有针对的进行布阵，才能走向胜利。这将是体力与智力双重考验的史诗级战斗，你准备好了吗？</p>
+                        <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp《战舰帝国》精心挑选众多妹纸参与票选天朝舰娘活动，妹纸们覆盖了萌系、御姐、萝莉、性感等等，短短时间内，妹纸们的选票已经拉开差距。近期妹纸们又发来惊艳拉票视频，瞬间点燃整个活动气氛，到底哪位才是你心目中的阵营代言呢？谁最终将会登上桂冠呢？说不定就在你手中一票。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="bottom">
+            <div class="c_center_box">
+                <ul class="c_way_ul">
+                    <a href="#">
+                        <li>
+                            <img src="imgs/down_img.png" alt="">
+                            <p class="c_p_title">游戏下载</p>
+                            <p class="c_p_2">游戏最新版本下载</p>
+                        </li>
+                   </a>
+                    <li class="gf_wx">
+                        <img src="imgs/wx_img.png" alt="">
+                        <p class="c_p_title">官方微信</p>
+                        <p class="c_p_2">收听官方微信,获得第一手游戏资讯</p>
+                        <div class="gfwx_div">
+                            <div class="erweima">
+                                <img src="imgs/wx_erweima.png" alt="">
+                            </div>
+                            <p>扫描二维码</p>
+                            <p>关注《舰指太平洋》官方微信号</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="imgs/lx_img.png" alt="">
+                        <p class="c_p_title">官方QQ</p>
+                        <p class="c_p_2">官方QQ交流群：370062940</p>
+                    </li>
+                </ul>
+                <div class="logo_C">
+                    <img class="logo_1" src="imgs/hq_logo.png" alt="">
+                    <img class="logo_2" src="imgs/logo.png" alt="">
+                </div>
+                <p class="b_p_text">联系方式：010-65101870 京ICP备09083283号 京ICP证080373号</p>
+                <p class="b_p_text">北京华清飞扬网络股份有限公司是一家集投资、研发、运营、服务为一体的综合性数字互动娱乐高新技术企业。</p>
+                <p class="b_p_text">京网文[2013]0451-084</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

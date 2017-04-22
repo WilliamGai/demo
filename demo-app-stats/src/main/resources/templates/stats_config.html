@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>stats</title>
+<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+</head>
+<body>
+<div th:fragment="content" >
+<div id="wrapper">
+	<div class="container">
+		<div class="col-md-2 column" >
+			<div class="page-sidebar" style="position: fixed">
+				<h4 th:text="${'配置'}"></h4>
+				<ul class="nav nav-list">
+					<li th:each="pg, iterStat: ${configs}"><a th:href="${'/mg/stats_config?id='+pg.id}"><i th:text="${pg.name+'('+pg.id+')'}" th:class="${id==pg.id?'glyphicon glyphicon-flag':''}"></i></a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-md-10 column">
+		<!-- <h4 th:text="${config}"></h4>
+		<h4 th:text="${type_list}"></h4>
+		<h4 th:text="${i.name}" th:each="i,iterStat : ${type_list}"></h4> -->
+		<a id="modal-303937" href="#modal-container-303937" role="button" class="btn btn-default" data-toggle="modal">增加配置</a>
+		<a th:href="${'/mg/stats?id='+config.id}">跳转到查询页面</a>
+		<!-- add template start -->
+		<div class="modal fade" id="modal-container-303937" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">
+							创建一个配置
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form role="form" class="form-inline" action="add_stats_config" method="post">
+                			<label>编号(No):</label>
+		    				<input name="id" id="id"/>
+		    				<br/>
+		    				<label>名称:</label>
+		    				<input name="name" id="name"/>
+		    				<br/>
+		    				<label>表名:</label>
+		    				<input name="tableName" id="tableName"/>
+		    				<br/>
+		    				<label>自增属性:</label>
+		    				<input name="incrName" id="incrName"/>
+		    				<br/>
+		    				<label>求和属性:</label>
+							<input name="sumName" id="sumName"/>
+                			<div class="modal-footer">
+                				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确定创建?');" />
+                			</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- add template end -->
+		<h4>基本配置</h4>
+		<form th:if="${config}" role="form" class="form-inline "  th:action="${'config_alter'}" method="post">
+			<label th:text="${config.id+':'+config.name}"></label>
+			<input type="hidden" name="id" th:value="${config.id}" />
+			<br/>
+			<label>表名:</label>
+			<input name="tableName" th:value="${config.tableName}" id="tableName"/>
+			<br/>
+			<label>自增属性:</label>
+			<input name="incrName" th:value="${config.incrName}" id="incrName"/>
+			<br/>
+			<label>求和属性:</label>
+			<input name="sumName" th:value="${config.sumName}" id="sumName"/>
+			<button class="btn btn-default btn-sm" type="submit">保存</button>
+		</form>
+		<hr/>
+		<h4>查询条件</h4>
+		<!-- 增加配置 start -->
+		<form role="form" class="form-inline "  th:action="${'config_filter_add'}" method="post">
+			<div th:each="i,iterStat : ${filterItems}">
+<!-- 				<label th:text="${'字段名:'+i.columnName+'描述信息'+i.desc+'过滤类型:'+i.filterType.name}"></label>
+ -->			<label>类型:</label>
+				<input type="text" th:value="${i.filterType.name}" style="width:100px;" readonly="readonly"/>
+				<label>字段:</label>
+				<input type="text" th:value="${i.columnName}" readonly="readonly"/>
+				<label>描述:</label>
+				<input type="text" th:value="${i.desc}" readonly="readonly"/>
+				<a th:href="${'config_filter_del?key='+i.key+'&amp;id='+config.id}">删除</a>
+			</div>
+			<input type="hidden" name="id" th:value="${config.id}" />
+			<label>类型:</label>
+			<select id="type_id" name="type_id">
+				<option th:each="a_type: ${type_list}" th:value="${a_type.id}" th:text="${a_type.name}"></option>
+			</select>
+			<label>字段:</label>
+			<input type="text" placeholder="表字段名" id="columnName" name="columnName"/>
+			<label>描述:</label>
+			<input type="text" placeholder="描述" id="desc" name="desc"/>
+			<button class="btn btn-default btn-sm" type="submit">保存</button>
+		</form>
+		<!-- 增加配置 end -->
+		<hr/>
+		<h4>显示字段</h4>
+		<!-- 增加显示配置 start -->
+		<form role="form" class="form-inline "  th:action="${'config_column_add'}" method="post">
+			<div th:each="i,iterStat : ${columnItems}">
+				<label>字段:</label>
+				<input type="text" th:value="${i.columnName}" readonly="readonly"/>
+				<label>描述:</label>
+				<input type="text" th:value="${i.desc}" readonly="readonly"/>
+				<label>类型:</label>
+				<input type="text" th:value="${i.columnType}" readonly="readonly"/>
+				<a th:href="${'config_column_del?columnName='+i.columnName+'&amp;id='+config.id}">删除</a>
+			</div>
+			<input type="hidden" name="id" th:value="${config.id}" />
+			<label>字段:</label>
+			<input type="text" placeholder="表字段名" id="columnName" name="columnName"/>
+			<label>描述:</label>
+			<input type="text" placeholder="描述" id="desc" name="desc"/>
+			<select id="type_column_id" name="type_column_id">
+				<option th:each="a_type: ${type_column_list}" th:value="${a_type.id}" th:text="${a_type.name}"></option>
+			</select>
+			<button class="btn btn-default btn-sm" type="submit">保存</button>
+		</form>
+		<!-- 增加显示配置 end -->
+		</div>
+		
+	</div>
+</div>
+</div>
+</body>
+</html>

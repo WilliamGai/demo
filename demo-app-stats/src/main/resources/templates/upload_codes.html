@@ -1,0 +1,56 @@
+<!-- 已经不用了 -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>传送文件</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" href="css/table.css"/>
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}"/>
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<body>
+	<div id="wrapper">
+   <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+	<div class="container">
+	<h3>激活码</h3>
+	<h1>
+		<span th:text="${data}"></span>
+	</h1>
+	<h4>
+		<span th:text="${data2}"></span>
+	</h4>
+	<h4>
+		<span th:text="${data3}"></span>
+	</h4>
+	<form action="upload_codes_submit" method="post" enctype="multipart/form-data">
+ 		<select name="id">
+			<option th:each="id: ${ids}" th:value="${id}" th:text="${id}"></option>
+		</select> 
+
+		<p>
+			文件<input type="file" name="file" />
+		</p>
+		<p>
+			<input type="submit" value="提交" />
+		</p>
+	</form>
+	<table class="gridtable">
+		<caption>激活码剩余</caption>
+		<tr>
+			<th>列表名字</th>
+			<th>列表大小</th>
+		</tr>
+		<tr th:each="item: ${size_list}">
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.value}"></td>
+		</tr>
+	</table>
+	</div>
+			<div id="footer">
+    		@ sincetimes
+		</div>
+	</div>
+</body>
+</html>

@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.function.Supplier;
 
 public class TimeTool {
 	public static final int HOUR_SECONDS = 3600;
@@ -65,5 +66,18 @@ public class TimeTool {
 	 */
 	public static String getLocalTime(){
 		return SDF.get().format(new Date());
+	}
+	/**
+	 * 2017年4月20日21:51:21
+	 * @return yyyy-MM-dd-HH:mm:ss时间
+	 */
+	public static String getTimeString(String value, Supplier<Long> supplier) {
+		try {
+			long time = supplier.get();
+			return TimeTool.SDF.get().format(new Date(time));
+		} catch (Exception e) {
+			LogCore.BASE.warn("time formatter err{}:", value,  e);
+			return value;
+		}
 	}
 }

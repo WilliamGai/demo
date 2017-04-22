@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/reset.js"></script>
+<script src="js/zepto.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("._miao").empty();
+        $("._miao").append("<ul class='miao'>"
+        +"<li class='biu'>biubibiu</li>"
+                +"</ul></div>");
+        $(".biu").click(function () {
+           alert('biu');
+
+        });
+    });
+ </script>
+<body>
+<div class="_miao">
+<ul class="miao">
+    <li class="biu">biubibiu</li>
+</ul></div>
+</body>
+</html>

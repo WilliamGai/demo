@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no"/>
+    <title>舰指太平洋</title>
+    <link rel="shortcut icon" href="imgs/icon_1.png"/>
+    <link rel="stylesheet" type="text/css" href="css/swiper.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/reset.js"></script>
+    <script src="js/zepto.js"></script>
+    <script src="js/swiper.jquery.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/fastclick.js"></script>
+      <script type="text/javascript">
+        $(function() {  
+            FastClick.attach(document.body);  
+        });
+          /*** 分页start **/
+          $(document).ready(function(){
+
+              var userAgentInfo = navigator.userAgent;
+              var Agents = ["Android", "iPhone",
+                  "SymbianOS", "Windows Phone",
+                  "iPad", "iPod"];
+              var flag=true;
+              for (var v = 0; v < Agents.length; v++) {
+                  if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                      flag = false;
+                      break;
+                  }
+              }
+              if(flag){
+                  location.href= 'http://jztpy.sincetimes.com/pc/index.html';
+                  return;
+              }
+
+              freshInfos('news_1', '1_2_3', 5);
+              freshInfos('news_2', '2', 5);
+              freshInfos('news_3', '3', 5);
+
+
+          });
+
+          function freshInfos(class_tar, type_ids,page_size){
+              $.ajax({
+                  type: "POST",
+                  /*  dataType: 'json', */
+                  url: "/articles?type_ids=" +type_ids
+                  +"&pageno=0&page_size="+page_size,
+                  data: {
+                      openid: "testajax",
+                      sign: "testsign"
+                  },
+                  success: function(data) {
+                      var pages_num=data.pages_num;
+                      var sum=data.sum;
+                      var page_no = data.page_no;
+                      var infos = data.list;
+                      var content="";
+                      var ids = new Array();//数组
+                      for (var i = 0; i < infos.length; i++){
+                            ids[i] = infos[i].id;
+                      }
+                      for (var i = 0; i < infos.length; i++) {
+                          var array_element = infos[i];
+                          var id= array_element.id;
+                          var dt = new Date(array_element.time);
+                          var f_dt = dt.getFullYear()+"-"+(dt.getUTCMonth()+1)+"-"+dt.getDate();
+                          var title = array_element.title;
+                          var type_id=array_element.type_id;
+                          var class_square = 't_ig';
+                          var biaoqian="新闻";
+                          var class_arrow='triangle-right';
+                          if(type_id==3){
+                              class_arrow = 'triangle-right t_yx_s';
+                              class_square = 't_ig t_yx';
+                              biaoqian="攻略";
+                          }
+
+                          var link_url='newsDetail.html?id='+id;
+                          if(ids[i-1]){
+                              link_url+="&id_pre="+ids[i-1];
+                          }
+                          if(ids[i+1]){
+                              link_url+="&id_next="+ids[i+1];
+                          }
+
+                          //var article_content = array_element.content;
+                          content+="<a href='"+link_url
+                                  +"'><li class='news_d_l'><div class='left_div'>"
+                                  +"<div class='" +class_square
+                                  +"'>"
+                                  +"<span>"+biaoqian
+                                  +"</span>"
+                                  +"<span class='"+class_arrow
+                                  +"'></span>"
+                                  +"</div>"
+                                  +"</div>"
+                                  +"<div class='right_div'>"
+                                  +"<ul>"
+                                  +"<li class='rt_li_1'>" +
+                                  title+"</li>"
+                                  +"<li class='rt_li_2'>官方运营团队&nbsp;&nbsp;"
+                                  +f_dt
+                                  +"</li>"
+                                  +"</ul>"
+                                  +"</div>"
+                                  +"</li>"
+                                  +"</a>";
+                      }
+
+                      var news_url = "news.html?type_ids="+type_ids;
+                      content+="<a href='"
+                      +news_url
+                      +"'><p class='check_more'>查看更多></p></a>";
+                      //$(".dt_text_C").empty();
+                      //news_2
+                      var _class_tar = "."+class_tar;
+
+                      $(_class_tar).empty();
+                      $(_class_tar).append(content);
+
+                  },
+                  error: function() {
+                      alert("fail!!!,请刷新再试!");
+                  }
+              });
+          }
+        /**  分页end **/
+
+      </script>
+</head>
+<body>
+<div class="container">
+<!-- head -->
+<div class="head">
+    <div class="head_box">
+         <a href="index.html"><img class="icon_1" src="imgs/icon_1.png" alt=""></a>
+        <button class="down_btn" type="">下载</button>
+        <div class="head_T">
+            <p class="hd_sp_1">
+              <img src="imgs/titile.png" alt="">
+            </p>
+            <!-- <p class="hd_sp_2">军事题材策略卡牌手游</p> -->
+        </div>
+    </div>
+</div>
+<div class="container_index">
+    <div class="index_top">
+        <img url = "cg.html" class="index_video" src="imgs/video_start.png" alt="">
+        <!-- 导航栏 -->
+        <div class="nav_index">
+          <ul>
+            <li>
+              <img class="up_1" src="imgs/yxzx.png" alt="">
+            </li>
+            <li>
+              <img class="up_2" src="imgs/yxzs.png" alt="">
+            </li>
+            <li>
+              <a href="#">
+                <img class="up_3" src="imgs/gflt.png" alt="">
+              </a>
+            </li>
+          </ul>
+        </div>
+      <!-- 礼物 -->
+      <div class="gift">
+          <p class="gift_text">礼包兑换</p>
+      </div>
+      <!-- 礼包弹窗 -->
+      <!-- 敬请期待 -->
+      <div class="jq_qd gift_slider">
+          <img class="gift_close" src="imgs/close_btn.jpg" alt="">
+      </div>
+      <!-- 领取成功 -->
+      <div class="lq_cg gift_slider">
+        <img class="gift_close" src="imgs/close_btn.jpg" alt="">
+         <div class="cf_detail">
+              <span class="code"></span>
+              <span class="copy_text">长按复制</span>
+          </div>
+      </div>
+      <!-- 领取 -->
+      <div class="lblq gift_slider">
+      <img class="gift_close" src="imgs/close_btn.jpg" alt="">
+          <div class="lq_detail">
+              <div class="phone_row">
+                  <span class="phone_num">手机号:</span>
+                  <input class="phone_input" type="text" name="" placeholder="请输入你的手机号">
+              </div>
+              <button class="lq_btn" type="button"></button>
+              <div class="lq_text_C">
+              <p></p>
+                <p>礼包内容：88钻石，储油罐x3，高级间谍令x1，科技点包x1
+                </p>
+                <p>领取说明：复制激活码后，进入游戏，在角色界面点“设置”→“礼包兑换”，粘贴后点击领取即可获得尊享礼包</p>
+              </div>
+          </div>
+      </div>
+      <!-- 重复领取 -->
+      <div class="cflq gift_slider">
+      <img class="gift_close" src="imgs/close_btn.jpg" alt="">
+          <div class="cf_detail">
+              <span class="code">asdasdasrfada</span>
+              <span class="copy_text">长按复制</span>
+          </div>
+      </div>
+      <!-- slider_bg -->
+      <div class="slider_bg">
+      </div>
+    </div>
+    <!-- 关注微信 -->
+    <div class="gz_wx">
+      <div class="gz_C">
+          <span class="gz_sp_1">关注“舰指太平洋”公众号</span>
+          <img src="imgs/wx_gz.png" alt="">
+          <span class="gz_sp_2">微信号：hqfy-jztpy</span>
+      </div>   
+    </div>
+    <!-- 游戏资讯 -->
+    <div class="game_news up_m_1">
+        <p class="gn_t_1">游戏资讯</p>
+        <p class="gn_t_2">GAME INFORMATION</p>
+        <img class="gn_arrow" src="imgs/arrow_2.png" alt="">
+    </div>
+    <!-- slider_1 -->
+    <div class="swiper-container swiper_one">
+        <div class="swiper-wrapper addin_slider">
+            <!-- <div class="swiper-slide">
+                <a class="lunbotu1" href="">
+                <img class="sw_img" src="http://jztpy.sincetimes.com:8061/hq_website/files/1.jpg" alt="">
+                </a>
+                <p class="swiper_P">《舰指太平洋》高清场景原画曝光</p>
+            </div>
+            <div class="swiper-slide">
+                <a class="lunbotu2" href="">
+                  <img class="sw_img" src="http://jztpy.sincetimes.com:8061/hq_website/files/2.jpg" alt="">
+                </a>
+                <p class="swiper_P">《舰指太平洋》高清场景原画曝光</p>
+            </div>
+            <div class="swiper-slide">
+                <a class="lunbotu3" href="">
+                <img class="sw_img" src="http://jztpy.sincetimes.com:8061/hq_website/files/3.jpg" alt="">
+                </a>
+                <p class="swiper_P">《舰指太平洋》高清场景原画曝光</p>
+            </div>
+            <div class="swiper-slide">
+                <a class="lunbotu4" href="">
+                <img class="sw_img" src="http://jztpy.sincetimes.com:8061/hq_website/files/4.jpg" alt="">
+                    </a>
+                <p class="swiper_P">《舰指太平洋》高清场景原画曝光</p>
+            </div> -->
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <!-- news -->
+    <div class="index_news">
+        <div class="news_C">
+            <ul class="news_ul">
+                <li class="news_Li news_a_li">
+                    <p></p>
+                    <span>综合资讯</span>
+                    <span class="triangle-down arow_down"></span>
+                </li>
+                <li class="news_Li">
+                    <p></p>
+                    <span>新闻公告</span>
+                    <span class="triangle-down"></span>
+                </li>
+                <li class="news_Li" style="margin-right:0;">
+                    <p></p>
+                    <span>游戏资料</span>
+                    <span class="triangle-down"></span>
+                </li>
+            </ul>
+            <!-- 综合资讯 -->
+            <div class="news_div news_div_show news_1">
+            </div>
+            <!-- 新闻公告 -->
+            <div class="news_div news_2">
+
+            </div>
+            <!-- 游戏资料 -->
+            <div class="news_div news_3">
+
+            </div>
+
+        </div>
+    </div>
+     <!-- 战舰介绍 -->
+    <div class="game_news">
+        <p class="gn_t_1">战舰介绍</p>
+        <p class="gn_t_2">INTRODUCE</p>
+        <img class="gn_arrow" src="imgs/arrow_2.png" alt="">
+    </div>
+    <div class="zj_C">
+        <div class="zj_M">
+            <img class="zj_img zj_img_show" src="imgs/zj_01.png" alt="">
+            <img class="zj_img" src="imgs/zj_02.png" alt="">
+            <img class="zj_img" src="imgs/zj_03.png" alt="">
+            <img class="zj_img" src="imgs/zj_04.png" alt="">
+            <img class="zj_img" src="imgs/zj_05.png" alt="">
+            <div class="zj_Text">
+                <ul>
+                    <li class="zj_t zj_t_active">大和级战列舰</li>
+                    <li class="zj_t">光辉级航母</li>
+                    <li class="zj_t">希佩尔海军上将巡洋舰</li>
+                    <li class="zj_t">弗莱彻级驱逐舰</li>
+                    <li class="zj_t">丁鲷级潜艇</li>
+                </ul>
+            </div>
+        </div>
+        <div class="zj_J">
+            <ul>
+                <li class="zj_li zj_active">战列舰</li>
+                <li class="zj_li">航空母舰</li>
+                <li class="zj_li">巡洋舰</li>
+                <li class="zj_li">驱逐舰</li>
+                <li class="zj_li">潜艇</li>
+            </ul>
+        </div>
+    </div>
+      <!--游戏展示 -->
+    <div class="game_news up_m_2">
+        <p class="gn_t_1">游戏展示</p>
+        <p class="gn_t_2">GAME SHOW</p>
+        <img class="gn_arrow" src="imgs/arrow_2.png" alt="">
+    </div>
+    <div class="ganme_s_C">
+          <div class="game_show">
+        <!-- 大图展示 -->
+        <div class="game_v_C">
+            <div class="game_v_div game_v_show">
+                <img class="show_img" src="imgs/bigshow_1.jpg" alt="">
+                <!-- <img url="video_1.html" class="video_start" src="imgs/video_logo.png" alt=""> -->
+            </div>
+            <div class="game_v_div">
+                <img class="show_img" src="imgs/bigshow_2.jpg" alt="">
+            </div>
+            <div class="game_v_div">
+                <img class="show_img" src="imgs/bigshow_3.jpg" alt="">
+                <!-- <img url="video_2.html" class="video_start" src="imgs/video_logo.png" alt=""> -->
+            </div>
+        </div>
+        <!-- slider -->
+        <div class="slider_C">
+            <div class="swiper-container swiper_two">
+                <div class="swiper-wrapper ">
+                    <div class="swiper-slide">
+                        <img num="0" class="v_img" src="imgs/slider_08.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img num="1" class="v_img" src="imgs/slider_09.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img num="2" class="v_img" src="imgs/slider_10.jpg" alt="">
+                    </div>
+                </div>
+                <!-- 如果需要导航按钮 -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 联系 -->
+    <div class="contack_C">
+        <ul>
+            <li class="wb_l">
+                <img src="imgs/wb_i_1.png" alt="">
+                <p>官方微博</p>
+            </li>
+            <li class="qq_l">
+                <img src="imgs/qq_i_1.png" alt="">
+                <p>官方QQ</p>
+                <div class="qq_contack">
+                    <p>QQ群：370062940</p>
+                </div>
+            </li>
+            <li class="wx_l">
+                <img class="wx_img" src="imgs/wx_i_1.png" alt="">
+                <p>官方微信</p>
+                <div class="wx_contack">
+                    <img src="imgs/erweima.jpg" alt="">
+                </div>
+            </li>
+            <li class="bd_l">
+                <img src="imgs/bd_i_1.png" alt="">
+                <p>百度贴吧</p>
+            </li>
+            </a>
+        </ul>
+    </div>
+    </div>
+    <!-- 视频 -->
+    <div class="video_bg"></div>
+    <div class="video_container">
+        <div class="video_box">
+            <div class="close_video"></div>
+            <iframe id="frame" frameborder="0" name="Iframe1" src="" width="100%" height="100%">
+                您的浏览器不支持嵌入式框架，或者当前配置为不显示嵌入式框架。
+            </iframe>
+        </div>
+    </div>
+    <p class="color_p"></p>
+    <!-- bottom -->
+     <div class="bottom">
+        <div class="b_img_C">
+            <img class="hq_logo" src="imgs/hq_logo.png" alt="">
+            <div class="btm_text_C">
+               <img src="imgs/bootm_text.png" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- 微信弹层 -->
+    <div class="wx_bg"></div>
+    </div>
+  
+</div>
+</body>
+</html>

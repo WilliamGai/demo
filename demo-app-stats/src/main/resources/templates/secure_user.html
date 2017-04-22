@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>个人中心</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript">
+	/** server event start*/
+	if(typeof(EventSource)!=="undefined")
+	{
+		var source=new EventSource("/hourlinks/doevent_trace");
+		//打开连接
+  		source.onopen=function(event)
+    	{
+  			console.log("onopen",event);
+    	};
+    	//错误信息
+  		source.onerror=function(e)
+    	{
+  			console.log("on err",e);
+    	};
+    	//处理接受到的消息
+  		source.onmessage=function(event)
+    	{
+  			console.log("onmessage",event);
+   	 		document.getElementById("msg_result").innerHTML+=event.data + "<br />";
+   	 	    /* document.getElementById("_lable").innerHTML=event.data + "<br />"; */
+    	};
+	}
+	else
+  	{	
+		console.log("your browser does not support server-sent events");
+  		document.getElementById("msg_result").innerHTML="Sorry, your browser does not support server-sent events...";
+	}
+	/** server event end */
+</script>
+</head>
+<body>
+	<div th:fragment="content" >
+	<div class="container" >
+		<div class="row clearfix" style="margin-top: 5%">
+			<div class="col-md-2 column" >
+				<div class="page-sidebar" style="position: fixed">
+					<ul class="nav nav-list">
+            			<!-- <li class="nav-header">角色</li> -->
+            			<li class="active"><a href="#"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+            			<li><a href="/mg/page_template">自定义模板</a></li>
+            			<li><a href="/mg/articles">图文编辑</a></li>
+            			<li><a href="/mg/articles">轮播图</a></li>
+            			<li class="divider"></li>
+            			<li><a href="/mg/lucky_draw">转盘/宝箱抽奖</a></li>
+            			<li><a href="/mg/point_shop_mg">积分商城</a></li>
+            			<li class="divider"></li>
+            			<li><a href="/mg/code">激活码</a></li>
+        			</ul>
+				</div>
+			</div>
+			<div class="col-md-10 column">
+				<div class="row clearfix">
+					<div class="col-md-8 column">
+				    	<img th:if="${user.pic}" height="120" width="120" th:src="${user.pic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-rounded img-responsive k"/>
+						<img th:if="${user.pic==null}" height="120" width="120" th:src="${user.gender.defaultPic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-rounded img-responsive"/> 
+						<br/>
+						<br/>
+						<label>登录名:</label><label th:text="${user.name}" class="text-info"></label>
+						<br/>
+						<label>昵称:</label><label th:text="${user.nickname}" class="text-info"></label>
+						<br/>
+						<label>密码:</label><label th:text="${user.password}" class="text-info"></label>
+						<br/>
+						<label>角色:</label><label th:text="${user.roleNames}" class="text-info"></label>
+						<br/>
+						<label>创建时间:</label><label th:text="${user.createTimeStr}" class="text-info"></label>
+						<br/>
+						<label>上次登录时间:</label><label th:text="${user.lastLoginTimeStr}" class="text-info"></label>
+						<br/>
+						<div class="container">
+							
+						</div>
+					</div>
+						<div class="col-md-4 column">
+							<blockquote>
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+							</p> 
+							<small>Someone famous <cite>Source Title</cite><br/><cite id="msg_result"></cite></small>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

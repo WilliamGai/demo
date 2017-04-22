@@ -1,5 +1,11 @@
 package com.sincetimes.website.core.common.support;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
@@ -342,6 +348,40 @@ public class Util {
 
 	public static String prettyJsonStr(Object obj) {
 		return JSON.toJSONString(obj, SerializerFeature.PrettyFormat,SerializerFeature.WriteClassName, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);
+	}
+	/**
+	 * 2017年4月21日17:10:56
+	 * @param Seril
+	 * @param string
+	 */
+	public static void writeObject(Object obj, String fileName) {
+		try {
+			FileOutputStream fos = new FileOutputStream(fileName);
+			ObjectOutputStream os= new ObjectOutputStream(fos);
+			os.writeObject(obj);//java.io.NotSerializableException:
+			os.close();
+		} catch (IOException e) {//NotSerializableException
+			LogCore.BASE.error("save err:", e);
+		}
+	}
+	/**
+	 * 2017年4月21日17:18:07
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T readObject(String fileName) {
+		try {
+			 FileInputStream fis = new FileInputStream(fileName);
+			 ObjectInputStream ois = new ObjectInputStream(fis);
+			 Object obj = ois.readObject();
+		     ois.close();
+		     return (T)obj;
+		} catch (FileNotFoundException e) {
+			LogCore.BASE.warn("init warn:{}", "no configs saved");
+			return null;
+		} catch (IOException |ClassNotFoundException e) {
+			LogCore.BASE.error("init err:", e);
+			return null;
+		}
 	}
 
 }

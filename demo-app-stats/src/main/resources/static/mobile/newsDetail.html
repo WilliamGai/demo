@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="imgs/icon_1.png"/>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no"/>
+    <title>舰指太平洋-资讯详情</title>
+    <link rel="stylesheet" type="text/css" href="css/newsDetial.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/reset.js"></script>
+    <script src="js/zepto.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<script>
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    $(document).ready(function(){
+        var id = getQueryString("id");
+        var id_pre = getQueryString("id_pre");
+        var id_next = getQueryString("id_next");
+        $.ajax({
+            type: "get",
+            /*  dataType: 'json', */
+            url: "/article",
+            data: {
+                id: id,
+                id_pre: id_pre,
+                id_next: id_next
+            },
+            success: function(data) {
+
+                var pre_id=data.pre_id;
+                var pre_title=data.pre_title;
+
+                var next_id=data.next_id;
+                var next_title=data.next_title;
+
+                var article =data.article;
+                var content = article.content;
+
+                var title=article.title;
+                var dt_clickNum = article.read_num;
+
+                var dt = new Date(article.time);
+                console.log('time',article.time);
+                var f_dt = dt.getFullYear()+"-"+(dt.getUTCMonth()+1)+"-"+dt.getDate();
+
+                //$(".dt_text_C").empty();
+                $(".dt_text_C").empty();
+                $(".dt_date").empty();
+                $(".dt_clickNum").empty();
+                $(".title_text").empty();
+                $(".dt_text_C").append(content);
+                $(".dt_date").append(f_dt);
+                $(".title_text").append(title);
+                $(".dt_clickNum").append('点击数：'+dt_clickNum);
+
+                console.log(data)
+                $('.detial_f').show().html(data);
+                //下一篇
+                if(pre_id){
+                    var pre_link = "newsDetail.html?id="+pre_id
+                    $(".pre_article_href").append(
+                            "<a href='"+pre_link
+                            +"'><p class='dt_bt_p'>上一篇："
+                            +pre_title
+                            +"...</p></a>");
+                }
+                if(next_id){
+                    var next_link = "newsDetail.html?id="+next_id
+                    $(".pre_article_href").append(
+                            "<a href='"+next_link
+                            +"'><p class='dt_bt_p'>下一篇："
+                            +next_title
+                            +"...</p></a>");
+                }
+
+
+            },
+            error: function() {
+                alert("fail!!!,请刷新再试!");
+            }
+        });
+    });
+</script>
+<body>
+<div class="container">
+  <!-- head -->
+<div class="head">
+    <div class="head_box">
+         <a href="index.html"><img class="icon_1" src="imgs/icon_1.png" alt=""></a>
+        <button class="down_btn" type="">下载</button>
+        <div class="head_T">
+            <p class="hd_sp_1">
+              <img src="imgs/titile.png" alt="">
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container_newsD">
+    <div class="title_C">
+        <div class="back_C">
+            <img src="imgs/arrow_03.png" alt="">
+            <span><a href="javascript:;" onClick="javascript:history.back(-1);">返回</a></span>
+        </div>
+        <div class="title">
+            <p class="title_text"></p>
+        </div>
+    </div>
+    <div class="dt_title">
+        <span class="dt_date">2016-01-01</span>
+        <span class="dt_clickNum">点击数：0</span>
+    </div>
+    <div class="dt_text_C" id="dt_text_C">
+
+    </div>
+    <div class="dt_bt_C pre_article_href">
+
+    </div>
+</div>
+<p class="color_p"></p>
+<!-- bottom -->
+ <div class="bottom">
+    <div class="b_img_C">
+        <img class="hq_logo" src="imgs/hq_logo.png" alt="">
+        <div class="btm_text_C">
+           <p class="btm_text">北京华清飞扬网络股份有限公司版权所有</p>
+           <p class="btm_text">文网游备字 [2016] M-SLG 8203 号  </p>
+           <p class="btm_text">京网文   [2016]  1453-196 号</p>
+        </div>
+    </div>
+</div>
+<!-- 微信弹层 -->
+<div class="wx_bg"></div> 
+</div>
+
+</body>
+</html>

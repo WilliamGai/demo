@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin:0px;
+            padding:0px;
+        }
+    </style>
+</head>
+<body style=" margin:0;">
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	 var ua = navigator.userAgent,
+     isAndroid = /android/ig.test(ua),
+     isIos = /iphone|ipod|ipad/ig.test(ua),
+     isMicroMessenger = /MicroMessenger/ig.test(ua);
+
+	 var openid = getQueryString("openid");
+	 var ip = getQueryString("ip");
+		console.log(openid);
+ 		console.log(isAndroid);
+ 		console.log(isIos);
+ 		console.log(isMicroMessenger);
+ 	if (isMicroMessenger) {
+        	 document.body.innerHTML = "<img style='width:100%' src='imgs/down_load_iso_android.jpg'/>";
+ 	} else {
+     	if (isIos) {
+         location.href = 'https://itunes.apple.com/cn/app/jian-zhi-tai-ping-yang-quan/id1192178767?l=zh&ls=1&mt=8';
+     } else if (isAndroid) {
+         location.href= 'http://1005323.1251006671.cdn.myqcloud.com/1251006671/warship2/chinese_r2/android_ios_pkg/android/warship_hqfy.apk';
+     }
+ }
+});
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+}
+</script>
+</body>
+</html>

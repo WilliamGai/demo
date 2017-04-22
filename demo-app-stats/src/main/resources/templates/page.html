@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>自定义页面模板</title>
+</head>
+<body>
+	<div th:fragment="content" >
+	<div class="container">
+		<div class="row clearfix" style="margin-top: 5%">
+		<div class="col-md-2 column" >
+			<div class="page-sidebar" style="position: fixed">
+				<div>
+					<h3>模板列表</h3>
+				</div>
+				<ul class="nav nav-list">
+            		<li th:each="pg, iterStat: ${templatePages}"><a th:href="${'/mg/page?template_id='+pg.id}"><i th:text="${pg.name+'('+pg.id+')'}" th:class="${template_id==pg.id?'glyphicon glyphicon-flag':''}"></i></a></li>
+        		</ul>
+			</div>
+		</div>
+		<div class="col-md-10 column">
+		    <h2 th:if="${page}" th:text="${page.id+':'+page.name}"></h2>
+			<a th:href="${'page_template?id='+template_id}">查看模板</a>
+			<a th:href="${'/pages_rst?template_id='+template_id}">预览所有页面</a><hr/>
+<!-- 		 	<a th:if="${template_id}" class="btn btn-default btn-info" th:href="${'page_editor?template_id='+template_id}">+ New</a>
+ -->			
+			<!-- add page start -->
+			<a id="modal-303937" href="#modal-container-303937" role="button" class="btn btn-default" data-toggle="modal">创建文章</a>
+			<div class="modal fade" id="modal-container-303937" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">
+								创建一个页面
+							</h4>
+						</div>
+						<div class="modal-body">
+							<form role="form" class="form-inline" action="page_add" method="post">
+								<input type="hidden" name="template_id" th:value="${template_id}" />
+                				<!-- <label>编号(No):</label>
+		    					<input name="id" id="id"/>
+		    					<br/> -->
+		    					<label>名称:</label>
+		    					<input name="name" id="name"/>
+                				<div class="modal-footer">
+                					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确定创建?');" />
+                				</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- add page end -->
+			
+			
+			<!-- <h3 th:text="${page}"></h3>
+			<h3 th:text="${pages}"></h3> -->
+			<div th:each="item, iterStat: ${items}">
+			<label th:text="${item}"></label><br/>
+			<label th:text="${'名称:'+item.name}"></label><br/>
+			<label th:text="${'编号:'+item.key}"></label><br/>
+			<label th:text="${'类型:'+item.type.name}" class="text-warning"></label><br/>
+			<div th:if="${item.type.name=='文本'}">
+				<form role="form" class="form-inline">
+					<input type="text" value="标题" id="desc" name="desc" readonly="readonly"/>
+				</form>
+			</div>
+			<div th:if="${item.type.name=='长文本'}">
+				<form role="form" class="form-inline">
+					<input type="text" value="标题" id="desc" name="desc" readonly="readonly"/>
+					<textarea name="textarea" cols="30" rows="3" readonly="readonly">
+						内容
+					</textarea>
+				</form>
+			</div>
+			<div th:if="${item.type.name=='长文本组'}">
+				<!-- 循环几个例子 -->
+			 	<form role="form" class="form-inline" th:each="i,iterStat : ${#numbers.sequence( 1, 3)}">
+					<input type="text" value="标题" id="desc" name="desc" readonly="readonly"/>
+					<textarea name="textarea" cols="30" rows="3" readonly="readonly">
+						内容
+					</textarea>
+				</form>
+			</div>
+			<div th:if="${item.type.name=='图片'}">
+				<input type="file" id="pic" name="pic" style="display: none" th:attr="onchange=${'showImg(this,''_pic_show'')'}"/>
+				<img height="180" id="_pic_show" name="_pic_show" width="180" onclick="_open_pic()" class="img-circle img-responsive center-block" th:src="${pic}" onerror="this.onerror='';src='/mg/images/boy.png'"/>
+				<img height="60" width="60" src="images/default.png"/>
+			</div>
+			<div th:if="${item.type.name=='图片组'}">
+				<img height="60" width="60" src="images/default.png"/>
+				<img height="60" width="60" src="images/default.png"/>
+				<img height="60" width="60" src="images/default.png"/>
+				<img height="60" width="60" src="images/ddd.png"/>
+			</div>
+			<a th:class="${'btn btn-small small btn-danger'}" th:href="${'delete_item?key='+item.key+'&amp;id='+id}" onclick="javascript:return confirm('确认要删除?删除后不能恢复！');">删除</a>
+			<hr/>
+		</div>
+		<!-- 鼠标悬停 table-hover-->
+		<br/>
+		<h4>页面列表</h4>
+		<table th:if="${#lists.isEmpty(pages)==false}" class="table table-condensed table-bordered table-hover">
+			<!-- <caption>页面列表</caption> -->
+			<tr class="danger">
+				<th>序号</th>
+				<th>id</th>
+				<th>名称</th>
+				<th>访问次数</th>
+				<th/>
+				<th/>
+				<th/>
+			</tr>
+			<tr th:each="item, iterStat: ${pages}" class="warning">
+				<td th:text="${iterStat.index}+1"></td>
+				<td th:text="${item.id}"></td>
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.visits}"></td>
+				<td><a th:href="${'page_editor?template_id='+template_id+'&amp;id='+item.id}">编辑</a></td>
+				<td><a th:href="${'page_delete?template_id='+template_id+'&amp;id='+item.id}">删除</a></td>
+				<td><a th:href="${'/page_rst?template_id='+template_id+'&amp;id='+item.id}">预览</a></td>
+			</tr>
+		</table>
+		<!-- 例子end -->
+		<br/>
+		<br/>
+		<br/>
+		</div>
+		</div>
+		</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>用户列表</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<script type="text/javascript">
+    function check(form){
+    	console.log(form.name.value, form.password.value, form.female.value);
+		if(form.name.value==''){
+			alert("名字不能为空");
+			return false;
+		}
+		if(form.password.value==''){
+			alert("密码不能为空");
+			return false;
+		}
+		return true;
+	}
+    /*变换默认图片*/
+    function change_gender(obj){			
+    	console.log(obj.value, obj.checked, obj);
+    	if($('#pic').val()!=''){
+    		console.log('return', $('#pic').val()!='');
+    		return;
+    	}
+    	if(obj.checked==false){
+    		$('#_pic_show').attr("src","/mg/images/boy.png");
+    		$('#_pic_show').attr("onerror","this.onerror='';src='/mg/images/boy.png'");
+    	}else{//female
+    		console.log("on");
+    		$('#_pic_show').attr("src","/mg/images/girl.png");
+    		$('#_pic_show').attr("onerror","this.onerror='';src='/mg/images/girl.png'");
+    	}
+    }
+	/*点击图片选择*/
+	function _open_pic() 
+    { 
+         document.getElementById("pic").click(); 
+    } 
+	/*显示刚刚选择的图片*/
+	function showImg(fileObj,imgId) {
+    	console.log(imgId);
+    	var file=fileObj.files[0];
+    	var r = new FileReader();
+    	r.readAsDataURL(file);
+    	$(r).load(function() {
+        	$('#'+imgId).attr("src", this.result);
+    	})
+	}
+</script>
+<body>
+<div id="wrapper">
+	<h3>用户注册</h3>
+	<!-- 12 363 -->
+	<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class="col-md-4 column">
+				</div>
+				<div class="col-md-3 column">
+					<form role="form" class="form-horizontal" action="sign_up_submit" enctype="multipart/form-data" method="post">
+						<div class="form-group">
+							<input type="file" id="pic" name="pic" style="display: none" th:attr="onchange=${'showImg(this,''_pic_show'')'}"/>
+							<img height="180" id="_pic_show" name="_pic_show" width="180" onclick="_open_pic()" class="img-circle img-responsive center-block" th:src="${pic}" onerror="this.onerror='';src='/mg/images/boy.png'"/>
+						</div>
+						<label class="col-sm-offset-2 col-sm-10" th:if="${tips}" th:text="${tips}" style="color: red;"></label>
+						<br/>
+						<br/>
+						<div class="form-group">
+							 <label class="col-sm-3 control-label" for="name">username</label>
+							 <div class="col-sm-9">
+							 	<input type="text" class="form-control" id="name" name="name"/>
+							 </div>
+						</div>
+						<div class="form-group">
+							 <label class="col-sm-3 control-label" for="password">password</label>
+							 <div class="col-sm-9">
+							 	<input type="password" class="form-control" id="password" name="password"/>
+							 </div>
+						</div>
+						<div class="form-group">
+							 <label class="col-sm-3 control-label" for="nickname">nickname</label>
+							 <div class="col-sm-9">
+							 	<input type="text" class="form-control" id="nickname" name="nickname"/>
+							 </div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<div class="checkbox">
+									<label class="label label-info"><input type="checkbox" id="female" name="female" onchange="change_gender(this)"/>female</label>
+								</div> 
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-3 col-sm-9">
+								<button type="submit" class="btn btn-info" onclick="return check(this.form)">Sign Up</button>
+								<input class="btn btn-default" type="button" value="Cancle" onclick="javascript:history.back()" />
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-5 column">
+				</div>
+			</div>
+		</div>
+	<!-- 12 363 end -->
+	<!-- <button onclick="clear_all_score()">清除所有用户的分数,并清空排行榜</button> -->
+			<div id="footer">
+    		@ sincetimes
+		</div>
+	</div>
+</body>
+</html>

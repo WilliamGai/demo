@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,8 +111,7 @@ public class ArticleServiceImpl implements ArticleService {
 	 */
 	@Override
 	public List<ArticleType> getAllArticleTypes() {
-		List<ArticleType> types = new ArrayList<>();
-		jdbcTemplate.query("select * from t_article_type", 
+		return jdbcTemplate.query("select * from t_article_type", 
 			(ResultSet rs, int rowNum) -> {
 				ArticleType tp = new ArticleType();
 				tp.setId(rs.getString("id"));
@@ -122,10 +120,8 @@ public class ArticleServiceImpl implements ArticleService {
 				tp.setUpdate_time(rs.getLong("update_time"));
 				tp.setCreated_by(rs.getString("created_by"));
 				tp.setUpdated_by(rs.getString("updated_by"));
-				types.add(tp);
 			return tp;
 		});
-		return types;
 	}
 
 	@Override

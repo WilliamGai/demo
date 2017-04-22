@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="imgs/icon_1.png"/>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no"/>
+    <title>舰指太平洋-资讯列表</title>
+    <link rel="stylesheet" type="text/css" href="css/news.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/reset.js"></script>
+    <script src="js/zepto.js"></script>
+    <script src="js/news.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<script type="text/javascript">
+    var page_size=6;
+    var current_page_no=0;
+    var type_ids="1_2_3";
+    $(document).ready(function(){
+        var _type_ids = getQueryString("type_ids");
+        var _current_page_no = getQueryString("page_no");
+        var _page_size = getQueryString("page_size");
+        if(_type_ids){
+            type_ids = _type_ids;
+        }
+        if(_current_page_no){
+            current_page_no=_current_page_no;
+        }
+
+        if(_page_size){
+            page_size=_page_size;
+        }
+        console.log("----current_page_no=",current_page_no);
+        console.log("page_size=",page_size);
+        console.log("type_ids=",type_ids);
+        console.log('type_ids',type_ids);
+        loadInfos(type_ids,current_page_no, page_size);//第一页每页6行
+
+//        alert('biddu');
+//        $("._c_next").click(function () {
+//            alert('biu');
+//
+//        });
+//        $("._c_next").click(function () {
+//            //current_page_no++;
+//            console.log("current_page_no",current_page_no);
+//            loadInfos(type_ids,current_page_no, 6);//第一页每页6行
+//        });
+    });
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    function loadInfos(type_ids,page_no, page_size){
+        var url="/articles?type_ids=" +type_ids
+        +"&page_no="+page_no+"&page_size="+page_size;
+        console.log("ready page_no",page_no);
+        $.ajax({
+            type: "GET",
+            /*  dataType: 'json', */
+            url: url,
+            data: {
+            },
+            success: function(data) {
+                console.log("sucess",url);
+                var pages_num=data.pages_num;
+                var sum=data.sum;
+                var page_no = data.page_no;
+                var pages_num=data.pages_num;
+                console.log("pages_num",pages_num,"sum", sum, "page_no", page_no);
+                var infos = data.list;
+                console.log(data)
+                console.log('infos', infos)
+                var content="";
+                var ids = new Array();//数组
+                for (var i = 0; i < infos.length; i++){
+                    ids[i] = infos[i].id;
+                }
+                var type_name="综合资讯";
+                if(type_ids=='2'){
+                    type_name="新闻公告";
+                }
+                if(type_ids=='3'){
+                    type_name="游戏资料"
+                }
+                console.log(ids);
+                content+="<div class='title_C'>"
+                +"<div class='title'>"
+                +"<img  src='imgs/arrow_03.png' alt=''>"
+                        +"<span class='back'><a href='index.html'>返回</a></span>"
+                        +"<span class='title_text'>"
+                +type_name
+                +"</span></div></div>";
+                for (var i = 0; i < infos.length; i++) {
+                    var array_element = infos[i];
+                    var id= array_element.id;
+                    var dt = new Date(array_element.time);
+                    var f_dt = dt.getFullYear()+"-"+(dt.getUTCMonth()+1)+"-"+dt.getDate();
+                    console.log(f_dt);
+                    var title = array_element.title;
+                    var type_id=array_element.type_id;
+                    var class_square = 't_ig';
+                    var biaoqian="新闻";
+                    var class_arrow='triangle-right';
+                    if(type_id==3){
+                        class_arrow = 'triangle-right t_yx_s';
+                        class_square = 't_ig t_yx';
+                        biaoqian="攻略";
+                    }
+
+                    var link_url='newsDetail.html?id='+id;
+                    if(ids[i-1]){
+                        link_url+="&id_pre="+ids[i-1];
+                    }
+                    if(ids[i+1]){
+                        link_url+="&id_next="+ids[i+1];
+                    }
+
+                    content+= "<ul style='border-top:1px solid #a1a1a1;'>"
+                    +"<a href='"
+                    +link_url
+                    +"'>"
+                    +"<li class='news_title'>"
+                    +title
+                            +"</li></a>"
+                    +"<li class='news_t'>"
+                    +"官方运营团队&nbsp;&nbsp;"
+                            +"<span>"
+                    + f_dt
+                    +"</span></li></ul></div>";
+
+                }
+//                var next_page_no=page_no+1;
+//                if(next_page_no>0){
+//                    next_page_no=1;
+//                }
+//                var pre_page_no=
+                var next_url="news.html?type_ids="+type_ids+"&page_no="+(page_no+1)+"&page_size="+page_size;
+                var pre_url="news.html?type_ids="+type_ids+"&page_no="+(page_no-1)+"&page_size="+page_size;
+                var last_url="news.html?type_ids="+type_ids+"&page_no="+(pages_num-1)+"&page_size="+page_size;
+                console.log("next_url",next_url);
+                var _pre="",_next="",_last="",other;
+                if(pages_num>1){
+                    _last="<li class='c_last'><a href='" +last_url +"'>尾页</a></li>";
+                }else{
+                    _last="<li class='c_last'><a href=''>尾页</a></li>";
+                }
+                if((page_no-1)>-1){
+                    _pre="<li class='c_befor'><a href='" +pre_url +"'>上一页</a></li>";
+                }else{
+                    _pre="<li class='c_befor'><a href=''>上一页</a></li>";
+                }
+                if((page_no+1)<pages_num){
+                   _next=  "<li class='c_next'><a href='" +next_url+"'>下一页</a></li>";
+                }else{
+                    _next=  "<li class='c_next'><a href=''>下一页</a></li>";
+                }
+                other=+"<li class='c_select'>第"
+                        +"<select class='c_choose' name='' id=''>"
+                        +"<option value=''>1</option>"
+                        +"<option value=''>2</option>"
+                        +"</select>页"
+                        +"</li>";
+                var pre_page_url = ""
+                content+="<div class='page_control'><ul>"
+                +"<li class='c_sy'><a href='index.html'>首页</a></li>"
+                 +_pre +_next  + _last
+                        +"</ul>"
+                        +"</div>";
+                $(".container_news").empty();
+                $(".container_news").append(content);
+
+                var fenye="";
+
+
+            },
+            error: function() {
+                alert("fail!!!,请刷新再试!");
+            }
+        });
+    }
+    /**  分页end **/
+</script>
+<body>
+<div class="container">
+   <!-- head -->
+<div class="head">
+    <div class="head_box">
+         <a href="index.html"><img class="icon_1" src="imgs/icon_1.png" alt=""></a>
+        <button class="down_btn" type="">下载</button>
+        <div class="head_T">
+            <p class="hd_sp_1">
+              <img src="imgs/titile.png" alt="">
+            </p>
+            <!-- <p class="hd_sp_2">军事题材策略卡牌手游</p> -->
+        </div>
+    </div>
+</div>
+<div class="container_news">
+
+</div>
+<p class="color_p"></p>
+<!-- bottom -->
+ <div class="bottom">
+    <div class="b_img_C">
+        <img class="hq_logo" src="imgs/hq_logo.png" alt="">
+        <div class="btm_text_C">
+           <p class="btm_text">北京华清飞扬网络股份有限公司版权所有</p>
+           <p class="btm_text">文网游备字 [2016] M-SLG 8203 号  </p>
+           <p class="btm_text">京网文   [2016]  1453-196 号</p>
+        </div>
+    </div>
+</div>
+<!-- 微信弹层 -->
+<div class="wx_bg"></div> 
+</div>
+
+</body>
+</html>

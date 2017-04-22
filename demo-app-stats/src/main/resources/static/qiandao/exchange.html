@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="telephone=no" name="format-detection">
+    <title>积分兑换</title>
+    <link rel="stylesheet" type="text/css" href="css/exchange.css">
+    <script src="js/reset.js"></script>
+    <script src="js/zepto.js"></script>
+    <script src="js/fastclick.js"></script>
+        <script>
+        $(function() {
+            FastClick.attach(document.body);  
+        });
+    </script>
+    <script src="js/exchange.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <img src="imgs/jfdh.png" alt="">
+        </div>
+        <!-- 奖品兑换列表 -->
+        <div class="center_box">
+           <div class="center_C">
+               
+           </div>
+           <div class="load_M">
+               
+           </div>
+        </div>
+        <!-- bottom -->
+        <div class="bottom">
+            <p style="padding-top:0.4rem;" class="bttom_p">北京华清飞扬网络股份有限公司</p>
+            <p class="bttom_p">北京市东城区建国门内大街光华长安大厦<span>联系方式:010-65101870</span></p>
+        </div>
+        <!-- 兑换 -->
+        <div class="dh_C">
+            <!-- 兑换说明 -->
+            <li class="link_1"></li>
+            <!-- 查看积分 -->
+            <li class="link_2"></li>
+            <!-- 兑换记录 -->
+            <li class="link_3"></li>
+        </div>
+        <!-- bg -->
+        <div class="slider_bg">
+            
+        </div>
+        <!-- 兑换说明弹窗 -->
+        <div class="slider_1">
+            <img class="close" src="imgs/close.png" alt="">
+            <p class="sd_p_title">积分兑换规则</p>
+            <p class="sd1_p_2">1、积分可以兑换《舰指太平洋》公众号积分商城内物品；</p>
+            <p class="sd1_p_2">2、积分兑换同时扣除您相应的积分，积分不足将无法兑换；</p>
+            <p class="sd1_p_2">3、积分兑换成功后物品概不退换，请注意账号安全；</p>
+            <p class="sd1_p_2">4、积分及兑换物品不得转让他人，也不得折现；</p>
+            <p class="sd1_p_2">5、积分不能转移到其他会员账号使用；</p>
+        </div>
+        <!-- 兑换记录弹层 -->
+        <div class="slider_2">
+            <img class="close" src="imgs/close.png" alt="">
+            <p style="margin-bottom:0.293333rem" class="sd_p_title">兑换记录</p>
+            <div class="sd_recore">
+                <table cellpadding="0" cellspacing="0" class="sd2_table" border="1">
+                    <thead>
+                        <tr>
+                            <th>物品名称</th>
+                            <th>物品内容</th>
+                            <th>兑换时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 查看积分弹窗 -->
+        <div class="slider_3">
+            <img class="close" src="imgs/close.png" alt="">
+            <div class="sd3_div">
+                <img class="head_img" src="imgs/head.png" alt="">
+                <p class="sd3_p_1"></p>
+                <p class="sd3_p_2">我的积分：<span class="jifen"></span></p>
+            </div>
+        </div>
+        <!-- 详细弹窗 -->
+        <div class="slider_4">
+            <img class="close" src="imgs/close.png" alt="">
+            <p class="sd4_p"></p>
+        </div>
+    </div>
+</body>
+</html>

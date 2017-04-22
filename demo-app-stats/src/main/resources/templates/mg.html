@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>预览</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" href="css/table.css"/>
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}"/>
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<script type="text/javascript">
+	function change(obj) {
+		var input_v = $(obj).prev().text(); //的单元格的值和被点
+		var input_k = $(obj).prev().prev().text(); //的单元格的值和被点
+		console.log(input_k);
+		console.log(input_v);
+		$.ajax({
+			type : "POST",
+			/* dataType: 'json',  */
+			url : "changevalue",
+			data : {
+				k : input_k,
+				v : input_v
+			},
+			success : function(data) {
+				console.log(data)
+				$('.text_field').show().html("result:" + data);
+			},
+			error : function() {
+				alert("fail!!!,请刷新再试!");
+			}
+		});
+	}
+	
+	function change_bi(obj) {
+		var input_v = $(obj).prev().text(); //的单元格的值和被点
+		var input_n = $(obj).prev().prev().text(); //的单元格的值和被点
+		var input_k = $(obj).prev().prev().prev().text(); //的单元格的值和被点
+		console.log(input_k);
+		console.log(input_n);
+		console.log(input_v);
+		$.ajax({
+			type : "POST",
+			/* dataType: 'json',  */
+			url : "change_bivalue",
+			data : {
+				k : input_k,
+				n : input_n,
+				v : input_v
+			},
+			success : function(data) {
+				console.log(data)
+				$('.text_field').show().html("result:" + data);
+				document.location.href="mg";
+			},
+			error : function() {
+				alert("fail!!!,请刷新再试!");
+			}
+		});
+	}
+	function delete_bi(k){
+		if(confirm("你确定要删除该记录吗?")){
+			$.ajax({
+					type: "get",
+					url: "delete_bi?k=" + k,
+					beforeSend: function(XMLHttpRequest){},
+					success: function(data){
+						console.log(data);
+						console.log(data.result);
+						if(data.result == 1){
+							alert("删除成功!");
+							document.location.href="mg";
+						}else{
+							alert("删除失败，请联系管理!");
+						}
+					},
+					complete: function(XMLHttpRequest, textStatus){},
+					error: function(){
+						alert("删除失败，请与管理员联系");
+					}
+			});
+		}
+	}
+	/** 用户添加删除改密码 start ****/
+	function change_user(obj) {
+		var input_v = $(obj).prev().text(); //的单元格的值和被点
+		var input_k = $(obj).prev().prev().text(); //的单元格的值和被点
+		console.log(input_k);
+		console.log(input_v);
+		$.ajax({
+			type : "POST",
+			/* dataType: 'json',  */
+			url : "change_user",
+			data : {
+				k : input_k,
+				v : input_v
+			},
+			success : function(data) {
+				console.log(data)
+				$('.text_field').show().html("result:" + data);
+				document.location.href="mg";
+			},
+			error : function() {
+				alert("fail!!!,请刷新再试!");
+			}
+		});
+	}
+	
+	function delete_user(k){
+		if(confirm("你确定要删除该记录吗?")){
+			$.ajax({
+					type: "get",
+					url: "delete_user?k=" + k,
+					beforeSend: function(XMLHttpRequest){},
+					success: function(data){
+						console.log(data);
+						console.log(data.result);
+						if(data.result == 1){
+							alert("成功!");
+							document.location.href="mg";
+						}else{
+							alert("删除失败!");
+						}
+					},
+					complete: function(XMLHttpRequest, textStatus){},
+					error: function(){
+						alert("删除失败");
+					}
+			});
+		}
+	}
+	/** 用户添加删除改密码 end ****/
+</script>
+<body>
+	<div id="wrapper">
+   <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+	 <div class="container">
+
+	<h3>变量</h3>
+	<div class="alert alert-dismissable alert-warning">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<h4>
+				tips:
+				</h4> 下载地址请验证后再填写.
+			</div>
+	<table class="gridtable">
+		<caption>固定参数</caption>
+		<tr>
+			<th>name</th>
+			<th>value</th>
+			<th></th>
+		</tr>
+		<tr th:each="item: ${constant_list}">
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.value}" contentEditable="true"></td>
+			<td onclick="change(this)"><a href="javascript:;">更新并刷新</a></td>
+		</tr>
+	</table>
+	
+	<table class="gridtable">
+		<caption>自选参数</caption>
+		<tr>
+			<th>KEY</th>
+			<th>NAME</th>
+			<th>VALUE</th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr th:each="item: ${bilist}">
+			<td th:text="${item[0]}"></td>
+			<td th:text="${item[1]}" contentEditable="true"></td>
+			<td th:text="${item[2]}" contentEditable="true"></td>
+			<td onclick="change_bi(this)"><a href="javascript:;">修改</a></td>
+			<td th:onclick="${'delete_bi('''+item[0]+''')'}"><a href="javascript:;">删除</a></td>
+		</tr>
+		<tr>
+			<td contentEditable="true"></td>
+			<td contentEditable="true"></td>
+			<td contentEditable="true"></td>
+			<td onclick="change_bi(this)"><a href="javascript:;">添加</a></td>
+			<td></td>
+		</tr>
+	</table>
+	<table th:if="${user_list}" class="gridtable">
+		<caption>用户名密码</caption>
+		<tr>
+			<th>用户名</th>
+			<th>密码</th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr th:each="item: ${user_list}">
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.password}" contentEditable="true"></td>
+			<td onclick="change_user(this)"><a href="javascript:;">修改</a></td>
+			<td th:onclick="${'delete_user('''+item.name+''')'}"><a href="javascript:;">删除</a></td>
+		</tr>
+		<tr>
+			<td contentEditable="true"></td>
+			<td contentEditable="true"></td>
+			<td onclick="change_user(this)"><a href="javascript:;">添加</a></td>
+			<td></td>
+		</tr>
+	</table>
+	<a href="mg">刷新</a>
+	</div>
+	</div>
+</body>
+</html>

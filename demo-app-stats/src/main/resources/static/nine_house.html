@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script Language="JavaScript">
+    function linkTo(y) {
+
+        window.location.hash = y
+    }
+
+
+    function form_check() {
+        var a = document.getElementsByTagName("INPUT");
+        for (var i = 0; i < a.length; i++) {
+            var tmpStr;
+            tmpStr = a[i].name;
+            tmpjuanbiao = tmpStr + "juanbiao";
+            if (a[i].type == "radio" && eval("document.form1." + tmpStr + "[0].checked") == false && eval("document.form1." + tmpStr + "[1].checked") == false) {
+                alert("问题'" + tmpStr + "'没有选择");
+                linkTo(tmpjuanbiao);
+                return false;
+            }
+        }
+
+
+    }
+</script>
+<style type="text/css">
+    <!--
+
+    /*关键字浮层*/
+
+    .over {
+        background-color: #B7DDA9;
+    }
+
+
+    .a-tips-Article-QQ:link {
+        color: #66CCFF;
+        border-bottom: 1px dotted #0781C7;
+        text-decoration: none
+    }
+
+    .a-tips-Article-QQ:hover {
+        color: #66CCFF;
+        background: #EBF2FA;
+        text-decoration: none
+    }
+
+    .a-tips-Article-QQ:visited {
+        color: #66CCFF;
+        border-bottom: 1px dotted #0781C7;
+        text-decoration: none
+    }
+
+    /*浮动end*/
+    .STYLE1 {
+        font-family: "微软雅黑"
+    }
+
+    .STYLE2 {
+        font-size: 15px
+    }
+
+    .intro {
+        border: 1px solid #D9D9D9;
+        color: #666;
+        width: 650px;
+        padding: 10px 20px;
+        margin: 5px auto;
+        line-height: 2em;
+        text-align: left;
+        font-size: 11pt;
+        text-indent: 0em
+    }
+
+    .style123w {
+
+        height: 100%;
+        border: 1px #CCC solid;
+
+        padding: 8px;
+        margin: 0 auto;
+        font-size: 16px;
+        line-height: 1.8;
+        font-family: "微软雅黑"
+    }
+
+    #container {
+        background: #d8d8ee;
+        width: 500px;
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .xsnazzy h1, .xsnazzy h2, .xsnazzy p {
+        margin: 0 10px;
+        letter-spacing: 1px;
+    }
+
+    .xsnazzy h1 {
+        font-size: 2.5em;
+        color: #fc0;
+    }
+
+    .xsnazzy h2 {
+        font-size: 2em;
+        color: #234;
+        border: 0;
+    }
+
+    .xsnazzy p {
+        padding-bottom: 0.5em;
+        color: #333;
+    }
+
+    .xsnazzy h2 {
+        padding-top: 0.5em;
+        padding-left: 10px;
+    }
+
+    .xsnazzy {
+        background: transparent;
+        margin: 1em;
+    }
+
+    .xsnazzy em {
+        display: block;
+        width: 0;
+        height: 0;
+        color: #d8d8ee;
+        overflow: hidden;
+        border-top: 12px solid #fff;
+        border-left: 12px dotted transparent;
+        border-right: 12px dotted transparent;
+        margin-left: 50px;
+    }
+
+    * html .xsnazzy em {
+        width: 24px;
+        height: 12px;
+        w\idth: 0;
+        hei\ght: 0;
+    }
+
+    .xsnazzy span {
+        display: block;
+        width: 0;
+        height: 0;
+        color: #fff;
+        overflow: hidden;
+        border-top: 10px solid #F9F9F9;
+        border-left: 10px dotted transparent;
+        border-right: 10px dotted transparent;
+        margin-left: 52px;
+        margin-top: -15px;
+    }
+
+    * html .xsnazzy span {
+        width: 20px;
+        height: 10px;
+        w\idth: 0;
+        hei\ght: 0;
+    }
+
+    .xb1, .xb2, .xb3, .xb4, .xb5, .xb6, .xb7 {
+        display: block;
+        overflow: hidden;
+        font-size: 0;
+    }
+
+    .xb1, .xb2, .xb3, .xb4, .xb5, .xb6 {
+        height: 1px;
+    }
+
+    .xb4, .xb5, .xb6, .xb7 {
+        background: #ccc;
+        border-left: 1px solid #fff;
+        border-right: 1px solid #fff;
+    }
+
+    .xb1 {
+        margin: 0 8px;
+        background: #fff;
+    }
+
+    .xb2 {
+        margin: 0 6px;
+        background: #fff;
+    }
+
+    .xb3 {
+        margin: 0 4px;
+        background: #fff;
+    }
+
+    .xb4 {
+        margin: 0 3px;
+        background: #F9F9F9;
+        border-width: 0 5px;
+    }
+
+    .xb5 {
+        margin: 0 2px;
+        background: #F9F9F9;
+        border-width: 0 4px;
+    }
+
+    .xb6 {
+        margin: 0 2px;
+        background: #F9F9F9;
+        border-width: 0 3px;
+    }
+
+    .xb7 {
+        margin: 0 1px;
+        background: #F9F9F9;
+        border-width: 0 3px;
+        height: 2px;
+    }
+
+    .xboxcontent {
+        display: block;
+        background: #F9F9F9;
+        border: 3px solid #fff;
+        border-width: 0 3px;
+    }
+
+
+
+    p {
+        text-indent: 2em
+    }
+
+    -->
+</style>
+<link rel="stylesheet" href="/lee/css/button.css">
+
+
+<body>
+
+
+<table style="width:800px;margin :  5px 0px 15px 5px;margin-left:auto;margin-right:auto" align="center">
+    <tr>
+        <td>
+
+
+            <div class="style123w" style=" width:800px;border-top:0px;   ">
+
+                <br/>
+                <br/>
+
+                <div style="padding:10px;">
+                    <p align="center">
+                    <h2 align="center">九型人格（Ninehouse）完整版测试</h2>
+                    </p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+
+
+                    <div class="xsnazzy">
+                        <b class="xb1"></b><b class="xb2"></b><b class="xb3"></b><b class="xb4"></b><b
+                            class="xb5"></b><b class="xb6"></b><b class="xb7"></b>
+                        <div class="xboxcontent">
+
+
+                            <p style="text-indent:0;">
+                                九型人格学（Enneagram/Ninehouse）是一个有2000多年历史的古老学问，它按照人们习惯性的思维模式，情绪反应和行为习惯等性格特质，将人的性格分为九种——1号性格：完美主义者;
+                                2号性格：给予者 ;
+                                3号性格：实干者 ;
+                                4号性格：悲情浪漫者 ;
+                                5号性格：观察者 ;
+                                6号性格：怀疑论者 ;
+                                7号性格：享乐主义者 ;
+                                8号性格：保护者 ;
+                                9号性格：调停者 。</p>
+                        </div>
+                        <b class="xb7"></b><b class="xb6"></b><b class="xb5"></b><b class="xb4"></b><b
+                            class="xb3"></b><b class="xb2"></b><b class="xb1"></b>
+                        <em></em><span></span>
+                    </div>
+
+                    <script>
+                        function towanzhen() {
+
+
+                            document.getElementById("step2link").style.display = "";
+
+                        }
+
+                    </script>
+
+
+                    <table style="FLOAT: left; MARGIN: 0px 25px 10px 0px" width="290" cellspacing="5">
+                        <tr>
+
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                    <p>“Enneagram”一词源自希腊文ennea(九)以及gram(型态)，可以译为<b>九宫格（ninehouse）</b>、九型人格或九种性格。九型人格是2000多年前印度西部研究出的人性学，后来由苏非学派所传承。</b>
+                    </p>
+                    <p>其后，九型人格学说辗转流传到欧美等地，美国心理学家海伦·帕玛（Helen
+                        Palmer）早年将它用作研究人类行为及心理的专业课题，更被包括斯坦福大学在内的多所美国大学列作教材，成为心理研究课程。美国中央情报局（CIA）亦曾使用它，协助探员了解各国元首的行为特质。
+                        世界500强中的美国通用汽车公司、可口可乐、惠普等企业也早已把九型人格学运用于企业管理。
+
+                    </p>
+                    <p>为方便我们的理解，我们把九种性格直观列出如下：</p>
+
+
+                    <p>第一型完美主义者（The Reformer）：完美者、改进型、捍卫原则型、秩序大使</p>
+
+                    <p>第二型助人者（The Helper）：成就他人者、助人型、博爱型、爱心大使</p>
+
+                    <p>第三型成就者（The Achiever）：成就者、实践型、实干型</p>
+
+                    <p>第四型艺术型（The Individualist）：浪漫者、艺术型、自我型</p>
+
+                    <p>第五型智慧型（The Investigator）：观察者、思考型、理智型</p>
+
+                    <p>第六型忠诚型（The Loyalist）：寻求安全者、谨慎型、忠诚型</p>
+
+                    <p>第七型快乐主义型（The Enthusiast）：创造可能者、活跃型、享乐型</p>
+
+                    <p>第八型领袖型（The Challenger）：挑战者、权威型、领袖</p>
+
+                    <p>第九型和平型（The Peacemaker）：维持和谐者、和谐型、平淡型</p>
+
+
+                    <div class="intro"><b>早已了解九型人格理论？</b>
+
+
+
+                        <div id="step2link" style="display:none;"><br/>
+                            <p align="center"><b>请选择：</b> &nbsp;&nbsp;&nbsp; <a
+                                    href="index.asp?shareid=&version=36#datiarea" class="a-tips-Article-QQ">36题版</a>&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; <a href="index.asp?shareid=&version=108#datiarea"
+                                                      class="a-tips-Article-QQ">108题版</a>
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="index.asp?shareid=&version=144#datiarea"
+                                                                         class="a-tips-Article-QQ">144题版</a>
+
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="index.asp?shareid=&version=180#datiarea"
+                                                                         class="a-tips-Article-QQ">180题版</a>
+
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p>
+                        </div>
+                    </div>
+                    <p>九型人格除了性格的九种形态外，还有人格的健康状况，总共有9级。健康的阶梯有第1、2和3级，一般的有第4、5和6级，不健康的有第7、8和9级。最健康的是第1级，最差的是第9级。
+                    </p>
+
+                    <p>
+                        人格最健康的时候，随时有人格整合的可能，例如第9型的出现了第3型的特征，由原本的内向保守，变得充满活力，基本欲望得到满足，基本恐惧隐藏。健康的人格令人活出真我，心理平衡、充分发挥自己的潜能和能对社会作出贡献。</p>
+
+                    <p>
+
+                        一般的时候基本欲望和基本恐惧浮现，由自我取代了真我，自我过分膨胀，自我防卫机制出现，心理变得不平衡，容易与人发生冲突，为了满足基本欲望，可以不惜一切伤害人，也很容易屈服在社会的阴影下，人格的优点未能充分发挥。不健康的人格，可说是一种病态，自我防卫机制失灵，可以导致人格陷落，如第五型人出现了第七型的缺点如失控、信口开河和生活奢侈等。严重的会导致精神病，甚至自毁。
+                        当人格于极健康和不健康的时候，是有整合和陷落的现象，这会导致错误地判断人的基本人格，尤其是极健康的时候。</p>
+
+                    <p>两个独立的升华、恶化方向圈：</p>
+
+                    <p>第一条：1 → 7 → 5 → 8 → 2 → 4 → 1</p>
+
+                    <p>第二条：3 → 6 → 9 → 3</p>
+
+                    <p>顺向为人格升华方向，逆向为人格恶化方向。
+
+                        例如一个2号心理健康时，便会同时出现4号的心理健康特征；若一个2号心理不健康时，便会出现8号的心理不健康特征，如此类推。第二条内也如此类推。</p>
+
+                    <p>人格升华的整合方向及其素质获得的提升表现：</p>
+
+                    <p>1 → 7：放下拘谨，宽容乐观，敢于尝试，获得“开朗”；</p>
+
+                    <p>7 → 5：减少冲动，处事冷静，深入思考，获得“理智”；</p>
+
+                    <p>5 → 8：坚强勇敢，果断自信，言出必行，获得“威信”；</p>
+
+                    <p>8 → 2：热情友善，乐于助人，心胸开放，获得“纯真”；</p>
+
+                    <p>2 → 4：坚持心愿，自我享受，爱人爱己，获得“谦卑”；</p>
+
+                    <p>4 → 1：安分守己，是非分明，客观冷静，获得“平衡”；</p>
+
+                    <p>3 → 6：尽责细心，三思后行，忠心耿耿，获得“忠诚”；</p>
+
+                    <p>6 → 9：随遇而安，放下焦虑，信服别人，获得“信任”；</p>
+
+                    <p>9 → 3：目标明确，勤快积极，自我挑战，获得“果断”。</p>
+
+                    <p>这个理论是九型人格论比其他心理分类﹙如MBTI﹚不同和特别的地方，这里也是才储团队对这个古老的模型进行研究的重点。</p>
+                    <br/>
+                    <br/>
+
+                    <a name="datiarea"></a>
+                    <p><b>引导语：</b>根据自己的实际情况选择你认为对的选项。选择的目的在于了解自己，请尽可能选择你的自然偏好。
+                    </p>
+
+
+                    <form method="post" name="form1" action="/mensa/common_submit_hr/ninehouse_conn_hr.asp"
+                          onSubmit="return form_check()">
+
+                        <input name="tishu" value="108" type="hidden">
+                        <input name="shareid" value="" type="hidden">
+
+
+                        <a name="answer1juanbiao"></a><br><br>
+                        <b> 第1题、我很容易迷惑。 </b><br/>
+
+                        <label class="green button" for="answer1a"><input type="radio" name="answer1" value="1"
+                                                                          id="answer1a">是</label><br/>
+
+                        <label class="green button" for="answer1b"><input type="radio" name="answer1" value="0"
+                                                                          id="answer1b">否</label><br/>
+
+
+                        <a name="answer2juanbiao"></a><br><br>
+                        <b> 第2题、我不想成为一个喜欢批评的人，但很难做到。 </b><br/>
+
+                        <label class="green button" for="answer2a"><input type="radio" name="answer2" value="1"
+                                                                          id="answer2a">是</label><br/>
+
+                        <label class="green button" for="answer2b"><input type="radio" name="answer2" value="0"
+                                                                          id="answer2b">否</label><br/>
+
+
+                        <a name="answer3juanbiao"></a><br><br>
+                        <b> 第3题、我喜欢研究宇宙的道理、哲理。 </b><br/>
+
+                        <label class="green button" for="answer3a"><input type="radio" name="answer3" value="1"
+                                                                          id="answer3a">是</label><br/>
+
+                        <label class="green button" for="answer3b"><input type="radio" name="answer3" value="0"
+                                                                          id="answer3b">否</label><br/>
+
+
+                        <a name="answer4juanbiao"></a><br><br>
+                        <b> 第4题、我很注意自己是否年轻，因为那是我找乐子的本钱。 </b><br/>
+
+                        <label class="green button" for="answer4a"><input type="radio" name="answer4" value="1"
+                                                                          id="answer4a">是</label><br/>
+
+                        <label class="green button" for="answer4b"><input type="radio" name="answer4" value="0"
+                                                                          id="answer4b">否</label><br/>
+
+
+                        <a name="answer5juanbiao"></a><br><br>
+                        <b> 第5题、我喜欢独立自主，一切都靠自己。 </b><br/>
+
+                        <label class="green button" for="answer5a"><input type="radio" name="answer5" value="1"
+                                                                          id="answer5a">是</label><br/>
+
+                        <label class="green button" for="answer5b"><input type="radio" name="answer5" value="0"
+                                                                          id="answer5b">否</label><br/>
+
+
+                        <a name="answer6juanbiao"></a><br><br>
+                        <b> 第6题、当我有困难的时候，我会试着不让人知道。 </b><br/>
+
+                        <label class="green button" for="answer6a"><input type="radio" name="answer6" value="1"
+                                                                          id="answer6a">是</label><br/>
+
+                        <label class="green button" for="answer6b"><input type="radio" name="answer6" value="0"
+                                                                          id="answer6b">否</label><br/>
+
+
+                        <a name="answer7juanbiao"></a><br><br>
+                        <b> 第7题、被人误解对我而言是一件十分痛苦的事。 </b><br/>
+
+                        <label class="green button" for="answer7a"><input type="radio" name="answer7" value="1"
+                                                                          id="answer7a">是</label><br/>
+
+                        <label class="green button" for="answer7b"><input type="radio" name="answer7" value="0"
+                                                                          id="answer7b">否</label><br/>
+
+
+                        <a name="answer8juanbiao"></a><br><br>
+                        <b> 第8题、施比受会给我更大的满足感。 </b><br/>
+
+                        <label class="green button" for="answer8a"><input type="radio" name="answer8" value="1"
+                                                                          id="answer8a">是</label><br/>
+
+                        <label class="green button" for="answer8b"><input type="radio" name="answer8" value="0"
+                                                                          id="answer8b">否</label><br/>
+
+
+                        <a name="answer9juanbiao"></a><br><br>
+                        <b> 第9题、我常常试探或考验朋友、伴侣的忠诚。 </b><br/>
+
+                        <label class="green button" for="answer9a"><input type="radio" name="answer9" value="1"
+                                                                          id="answer9a">是</label><br/>
+
+                        <label class="green button" for="answer9b"><input type="radio" name="answer9" value="0"
+                                                                          id="answer9b">否</label><br/>
+
+
+                        <a name="answer10juanbiao"></a><br><br>
+                        <b> 第10题、我常常设想最遭的结果而使自己陷入苦恼中。 </b><br/>
+
+                        <label class="green button" for="answer10a"><input type="radio" name="answer10" value="1"
+                                                                           id="answer10a">是</label><br/>
+
+                        <label class="green button" for="answer10b"><input type="radio" name="answer10" value="0"
+                                                                           id="answer10b">否</label><br/>
+
+
+                        <a name="answer11juanbiao"></a><br><br>
+                        <b> 第11题、我看不起那些不像我一样坚强的人，有时我会用种种方式羞辱他们。 </b><br/>
+
+                        <label class="green button" for="answer11a"><input type="radio" name="answer11" value="1"
+                                                                           id="answer11a">是</label><br/>
+
+                        <label class="green button" for="answer11b"><input type="radio" name="answer11" value="0"
+                                                                           id="answer11b">否</label><br/>
+
+
+                        <a name="answer12juanbiao"></a><br><br>
+                        <b> 第12题、 身体上的舒适对我非常重要。 </b><br/>
+
+                        <label class="green button" for="answer12a"><input type="radio" name="answer12" value="1"
+                                                                           id="answer12a">是</label><br/>
+
+                        <label class="green button" for="answer12b"><input type="radio" name="answer12" value="0"
+                                                                           id="answer12b">否</label><br/>
+
+
+                        <a name="answer13juanbiao"></a><br><br>
+                        <b> 第13题、我能触碰生活中的悲伤和不幸。 </b><br/>
+
+                        <label class="green button" for="answer13a"><input type="radio" name="answer13" value="1"
+                                                                           id="answer13a">是</label><br/>
+
+                        <label class="green button" for="answer13b"><input type="radio" name="answer13" value="0"
+                                                                           id="answer13b">否</label><br/>
+
+
+                        <a name="answer14juanbiao"></a><br><br>
+                        <b> 第14题、别人不能完成他的分内事，会令我失望和愤怒。 </b><br/>
+
+                        <label class="green button" for="answer14a"><input type="radio" name="answer14" value="1"
+                                                                           id="answer14a">是</label><br/>
+
+                        <label class="green button" for="answer14b"><input type="radio" name="answer14" value="0"
+                                                                           id="answer14b">否</label><br/>
+
+
+                        <a name="answer15juanbiao"></a><br><br>
+                        <b> 第15题、我时常拖延问题，不去解决。 </b><br/>
+
+                        <label class="green button" for="answer15a"><input type="radio" name="answer15" value="1"
+                                                                           id="answer15a">是</label><br/>
+
+                        <label class="green button" for="answer15b"><input type="radio" name="answer15" value="0"
+                                                                           id="answer15b">否</label><br/>
+
+
+                        <a name="answer16juanbiao"></a><br><br>
+                        <b> 第16题、我喜欢戏剧性、多彩多姿的生活。 </b><br/>
+
+                        <label class="green button" for="answer16a"><input type="radio" name="answer16" value="1"
+                                                                           id="answer16a">是</label><br/>
+
+                        <label class="green button" for="answer16b"><input type="radio" name="answer16" value="0"
+                                                                           id="answer16b">否</label><br/>
+
+
+                        <a name="answer17juanbiao"></a><br><br>
+                        <b> 第17题、我认为自己非常不完善。 </b><br/>
+
+                        <label class="green button" for="answer17a"><input type="radio" name="answer17" value="1"
+                                                                           id="answer17a">是</label><br/>
+
+                        <label class="green button" for="answer17b"><input type="radio" name="answer17" value="0"
+                                                                           id="answer17b">否</label><br/>
+
+
+                        <a name="answer18juanbiao"></a><br><br>
+                        <b> 第18题、我对感官的需求特别强烈，喜欢美食、服装、身体的触觉刺激，并纵情享乐。 </b><br/>
+
+                        <label class="green button" for="answer18a"><input type="radio" name="answer18" value="1"
+                                                                           id="answer18a">是</label><br/>
+
+                        <label class="green button" for="answer18b"><input type="radio" name="answer18" value="0"
+                                                                           id="answer18b">否</label><br/>
+
+
+                        <a name="answer19juanbiao"></a><br><br>
+                        <b> 第19题、当别人请教我一些问题，我会巨细无遗地分析得很清楚。 </b><br/>
+
+                        <label class="green button" for="answer19a"><input type="radio" name="answer19" value="1"
+                                                                           id="answer19a">是</label><br/>
+
+                        <label class="green button" for="answer19b"><input type="radio" name="answer19" value="0"
+                                                                           id="answer19b">否</label><br/>
+
+
+                        <a name="answer20juanbiao"></a><br><br>
+                        <b> 第20题、我习惯推销自己，从不觉得难为情。 </b><br/>
+
+                        <label class="green button" for="answer20a"><input type="radio" name="answer20" value="1"
+                                                                           id="answer20a">是</label><br/>
+
+                        <label class="green button" for="answer20b"><input type="radio" name="answer20" value="0"
+                                                                           id="answer20b">否</label><br/>
+
+
+                        <a name="answer21juanbiao"></a><br><br>
+                        <b> 第21题、有时我会放纵和做出僭越的事情。 </b><br/>
+
+                        <label class="green button" for="answer21a"><input type="radio" name="answer21" value="1"
+                                                                           id="answer21a">是</label><br/>
+
+                        <label class="green button" for="answer21b"><input type="radio" name="answer21" value="0"
+                                                                           id="answer21b">否</label><br/>
+
+
+                        <a name="answer22juanbiao"></a><br><br>
+                        <b> 第22题、帮助不到别人会让我觉得痛苦。 </b><br/>
+
+                        <label class="green button" for="answer22a"><input type="radio" name="answer22" value="1"
+                                                                           id="answer22a">是</label><br/>
+
+                        <label class="green button" for="answer22b"><input type="radio" name="answer22" value="0"
+                                                                           id="answer22b">否</label><br/>
+
+
+                        <a name="answer23juanbiao"></a><br><br>
+                        <b> 第23题、我不喜欢人家问我广泛、笼统的问题。 </b><br/>
+
+                        <label class="green button" for="answer23a"><input type="radio" name="answer23" value="1"
+                                                                           id="answer23a">是</label><br/>
+
+                        <label class="green button" for="answer23b"><input type="radio" name="answer23" value="0"
+                                                                           id="answer23b">否</label><br/>
+
+
+                        <a name="answer24juanbiao"></a><br><br>
+                        <b> 第24题、在某方面我有放纵的倾向（例如食物、药物等）。 </b><br/>
+
+                        <label class="green button" for="answer24a"><input type="radio" name="answer24" value="1"
+                                                                           id="answer24a">是</label><br/>
+
+                        <label class="green button" for="answer24b"><input type="radio" name="answer24" value="0"
+                                                                           id="answer24b">否</label><br/>
+
+
+                        <a name="answer25juanbiao"></a><br><br>
+                        <b> 第25题、我宁愿适应别人，包括我的伴侣，而不会反抗他们。 </b><br/>
+
+                        <label class="green button" for="answer25a"><input type="radio" name="answer25" value="1"
+                                                                           id="answer25a">是</label><br/>
+
+                        <label class="green button" for="answer25b"><input type="radio" name="answer25" value="0"
+                                                                           id="answer25b">否</label><br/>
+
+
+                        <a name="answer26juanbiao"></a><br><br>
+                        <b> 第26题、我最不喜欢的一件事就是虚伪。 </b><br/>
+
+                        <label class="green button" for="answer26a"><input type="radio" name="answer26" value="1"
+                                                                           id="answer26a">是</label><br/>
+
+                        <label class="green button" for="answer26b"><input type="radio" name="answer26" value="0"
+                                                                           id="answer26b">否</label><br/>
+
+
+                        <a name="answer27juanbiao"></a><br><br>
+                        <b> 第27题、我知错能改，但由于执著好强，周围的人还是感觉到压力。 </b><br/>
+
+                        <label class="green button" for="answer27a"><input type="radio" name="answer27" value="1"
+                                                                           id="answer27a">是</label><br/>
+
+                        <label class="green button" for="answer27b"><input type="radio" name="answer27" value="0"
+                                                                           id="answer27b">否</label><br/>
+
+
+                        <a name="answer28juanbiao"></a><br><br>
+                        <b> 第28题、我常觉得很多事情都很好玩，很有趣，人生真是快乐。 </b><br/>
+
+                        <label class="green button" for="answer28a"><input type="radio" name="answer28" value="1"
+                                                                           id="answer28a">是</label><br/>
+
+                        <label class="green button" for="answer28b"><input type="radio" name="answer28" value="0"
+                                                                           id="answer28b">否</label><br/>
+
+
+                        <a name="answer29juanbiao"></a><br><br>
+                        <b> 第29题、我有时很欣赏自己充满权威，有时却又优柔寡断，依赖别人。 </b><br/>
+
+                        <label class="green button" for="answer29a"><input type="radio" name="answer29" value="1"
+                                                                           id="answer29a">是</label><br/>
+
+                        <label class="green button" for="answer29b"><input type="radio" name="answer29" value="0"
+                                                                           id="answer29b">否</label><br/>
+
+
+                        <a name="answer30juanbiao"></a><br><br>
+                        <b> 第30题、 我习惯付出多于接受。 </b><br/>
+
+                        <label class="green button" for="answer30a"><input type="radio" name="answer30" value="1"
+                                                                           id="answer30a">是</label><br/>
+
+                        <label class="green button" for="answer30b"><input type="radio" name="answer30" value="0"
+                                                                           id="answer30b">否</label><br/>
+
+
+                        <a name="answer31juanbiao"></a><br><br>
+                        <b> 第31题、面对威胁时，我一是变得焦虑，一是对抗迎面而来的危险。 </b><br/>
+
+                        <label class="green button" for="answer31a"><input type="radio" name="answer31" value="1"
+                                                                           id="answer31a">是</label><br/>
+
+                        <label class="green button" for="answer31b"><input type="radio" name="answer31" value="0"
+                                                                           id="answer31b">否</label><br/>
+
+
+                        <a name="answer32juanbiao"></a><br><br>
+                        <b> 第32题、我通常是等别人来接进我，而不是我去接近他们。 </b><br/>
+
+                        <label class="green button" for="answer32a"><input type="radio" name="answer32" value="1"
+                                                                           id="answer32a">是</label><br/>
+
+                        <label class="green button" for="answer32b"><input type="radio" name="answer32" value="0"
+                                                                           id="answer32b">否</label><br/>
+
+
+                        <a name="answer33juanbiao"></a><br><br>
+                        <b> 第33题、我喜欢当主角，希望得到大家的注意。 </b><br/>
+
+                        <label class="green button" for="answer33a"><input type="radio" name="answer33" value="1"
+                                                                           id="answer33a">是</label><br/>
+
+                        <label class="green button" for="answer33b"><input type="radio" name="answer33" value="0"
+                                                                           id="answer33b">否</label><br/>
+
+
+                        <a name="answer34juanbiao"></a><br><br>
+                        <b> 第34题、别人批评我，我也不会回应和解释，因为我不想发生任何争执与冲突。 </b><br/>
+
+                        <label class="green button" for="answer34a"><input type="radio" name="answer34" value="1"
+                                                                           id="answer34a">是</label><br/>
+
+                        <label class="green button" for="answer34b"><input type="radio" name="answer34" value="0"
+                                                                           id="answer34b">否</label><br/>
+
+
+                        <a name="answer35juanbiao"></a><br><br>
+                        <b> 第35题、我有时期待别人的指导，有时却忽略别人的忠告径直去做我想做的事。 </b><br/>
+
+                        <label class="green button" for="answer35a"><input type="radio" name="answer35" value="1"
+                                                                           id="answer35a">是</label><br/>
+
+                        <label class="green button" for="answer35b"><input type="radio" name="answer35" value="0"
+                                                                           id="answer35b">否</label><br/>
+
+
+                        <a name="answer36juanbiao"></a><br><br>
+                        <b> 第36题、我经常忘记自己的需要。 </b><br/>
+
+                        <label class="green button" for="answer36a"><input type="radio" name="answer36" value="1"
+                                                                           id="answer36a">是</label><br/>
+
+                        <label class="green button" for="answer36b"><input type="radio" name="answer36" value="0"
+                                                                           id="answer36b">否</label><br/>
+
+
+                        <a name="answer37juanbiao"></a><br><br>
+                        <b> 第37题、在重大危机中，我通常能克服我对自己的质疑和内心的焦虑。 </b><br/>
+
+                        <label class="green button" for="answer37a"><input type="radio" name="answer37" value="1"
+                                                                           id="answer37a">是</label><br/>
+
+                        <label class="green button" for="answer37b"><input type="radio" name="answer37" value="0"
+                                                                           id="answer37b">否</label><br/>
+
+
+                        <a name="answer38juanbiao"></a><br><br>
+                        <b> 第38题、我是一个天生的推销员，说服别人对我来说是一件轻易的事。 </b><br/>
+
+                        <label class="green button" for="answer38a"><input type="radio" name="answer38" value="1"
+                                                                           id="answer38a">是</label><br/>
+
+                        <label class="green button" for="answer38b"><input type="radio" name="answer38" value="0"
+                                                                           id="answer38b">否</label><br/>
+
+
+                        <a name="answer39juanbiao"></a><br><br>
+                        <b> 第39题、我不相信一个我一直都无法了解的人。 </b><br/>
+
+                        <label class="green button" for="answer39a"><input type="radio" name="answer39" value="1"
+                                                                           id="answer39a">是</label><br/>
+
+                        <label class="green button" for="answer39b"><input type="radio" name="answer39" value="0"
+                                                                           id="answer39b">否</label><br/>
+
+
+                        <a name="answer40juanbiao"></a><br><br>
+                        <b> 第40题、我爱依惯例行事，不大喜欢改变。 </b><br/>
+
+                        <label class="green button" for="answer40a"><input type="radio" name="answer40" value="1"
+                                                                           id="answer40a">是</label><br/>
+
+                        <label class="green button" for="answer40b"><input type="radio" name="answer40" value="0"
+                                                                           id="answer40b">否</label><br/>
+
+
+                        <a name="answer41juanbiao"></a><br><br>
+                        <b> 第41题、我很在乎家人，在家中表现得忠诚和包容。 </b><br/>
+
+                        <label class="green button" for="answer41a"><input type="radio" name="answer41" value="1"
+                                                                           id="answer41a">是</label><br/>
+
+                        <label class="green button" for="answer41b"><input type="radio" name="answer41" value="0"
+                                                                           id="answer41b">否</label><br/>
+
+
+                        <a name="answer42juanbiao"></a><br><br>
+                        <b> 第42题、我被动而优柔寡断。 </b><br/>
+
+                        <label class="green button" for="answer42a"><input type="radio" name="answer42" value="1"
+                                                                           id="answer42a">是</label><br/>
+
+                        <label class="green button" for="answer42b"><input type="radio" name="answer42" value="0"
+                                                                           id="answer42b">否</label><br/>
+
+
+                        <a name="answer43juanbiao"></a><br><br>
+                        <b> 第43题、我很有包容力，彬彬有礼，但跟人的感情互动不深。 </b><br/>
+
+                        <label class="green button" for="answer43a"><input type="radio" name="answer43" value="1"
+                                                                           id="answer43a">是</label><br/>
+
+                        <label class="green button" for="answer43b"><input type="radio" name="answer43" value="0"
+                                                                           id="answer43b">否</label><br/>
+
+
+                        <a name="answer44juanbiao"></a><br><br>
+                        <b> 第44题、我沉默寡言，好像不会关心别人似的。 </b><br/>
+
+                        <label class="green button" for="answer44a"><input type="radio" name="answer44" value="1"
+                                                                           id="answer44a">是</label><br/>
+
+                        <label class="green button" for="answer44b"><input type="radio" name="answer44" value="0"
+                                                                           id="answer44b">否</label><br/>
+
+
+                        <a name="answer45juanbiao"></a><br><br>
+                        <b> 第45题、当沉浸在工作或我擅长的领域时，别人会觉得我冷酷无情。 </b><br/>
+
+                        <label class="green button" for="answer45a"><input type="radio" name="answer45" value="1"
+                                                                           id="answer45a">是</label><br/>
+
+                        <label class="green button" for="answer45b"><input type="radio" name="answer45" value="0"
+                                                                           id="answer45b">否</label><br/>
+
+
+                        <a name="answer46juanbiao"></a><br><br>
+                        <b> 第46题、我常常保持警觉。 </b><br/>
+
+                        <label class="green button" for="answer46a"><input type="radio" name="answer46" value="1"
+                                                                           id="answer46a">是</label><br/>
+
+                        <label class="green button" for="answer46b"><input type="radio" name="answer46" value="0"
+                                                                           id="answer46b">否</label><br/>
+
+
+                        <a name="answer47juanbiao"></a><br><br>
+                        <b> 第47题、我不喜欢要对人尽义务的感觉。 </b><br/>
+
+                        <label class="green button" for="answer47a"><input type="radio" name="answer47" value="1"
+                                                                           id="answer47a">是</label><br/>
+
+                        <label class="green button" for="answer47b"><input type="radio" name="answer47" value="0"
+                                                                           id="answer47b">否</label><br/>
+
+
+                        <a name="answer48juanbiao"></a><br><br>
+                        <b> 第48题、如果不能完美地表态，我宁愿不说。 </b><br/>
+
+                        <label class="green button" for="answer48a"><input type="radio" name="answer48" value="1"
+                                                                           id="answer48a">是</label><br/>
+
+                        <label class="green button" for="answer48b"><input type="radio" name="answer48" value="0"
+                                                                           id="answer48b">否</label><br/>
+
+
+                        <a name="answer49juanbiao"></a><br><br>
+                        <b> 第49题、我的计划比我实际完成的还要多。 </b><br/>
+
+                        <label class="green button" for="answer49a"><input type="radio" name="answer49" value="1"
+                                                                           id="answer49a">是</label><br/>
+
+                        <label class="green button" for="answer49b"><input type="radio" name="answer49" value="0"
+                                                                           id="answer49b">否</label><br/>
+
+
+                        <a name="answer50juanbiao"></a><br><br>
+                        <b> 第50题、我野心勃勃，喜欢挑战和登上高峰的滋味。 </b><br/>
+
+                        <label class="green button" for="answer50a"><input type="radio" name="answer50" value="1"
+                                                                           id="answer50a">是</label><br/>
+
+                        <label class="green button" for="answer50b"><input type="radio" name="answer50" value="0"
+                                                                           id="answer50b">否</label><br/>
+
+
+                        <a name="answer51juanbiao"></a><br><br>
+                        <b> 第51题、我倾向于独断专行并自己解决问题。 </b><br/>
+
+                        <label class="green button" for="answer51a"><input type="radio" name="answer51" value="1"
+                                                                           id="answer51a">是</label><br/>
+
+                        <label class="green button" for="answer51b"><input type="radio" name="answer51" value="0"
+                                                                           id="answer51b">否</label><br/>
+
+
+                        <a name="answer52juanbiao"></a><br><br>
+                        <b> 第52题、我很多时候感到被遗弃。 </b><br/>
+
+                        <label class="green button" for="answer52a"><input type="radio" name="answer52" value="1"
+                                                                           id="answer52a">是</label><br/>
+
+                        <label class="green button" for="answer52b"><input type="radio" name="answer52" value="0"
+                                                                           id="answer52b">否</label><br/>
+
+
+                        <a name="answer53juanbiao"></a><br><br>
+                        <b> 第53题、我常常表现得十分忧郁的样子，充满痛苦而且内向。 </b><br/>
+
+                        <label class="green button" for="answer53a"><input type="radio" name="answer53" value="1"
+                                                                           id="answer53a">是</label><br/>
+
+                        <label class="green button" for="answer53b"><input type="radio" name="answer53" value="0"
+                                                                           id="answer53b">否</label><br/>
+
+
+                        <a name="answer54juanbiao"></a><br><br>
+                        <b> 第54题、初见陌生人时，我会表现得很冷漠、高傲。 </b><br/>
+
+                        <label class="green button" for="answer54a"><input type="radio" name="answer54" value="1"
+                                                                           id="answer54a">是</label><br/>
+
+                        <label class="green button" for="answer54b"><input type="radio" name="answer54" value="0"
+                                                                           id="answer54b">否</label><br/>
+
+
+                        <a name="answer55juanbiao"></a><br><br>
+                        <b> 第55题、我的面部表情严肃而生硬。 </b><br/>
+
+                        <label class="green button" for="answer55a"><input type="radio" name="answer55" value="1"
+                                                                           id="answer55a">是</label><br/>
+
+                        <label class="green button" for="answer55b"><input type="radio" name="answer55" value="0"
+                                                                           id="answer55b">否</label><br/>
+
+
+                        <a name="answer56juanbiao"></a><br><br>
+                        <b> 第56题、我很飘忽，常常不知自己下一刻想要什么。 </b><br/>
+
+                        <label class="green button" for="answer56a"><input type="radio" name="answer56" value="1"
+                                                                           id="answer56a">是</label><br/>
+
+                        <label class="green button" for="answer56b"><input type="radio" name="answer56" value="0"
+                                                                           id="answer56b">否</label><br/>
+
+
+                        <a name="answer57juanbiao"></a><br><br>
+                        <b> 第57题、我常对自己挑剔，期望不断改善自己的缺点，以成为一个完美的人。 </b><br/>
+
+                        <label class="green button" for="answer57a"><input type="radio" name="answer57" value="1"
+                                                                           id="answer57a">是</label><br/>
+
+                        <label class="green button" for="answer57b"><input type="radio" name="answer57" value="0"
+                                                                           id="answer57b">否</label><br/>
+
+
+                        <a name="answer58juanbiao"></a><br><br>
+                        <b> 第58题、我感受特别深刻，并怀疑那些总是很快乐的人。 </b><br/>
+
+                        <label class="green button" for="answer58a"><input type="radio" name="answer58" value="1"
+                                                                           id="answer58a">是</label><br/>
+
+                        <label class="green button" for="answer58b"><input type="radio" name="answer58" value="0"
+                                                                           id="answer58b">否</label><br/>
+
+
+                        <a name="answer59juanbiao"></a><br><br>
+                        <b> 第59题、我做事有效率，会找捷径，模仿力特强。 </b><br/>
+
+                        <label class="green button" for="answer59a"><input type="radio" name="answer59" value="1"
+                                                                           id="answer59a">是</label><br/>
+
+                        <label class="green button" for="answer59b"><input type="radio" name="answer59" value="0"
+                                                                           id="answer59b">否</label><br/>
+
+
+                        <a name="answer60juanbiao"></a><br><br>
+                        <b> 第60题、 我讲理、重实用。 </b><br/>
+
+                        <label class="green button" for="answer60a"><input type="radio" name="answer60" value="1"
+                                                                           id="answer60a">是</label><br/>
+
+                        <label class="green button" for="answer60b"><input type="radio" name="answer60" value="0"
+                                                                           id="answer60b">否</label><br/>
+
+
+                        <a name="answer61juanbiao"></a><br><br>
+                        <b> 第61题、我有很强的创造天分和想象力，喜欢将事情重新整合。 </b><br/>
+
+                        <label class="green button" for="answer61a"><input type="radio" name="answer61" value="1"
+                                                                           id="answer61a">是</label><br/>
+
+                        <label class="green button" for="answer61b"><input type="radio" name="answer61" value="0"
+                                                                           id="answer61b">否</label><br/>
+
+
+                        <a name="answer62juanbiao"></a><br><br>
+                        <b> 第62题、我不要求得到很多的注意力。 </b><br/>
+
+                        <label class="green button" for="answer62a"><input type="radio" name="answer62" value="1"
+                                                                           id="answer62a">是</label><br/>
+
+                        <label class="green button" for="answer62b"><input type="radio" name="answer62" value="0"
+                                                                           id="answer62b">否</label><br/>
+
+
+                        <a name="answer63juanbiao"></a><br><br>
+                        <b> 第63题、我喜欢每件事情都井然有序，但别人会以为我过分执著。 </b><br/>
+
+                        <label class="green button" for="answer63a"><input type="radio" name="answer63" value="1"
+                                                                           id="answer63a">是</label><br/>
+
+                        <label class="green button" for="answer63b"><input type="radio" name="answer63" value="0"
+                                                                           id="answer63b">否</label><br/>
+
+
+                        <a name="answer64juanbiao"></a><br><br>
+                        <b> 第64题、我渴望有完美的心灵伴侣。 </b><br/>
+
+                        <label class="green button" for="answer64a"><input type="radio" name="answer64" value="1"
+                                                                           id="answer64a">是</label><br/>
+
+                        <label class="green button" for="answer64b"><input type="radio" name="answer64" value="0"
+                                                                           id="answer64b">否</label><br/>
+
+
+                        <a name="answer65juanbiao"></a><br><br>
+                        <b> 第65题、我常夸耀自己，对自己的能力十分有信心。 </b><br/>
+
+                        <label class="green button" for="answer65a"><input type="radio" name="answer65" value="1"
+                                                                           id="answer65a">是</label><br/>
+
+                        <label class="green button" for="answer65b"><input type="radio" name="answer65" value="0"
+                                                                           id="answer65b">否</label><br/>
+
+
+                        <a name="answer66juanbiao"></a><br><br>
+                        <b> 第66题、如果周遭的人行为太过分时，我准会让他难堪。 </b><br/>
+
+                        <label class="green button" for="answer66a"><input type="radio" name="answer66" value="1"
+                                                                           id="answer66a">是</label><br/>
+
+                        <label class="green button" for="answer66b"><input type="radio" name="answer66" value="0"
+                                                                           id="answer66b">否</label><br/>
+
+
+                        <a name="answer67juanbiao"></a><br><br>
+                        <b> 第67题、我外向、精力充沛，喜欢不断追求成就，这使我的自我感觉十分良好。 </b><br/>
+
+                        <label class="green button" for="answer67a"><input type="radio" name="answer67" value="1"
+                                                                           id="answer67a">是</label><br/>
+
+                        <label class="green button" for="answer67b"><input type="radio" name="answer67" value="0"
+                                                                           id="answer67b">否</label><br/>
+
+
+                        <a name="answer68juanbiao"></a><br><br>
+                        <b> 第68题、我是一位忠实的朋友和伙伴。 </b><br/>
+
+                        <label class="green button" for="answer68a"><input type="radio" name="answer68" value="1"
+                                                                           id="answer68a">是</label><br/>
+
+                        <label class="green button" for="answer68b"><input type="radio" name="answer68" value="0"
+                                                                           id="answer68b">否</label><br/>
+
+
+                        <a name="answer69juanbiao"></a><br><br>
+                        <b> 第69题、我知道如何让别人喜欢我。 </b><br/>
+
+                        <label class="green button" for="answer69a"><input type="radio" name="answer69" value="1"
+                                                                           id="answer69a">是</label><br/>
+
+                        <label class="green button" for="answer69b"><input type="radio" name="answer69" value="0"
+                                                                           id="answer69b">否</label><br/>
+
+
+                        <a name="answer70juanbiao"></a><br><br>
+                        <b> 第70题、我很少看到别人的功劳和好处。 </b><br/>
+
+                        <label class="green button" for="answer70a"><input type="radio" name="answer70" value="1"
+                                                                           id="answer70a">是</label><br/>
+
+                        <label class="green button" for="answer70b"><input type="radio" name="answer70" value="0"
+                                                                           id="answer70b">否</label><br/>
+
+
+                        <a name="answer71juanbiao"></a><br><br>
+                        <b> 第71题、我很容易看到别人的功劳和好处。 </b><br/>
+
+                        <label class="green button" for="answer71a"><input type="radio" name="answer71" value="1"
+                                                                           id="answer71a">是</label><br/>
+
+                        <label class="green button" for="answer71b"><input type="radio" name="answer71" value="0"
+                                                                           id="answer71b">否</label><br/>
+
+
+                        <a name="answer72juanbiao"></a><br><br>
+                        <b> 第72题、我嫉妒心强，喜欢跟别人比较。 </b><br/>
+
+                        <label class="green button" for="answer72a"><input type="radio" name="answer72" value="1"
+                                                                           id="answer72a">是</label><br/>
+
+                        <label class="green button" for="answer72b"><input type="radio" name="answer72" value="0"
+                                                                           id="answer72b">否</label><br/>
+
+
+                        <a name="answer73juanbiao"></a><br><br>
+                        <b> 第73题、我对别人做的事总是不放心，批评一番后，自己会动手再做。 </b><br/>
+
+                        <label class="green button" for="answer73a"><input type="radio" name="answer73" value="1"
+                                                                           id="answer73a">是</label><br/>
+
+                        <label class="green button" for="answer73b"><input type="radio" name="answer73" value="0"
+                                                                           id="answer73b">否</label><br/>
+
+
+                        <a name="answer74juanbiao"></a><br><br>
+                        <b> 第74题、别人会说我常带着面具做人。 </b><br/>
+
+                        <label class="green button" for="answer74a"><input type="radio" name="answer74" value="1"
+                                                                           id="answer74a">是</label><br/>
+
+                        <label class="green button" for="answer74b"><input type="radio" name="answer74" value="0"
+                                                                           id="answer74b">否</label><br/>
+
+
+                        <a name="answer75juanbiao"></a><br><br>
+                        <b> 第75题、有时我会激怒对方，引来莫名其妙的吵架，其实我是想试探对方爱不爱我。 </b><br/>
+
+                        <label class="green button" for="answer75a"><input type="radio" name="answer75" value="1"
+                                                                           id="answer75a">是</label><br/>
+
+                        <label class="green button" for="answer75b"><input type="radio" name="answer75" value="0"
+                                                                           id="answer75b">否</label><br/>
+
+
+                        <a name="answer76juanbiao"></a><br><br>
+                        <b> 第76题、我会极力保护我所爱的人。 </b><br/>
+
+                        <label class="green button" for="answer76a"><input type="radio" name="answer76" value="1"
+                                                                           id="answer76a">是</label><br/>
+
+                        <label class="green button" for="answer76b"><input type="radio" name="answer76" value="0"
+                                                                           id="answer76b">否</label><br/>
+
+
+                        <a name="answer77juanbiao"></a><br><br>
+                        <b> 第77题、我常常刻意保持兴奋的情绪。 </b><br/>
+
+                        <label class="green button" for="answer77a"><input type="radio" name="answer77" value="1"
+                                                                           id="answer77a">是</label><br/>
+
+                        <label class="green button" for="answer77b"><input type="radio" name="answer77" value="0"
+                                                                           id="answer77b">否</label><br/>
+
+
+                        <a name="answer78juanbiao"></a><br><br>
+                        <b> 第78题、我只喜欢与有趣的人为友，对一些闷蛋却懒得交往，即使他们看来很有深度。 </b><br/>
+
+                        <label class="green button" for="answer78a"><input type="radio" name="answer78" value="1"
+                                                                           id="answer78a">是</label><br/>
+
+                        <label class="green button" for="answer78b"><input type="radio" name="answer78" value="0"
+                                                                           id="answer78b">否</label><br/>
+
+
+                        <a name="answer79juanbiao"></a><br><br>
+                        <b> 第79题、我常往外跑，四处帮助别人。 </b><br/>
+
+                        <label class="green button" for="answer79a"><input type="radio" name="answer79" value="1"
+                                                                           id="answer79a">是</label><br/>
+
+                        <label class="green button" for="answer79b"><input type="radio" name="answer79" value="0"
+                                                                           id="answer79b">否</label><br/>
+
+
+                        <a name="answer80juanbiao"></a><br><br>
+                        <b> 第80题、 我有时会讲求效率而牺牲完美和原则。 </b><br/>
+
+                        <label class="green button" for="answer80a"><input type="radio" name="answer80" value="1"
+                                                                           id="answer80a">是</label><br/>
+
+                        <label class="green button" for="answer80b"><input type="radio" name="answer80" value="0"
+                                                                           id="answer80b">否</label><br/>
+
+
+                        <a name="answer81juanbiao"></a><br><br>
+                        <b> 第81题、我似乎不太懂得幽默，没有弹性。 </b><br/>
+
+                        <label class="green button" for="answer81a"><input type="radio" name="answer81" value="1"
+                                                                           id="answer81a">是</label><br/>
+
+                        <label class="green button" for="answer81b"><input type="radio" name="answer81" value="0"
+                                                                           id="answer81b">否</label><br/>
+
+
+                        <a name="answer82juanbiao"></a><br><br>
+                        <b> 第82题、我待人热情而有耐性。 </b><br/>
+
+                        <label class="green button" for="answer82a"><input type="radio" name="answer82" value="1"
+                                                                           id="answer82a">是</label><br/>
+
+                        <label class="green button" for="answer82b"><input type="radio" name="answer82" value="0"
+                                                                           id="answer82b">否</label><br/>
+
+
+                        <a name="answer83juanbiao"></a><br><br>
+                        <b> 第83题、在人群中我时常感到害羞和不安。 </b><br/>
+
+                        <label class="green button" for="answer83a"><input type="radio" name="answer83" value="1"
+                                                                           id="answer83a">是</label><br/>
+
+                        <label class="green button" for="answer83b"><input type="radio" name="answer83" value="0"
+                                                                           id="answer83b">否</label><br/>
+
+
+                        <a name="answer84juanbiao"></a><br><br>
+                        <b> 第84题、我喜欢效率，讨厌拖泥带水。 </b><br/>
+
+                        <label class="green button" for="answer84a"><input type="radio" name="answer84" value="1"
+                                                                           id="answer84a">是</label><br/>
+
+                        <label class="green button" for="answer84b"><input type="radio" name="answer84" value="0"
+                                                                           id="answer84b">否</label><br/>
+
+
+                        <a name="answer85juanbiao"></a><br><br>
+                        <b> 第85题、帮助别人达致快乐和成功是我最重要的成就。 </b><br/>
+
+                        <label class="green button" for="answer85a"><input type="radio" name="answer85" value="1"
+                                                                           id="answer85a">是</label><br/>
+
+                        <label class="green button" for="answer85b"><input type="radio" name="answer85" value="0"
+                                                                           id="answer85b">否</label><br/>
+
+
+                        <a name="answer86juanbiao"></a><br><br>
+                        <b> 第86题、付出时，别人若不欣然接受，我便会有挫折感。 </b><br/>
+
+                        <label class="green button" for="answer86a"><input type="radio" name="answer86" value="1"
+                                                                           id="answer86a">是</label><br/>
+
+                        <label class="green button" for="answer86b"><input type="radio" name="answer86" value="0"
+                                                                           id="answer86b">否</label><br/>
+
+
+                        <a name="answer87juanbiao"></a><br><br>
+                        <b> 第87题、我的肢体硬邦邦的，不习惯别人热情的付出。 </b><br/>
+
+                        <label class="green button" for="answer87a"><input type="radio" name="answer87" value="1"
+                                                                           id="answer87a">是</label><br/>
+
+                        <label class="green button" for="answer87b"><input type="radio" name="answer87" value="0"
+                                                                           id="answer87b">否</label><br/>
+
+
+                        <a name="answer88juanbiao"></a><br><br>
+                        <b> 第88题、我对大部分的社交集会不太有兴趣，除非那是我熟识的和喜爱的人。 </b><br/>
+
+                        <label class="green button" for="answer88a"><input type="radio" name="answer88" value="1"
+                                                                           id="answer88a">是</label><br/>
+
+                        <label class="green button" for="answer88b"><input type="radio" name="answer88" value="0"
+                                                                           id="answer88b">否</label><br/>
+
+
+                        <a name="answer89juanbiao"></a><br><br>
+                        <b> 第89题、很多时候我会有强烈的寂寞感。 </b><br/>
+
+                        <label class="green button" for="answer89a"><input type="radio" name="answer89" value="1"
+                                                                           id="answer89a">是</label><br/>
+
+                        <label class="green button" for="answer89b"><input type="radio" name="answer89" value="0"
+                                                                           id="answer89b">否</label><br/>
+
+
+                        <a name="answer90juanbiao"></a><br><br>
+                        <b> 第90题、人们很乐意向我表白他们所遭遇的问题。 </b><br/>
+
+                        <label class="green button" for="answer90a"><input type="radio" name="answer90" value="1"
+                                                                           id="answer90a">是</label><br/>
+
+                        <label class="green button" for="answer90b"><input type="radio" name="answer90" value="0"
+                                                                           id="answer90b">否</label><br/>
+
+
+                        <a name="answer91juanbiao"></a><br><br>
+                        <b> 第91题、我不但不会说甜言蜜语，而且别人会觉得我唠叨不停。 </b><br/>
+
+                        <label class="green button" for="answer91a"><input type="radio" name="answer91" value="1"
+                                                                           id="answer91a">是</label><br/>
+
+                        <label class="green button" for="answer91b"><input type="radio" name="answer91" value="0"
+                                                                           id="answer91b">否</label><br/>
+
+
+                        <a name="answer92juanbiao"></a><br><br>
+                        <b> 第92题、我常担心自由被剥夺，因此不爱作承诺。 </b><br/>
+
+                        <label class="green button" for="answer92a"><input type="radio" name="answer92" value="1"
+                                                                           id="answer92a">是</label><br/>
+
+                        <label class="green button" for="answer92b"><input type="radio" name="answer92" value="0"
+                                                                           id="answer92b">否</label><br/>
+
+
+                        <a name="answer93juanbiao"></a><br><br>
+                        <b> 第93题、 我喜欢告诉别人我所做的事和所知的一切。 </b><br/>
+
+                        <label class="green button" for="answer93a"><input type="radio" name="answer93" value="1"
+                                                                           id="answer93a">是</label><br/>
+
+                        <label class="green button" for="answer93b"><input type="radio" name="answer93" value="0"
+                                                                           id="answer93b">否</label><br/>
+
+
+                        <a name="answer94juanbiao"></a><br><br>
+                        <b> 第94题、我很容易认同别人为我所做的事和所知的一切。 </b><br/>
+
+                        <label class="green button" for="answer94a"><input type="radio" name="answer94" value="1"
+                                                                           id="answer94a">是</label><br/>
+
+                        <label class="green button" for="answer94b"><input type="radio" name="answer94" value="0"
+                                                                           id="answer94b">否</label><br/>
+
+
+                        <a name="answer95juanbiao"></a><br><br>
+                        <b> 第95题、我要求光明正大，为此不惜与人发生冲突。 </b><br/>
+
+                        <label class="green button" for="answer95a"><input type="radio" name="answer95" value="1"
+                                                                           id="answer95a">是</label><br/>
+
+                        <label class="green button" for="answer95b"><input type="radio" name="answer95" value="0"
+                                                                           id="answer95b">否</label><br/>
+
+
+                        <a name="answer96juanbiao"></a><br><br>
+                        <b> 第96题、我很有正义感，有时会支持不利的一方。 </b><br/>
+
+                        <label class="green button" for="answer96a"><input type="radio" name="answer96" value="1"
+                                                                           id="answer96a">是</label><br/>
+
+                        <label class="green button" for="answer96b"><input type="radio" name="answer96" value="0"
+                                                                           id="answer96b">否</label><br/>
+
+
+                        <a name="answer97juanbiao"></a><br><br>
+                        <b> 第97题、我注重小节而效率不高。 </b><br/>
+
+                        <label class="green button" for="answer97a"><input type="radio" name="answer97" value="1"
+                                                                           id="answer97a">是</label><br/>
+
+                        <label class="green button" for="answer97b"><input type="radio" name="answer97" value="0"
+                                                                           id="answer97b">否</label><br/>
+
+
+                        <a name="answer98juanbiao"></a><br><br>
+                        <b> 第98题、我容易感到沮丧和麻木更多于愤怒。 </b><br/>
+
+                        <label class="green button" for="answer98a"><input type="radio" name="answer98" value="1"
+                                                                           id="answer98a">是</label><br/>
+
+                        <label class="green button" for="answer98b"><input type="radio" name="answer98" value="0"
+                                                                           id="answer98b">否</label><br/>
+
+
+                        <a name="answer99juanbiao"></a><br><br>
+                        <b> 第99题、我不喜欢那些侵略性或过度情绪化的人。 </b><br/>
+
+                        <label class="green button" for="answer99a"><input type="radio" name="answer99" value="1"
+                                                                           id="answer99a">是</label><br/>
+
+                        <label class="green button" for="answer99b"><input type="radio" name="answer99" value="0"
+                                                                           id="answer99b">否</label><br/>
+
+
+                        <a name="answer100juanbiao"></a><br><br>
+                        <b> 第100题、我非常情绪化，一天的喜怒哀乐多变。 </b><br/>
+
+                        <label class="green button" for="answer100a"><input type="radio" name="answer100" value="1"
+                                                                            id="answer100a">是</label><br/>
+
+                        <label class="green button" for="answer100b"><input type="radio" name="answer100" value="0"
+                                                                            id="answer100b">否</label><br/>
+
+
+                        <a name="answer101juanbiao"></a><br><br>
+                        <b> 第101题、我不想别人知道我的感受与想法，除非我告诉他们。 </b><br/>
+
+                        <label class="green button" for="answer101a"><input type="radio" name="answer101" value="1"
+                                                                            id="answer101a">是</label><br/>
+
+                        <label class="green button" for="answer101b"><input type="radio" name="answer101" value="0"
+                                                                            id="answer101b">否</label><br/>
+
+
+                        <a name="answer102juanbiao"></a><br><br>
+                        <b> 第102题、我喜欢刺激和紧张的关系，而不是确定和依赖的关系。 </b><br/>
+
+                        <label class="green button" for="answer102a"><input type="radio" name="answer102" value="1"
+                                                                            id="answer102a">是</label><br/>
+
+                        <label class="green button" for="answer102b"><input type="radio" name="answer102" value="0"
+                                                                            id="answer102b">否</label><br/>
+
+
+                        <a name="answer103juanbiao"></a><br><br>
+                        <b> 第103题、我很少用心去听别人的心情，只喜欢说说俏皮话和笑话。 </b><br/>
+
+                        <label class="green button" for="answer103a"><input type="radio" name="answer103" value="1"
+                                                                            id="answer103a">是</label><br/>
+
+                        <label class="green button" for="answer103b"><input type="radio" name="answer103" value="0"
+                                                                            id="answer103b">否</label><br/>
+
+
+                        <a name="answer104juanbiao"></a><br><br>
+                        <b> 第104题、我是循规蹈矩的人，秩序对我十分有意义。 </b><br/>
+
+                        <label class="green button" for="answer104a"><input type="radio" name="answer104" value="1"
+                                                                            id="answer104a">是</label><br/>
+
+                        <label class="green button" for="answer104b"><input type="radio" name="answer104" value="0"
+                                                                            id="answer104b">否</label><br/>
+
+
+                        <a name="answer105juanbiao"></a><br><br>
+                        <b> 第105题、我很难找到一种我真正感到被爱的关系。 </b><br/>
+
+                        <label class="green button" for="answer105a"><input type="radio" name="answer105" value="1"
+                                                                            id="answer105a">是</label><br/>
+
+                        <label class="green button" for="answer105b"><input type="radio" name="answer105" value="0"
+                                                                            id="answer105b">否</label><br/>
+
+
+                        <a name="answer106juanbiao"></a><br><br>
+                        <b> 第106题、假如我想要结束一段关系，我不是直接告诉对方就是激怒他来让他离开我。 </b><br/>
+
+                        <label class="green button" for="answer106a"><input type="radio" name="answer106" value="1"
+                                                                            id="answer106a">是</label><br/>
+
+                        <label class="green button" for="answer106b"><input type="radio" name="answer106" value="0"
+                                                                            id="answer106b">否</label><br/>
+
+
+                        <a name="answer107juanbiao"></a><br><br>
+                        <b> 第107题、我温和平静、不自夸，不爱与人竞争。 </b><br/>
+
+                        <label class="green button" for="answer107a"><input type="radio" name="answer107" value="1"
+                                                                            id="answer107a">是</label><br/>
+
+                        <label class="green button" for="answer107b"><input type="radio" name="answer107" value="0"
+                                                                            id="answer107b">否</label><br/>
+
+
+                        <a name="answer108juanbiao"></a><br><br>
+                        <b> 第108题、我有时善良可爱，有时又粗野暴躁，很难捉摸。 </b><br/>
+
+                        <label class="green button" for="answer108a"><input type="radio" name="answer108" value="1"
+                                                                            id="answer108a">是</label><br/>
+
+                        <label class="green button" for="answer108b"><input type="radio" name="answer108" value="0"
+                                                                            id="answer108b">否</label><br/>
+
+
+                        <p>&nbsp;</p>
+
+                        <p align="center"><input name="submit" type="submit" class="blue button" value=" 提  交 "></p>
+
+                    </form>
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+            <br/>
+            <br/>
+
+
+            <br/>
+            <br/>
+
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
