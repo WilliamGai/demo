@@ -14,17 +14,34 @@
 &apos;| 撇号 | `&apos; (IE不支持)`	`&#39;`
 
 
-### 1.1.2序列化时间消耗  
-
+### 1.1.2 禁止使用JSE的默认序列化  
+测试1  
 时间|消耗时间占比|描述|文件大小
 ---|---|---|---
-14005|  006%|  mysql读取|24M
-01664|  001%|  serialize |51.5M
-05975|  002%|  deserialize|51.5M
-93765|  037%|  jse serialize|85.7M
-128668|  051%|  jse deserialize|85.7M
-02094|  001%|  json |53.1M
-07720|  003%|  json |53.1M
+12750|  005%|  mysql 读取 |25.1M
+05127|  002%|  serialize| 51M
+00124|  000%|  serialize 写入文件|51M
+00242|  000%|  deserialize 从文件读取|51M
+05591|  002%| deserialize||51M
+87367|  037%|  jse serialize and save file|85M
+114670|  048%|  jse read file and deserialize|85M
+03455|  001%|  make Object to json|83M
+00212|  000%|  json save file|83M
+01631|  001%|  json read|83M
+07627|  003%|  json parse to Object|83M  
+测试2  
+时间|消耗时间占比|描述
+11969|  005%|  mysql 读取
+01940|  001%|  serialize
+00174|  000%|  serialize 写入文件
+00103|  000%|  deserialize 从文件读取
+12095|  005%|  deserialize
+91090|  037%|  jse serialize and save file
+120165|  048%|  jse read file and deserialize
+01992|  001%|  make Object to json
+00261|  000%|  json save file
+01704|  001%|  json read
+08002  003%  json parse to Object
 
 ## 2 thymeleaf 
 `#lists.isEmpty(list)`  

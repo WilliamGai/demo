@@ -67,7 +67,7 @@ public class DataStatsManager extends ManagerBase {
 			return null;
 		}
 		StopWatch stopWatch = new StopWatch("upfile");
-		stopWatch.start("mysql query");
+		stopWatch.start("mysql 读取");
 		
 		List<Map<String, Object>> queryResult = service.getAllData(config.getTableName(), null ,null);
 		if(Util.isEmpty(queryResult)){
@@ -77,33 +77,50 @@ public class DataStatsManager extends ManagerBase {
 		oldList.addAll(queryResult);
 		stopWatch.stop();
 		stopWatch.start("serialize");
-		sericalize(oldList, "test5");
+		byte[] data = sericalize(oldList, "test5");
+		stopWatch.stop();
+		stopWatch.start("serialize 写入文件");
+		try {
+			Util.writeFile(data, "test5");
+		} catch (Exception e1) {e1.printStackTrace();}
 		LogCore.BASE.info("serialize oldList.size:{}", oldList.size());
 		stopWatch.stop();
-		stopWatch.start("deserialize");
-		deserialize("test5");
+		stopWatch.start("deserialize 从文件读取");
+		byte[] dd;
+		try {
+			dd = Util.getData("test5");
+			stopWatch.stop();
+			stopWatch.start("deserialize");
+			deserialize(dd, "test5");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		LogCore.BASE.info("deserialize oldList.size:{}", oldList.size());
 		stopWatch.stop();
-		stopWatch.start("jse serialize");
+		stopWatch.start("jse serialize and save file");
 		Util.writeObject(oldList, "test4");
 		stopWatch.stop();
-		stopWatch.start("jse deserialize");
+		stopWatch.start("jse read file and deserialize");
 		Util.readObject("test4");
 		stopWatch.stop();
-		stopWatch.start("json 1");
+		stopWatch.start("make Object to json");
 		String json = JSON.toJSONString(oldList);
 		stopWatch.stop();
-		stopWatch.start("json 2");
+		stopWatch.start("json save file");
 		try {
 			Util.writeFile(json.getBytes(), "jsonfile");
 			stopWatch.stop();
+			stopWatch.start("json read");
 			json = new String(Util.getData("jsonfile"));
+			stopWatch.stop();
 			LogCore.BASE.info("string read:{}", json.substring(0, 100));
-
-			stopWatch.start("json 3");
+			oldList.clear();
+			stopWatch.start("json parse to Object");
 			List<Map> ll = JSON.parseArray(json, Map.class);
 			LogCore.BASE.info("json3.size:{}", ll.size());
-			oldList.clear();
+			
 			ll.forEach(map->{
 				Map<String,Object> _m= new HashMap();
 				map.forEach((k,v)->_m.put(k+"", v));
@@ -125,10 +142,10 @@ public class DataStatsManager extends ManagerBase {
 		return stopWatch.prettyPrint();
 	}
 
-	private void deserialize(String fileName) {
+	private void deserialize(byte[]data, String fileName) {
 //		Util.readObject("test");
 		try {
-			byte[] data = Util.getData(fileName);
+			
 			DataInputStream in = new DataInputStream(new ByteArrayInputStream(data));
 			int size = in.readInt();
 			List<Map<String,Object>> list = new ArrayList<>(size);
@@ -160,7 +177,7 @@ public class DataStatsManager extends ManagerBase {
 		}
 	}
 
-	private void sericalize(List<Map<String, Object>> oldList, String fileName) {
+	private byte[] sericalize(List<Map<String, Object>> oldList, String fileName) {
 		try {
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
 			DataOutputStream out = new DataOutputStream(bout);
@@ -199,10 +216,10 @@ public class DataStatsManager extends ManagerBase {
 			});
 			out.flush();
 			out.close();
-			byte[] data = bout.toByteArray();
-			Util.writeFile(data, fileName);
+			return bout.toByteArray();
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 //		Util.writeObject(oldList, "test");
 	}
