@@ -17,7 +17,7 @@ timestamp和timedate都是时间
 ### 1.1.2序列化时间消耗
 时间|消耗时间占比|描述|文件大小
 ---|---|---|---
-14005|  006%|  mysql mysql读取|24M
+14005|  006%|  mysql读取|24M
 01664|  001%|  serialize |51.5M
 05975|  002%|  deserialize|51.5M
 93765|  037%|  jse serialize|85.7M
