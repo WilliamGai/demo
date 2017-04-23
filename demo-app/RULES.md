@@ -14,14 +14,14 @@
 &apos;| 撇号 | `&apos; (IE不支持)`	`&#39;`
 
 ### 1.1.2 禁止使用JSE的默认序列化  
-测试1  
+
 时间|消耗时间占比|描述|文件大小
 ---|---|---|---
 12750|  005%|  mysql 读取 |25.1M
 05127|  002%|  serialize| 51M
 00124|  000%|  serialize 写入文件|51M
 00242|  000%|  deserialize 从文件读取|51M
-05591|  002%| deserialize||51M
+05591|  002%| deserialize|51M
 87367|  037%|  jse serialize and save file|85M
 114670|  048%|  jse read file and deserialize|85M
 03455|  001%|  make Object to json|83M
@@ -29,8 +29,8 @@
 01631|  001%|  json read|83M
 07627|  003%|  json parse to Object|83M  
 
-测试2  
 时间|消耗时间占比|描述
+---|---|---
 11969|  005%|  mysql 读取
 01940|  001%|  serialize
 00174|  000%|  serialize 写入文件
