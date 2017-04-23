@@ -12,7 +12,19 @@
 &amp; | 和号 | `&amp;` | `&#38;`
 &quot; | 引号 | `&quot;` |`&#34;`
 &apos;| 撇号 | `&apos; (IE不支持)`	`&#39;`
-
+timestamp和timedate都是时间
+``` 
+### 1.1.2序列化时间消耗
+时间|消耗时间占比|描述|文件大小
+---|---|---|---
+14005|  006%|  mysql mysql读取|24M
+01664|  001%|  serialize |51.5M
+05975|  002%|  deserialize|51.5M
+93765|  037%|  jse serialize|85.7M
+128668|  051%|  jse deserialize|85.7M
+02094|  001%|  json 1|53.1M
+07720|  003%|  json 3|53.1M
+```
 ## 2 thymeleaf 
 `#lists.isEmpty(list)`  
   
