@@ -1,5 +1,6 @@
 package com.sincetimes.website.core.common.support;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,6 +9,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collection;
@@ -353,6 +357,7 @@ public class Util {
 	 * 2017年4月21日17:10:56
 	 * @param Seril
 	 * @param string
+	 * 低效率8Xmysql
 	 */
 	public static void writeObject(Object obj, String fileName) {
 		try {
@@ -361,11 +366,12 @@ public class Util {
 			os.writeObject(obj);//java.io.NotSerializableException:
 			os.close();
 		} catch (IOException e) {//NotSerializableException
-			LogCore.BASE.error("save err:", e);
+			LogCore.BASE.error("write file err:", e);
 		}
 	}
 	/**
 	 * 2017年4月21日17:18:07
+	 * 效率很低10Xmysql
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T readObject(String fileName) {
@@ -376,12 +382,33 @@ public class Util {
 		     ois.close();
 		     return (T)obj;
 		} catch (FileNotFoundException e) {
-			LogCore.BASE.warn("init warn:{}", "no configs saved");
+			LogCore.BASE.warn("read warn:{}", "no configs saved");
 			return null;
 		} catch (IOException |ClassNotFoundException e) {
-			LogCore.BASE.error("init err:", e);
+			LogCore.BASE.error("read err:", e);
 			return null;
 		}
 	}
-
+	public static byte[] getData(String fileName) throws Exception{
+		return Files.readAllBytes(Paths.get(fileName));
+//		FileInputStream fis = new FileInputStream(fileName);
+//        ObjectInputStream ois = new ObjectInputStream(fis);
+//        byte[] data = (byte[]) ois.readObject();
+//        ois.close();
+//        return data;
+	}
+	
+	public static void writeFile(byte[] data, String fileName) throws FileNotFoundException,
+			IOException {
+//		Files.wr
+		//如果没有要创建文件
+		File dir = new File(fileName);
+		LogCore.BASE.info("dir={}", dir);
+		if(!dir.exists()) dir.createNewFile();
+		Files.write(Paths.get(fileName), data, StandardOpenOption.WRITE);
+//		FileOutputStream fos = new FileOutputStream(fileName);
+//        ObjectOutputStream os= new ObjectOutputStream(fos);
+//        os.writeObject(data);//可以传入Object
+//        os.close();
+	}
 }

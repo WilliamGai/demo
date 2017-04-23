@@ -43,7 +43,8 @@ public class DruidConfig {
 			e.printStackTrace();
 			LogCore.BASE.error("druid err:{}", e);
 		}
-		LogCore.BASE.info("druidDataSourceCreated:{}",ds);
+		LogCore.BASE.info("druidDataSourceCreated:{}", ds);
+		LogCore.BASE.info("druidUrl:{}", url);
 		return ds;
 	}
 	@Bean 

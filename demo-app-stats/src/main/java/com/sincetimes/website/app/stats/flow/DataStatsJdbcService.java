@@ -2,6 +2,7 @@ package com.sincetimes.website.app.stats.flow;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class DataStatsJdbcService{
 	public List<Map<String, Object>> getAllData(String tableName,  String incrName, String lowerValue){
 		String sql = Util.format("select * from {}", tableName);
 		List<Map<String, Object>> data= jdbcTemplate.queryForList(sql);
-		LogCore.BASE.info("get all {},{}", data.size());
+		LogCore.BASE.info("get all {},{}", tableName, data.size());
 		return data;
 	}
 	/**
@@ -42,5 +43,39 @@ public class DataStatsJdbcService{
 				rs.getString(1);
 			return tp;
 		});
+	}
+	public List<Map<String, Object>> getAnyData(String tableName) {
+		String sql = Util.format("select * from {} limit 1", tableName);
+		List<Map<String, Object>> data= jdbcTemplate.queryForList(sql);
+		data.forEach(map->{
+			map.forEach((k,v)->{
+				if(v==null){
+					System.err.println(k + " is null "+ v);
+				}else{
+					System.err.println(k + " " + v.getClass().getSimpleName()+" "+ v);
+				}
+			});
+		});
+		LogCore.BASE.info("get all {},{}", tableName, Util.prettyJsonStr(data));
+		return data;
+	}
+	public static void main(String args[]){
+		Map<String,Object> map = new HashMap<>();
+		map.put("a", null);
+		System.out.println(map);
+	}
+	public Object tables() {
+		List<Map<String, Object>> data= jdbcTemplate.queryForList("SHOW tables");
+		data.forEach(map->{
+			map.values().forEach(v->System.err.println(v.getClass().getSimpleName()));
+		});
+		return data;
+	}
+	public Object databases() {
+		List<Map<String, Object>> data= jdbcTemplate.queryForList("SHOW DATABASES");
+		data.forEach(map->{
+			map.values().forEach(v->System.err.println(v.getClass().getSimpleName()));
+		});
+		return data;
 	}
 }

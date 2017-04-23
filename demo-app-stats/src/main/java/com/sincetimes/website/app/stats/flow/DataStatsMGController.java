@@ -13,8 +13,10 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StopWatch;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.app.security.interfaces.SecureControllerInterface;
 import com.sincetimes.website.core.common.support.LogCore;
@@ -24,10 +26,30 @@ import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 @Controller
 @Order(value = 5)
 public class DataStatsMGController implements SecureControllerInterface {
-
-	@RequestMapping("/getall")
-	public Object getAll(String id) {
-		return DataStatsManager.inst().loadAll(id);
+	@RequestMapping("/tables")
+	@ResponseBody
+	public Object tables() {
+		return DataStatsManager.inst().tables();
+	}
+	@RequestMapping("/dbs")
+	@ResponseBody
+	public Object dbs() {
+		return DataStatsManager.inst().databases();
+	}
+	@RequestMapping("/tst")
+	@ResponseBody
+	public Object tst(String tableName) {
+		return DataStatsManager.inst().tst(tableName);
+	}
+	@RequestMapping("/test")
+	@ResponseBody
+	public Object test(String id) {
+		return DataStatsManager.inst().testAll(id);
+	}
+	@RequestMapping("/clear")
+	@ResponseBody
+	public Object clear(String id) {
+		return DataStatsManager.inst().clear(id);
 	}
 	@RequestMapping("/stats")
 	public Object stats(Model model, String id) {
