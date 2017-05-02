@@ -16,4 +16,7 @@ public interface SecureControllerInterface extends ControllerInterface{
 			model.addAttribute("user", _user);
 		}
 	}
+	default String getUserName(HttpServletRequest req) {
+		return getSessionAttrFncOrElse(req, "user", UserVO::getName, null);
+	}
 }

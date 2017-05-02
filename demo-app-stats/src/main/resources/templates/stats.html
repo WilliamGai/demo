@@ -26,9 +26,10 @@
 		</div>
 	</div>
 	<div class="col-md-10 column">
+	<h3 th:if= "${config}" th:text="${config.name}"></h3>
 	<a th:href="${'/mg/stats_config?id='+config.id}">跳转到配置页面</a>
 	<div class="modal-body">
-		<!-- <form role="form" class="horm-horizontal" action="pay_query" method="post">
+		<!-- <form role="form" class="horm-horizontal" action="flow_query" method="post">
 			<div  class="horm-horizontal">
 			<label>uid:</label>
 			<input name="uid" id="uid" style="width:80px;"/>
@@ -49,7 +50,11 @@
 			<input class="btn btn-sm" type="submit" value="查看"/>
 			</div>
 		</form> -->
-		<form role="form" class="horm-horizontal" action="pay_query" method="get">
+		<form role="form" class="horm-horizontal" action="flow_query" method="get">
+			<select id="type_query_id" name="type_query_id">
+				<option th:each="a_type: ${type_query_list}" th:selected="${a_type.id==type_query_id}" th:value="${a_type.id}" th:text="${a_type.name}"></option>
+			</select>	
+			<br/>
 		    <div th:each="i,iterStat : ${filterItems}" >
 		    	<input type="hidden" name="id" th:value="${config.id}"/>
 		    		<div  th:if="${i.filterType.name=='字符串相等'}"  style="float:left">
@@ -68,12 +73,14 @@
 					</div>
 			</div>
 			<div  style="float:left">
-				<input class="btn btn-sm" type="submit" value="查看"/>
+				<input class="btn btn-sm btn-info" type="submit" value="查看"/>
 			</div>
 		</form>
 	</div>
 	<br/>
 	<hr/>
+	<a th:if= "${page_nos}" onclick="download_txt()" class="btn btn-default btn-info">下载txt</a>
+	<a th:if= "${page_nos}" onclick="download_excel()" class="btn btn-default btn-info">下载excel</a>
 	<p>查询结果</p>
 	<p th:if= "${page_nos}" th:text="${ (page_no+1)+'&frasl;'+pages_num+'共'+sum+'条记录'}"></p>
 	<p th:if= "${sumValue&gt;0}" th:text="${'单页求和:'+sumValue}"></p>
@@ -81,9 +88,11 @@
 	<table class="gridtable">
 		<!-- <caption>查询结果</caption> -->
 		<tr>
+			<th>序号</th>
 			<th th:each="i,iterStat : ${columnItems}" th:text="${i.desc}"></th>
 		</tr>
-		<tr th:each="views: ${viewList}">
+		<tr th:each="views, iterStat:${viewList}">
+			<td th:text="${iterStat.count}"></td>
 			<td th:text="${v}" th:each="v: ${views}"></td>
 		</tr>
 	</table>
@@ -122,6 +131,24 @@
     	console.log('paging page_no='+page_no,', page_size='+ page_size);
     	/*<![CDATA[*/
     	window.location=url;
+    	/*]]>*/
+    }
+    /**下载*/
+    function download_txt(){
+    	var url = window.location.href;
+    	console.log('download');
+    	url = changeUrlArg(url, "download", "download");
+    	/*<![CDATA[*/
+			window.location=url;//发送请求,如果后台返回null是不会更改现有的url地址的
+    	/*]]>*/
+    }
+    function download_excel(){
+    	var url = window.location.href;
+    	console.log('download');
+    	url = changeUrlArg(url, "download", "download");
+    	url = changeUrlArg(url, "excel", "excel");
+    	/*<![CDATA[*/
+			window.location=url;//发送请求,如果后台返回null是不会更改现有的url地址的
     	/*]]>*/
     }
     function changeUrlArg(url, arg, val){

@@ -32,14 +32,9 @@ public class StatsController implements CommandLineRunner {
 	@RequestMapping("/all")
 	String all(Model model) {
 		List<DataVO> base_info_list = StatsManager.inst().getBaseInfos();
-
 		List<DataVO> uri_list = StatsManager.inst().getUriStatsThisTime();
-		List<DataVO> constant_list = StatsManager.inst().getConstantStats();
-
-
 		model.addAttribute("base_info_list", base_info_list);
 		model.addAttribute("uri_list", uri_list);
-		model.addAttribute("constant_list", constant_list);
 		return "all";
 	}
 	@RequestMapping("/clear_node_uri_stats")

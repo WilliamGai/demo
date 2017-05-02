@@ -1,6 +1,8 @@
 package com.sincetimes.website.core.spring.interfaces;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.function.Function;
@@ -11,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 
+import com.sincetimes.website.core.common.support.HttpUtil;
 import com.sincetimes.website.core.common.support.LogCore;
+import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 
 public interface ControllerInterface extends CommandLineRunner, FilePathInterface {
@@ -19,11 +23,13 @@ public interface ControllerInterface extends CommandLineRunner, FilePathInterfac
 	default void run(String... args) throws SQLException {
 		LogCore.CORE.info("{} init start! the order is {} !!! ", this.getClass().getName(), this.getClass().getAnnotation(Order.class));
 	}
-	
+	/**跨域*/
 	default void allowAccess(HttpServletResponse resp){
 		HttpHeadUtil.allowAccess(resp);
 	}
-	
+	default String urlEncode(String msg){
+		return HttpUtil.urlEncode(msg);
+	}
 	default void redirect(HttpServletResponse resp, String uri){
 		try {
 			resp.sendRedirect(uri);

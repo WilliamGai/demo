@@ -8,16 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-/**
- * Main. (API, Static, ThreadSafe)
- * 
- * @author william.liangf
- */
 public class Main {
 
-    public static final String CONTAINER_KEY = "dubbo.container";
+    public static final String CONTAINER_KEY = "container";
 
-    public static final String SHUTDOWN_HOOK_KEY = "dubbo.shutdown.hook";
+    public static final String SHUTDOWN_HOOK_KEY = "shutdown.hook";
     
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
@@ -39,7 +34,7 @@ public class Main {
 	            });
             }
             
-            System.out.println(new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]").format(new Date()) + " Dubbo service server started!");
+            System.out.println(new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]").format(new Date()) + "service server started!");
         } catch (RuntimeException e) {
             e.printStackTrace();
             logger.error(e.getMessage(), e);

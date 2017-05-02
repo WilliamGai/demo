@@ -1,20 +1,16 @@
 package com.sincetimes.website.app.stats.flow;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.OptionalLong;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -23,24 +19,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-import com.alibaba.fastjson.JSON;
-import com.mysql.fabric.xmlrpc.base.Param;
 import com.sincetimes.website.core.common.manager.ManagerBase;
+import com.sincetimes.website.core.common.support.IOTool;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeToolNew;
+import com.sincetimes.website.core.common.support.SerializeFileTool;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.vo.VOBase;
+import com.sincetimes.website.core.common.threadpool.ThreadPoolTool;
 
 @Component
 public class DataStatsManager extends ManagerBase {
 	private static final String CONFIGMAP_FILE_NAME = "configmap.os";
-	private static final int TYPE_INT = 0;
-	private static final int TYPE_LONG = 1;
-	private static final int TYPE_STRING = 2;
 	public Map<String, DataStatsConfig> configMap = new HashMap<>();
 	public Map<String, List<Map<String,Object>>> allDataMap = new ConcurrentHashMap<>();
-	public Map<String, Long> timeFlagMap = new ConcurrentHashMap<>();
-	private Lock loadLock = new ReentrantLock();
+	public Map<String, Lock> locks = new HashMap<>();
 	@Autowired
 	DataStatsJdbcService service;
 	public static DataStatsManager inst() {
@@ -49,9 +40,85 @@ public class DataStatsManager extends ManagerBase {
 	
 	@Override
 	public void init() {
-		initConigMap();
+		try {
+			initConigMap();
+			initData();
+		} catch (Exception e) {
+			LogCore.BASE.error("init error{}", e);
+		}
 		LogCore.BASE.info("config map={}", configMap);
 	}
+	public void initData(){
+		if(configMap.isEmpty()){
+			return;
+		}
+		Map<String, Long> timeMap = new HashMap<>();
+		CountDownLatch latch = new CountDownLatch(configMap.size());//协作  
+		configMap.values().forEach(config->{ 
+			ThreadPoolTool.execute(()->{
+				long timeBegin = System.currentTimeMillis();
+				initData(config);
+				long interval = System.currentTimeMillis() - timeBegin;
+				timeMap.put(config.getName(), interval);
+				latch.countDown();
+			});
+		});
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			LogCore.BASE.error("latch.await err:{},", e);
+		}
+		LogCore.BASE.info("all inited time used{},", timeMap);
+	}
+	/**
+	 * TODO:写文件的方式改为append
+	 * @param config
+	 */
+	private void initData(DataStatsConfig config) {
+		Lock lock = locks.computeIfAbsent(config.getId(), (k)->new ReentrantLock());
+		lock.lock();
+		try {
+			StopWatch sw = new StopWatch(config.getName());
+ 			String listFile = config.getId() + ".os";
+			String incrflagFile = config.getId() +config.getIncrName()+ ".os";
+			sw.start("parse file");
+			Long lastIncrValue = SerializeFileTool.existFile(incrflagFile)?SerializeFileTool.readFileFast(incrflagFile): 0L;
+			List<Map<String, Object>> oldList = allDataMap.computeIfAbsent(config.getId(), (key)->new LinkedList<>());
+			LogCore.BASE.info("{}, oldList.size={},lastIncrValue={}", config.getId(), oldList.size(), lastIncrValue);
+			if(oldList.isEmpty()){//说明是第一次,从缓存文件中读取
+				if(SerializeFileTool.existFile(listFile)){
+					List<List<Map<String, Object>>> list = SerializeFileTool.readFileFast2List(listFile);
+					if(!Util.isEmpty(list)){
+						list.forEach(oldList::addAll);
+						LogCore.BASE.info("list.size={},", list.size());
+						list.forEach(ll->LogCore.BASE.info("sublist.size={},", ll.size()));
+					}
+				}
+			}
+			sw.stop();
+			sw.start("mysql query");
+			LogCore.BASE.info("{}, after read file oldList.size={},", config.getId(), oldList.size());
+			//从数据库增量
+			List<Map<String, Object>> newlist = queryDataFromDB(config, lastIncrValue);
+			if(!Util.isEmpty(newlist)){
+				oldList.addAll(newlist);
+				OptionalLong maxIncrValueNew = newlist.parallelStream().mapToLong(map->Long.valueOf(map.get(config.getIncrName())+"")).max();
+				lastIncrValue = Math.max(maxIncrValueNew.orElse(0), lastIncrValue);
+				sw.stop();
+				sw.start("rewrite file");
+				LogCore.BASE.info("{}, after query oldList.size={}, ready to serialize all query datas", config.getId(), oldList.size());
+				SerializeFileTool.writeFileFastAppendSafe(listFile, newlist);
+				SerializeFileTool.writeFileFast(incrflagFile, lastIncrValue);
+			}		
+			sw.stop();
+			LogCore.BASE.info("{}, after writefile file oldList.size={},{}", config.getId(), oldList.size(), sw.prettyPrint());
+		} catch(Exception e){
+			LogCore.BASE.error("initData(conf) err:{},", e);
+		}finally{
+			lock.unlock();
+		}
+	}
+
 	public Set<String> getAllConfigKeys(){
 		return configMap.keySet();
 	}
@@ -61,197 +128,56 @@ public class DataStatsManager extends ManagerBase {
 	public DataStatsConfig getConfig(String id){
 		return configMap.getOrDefault(id, new DataStatsConfig(id, "undifined"));
 	}
-	public Object testAll(String id){
-		DataStatsConfig config = getConfig(id);
-		if(null == config){
-			return null;
-		}
-		StopWatch stopWatch = new StopWatch("upfile");
-		stopWatch.start("mysql 读取");
-		
-		List<Map<String, Object>> queryResult = service.getAllData(config.getTableName(), null ,null);
-		if(Util.isEmpty(queryResult)){
-			return null;
-		}
-		List<Map<String, Object>> oldList = allDataMap.computeIfAbsent(id, (key)->new LinkedList<>());
-		oldList.addAll(queryResult);
-		stopWatch.stop();
-		stopWatch.start("serialize");
-		byte[] data = sericalize(oldList, "test5");
-		stopWatch.stop();
-		stopWatch.start("serialize 写入文件");
-		try {
-			Util.writeFile(data, "test5");
-		} catch (Exception e1) {e1.printStackTrace();}
-		LogCore.BASE.info("serialize oldList.size:{}", oldList.size());
-		stopWatch.stop();
-		stopWatch.start("deserialize 从文件读取");
-		byte[] dd;
-		try {
-			dd = Util.getData("test5");
-			stopWatch.stop();
-			stopWatch.start("deserialize");
-			deserialize(dd, "test5");
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		LogCore.BASE.info("deserialize oldList.size:{}", oldList.size());
-		stopWatch.stop();
-		stopWatch.start("jse serialize and save file");
-		Util.writeObject(oldList, "test4");
-		stopWatch.stop();
-		stopWatch.start("jse read file and deserialize");
-		Util.readObject("test4");
-		stopWatch.stop();
-		stopWatch.start("make Object to json");
-		String json = JSON.toJSONString(oldList);
-		stopWatch.stop();
-		stopWatch.start("json save file");
-		try {
-			Util.writeFile(json.getBytes(), "jsonfile");
-			stopWatch.stop();
-			stopWatch.start("json read");
-			json = new String(Util.getData("jsonfile"));
-			stopWatch.stop();
-			LogCore.BASE.info("string read:{}", json.substring(0, 100));
-			oldList.clear();
-			stopWatch.start("json parse to Object");
-			List<Map> ll = JSON.parseArray(json, Map.class);
-			LogCore.BASE.info("json3.size:{}", ll.size());
-			
-			ll.forEach(map->{
-				Map<String,Object> _m= new HashMap();
-				map.forEach((k,v)->_m.put(k+"", v));
-				oldList.add(_m);
-			});
-			LogCore.BASE.info("obj:{}", ll.getClass().getSimpleName());
-			LogCore.BASE.info("oldList:{}", oldList.size());
-
-			stopWatch.stop();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		LogCore.BASE.info("load All time used:{}", stopWatch.prettyPrint());
-		return stopWatch.prettyPrint();
+	/**
+	 * json的方式
+	 * <pre>{@code
+	 *      String json = JSON.toJSONString(oldList);
+	 *      Util.writeFile(json.getBytes(), "jsonfile");
+	 *		json = new String(Util.getData("jsonfile"));
+	 *		oldList.clear();
+	 * 		List<Map> ll = JSON.parseArray(json, Map.class);
+	 *		ll.forEach(map->{
+	 *			Map<String,Object> _m= new HashMap();
+	 *			map.forEach((k,v)->_m.put(k+"", v));
+	 *			oldList.add(_m);
+	 *		});
+	 * }</pre>
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public void testAll(String id){
+			initData();
 	}
-
-	private void deserialize(byte[]data, String fileName) {
-//		Util.readObject("test");
-		try {
-			
-			DataInputStream in = new DataInputStream(new ByteArrayInputStream(data));
-			int size = in.readInt();
-			List<Map<String,Object>> list = new ArrayList<>(size);
-			for(int i=0;i<size;i++){
-				int mapSize = in.readInt();
-				Map<String,Object> map = new HashMap<>();
-				for(int j=0; j<mapSize; j++){
-					byte raw_type = in.readByte();
-					if(raw_type == TYPE_INT){
-						map.put(in.readUTF(), in.readInt());
-						continue;
-					}
-					if(raw_type == TYPE_LONG){
-						map.put(in.readUTF(), in.readLong());
-						continue;
-					}
-					if(raw_type == TYPE_STRING){
-						map.put(in.readUTF(), in.readUTF());
-						continue;
-					}
+	/**
+	 * 数据转换目前只持持基本数据类型和String
+	 * @param config
+	 * @return
+	 */
+	private List<Map<String, Object>> queryDataFromDB(DataStatsConfig config, Long lastReadTime) {
+		List<Map<String, Object>> list = service.getAllData(config.getTableName(), config.getIncrName() ,lastReadTime+"");
+		if(Util.isEmpty(list)){
+			return null;
+		}
+		List<Map<String, Object>> listTar = new ArrayList<>();
+		list.forEach((map)->{
+			Map<String,Object> _map = new HashMap<>();
+			map.forEach((k, v)->{
+				if(null == v){
+					return;
 				}
-				list.add(map);
-			}
-			LogCore.BASE.info("list size={}", list.size());
-			in.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private byte[] sericalize(List<Map<String, Object>> oldList, String fileName) {
-		try {
-			ByteArrayOutputStream bout = new ByteArrayOutputStream();
-			DataOutputStream out = new DataOutputStream(bout);
-			out.writeInt(oldList.size());
-			oldList.forEach((map)->{
-				int sz = (int)map.values().stream().filter(Objects::nonNull).count();
-				try {
-					out.writeInt(sz);
-					map.forEach((k,v)->{
-						try {
-							if(v== null){
-								return;
-							}
-							if(v instanceof Integer){
-								out.writeByte(TYPE_INT);
-								out.writeUTF(k);
-								out.writeInt((Integer)v);
-								return;
-							}
-							if(v instanceof Long){
-								out.writeByte(TYPE_LONG);
-								out.writeUTF(k);
-								out.writeLong((Long)v);
-								return;
-							}
-							out.writeByte(TYPE_STRING);
-							out.writeUTF(k);
-							out.writeUTF(v+"");
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					});
-				} catch (Exception e) {
-					e.printStackTrace();
+				if(v instanceof Integer||v instanceof Long){
+					_map.put(k, v);
+				}else{
+					_map.put(k, v.toString());
 				}
 			});
-			out.flush();
-			out.close();
-			return bout.toByteArray();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-//		Util.writeObject(oldList, "test");
+			listTar.add(_map);
+		});
+		return listTar;
 	}
-	public Object loadAll(String id) {
-		DataStatsConfig config = getConfig(id);
-		if(null == config){
-			return null;
-		}
-		StopWatch stopWatch = new StopWatch("upfile");
-		stopWatch.start("mysql query");
-		
-		List<Map<String, Object>> queryResult = service.getAllData(config.getTableName(), null ,null);
-		if(Util.isEmpty(queryResult)){
-			return null;
-		}
-		List<Map<String, Object>> oldList = allDataMap.computeIfAbsent(id, (key)->new LinkedList<>());
-		oldList.addAll(queryResult);
-		stopWatch.stop();
-//		data.parallelStream().forEach(row->{
-//			Map<String, String> map = new HashMap<>();
-//			row.forEach((k, v)->map.put(k, v+""));
-//			datalist.add(map);
-//			String key = map.get("id");
-//			if(!exist(key)){
-//				hmset(key, map);
-//			}
-//		});
-		stopWatch.start("reduce ");
-		stopWatch.stop();
-		LogCore.BASE.info("load All time used:{}", stopWatch.prettyPrint());
-		return stopWatch.prettyPrint();
-	}
+
+	
 	/**
 	 *  分页 <br>
 	 * @param id
@@ -259,12 +185,8 @@ public class DataStatsManager extends ManagerBase {
 	 * @param pageSize
 	 * @param filters
 	 * @return
-	 * TODO:
-	 * 支持分组 group
-	 * 支持求和 sum
 	 */
 	public List<Map<String, Object>> queryPayFlowBySkipLimit(String id, int skipNum, int pageSize, List<FilterItem> filters) {
-		checkLoad(id);
 		return allDataMap.get(id).stream().filter((map)->{
 			return filters.stream().allMatch((FilterItem filter)->filter.filter(map));
 		})
@@ -273,47 +195,123 @@ public class DataStatsManager extends ManagerBase {
 		.collect(Collectors.toList());
 	}
 	/**
-	 * 每次查询钱都要调用
-	 */
-	private void checkLoad(String id) {
-		loadLock.lock();
-		try {
-			Long now = System.currentTimeMillis();
-			Long lastRecordTime = timeFlagMap.put(id, now);
-			if(null == lastRecordTime){
-				loadAll(id);
-				return;
-			}
-			long interval = now - lastRecordTime;
-			if(interval > TimeToolNew.HOUR_SECONDS/2 * 1000)//半小时刷新
-			if(Util.isEmpty(allDataMap)){
-				loadAll(id);
-				return;
-			}
-		} finally{
-			loadLock.unlock();
-		}
+	 * 部分页
+	 * <pre><b>same as:</b>
+	 * queryPayFlowBySkipLimit(id, 0, Integer.MAX_VALUE, filters)
+	 * </pre>
+	 * */
+	public List<Map<String, Object>> queryPayFlowAll(String id, List<FilterItem> filters) {
+		return allDataMap.get(id).stream().filter((map)->{
+			return filters.stream().allMatch((FilterItem filter)->filter.filter(map));
+		}).collect(Collectors.toList());
 	}
+	/**
+	 * 汇总查询
+	 * 支持分组 group
+	 * 支持求和 sum
+	 * 汇总查询不分页
+	 * TODO:使用map.reduce
+	 * List<Map>
+	 */
+	public List<List<String>> queryGroupBySkipLimit(String id, Collection<FilterItem> filters, Collection<GroupColumnItem> groups) {
+//		//普通显式的key
+//		List<String> multiNormalKeys = groups.stream()
+//				.filter(g->g.getGroupType()==GroupColumnItemType.GROUP_DEFAULT)
+//				.map(GroupColumnItem::getColumnName)
+//				.collect(Collectors.toList());
+		//普通字段
+		List<GroupColumnItem> nrmls = groups.stream()
+				.filter(g->g.getGroupType()==GroupColumnItemType.GROUP_DEFAULT)
+				.collect(Collectors.toList());
+		//group条件字段
+		List<GroupColumnItem> gs = groups.stream()
+				.filter(g->g.getGroupType()!=GroupColumnItemType.GROUP_DEFAULT)
+				.collect(Collectors.toList());
+		Map<String, Long> reduceMap = new HashMap<>(); //可以遍历这个结果
+		Map<String, Map<String,Object>> showMap = new LinkedHashMap<>();//key为普通显式的属性组合的key,value为普通的属性值,最后遍历这个结果即可 
+		allDataMap.get(id).stream().filter((map)->{
+			return filters.stream().allMatch((FilterItem filter)->filter.filter(map));
+		}).forEach(map->{
+			StringBuilder multiKeyBuilder = new StringBuilder();
+			nrmls.forEach(nrml->multiKeyBuilder.append(map.get(nrml.getColumnName())));
+			String multiKey = multiKeyBuilder.toString();
+			
+			showMap.computeIfAbsent(multiKey, (k)->map);
+			
+			gs.forEach(group->{
+				String colName = group.getColumnName();
+				String colKey = group.getKey();
+				String key = multiKey.concat(colKey);
+				if(group.getGroupType()==GroupColumnItemType.COUNT){
+					reduceMap.merge(key, 1L, Long::sum);	   //次数
+					reduceMap.merge(colKey, 1L, Long::sum);
+				}else if(group.getGroupType()==GroupColumnItemType.SUM){
+					Long val = Long.valueOf(map.get(colName)+"");
+					reduceMap.merge(key, val, Long::sum);	 
+					reduceMap.merge(colKey, val, Long::sum);	 
+				}else if(group.getGroupType()==GroupColumnItemType.MAX){
+					Long val = Long.valueOf(map.get(colName)+"");
+					reduceMap.merge(key, val, Long::max);	 
+					reduceMap.merge(colKey, val, Long::max);	 
+				}else if(group.getGroupType()==GroupColumnItemType.MIN){
+					Long val = Long.valueOf(map.get(colName)+"");
+					reduceMap.merge(key, val, Long::min);	 
+					reduceMap.merge(colKey, val, Long::min);	 
+				}
+			});
+		});
+		if(Util.isEmpty(showMap)){
+			return new ArrayList<>();
+		}
+
+		List<List<String>> viewList = new ArrayList<>();
+		showMap.forEach((k,v)->{
+			List<String> views = new ArrayList<>();
+			groups.forEach((g)->{
+				String colKey = g.getKey();
+				String key = k.concat(colKey);
+				if(g.getGroupType()==GroupColumnItemType.GROUP_DEFAULT){
+					String value = v.get(g.getColumnName())+"";
+					views.add(g.format(value));
+				}else{
+					String value = reduceMap.get(key)+"";
+					views.add(g.format(value));
+				}
+			});
+			viewList.add(views);
+		});
+		//一个总的reduce
+		List<String> views = new ArrayList<>();
+		groups.forEach((g)->{
+			String colKey = g.getKey();
+			if(g.getGroupType()==GroupColumnItemType.GROUP_DEFAULT){
+				views.add("--");
+			}else{
+				String value = reduceMap.get(colKey)+"";
+				views.add(g.format(value));
+			}
+		});
+		viewList.add(views);
+		return viewList;
+	}
+	
 	/** 获取总数目*/
 	public long queryCount(String id, List<FilterItem> filters){
-		checkLoad(id);
 		return allDataMap.get(id).parallelStream().filter((map)->{
 			return filters.stream().allMatch((FilterItem filter)->filter.filter(map));
 		}).count();
 	}
-	public List<Map<String, Object>> queryPayFlow(String id, List<FilterItem> list) {
-		checkLoad(id);
-		return allDataMap.get(id).stream().filter((map)->{
-			return list.stream().allMatch((FilterItem filter)->filter.filter(map));
-		}).collect(Collectors.toList());
-	}
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("deprecation")
 	public void initConigMap(){
-		configMap = Util.readObject(CONFIGMAP_FILE_NAME);
+		if(SerializeFileTool.existFile(CONFIGMAP_FILE_NAME)){
+			configMap = IOTool.readObject(CONFIGMAP_FILE_NAME);
+		}
 	}
+	@SuppressWarnings("deprecation")
 	public void saveOrUpdateConfig(DataStatsConfig config) {
 		configMap.put(config.getId(), config);
-		Util.writeObject(configMap, CONFIGMAP_FILE_NAME);
+		IOTool.writeObject(configMap, CONFIGMAP_FILE_NAME);
 	}
 
 	public long querySum(String id, List<FilterItem> filters) {
@@ -337,8 +335,13 @@ public class DataStatsManager extends ManagerBase {
 		return null;
 	}
 
-	public Object tst(String tableName) {
+	public Object tstByTableName(String tableName) {
 		return service.getAnyData(tableName);
+	}
+	public Object tst(String id) {
+		Map<String,Object> map = allDataMap.get(id).stream().findAny().get();
+		Util.debugMap(map);
+		return map;
 	}
 
 	public Object tables() {

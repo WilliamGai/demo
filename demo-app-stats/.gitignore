@@ -5,3 +5,5 @@
 /src/main/resources/*.properties
 !/src/main/resources/*demo.properties
 !/src/main/resources/*dubbo.properties
+#不上传产生的序列化文件
+/*.os

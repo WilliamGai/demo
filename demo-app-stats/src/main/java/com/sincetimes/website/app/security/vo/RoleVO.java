@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sincetimes.website.vo.VOBase;
+import com.sincetimes.website.core.common.vo.VOBase;
 
 public class RoleVO extends VOBase implements Serializable{
 	private static final long serialVersionUID = 8534234567721694017L;

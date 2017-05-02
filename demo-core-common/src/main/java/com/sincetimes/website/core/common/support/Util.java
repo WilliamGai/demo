@@ -1,27 +1,19 @@
 package com.sincetimes.website.core.common.support;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -353,62 +345,36 @@ public class Util {
 	public static String prettyJsonStr(Object obj) {
 		return JSON.toJSONString(obj, SerializerFeature.PrettyFormat,SerializerFeature.WriteClassName, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);
 	}
-	/**
-	 * 2017年4月21日17:10:56
-	 * @param Seril
-	 * @param string
-	 * 低效率8Xmysql
-	 */
-	public static void writeObject(Object obj, String fileName) {
-		try {
-			FileOutputStream fos = new FileOutputStream(fileName);
-			ObjectOutputStream os= new ObjectOutputStream(fos);
-			os.writeObject(obj);//java.io.NotSerializableException:
-			os.close();
-		} catch (IOException e) {//NotSerializableException
-			LogCore.BASE.error("write file err:", e);
+
+	public static void debugMap(Map<String, Object> map) {
+		if(Util.isEmpty(map)){
+			LogCore.BASE.debug("map is empty", map);
 		}
+		map.forEach((k,v)->{
+			if(v==null){
+				LogCore.BASE.debug("k is {}, v is null", k.getClass().getSimpleName(), k);
+			}else{
+				LogCore.BASE.debug("k is {}, v is {}, k={},v={}", k.getClass().getSimpleName(), v.getClass().getSimpleName(), k, v);
+			}
+		});
+	}
+	public static void main(String args[]){
+		Map<String,Object> map = new HashMap<>();
+		map.put("a", 1);
+		debugMap(map);
 	}
 	/**
-	 * 2017年4月21日17:18:07
-	 * 效率很低10Xmysql
+	 * 合并两个byte[]数组
+	 * @see Arrays#copyOf(byte[], int)
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T readObject(String fileName) {
-		try {
-			 FileInputStream fis = new FileInputStream(fileName);
-			 ObjectInputStream ois = new ObjectInputStream(fis);
-			 Object obj = ois.readObject();
-		     ois.close();
-		     return (T)obj;
-		} catch (FileNotFoundException e) {
-			LogCore.BASE.warn("read warn:{}", "no configs saved");
-			return null;
-		} catch (IOException |ClassNotFoundException e) {
-			LogCore.BASE.error("read err:", e);
-			return null;
-		}
+	public static byte[] mergeBytes(byte[] data, byte[] append) {
+		byte[] copy = 	new byte[data.length + append.length];
+        System.arraycopy(data, 0, copy, 0, data.length);
+        System.arraycopy(append, 0, copy, data.length, append.length);
+		return copy;
 	}
-	public static byte[] getData(String fileName) throws Exception{
-		return Files.readAllBytes(Paths.get(fileName));
-//		FileInputStream fis = new FileInputStream(fileName);
-//        ObjectInputStream ois = new ObjectInputStream(fis);
-//        byte[] data = (byte[]) ois.readObject();
-//        ois.close();
-//        return data;
-	}
-	
-	public static void writeFile(byte[] data, String fileName) throws FileNotFoundException,
-			IOException {
-//		Files.wr
-		//如果没有要创建文件
-		File dir = new File(fileName);
-		LogCore.BASE.info("dir={}", dir);
-		if(!dir.exists()) dir.createNewFile();
-		Files.write(Paths.get(fileName), data, StandardOpenOption.WRITE);
-//		FileOutputStream fos = new FileOutputStream(fileName);
-//        ObjectOutputStream os= new ObjectOutputStream(fos);
-//        os.writeObject(data);//可以传入Object
-//        os.close();
+	/** if not */
+	public <T> void ifNot(boolean flag, Supplier<T> trueSup, Supplier<T> falseSup){
+		
 	}
 }

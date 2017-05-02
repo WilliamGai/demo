@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.manager.ManagerBase;
-import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.common.support.IOTool;
 import com.sincetimes.website.core.spring.manger.SpringManager;
 
 @Component
@@ -18,9 +18,10 @@ public class UserReference extends ManagerBase{
 		return SpringManager.inst().getBean(UserReference.class);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void saveOrUpdateUser(UserVO user) {
 		USERS.put(user.getName(), user);
-		Util.writeObject(USERS, USERS_FILE_NAME);
+		IOTool.writeObject(USERS, USERS_FILE_NAME);
 	}
 
 	public UserVO getUserByName(String name) {
@@ -34,9 +35,10 @@ public class UserReference extends ManagerBase{
 		return USERS;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void deleteUser(String name) {
 		USERS.remove(name);
-		Util.writeObject(USERS, USERS_FILE_NAME);
+		IOTool.writeObject(USERS, USERS_FILE_NAME);
 	}
 
 	public Boolean existUserByName(String name) {
@@ -48,9 +50,10 @@ public class UserReference extends ManagerBase{
 		return nowMaxId + 1; 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void init() {
-		USERS = Util.readObject(USERS_FILE_NAME);
+		USERS = IOTool.readObject(USERS_FILE_NAME);
 	}
 	
 }

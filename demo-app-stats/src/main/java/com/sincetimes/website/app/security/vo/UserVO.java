@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.sincetimes.website.app.security.GenderType;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.vo.VOBase;
+import com.sincetimes.website.core.common.vo.VOBase;
 
 public class UserVO extends VOBase implements Serializable{
 	private static final long serialVersionUID = -12245282415965949L;

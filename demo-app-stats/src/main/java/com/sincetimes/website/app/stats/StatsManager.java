@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.core.common.manager.ManagerBase;
-import com.sincetimes.website.core.common.support.ClassTool;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.manager.DataManager;
 /**
@@ -67,27 +65,16 @@ public class StatsManager extends ManagerBase {
 			LogCore.BASE.info("StatsManager init return, stats_load_histoy={}", stats_load_histoy);
 			return;
 		}
-		String date_tag = TimeTool.formatTime(System.currentTimeMillis(), "yyyyMMdd");
-		// 加载今天的登陆openid
-		long time_today_begin;
-		try {
-			time_today_begin = TimeTool.parseAndGetTime(date_tag, "yyyyMMdd");
-		} catch (Exception e) {
-			LogCore.BASE.error("init{},", e);
-		}
 	}
 
 
-	/**
-	 * 获取常量信心
-	 */
-	public List<DataVO> getConstantStats() {
+/*	public List<DataVO> getConstantStats() {
 		Map<String, Object> map = ClassTool.getFields(DataManager.inst(), x -> x.getName().startsWith("VALUE"));
 		List<DataVO> list = new ArrayList<>();
-//		map.values().forEach(x -> list.add(new DataVO(x + "", DataManager.inst().get(x + ""))));
+		map.values().forEach(x -> list.add(new DataVO(x + "", DataManager.inst().get(x + ""))));
 		LogCore.BASE.debug("all constants :{}", list);
 		return list;
-	}
+	}*/
 
 	/**
 	 * 获取基本信息
@@ -110,18 +97,9 @@ public class StatsManager extends ManagerBase {
 		base_info_list.add(new DataVO("LRU cache hit rate", DataManager.inst().userBiInfoCache.getStats().hitRate()));
 		base_info_list.add(new DataVO("LRU cache all stats", DataManager.inst().userBiInfoCache.getStats()));
 
-		List<DataVO> size_list = getListSizes();
-		base_info_list.addAll(size_list);
 		return base_info_list;
 	}
 
-	// 获取列表大小
-	public List<DataVO> getListSizes() {
-		Map<String, Object> map = ClassTool.getFields(DataManager.inst(), x -> x.getName().startsWith("LIST_NAME"));
-		List<DataVO> size_list = new ArrayList<>();
-//		map.values().forEach(x -> size_list.add(new DataVO(x + "", DataManager.inst().llen(x + ""))));
-		return size_list;
-	}
 
 	public List<DataVO> getUriStatsThisTime() {
 		List<DataVO> uri_list = new ArrayList<>();

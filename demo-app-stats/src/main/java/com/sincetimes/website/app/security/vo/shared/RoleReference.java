@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.sincetimes.website.app.security.vo.Permission;
 import com.sincetimes.website.app.security.vo.RoleVO;
 import com.sincetimes.website.core.common.manager.ManagerBase;
+import com.sincetimes.website.core.common.support.IOTool;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.manger.SpringManager;
@@ -50,8 +51,9 @@ public class RoleReference extends ManagerBase{
 		saveRoles();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void saveRoles() {
-		Util.writeObject(ROLES, ROLES_FILE_NAME);
+		IOTool.writeObject(ROLES, ROLES_FILE_NAME);
 	}
 	
 	public String getNameById(String id){
@@ -98,9 +100,10 @@ public class RoleReference extends ManagerBase{
 		return Stream.of(ids).map(this::getRoleById).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void init() {
-		Map<String, RoleVO> tempMap = Util.readObject(ROLES_FILE_NAME);
+		Map<String, RoleVO> tempMap = IOTool.readObject(ROLES_FILE_NAME);
 		if(!Util.isEmpty(tempMap)){
 			ROLES = tempMap;
 		}

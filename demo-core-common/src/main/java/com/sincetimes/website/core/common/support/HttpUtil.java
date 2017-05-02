@@ -121,7 +121,8 @@ public class HttpUtil {
 		return sendGet(url + "?" + content);
 	}
 	/**
-	 * 可以来记录消耗的时间
+	 * 如果需要记录消耗的时间,使用此方法
+	 * @since jse1.8
 	 */
 	public static String getWithRecordTimeUsed(String url, Map<String, String> params, Consumer<Long> timeConsumer) {
 		String content = "";

@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>demo-app-stats</artifactId>
-	<version>55</version>
+	<version>7</version>
 	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
 	<parent>
@@ -54,6 +54,11 @@
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server-ui</artifactId>
 		</dependency> 
+		<!-- excel -->
+		<dependency>
+   	 		<groupId>org.apache.poi</groupId>
+    		<artifactId>poi</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

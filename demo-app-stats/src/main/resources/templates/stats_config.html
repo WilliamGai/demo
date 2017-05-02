@@ -129,8 +129,28 @@
 			<button class="btn btn-default btn-sm" type="submit">保存</button>
 		</form>
 		<!-- 增加显示配置 end -->
+		<hr/>
+		<h4>汇总字段</h4>
+			<div th:each="i,iterStat : ${groupItems}">
+				<label>字段:</label>
+				<label th:text="${i.columnName}" class="text-info"></label>
+				<label th:text="${'['+i.desc+']'}"></label>
+				<label th:text="${'['+i.groupType.name+']'}"></label>
+				<a th:href="${'config_column_group_del?key='+i.key+'&amp;id='+config.id}">删除</a>
+			</div>
+			<form role="form" class="form-inline" th:action="${'config_column_group_add'}" method="post">
+				<input type="hidden" name="id" th:value="${config.id}" />
+				<select id="columnName" name="columnName">
+					<option th:each="col: ${columnItems}" th:value="${col.columnName}" th:text="${col.desc}"></option>
+				</select>
+				<select id="groupTypeId" name="groupTypeId">
+					<option th:each="a_type: ${type_group_list}" th:value="${a_type.id}" th:text="${a_type.name}"></option>
+				</select>
+				<label>描述:</label>
+				<input type="text" placeholder="显式名称" id="desc" name="desc"/>
+				<button class="btn btn-default btn-sm" type="submit">保存</button>
+			</form>
 		</div>
-		
 	</div>
 </div>
 </div>

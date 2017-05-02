@@ -20,7 +20,7 @@
 		<dependencies> 
 			<dependency>  
 				<groupId>com.sincetimes.website</groupId>
-				<artifactId>demo-parent</artifactId>
+				<artifactId>demo-core-parent</artifactId>
 				<version>0.0.1</version>
                 <type>pom</type>  
                 <scope>import</scope>  

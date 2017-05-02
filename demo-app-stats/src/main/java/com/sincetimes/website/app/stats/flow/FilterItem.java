@@ -10,7 +10,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.google.common.base.Objects;
 import com.sincetimes.website.core.common.support.CloneableSupport;
 import com.sincetimes.website.core.common.support.KeySupport;
-import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
 

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import com.sincetimes.website.core.common.support.CloneableSupport;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.vo.VOBase;
+import com.sincetimes.website.core.common.vo.VOBase;
 /**
  * 模板以及模板生成的页面
  * 都是从json获取

@@ -1,5 +1,6 @@
 package com.sincetimes.website.app.stats.flow;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,15 +14,16 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StopWatch;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.app.security.interfaces.SecureControllerInterface;
+import com.sincetimes.website.app.stats.flow.builder.Builder;
+import com.sincetimes.website.app.stats.flow.builder.ExcelBuilder;
+import com.sincetimes.website.app.stats.flow.builder.TextBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 @RequestMapping("/mg")
 @Controller
 @Order(value = 5)
@@ -44,7 +46,8 @@ public class DataStatsMGController implements SecureControllerInterface {
 	@RequestMapping("/test")
 	@ResponseBody
 	public Object test(String id) {
-		return DataStatsManager.inst().testAll(id);
+		DataStatsManager.inst().testAll(id);
+		return "test done";
 	}
 	@RequestMapping("/clear")
 	@ResponseBody
@@ -118,7 +121,7 @@ public class DataStatsMGController implements SecureControllerInterface {
 			return;
 		}
 		DataStatsConfig config = DataStatsManager.inst().getConfig(id);
-		config.putFilterItems(new FilterItem(columnName, desc, FilterType.getType(type_id)));
+		config.putFilterItem(new FilterItem(columnName, desc, FilterType.getType(type_id)));
 		DataStatsManager.inst().saveOrUpdateConfig(config);
 		redirect(resp, "stats_config?id=" + id);
 	}
@@ -129,7 +132,7 @@ public class DataStatsMGController implements SecureControllerInterface {
 			return;
 		}
 		DataStatsConfig config = DataStatsManager.inst().getConfig(id);
-		config.removeFilterItems(key);
+		config.removeFilterItem(key);
 		DataStatsManager.inst().saveOrUpdateConfig(config);
 		redirect(resp, "stats_config?id=" + id);
 	}
@@ -140,10 +143,11 @@ public class DataStatsMGController implements SecureControllerInterface {
 			return;
 		}
 		DataStatsConfig config = DataStatsManager.inst().getConfig(id);
-		config.putColumnItems(columnName, new ColumnItem(columnName, desc, ColumnItemType.getType(type_column_id)));
+		config.putColumnItem(columnName, new ColumnItem(columnName, desc, ColumnItemType.getType(type_column_id)));
 		DataStatsManager.inst().saveOrUpdateConfig(config);
 		redirect(resp, "stats_config?id=" + id);
 	}
+
 	@RequestMapping("/config_column_del")
 	public void config_column_del(HttpServletResponse resp, String id, String columnName) {
 		if(Util.isEmpty(columnName)){
@@ -151,21 +155,45 @@ public class DataStatsMGController implements SecureControllerInterface {
 			return;
 		}
 		DataStatsConfig config = DataStatsManager.inst().getConfig(id);
-		config.removeColumnItems(columnName);
+		config.removeColumnItem(columnName);
 		DataStatsManager.inst().saveOrUpdateConfig(config);
 		redirect(resp, "stats_config?id=" + id);
 	}
-
-	@RequestMapping("/pay_query")
-	public String pay_query(@RequestParam Optional<Integer> pageNo, @RequestParam  Optional<Integer> pageSize, HttpServletRequest req, HttpServletResponse resp, Model model) {
+	@RequestMapping("/config_column_group_add")
+	public void config_column_group_add(HttpServletResponse resp,byte groupTypeId, String id, String columnName, String desc) {
+		if(!Util.nonEmpty(id, columnName, desc)){
+			redirect(resp, "stats_config?id=" + id);
+			return;
+		}
+		DataStatsConfig config = DataStatsManager.inst().getConfig(id);
+		ColumnItem clm = config.getColumnItems().get(columnName);
+		GroupColumnItem groupCol = new GroupColumnItem();
+		groupCol.setColumnName(clm.getColumnName());
+		groupCol.setColumnType(clm.getColumnType());
+		groupCol.setDesc(desc);
+		groupCol.setGroupType(GroupColumnItemType.getType(groupTypeId));
+		config.putGroupItem(groupCol);
+		DataStatsManager.inst().saveOrUpdateConfig(config);
+		redirect(resp, "stats_config?id=" + id);
+	}
+	@RequestMapping("/config_column_group_del")
+	public void config_column_group_del(HttpServletResponse resp, String id, String key) {
+		if(Util.isEmpty(key)){
+			redirect(resp, "stats_config?id=" + id);
+			return;
+		}
+		DataStatsConfig config = DataStatsManager.inst().getConfig(id);
+		config.removeGroupItem(key);
+		DataStatsManager.inst().saveOrUpdateConfig(config);
+		redirect(resp, "stats_config?id=" + id);
+	}
+	@RequestMapping("/flow_query")
+	public String query(@RequestParam Optional<String> download, @RequestParam Optional<String> excel, @RequestParam Optional<Byte> type_query_id, @RequestParam Optional<Integer> pageNo, @RequestParam  Optional<Integer> pageSize, HttpServletRequest req, HttpServletResponse resp, Model model) {
 		String id = req.getParameter("id");
 		if(Util.isEmpty(id)){
 			redirect(resp, "stats");
 			return null;
 		}
-		snapShotBaseView(model, id);
-		StopWatch stopWatch = new StopWatch("stats flow");
-		stopWatch.start("ready query");
 		
 		DataStatsConfig config = DataStatsManager.inst().getConfig(id);
 		List<FilterItem> filters = new ArrayList<>();
@@ -174,7 +202,73 @@ public class DataStatsMGController implements SecureControllerInterface {
 			filter.setInputValue(req.getParameter(filter.getKey()));
 			filters.add(filter);
 		});
+		if(download.isPresent()){
+			StopWatch stopWatch = new StopWatch("stats flow");
+			Builder<?> downloadBuilder = excel.isPresent()?new ExcelBuilder():new TextBuilder();
+			/**显示*/
+			Collection<ColumnItem> columnItems = config.getColumnItems().values();
+			stopWatch.start("paging query");
+			List<Map<String, Object>> result = DataStatsManager.inst().queryPayFlowAll(id, filters);
+			String fileName = config.getName() + "." + downloadBuilder.getSuffixName();
+			fileName = urlEncode(fileName);
+			resp.setContentType("text/html;charset=utf-8");
+			resp.setCharacterEncoding("utf-8");
+			resp.setHeader("content-disposition", "attachment;filename=" + fileName);
+			downloadBuilder.setTitle(config.getName());
+			downloadBuilder.setAuthor(getUserName(req));
+			String descs[] = columnItems.stream().map(ColumnItem::getDesc).toArray(String[]::new);
+			downloadBuilder.writeWords(descs).writeLine();
+			
+			result.forEach((Map<String, Object> map)->{
+				columnItems.forEach((col)->{
+					String value = map.get(col.getColumnName())+"";
+					downloadBuilder.writeWords(col.format(value));
+				});
+				downloadBuilder.writeLine();
+			});
+			
+			
+			byte[] data = downloadBuilder.getByteArray();
+			try {
+				resp.getOutputStream().write(data , 0, data.length);
+			} catch (IOException e) {
+				LogCore.BASE.error("send fileStream err", e);
+			}
+			stopWatch.stop();
+			LogCore.BASE.info("download file {}", stopWatch.prettyPrint());
+			return null;
+		}
 		
+		QueryType queryType = QueryType.getType(type_query_id.orElse((byte)0));
+		snapShotBaseView(model, id, queryType.id);
+		
+		if(queryType == QueryType.GROUP){//如果是汇总查询
+			queryGroupReduce(model, id, config, filters);
+			return "stats";
+		}
+		queryFollow(pageNo, pageSize, resp, model, id, config, filters);
+		return "stats";
+	}
+	/** 汇总 */
+	private void queryGroupReduce(Model model, String id, DataStatsConfig config, List<FilterItem> filters) {
+		StopWatch stopWatch = new StopWatch("stats flow");
+		stopWatch.start("ready query");
+		/**显示*/
+		Map<String, GroupColumnItem> groupColumns = config.getGroupItems();
+		LogCore.BASE.info("filters={}", filters);
+		LogCore.BASE.info("groupColumn={}", groupColumns);
+		List<List<String>>  viewList = DataStatsManager.inst().queryGroupBySkipLimit(id, filters, groupColumns.values());
+		
+		model.addAttribute("columnItems", groupColumns.values());
+		model.addAttribute("filterItems", filters);//保留参数
+		model.addAttribute("viewList", viewList);
+		stopWatch.stop();
+		LogCore.BASE.info("query time used{}", stopWatch.prettyPrint());
+	}
+	private void queryFollow(Optional<Integer> pageNo, Optional<Integer> pageSize,
+			HttpServletResponse resp, Model model, String id, DataStatsConfig config, List<FilterItem> filters) {
+		StopWatch stopWatch = new StopWatch("stats flow");
+		stopWatch.start("ready query");
 		/**显示*/
 		Map<String, ColumnItem> columnItems = config.getColumnItems();
 		LogCore.BASE.info("filters={}", filters);
@@ -187,6 +281,7 @@ public class DataStatsMGController implements SecureControllerInterface {
 		int page_no = pageNo.orElse(0);
 		int pages_num = (int) Math.ceil((double)sum/(double)_page_size);
 		int skip_num = page_no * _page_size;
+		
 		List<Map<String, Object>> result = DataStatsManager.inst().queryPayFlowBySkipLimit(id, skip_num, _page_size, filters);
 		List<List<String>> viewList = new ArrayList<>();
 		result.forEach((Map<String, Object> map)->{
@@ -199,7 +294,7 @@ public class DataStatsMGController implements SecureControllerInterface {
 		});
 		stopWatch.stop();
 		stopWatch.start("reduce sum query");
-		/**单页求和*/
+		/**求和*/
 		long sumValue = 0;
 		long sumAllValues = 0;
 		Optional<Map<String, Object>> any = result.stream().findAny();
@@ -210,6 +305,7 @@ public class DataStatsMGController implements SecureControllerInterface {
 			sumAllValues = DataStatsManager.inst().querySum(id, filters);
 		}
 		stopWatch.stop();
+		
 		stopWatch.start("ready return");
 		/**总求和*/
 		model.addAttribute("sumValue", sumValue);
@@ -229,9 +325,11 @@ public class DataStatsMGController implements SecureControllerInterface {
 		LogCore.BASE.info("page_no={}", page_no);
 		stopWatch.stop();
 		LogCore.BASE.info("query time used{}", stopWatch.prettyPrint());
-		return "stats";
 	}
-	private DataStatsConfig snapShotBaseView(Model model, String id) {
+	private void snapShotBaseView(Model model, String id) {
+		snapShotBaseView(model, id, (byte)0);
+	}
+	private void snapShotBaseView(Model model, String id, byte type_query_id) {
 		/** base start*/
 		Collection<DataStatsConfig>  configs = DataStatsManager.inst().getAllConfigs();
 		DataStatsConfig config = DataStatsManager.inst().getConfig(id);
@@ -239,11 +337,16 @@ public class DataStatsMGController implements SecureControllerInterface {
 		model.addAttribute("config", config);
 		model.addAttribute("type_list", FilterType.values());
 		model.addAttribute("type_column_list", ColumnItemType.values());
+		model.addAttribute("type_group_list", GroupColumnItemType.values());
+		model.addAttribute("type_query_list", QueryType.values());
 		Collection<ColumnItem> columnItems = config.getColumnItems().values();
 		Collection<FilterItem> filterItems = config.getFilterItems().values();
+		Collection<GroupColumnItem> groupItems = config.getGroupItems().values();
 		model.addAttribute("columnItems", columnItems);
 		model.addAttribute("filterItems", filterItems);
+		model.addAttribute("groupItems", groupItems);
+		model.addAttribute("type_query_id", type_query_id);
+		LogCore.BASE.info("config={}", config);
 		/** base end*/
-		return config;
 	}
 }

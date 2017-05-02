@@ -14,11 +14,11 @@ public class DataStatsConfig implements Serializable{
 	private String incrName;//自增字段
 	private String sumName; //求和字段
 	private String tableName;
-	private Map<String, FilterItem> filterItems = new HashMap<>();
-	private Map<String, ColumnItem> columnItems = new HashMap<>();
-//	
+	private Map<String, FilterItem> filterItems = new HashMap<>();//过滤查询条件
+	private Map<String, ColumnItem> columnItems = new HashMap<>();//显式哪些属性
+	private Map<String, GroupColumnItem> groupItems = new HashMap<>();//分组显式的属性
+
 	public DataStatsConfig(){
-		
 	};
 	public DataStatsConfig(String id, String name) {
 		super();
@@ -67,20 +67,34 @@ public class DataStatsConfig implements Serializable{
 	public void setColumnItems(Map<String, ColumnItem> columnItems) {
 		this.columnItems = columnItems;
 	}
-	public DataStatsConfig putFilterItems(FilterItem item) {
+	public Map<String, GroupColumnItem> getGroupItems() {
+		return groupItems;
+	}
+	public void setGroupItem(Map<String, GroupColumnItem> groupItems) {
+		this.groupItems = groupItems;
+	}
+	public DataStatsConfig putFilterItem(FilterItem item) {
 		filterItems.put(item.getKey(), item);
 		return this;
 	}
-	public DataStatsConfig removeFilterItems(String key) {
+	public DataStatsConfig removeFilterItem(String key) {
 		filterItems.remove(key);
 		return this;
 	}
-	public DataStatsConfig putColumnItems(String key, ColumnItem item) {
+	public DataStatsConfig putColumnItem(String key, ColumnItem item) {
 		columnItems.put(key, item);
 		return this;
 	}
-	public DataStatsConfig removeColumnItems(String columnName) {
+	public DataStatsConfig removeColumnItem(String columnName) {
 		columnItems.remove(columnName);
+		return this;
+	}
+	public DataStatsConfig putGroupItem(GroupColumnItem item) {
+		groupItems.put(item.getKey(), item);
+		return this;
+	}
+	public DataStatsConfig removeGroupItem(String key) {
+		groupItems.remove(key);
 		return this;
 	}
 	public String toString() {
