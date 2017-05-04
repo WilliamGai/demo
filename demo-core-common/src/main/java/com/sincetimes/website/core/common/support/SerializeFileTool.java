@@ -13,6 +13,7 @@ import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.junit.Test;
 /**
@@ -78,13 +79,20 @@ public class SerializeFileTool {
 		}
 	}
 	public static <T> List<T> readFileFast2List(String fileName){
+		return readFileFast2List(fileName, ArrayList::new);
+	}
+	/**
+	 * Class<? extends List<T>> listClazz
+	 */
+	public static <T> List<T> readFileFast2List(String fileName, Supplier<List<T>> listCreate){
+		List<T> list = listCreate.get();
 		if(!existFile(fileName)){
 			LogCore.BASE.warn("fileName{} not exitst", fileName);
-			return new ArrayList<>();
+			return list;
 		}
 		try {
 			byte[] data =  Files.readAllBytes(Paths.get(fileName));
-			return SerializeTool.deserilize2List(data);
+			return SerializeTool.deserilize2List(data, list);
 		} catch (Exception e) {
 			LogCore.BASE.error("read file err:{}", e);
 			return null;
@@ -144,6 +152,7 @@ public class SerializeFileTool {
 	}
 	/**
 	 * 中间会产生临时文件,防止写的过程中意外中断而破坏原文件
+	 * 超过2GB或者内存不足会报java.lang.OutOfMemoryError: Java heap space
 	 * @see SerializeFileTool#writeFileFastAppend(String, Object)
 	 */
 	public static void writeFileFastAppendSafe(String fileName, Object value){

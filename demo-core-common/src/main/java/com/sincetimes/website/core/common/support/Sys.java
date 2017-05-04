@@ -1,5 +1,7 @@
 package com.sincetimes.website.core.common.support;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.alibaba.fastjson.JSON;
@@ -48,5 +50,29 @@ public class Sys {
 			e.printStackTrace();
 			return null;
 		}	
+	}
+	/** debug free  */
+	public static String getJVMStatus() {
+		long maxM = Runtime.getRuntime().maxMemory();
+		long totalM = Runtime.getRuntime().totalMemory();
+		long freeM = Runtime.getRuntime().freeMemory();
+		long usedM = totalM - freeM;
+		return Util.format("maxM={}, totalM={}, freeM={}, usedM={}", Util.getM(maxM), Util.getM(totalM),  Util.getM(freeM), Util.getM(usedM));
+	}
+	public static Map<String, Object> getSysInfos() {
+		Map<String, Object> map = new HashMap<>();
+		long maxM = Runtime.getRuntime().maxMemory();
+		long totalM = Runtime.getRuntime().totalMemory();
+		long freeM = Runtime.getRuntime().freeMemory();
+		long usedM = totalM - freeM;
+		map.put("path", System.getProperty("user.dir"));
+		map.put("maxM", Util.getM(maxM));
+		map.put("totalM", Util.getM(totalM));
+		map.put("freeM", Util.getM(freeM));
+		map.put("usedM", Util.getM(usedM));
+		return map;
+	}
+	public static String sysInfosPrettyJson() {
+		return Util.prettyJsonStr(getSysInfos());
 	}
 }

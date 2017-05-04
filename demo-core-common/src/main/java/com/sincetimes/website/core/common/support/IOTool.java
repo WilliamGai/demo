@@ -109,10 +109,6 @@ public class IOTool {
 	public static void appendData(byte[] data, String fileName){
 		writeData(data, fileName, StandardOpenOption.SYNC, StandardOpenOption.APPEND);
 	}
-	public static void main(String args[]){
-		writeData("avv".getBytes(), "monick");
-		System.out.println("hi");
-	}
 	public static boolean existFile(String fileName){
 		return Files.exists(Paths.get(fileName));
 	}

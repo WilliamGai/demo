@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.app.security.SecurityManager;
 import com.sincetimes.website.app.security.vo.UserVO;
-import com.sincetimes.website.app.stats.DataVO;
 import com.sincetimes.website.app.stats.StatsManager;
 import com.sincetimes.website.core.common.support.ClassTool;
+import com.sincetimes.website.core.common.support.DataVO;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Result;

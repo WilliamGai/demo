@@ -16,6 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
@@ -23,6 +24,7 @@ import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.IOTool;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.SerializeFileTool;
+import com.sincetimes.website.core.common.support.Sys;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.common.threadpool.ThreadPoolTool;
 
@@ -30,8 +32,13 @@ import com.sincetimes.website.core.common.threadpool.ThreadPoolTool;
 public class DataStatsManager extends ManagerBase {
 	private static final String CONFIGMAP_FILE_NAME = "configmap.os";
 	public Map<String, DataStatsConfig> configMap = new HashMap<>();
-	public Map<String, List<Map<String,Object>>> allDataMap = new ConcurrentHashMap<>();
+	public Map<String, LinkedList<Map<String,Object>>> allDataMap = new ConcurrentHashMap<>();
 	public Map<String, Lock> locks = new HashMap<>();
+	
+	/*20万500M*/
+	@Value("${limit:200000}")
+	public int limit;
+	
 	@Autowired
 	DataStatsJdbcService service;
 	public static DataStatsManager inst() {
@@ -63,12 +70,15 @@ public class DataStatsManager extends ManagerBase {
 				latch.countDown();
 			});
 		});
-		try {
-			latch.await();
-		} catch (InterruptedException e) {
-			LogCore.BASE.error("latch.await err:{},", e);
-		}
-		LogCore.BASE.info("all inited time used{},", timeMap);
+		/* 不用线程池启动的时候可能会阻塞*/
+		ThreadPoolTool.execute(()->{
+			try {
+				latch.await();
+			} catch (InterruptedException e) {
+				LogCore.BASE.error("latch.await err:{},", e);
+			}
+			LogCore.BASE.info("all inited time used{},", timeMap);
+		});
 	}
 	/**
 	 * TODO:写文件的方式改为append
@@ -83,9 +93,9 @@ public class DataStatsManager extends ManagerBase {
 			String incrflagFile = config.getId() +config.getIncrName()+ ".os";
 			sw.start("parse file");
 			Long lastIncrValue = SerializeFileTool.existFile(incrflagFile)?SerializeFileTool.readFileFast(incrflagFile): 0L;
-			List<Map<String, Object>> oldList = allDataMap.computeIfAbsent(config.getId(), (key)->new LinkedList<>());
+			LinkedList<Map<String, Object>> oldList = allDataMap.computeIfAbsent(config.getId(), (key)->new LinkedList<>());
 			LogCore.BASE.info("{}, oldList.size={},lastIncrValue={}", config.getId(), oldList.size(), lastIncrValue);
-			if(oldList.isEmpty()){//说明是第一次,从缓存文件中读取
+			if(oldList.isEmpty()){//说明是第一次,从缓存文件中读取,文件中的数据新的在后面
 				if(SerializeFileTool.existFile(listFile)){
 					List<List<Map<String, Object>>> list = SerializeFileTool.readFileFast2List(listFile);
 					if(!Util.isEmpty(list)){
@@ -93,23 +103,35 @@ public class DataStatsManager extends ManagerBase {
 						LogCore.BASE.info("list.size={},", list.size());
 						list.forEach(ll->LogCore.BASE.info("sublist.size={},", ll.size()));
 					}
+					// clear to let GC do its work
+					list.clear();
+					list = null;
 				}
 			}
 			sw.stop();
 			sw.start("mysql query");
 			LogCore.BASE.info("{}, after read file oldList.size={},", config.getId(), oldList.size());
 			//从数据库增量
-			List<Map<String, Object>> newlist = queryDataFromDB(config, lastIncrValue);
+			List<Map<String, Object>> newlist = queryDataFromDB(config, lastIncrValue, limit);
 			if(!Util.isEmpty(newlist)){
-				oldList.addAll(newlist);
+				oldList.addAll(0, newlist);
 				OptionalLong maxIncrValueNew = newlist.parallelStream().mapToLong(map->Long.valueOf(map.get(config.getIncrName())+"")).max();
 				lastIncrValue = Math.max(maxIncrValueNew.orElse(0), lastIncrValue);
 				sw.stop();
 				sw.start("rewrite file");
-				LogCore.BASE.info("{}, after query oldList.size={}, ready to serialize all query datas", config.getId(), oldList.size());
-				SerializeFileTool.writeFileFastAppendSafe(listFile, newlist);
+				int limit_threshold = (int) (limit * 1.2);
+				LogCore.BASE.info("{}, after query oldList.size={}, limit_threshold={}, rewrite files?{} ready to serialize all query datas", config.getId(), oldList.size(), limit_threshold, oldList.size() > limit_threshold);
+				if(oldList.size() > limit_threshold){
+					LogCore.BASE.info("jvm free={}", Sys.getJVMStatus());
+				    oldList.subList(0, oldList.size() - limit).clear();//subList()是List快照,不要直接使用。
+					SerializeFileTool.writeFileSafe(listFile, oldList);
+					LogCore.BASE.info("jvm free={} after sub list", Sys.getJVMStatus());
+				}else{
+					SerializeFileTool.writeFileFastAppendSafe(listFile, newlist);
+				}
 				SerializeFileTool.writeFileFast(incrflagFile, lastIncrValue);
-			}		
+			}	
+			
 			sw.stop();
 			LogCore.BASE.info("{}, after writefile file oldList.size={},{}", config.getId(), oldList.size(), sw.prettyPrint());
 		} catch(Exception e){
@@ -151,16 +173,18 @@ public class DataStatsManager extends ManagerBase {
 	}
 	/**
 	 * 数据转换目前只持持基本数据类型和String
+	 * tips:倒着插入 一个list.ArrayList用Collections.reverse(listTar);Linked用list.add(0, element);<br>
+	 * <br>Collection.addAll()会创建一个数组
 	 * @param config
-	 * @return
+	 * @return 一个LinkedList数据从最老到最新
 	 */
-	private List<Map<String, Object>> queryDataFromDB(DataStatsConfig config, Long lastReadTime) {
-		List<Map<String, Object>> list = service.getAllData(config.getTableName(), config.getIncrName() ,lastReadTime+"");
+	private List<Map<String, Object>> queryDataFromDB(DataStatsConfig config, Long lastReadTime, int limit) {
+		List<Map<String, Object>> list = service.getAllData(config.getTableName(), config.getIncrName() ,lastReadTime+"", limit);
 		if(Util.isEmpty(list)){
 			return null;
 		}
-		List<Map<String, Object>> listTar = new ArrayList<>();
-		list.forEach((map)->{
+		LinkedList<Map<String, Object>> listTar = new LinkedList<>();
+		list.stream().forEach((map)->{
 			Map<String,Object> _map = new HashMap<>();
 			map.forEach((k, v)->{
 				if(null == v){
@@ -172,8 +196,11 @@ public class DataStatsManager extends ManagerBase {
 					_map.put(k, v.toString());
 				}
 			});
-			listTar.add(_map);
+			listTar.addFirst(_map);//从最旧的到最新的
 		});
+		// clear to let GC do its work
+		list.clear();
+		list = null;
 		return listTar;
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.core.common.manager.ManagerBase;
+import com.sincetimes.website.core.common.support.DataVO;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.manager.DataManager;
@@ -80,6 +81,17 @@ public class StatsManager extends ManagerBase {
 	 * 获取基本信息
 	 */
 	public List<DataVO> getBaseInfos() {
+		List<DataVO> base_info_list = SysInfos();
+		// jedis
+		base_info_list.add(new DataVO("sn_time_map_all.size", Util.size(sn_time_map_all)));
+		base_info_list.add(new DataVO("sn_time_map.size", Util.size(sn_time_map)));
+		base_info_list.add(new DataVO("LRU cache size", DataManager.inst().userBiInfoCache.size()));
+		base_info_list.add(new DataVO("LRU cache hit rate", DataManager.inst().userBiInfoCache.getStats().hitRate()));
+		base_info_list.add(new DataVO("LRU cache all stats", DataManager.inst().userBiInfoCache.getStats()));
+
+		return base_info_list;
+	}
+	private List<DataVO> SysInfos() {
 		List<DataVO> base_info_list = new ArrayList<>();
 		long maxM = Runtime.getRuntime().maxMemory();
 		long totalM = Runtime.getRuntime().totalMemory();
@@ -90,13 +102,6 @@ public class StatsManager extends ManagerBase {
 		base_info_list.add(new DataVO("totalM", Util.getM(totalM)));
 		base_info_list.add(new DataVO("freeM", Util.getM(freeM)));
 		base_info_list.add(new DataVO("usedM", Util.getM(usedM)));
-		// jedis
-		base_info_list.add(new DataVO("sn_time_map_all.size", Util.size(sn_time_map_all)));
-		base_info_list.add(new DataVO("sn_time_map.size", Util.size(sn_time_map)));
-		base_info_list.add(new DataVO("LRU cache size", DataManager.inst().userBiInfoCache.size()));
-		base_info_list.add(new DataVO("LRU cache hit rate", DataManager.inst().userBiInfoCache.getStats().hitRate()));
-		base_info_list.add(new DataVO("LRU cache all stats", DataManager.inst().userBiInfoCache.getStats()));
-
 		return base_info_list;
 	}
 

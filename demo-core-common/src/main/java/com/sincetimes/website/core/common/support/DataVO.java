@@ -1,7 +1,7 @@
-package com.sincetimes.website.app.stats;
+package com.sincetimes.website.core.common.support;
 
 /** ::new */
-public class DataVO {
+public class DataVO{
 	public String name;
 	public Object value;
 	public Object value2;

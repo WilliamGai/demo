@@ -66,7 +66,7 @@ public class FilterItem implements KeySupport<String>,CloneableSupport<FilterIte
 			return Objects.equal(rowValue, inputValue);
 		case TIME_BEFORE:
 			try {							    
-				time = TimeTool.parseAndGetTime(inputValue, "MM/dd/yyyy");
+				time = TimeTool.parseAndGetTime(inputValue, "yyyy-MM-dd");
 				rowTime = Long.parseLong(rowValue);
 				return rowTime <= time;
 			} catch (ParseException e) {
@@ -74,7 +74,7 @@ public class FilterItem implements KeySupport<String>,CloneableSupport<FilterIte
 			}
 		case TIME_AFTER:
 			try {
-				time = TimeTool.parseAndGetTime(inputValue, "MM/dd/yyyy");//mm/dd/yyyy 不是java的日期格式
+				time = TimeTool.parseAndGetTime(inputValue, "yyyy-MM-dd");//mm/dd/yyyy 不是java的日期格式
 				rowTime = Long.parseLong(rowValue);
 				return rowTime >= time;
 			} catch (ParseException e) {

@@ -1,8 +1,6 @@
 package com.sincetimes.website.core.spring.interfaces;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.function.Function;
@@ -15,7 +13,6 @@ import org.springframework.core.annotation.Order;
 
 import com.sincetimes.website.core.common.support.HttpUtil;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 
 public interface ControllerInterface extends CommandLineRunner, FilePathInterface {

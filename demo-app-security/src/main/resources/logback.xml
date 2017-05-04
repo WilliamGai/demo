@@ -96,9 +96,9 @@
 		</encoder>
 	</appender>
 	<!--  rpc end -->
-	<root level="debug">
+	<root level="info">
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="console" />
+		<!-- <appender-ref ref="console" /> -->
 	</root>
 	<!-- logger name="com.sincetimes" level="info" -->
 	<logger name="com.sincetimes" level="debug">

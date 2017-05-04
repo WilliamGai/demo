@@ -262,9 +262,11 @@ public class SerializeTool {
 	 * 连续读取Object到list
 	 */
 	public static <T> List<T> deserilize2List(byte[] data){
+		return deserilize2List(data, new ArrayList<>());
+	}
+	public static <T> List<T> deserilize2List(byte[] data, List<T> list){
 		try (ByteArrayInputStream in = new ByteArrayInputStream(data);
 				DataInputStream stream = new DataInputStream(in)){
-			List<T> list =  new ArrayList<>();
 			while(stream.available() > 0){
 				T t = read(stream);
 				list.add(t);

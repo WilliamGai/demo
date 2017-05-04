@@ -20,9 +20,10 @@ public class DataStatsJdbcService{
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
-	public List<Map<String, Object>> getAllData(String tableName,  String incrName, String lowerValue){
-		String sql = Util.format("select * from {} where {} > {}", tableName, incrName, lowerValue);
+	/* */
+	public List<Map<String, Object>> getAllData(String tableName,  String incrName, String lowerValue, int limit){
+		String sql = Util.format("select * from {} where {} > {} order by {} desc limit {}", tableName, incrName, lowerValue, incrName, limit);
+//		long size = jdbcTemplate.q
 		List<Map<String, Object>> data= jdbcTemplate.queryForList(sql);
 		LogCore.BASE.info("get all {}, result rows.size={}", sql, data.size());
 		return data;

@@ -40,7 +40,7 @@ import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 public class EventController implements ControllerInterface {
 	/**
 	 * 推送记录
-	 * 方法返回依然输出会出现异常：
+	 * 不要让结果返回否则方法返回依然输出会出现异常：
 	 * <pre>
 	 * HTTP Status 500 - Request processing failed; nested exception is
 	 *  java.lang.IllegalStateException: getOutputStream() has already been called for this response
