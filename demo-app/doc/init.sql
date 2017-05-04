@@ -1,0 +1,2 @@
+UPDATE t_article SET type_id="news"
+INSERT INTO t_article(`id`,`title`,`content`,`create_time`,`user_id`,`read_num`,`type_id`,`img_url`,`update_time`,`short_title`,`sort`,`referenceurl`,`ismobile`,`descriptionArticle`,`link_url`,`created_by`,`updated_by`)  SELECT `id`,`title`,`content`,CONCAT(UNIX_TIMESTAMP(create_time),'000'),`user_id`,`read_num`,`type_id`,`img_url`,CONCAT(UNIX_TIMESTAMP(update_time),'000'),`short_title`,`sort`,`referenceurl`,`ismobile`,`descriptionArticle`,`link_url`,'system',`updated_by` FROM t_article_old
