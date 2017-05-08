@@ -121,7 +121,7 @@
 				<td th:text="${item.name}"></td>
 				<td th:text="${item.visits}"></td>
 				<td><a th:href="${'page_editor?template_id='+template_id+'&amp;id='+item.id}">编辑</a></td>
-				<td><a th:href="${'page_delete?template_id='+template_id+'&amp;id='+item.id}">删除</a></td>
+				<td><a th:href="${'page_delete?template_id='+template_id+'&amp;id='+item.id}"  onclick="javascript:return confirm('确认要删除?删除后不能恢复！');">删除</a></td>
 				<td><a th:href="${'/page_rst?template_id='+template_id+'&amp;id='+item.id}">预览</a></td>
 			</tr>
 		</table>

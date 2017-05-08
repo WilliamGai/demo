@@ -103,6 +103,7 @@ public class DataStatsManager extends ManagerBase {
 						LogCore.BASE.info("list.size={},", list.size());
 						list.forEach(ll->LogCore.BASE.info("sublist.size={},", ll.size()));
 					}
+					oldList.forEach(m->LogCore.BASE.debug(m.get("id")+" init"));
 					// clear to let GC do its work
 					list.clear();
 					list = null;
@@ -114,7 +115,7 @@ public class DataStatsManager extends ManagerBase {
 			//从数据库增量
 			List<Map<String, Object>> newlist = queryDataFromDB(config, lastIncrValue, limit);
 			if(!Util.isEmpty(newlist)){
-				oldList.addAll(0, newlist);
+				oldList.addAll(newlist);
 				OptionalLong maxIncrValueNew = newlist.parallelStream().mapToLong(map->Long.valueOf(map.get(config.getIncrName())+"")).max();
 				lastIncrValue = Math.max(maxIncrValueNew.orElse(0), lastIncrValue);
 				sw.stop();
@@ -122,16 +123,17 @@ public class DataStatsManager extends ManagerBase {
 				int limit_threshold = (int) (limit * 1.2);
 				LogCore.BASE.info("{}, after query oldList.size={}, limit_threshold={}, rewrite files?{} ready to serialize all query datas", config.getId(), oldList.size(), limit_threshold, oldList.size() > limit_threshold);
 				if(oldList.size() > limit_threshold){
-					LogCore.BASE.info("jvm free={}", Sys.getJVMStatus());
+					LogCore.BASE.info("jvm free={},oldList.size={}", Sys.getJVMStatus(), oldList.size());
 				    oldList.subList(0, oldList.size() - limit).clear();//subList()是List快照,不要直接使用。
 					SerializeFileTool.writeFileSafe(listFile, oldList);
-					LogCore.BASE.info("jvm free={} after sub list", Sys.getJVMStatus());
+					LogCore.BASE.info("jvm free={} after sub list, oldList.size={}", Sys.getJVMStatus(), oldList.size());
 				}else{
 					SerializeFileTool.writeFileFastAppendSafe(listFile, newlist);
 				}
 				SerializeFileTool.writeFileFast(incrflagFile, lastIncrValue);
 			}	
-			
+			//debug oldList.forEach(m->LogCore.BASE.debug(m.get("id")+""));
+
 			sw.stop();
 			LogCore.BASE.info("{}, after writefile file oldList.size={},{}", config.getId(), oldList.size(), sw.prettyPrint());
 		} catch(Exception e){
@@ -198,6 +200,7 @@ public class DataStatsManager extends ManagerBase {
 			});
 			listTar.addFirst(_map);//从最旧的到最新的
 		});
+		//debug listTar.forEach(m->LogCore.BASE.debug(m.get("id")+"--"));
 		// clear to let GC do its work
 		list.clear();
 		list = null;

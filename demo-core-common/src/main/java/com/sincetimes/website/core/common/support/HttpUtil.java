@@ -100,6 +100,9 @@ public class HttpUtil {
 
 	public static String post(String url, Map<String, String> params) {
 		String content = "";
+		if(Util.isEmpty(params)){
+			return sendPost(url, content);
+		}
 		for (Map.Entry<String, String> entry : params.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();

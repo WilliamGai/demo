@@ -119,7 +119,9 @@ thymleaf中的${}获取的不是对象的快照，而是真实的java对象,判�
 	<A> A[] toArray(IntFunction<A[]> generator); 可以看到new String[2];的表达式为String[]::new, 为IntFunction<A[]> generator
 	
 ```
-这也是个表达式,只有一个newz执行
+这也是个表达式,只有一个new执行
 ```
 Builder<?> downloadBuilder = excel.isPresent()?new ExcelBuilder():new TextBuilder();
 ```
+List的遍历
+LinkedList的遍历用迭代器快,ArrayList的迭代器用loop快

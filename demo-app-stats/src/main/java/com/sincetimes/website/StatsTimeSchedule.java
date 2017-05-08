@@ -17,7 +17,7 @@ import com.sincetimes.website.core.common.support.Sys;
 @EnableScheduling
 public class StatsTimeSchedule {
 	private static long timeBefore =  System.currentTimeMillis();
-	/*"0 0/10 * * * ?" */
+	/*"0 0/10 * * * ?"  "0 0/30 * * * ?"*/
 	@Scheduled(cron = "0 0/30 * * * ?")
 	public void tenminutes()  {
 		LogCore.BASE.info("tenminutes schedule");
