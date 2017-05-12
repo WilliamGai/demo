@@ -12,9 +12,6 @@ import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 import com.sincetimes.website.manager.DataManager;
-/**
- * 处理一般的请求
- */
 @RestController
 @Order(value = 5)
 public class DataController implements ControllerInterface {

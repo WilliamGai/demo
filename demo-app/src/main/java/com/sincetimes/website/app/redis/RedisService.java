@@ -15,10 +15,9 @@ import org.springframework.stereotype.Service;
 
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.service.BaseService;
 
 @Service
-public class RedisService extends BaseService {
+public class RedisService{
 	@Autowired
 	RedisTemplate<?, ?> redisTemplate;
 

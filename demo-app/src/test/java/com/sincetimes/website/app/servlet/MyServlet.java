@@ -1,4 +1,4 @@
-package com.sincetimes.website.app.event;
+package com.sincetimes.website.app.servlet;
 
 import java.io.IOException;
 

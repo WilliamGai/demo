@@ -19,7 +19,6 @@ public class TimeTool {
 			return new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
 		}
 	};
-	
 	public static boolean isSameWeek(long a, long b){
 		Calendar ca = Calendar.getInstance();
 		ca.setTimeInMillis(a);

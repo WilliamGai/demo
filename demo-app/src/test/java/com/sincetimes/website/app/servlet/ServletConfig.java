@@ -1,4 +1,4 @@
-package com.sincetimes.website.app.event;
+package com.sincetimes.website.app.servlet;
 
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;

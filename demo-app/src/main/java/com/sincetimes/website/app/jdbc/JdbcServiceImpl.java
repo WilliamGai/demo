@@ -19,7 +19,7 @@ public class JdbcServiceImpl implements JdbcService {
 	private JdbcTemplate jdbcTemplate;
 
 	/**
-	 * 乐观锁,update t_stock set value = value-1 where value >1;永远不会出现-1的情况，支持并发
+	 * 乐观锁,update t_stock set value = value-1 where value >1;并发不会出现-1
 	 * 减库存成功则返回1
 	 * 库存用完则返回0
 	 */

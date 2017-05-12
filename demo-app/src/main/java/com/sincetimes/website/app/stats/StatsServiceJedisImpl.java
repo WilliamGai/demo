@@ -15,10 +15,9 @@ import com.alibaba.fastjson.JSON;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.redis.jedis.JedisPoolTemplate;
-import com.sincetimes.website.service.BaseService;
 
 @Service("StatsServiceJedisImpl")
-public class StatsServiceJedisImpl extends BaseService implements StatsService {
+public class StatsServiceJedisImpl implements StatsService {
 
 	@Autowired
 	JedisPoolTemplate jedisTemplate;

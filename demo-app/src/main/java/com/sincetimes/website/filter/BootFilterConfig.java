@@ -17,7 +17,6 @@ import com.sincetimes.website.core.spring.HttpHeadUtil;
  *	}
  *	<pre>
  * @author BAO
- *
  */
 @Configuration
 public class BootFilterConfig {
