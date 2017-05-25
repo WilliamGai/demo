@@ -17,7 +17,6 @@ import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.DataResult;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.ParamResult;
-import com.sincetimes.website.core.common.support.Result;
 import com.sincetimes.website.core.common.support.Util;
 
 @Controller
@@ -105,9 +104,9 @@ public class SecurityMGController implements SecureControllerInterface {
 	}
 	
 	@RequestMapping("/delete_user")
-	Object delete_user(String name) {
-		SecurityManager.inst().deleteUser(name);
-		return new Result().success();
+	void delete_user(String user_name, HttpServletResponse resp) {
+		SecurityManager.inst().deleteUser(user_name);
+		redirect(resp, "secure_users");
 	}
 	
 	@RequestMapping("/add_role")

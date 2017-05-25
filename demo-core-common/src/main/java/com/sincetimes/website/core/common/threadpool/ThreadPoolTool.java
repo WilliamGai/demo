@@ -14,8 +14,11 @@ import com.sincetimes.website.core.common.extension.threadpool.fixed.FixedThread
  * @See {@link LimitedThreadPool}
  */
 public class ThreadPoolTool {
-	public static final ThreadPoolExecutor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-            60L, TimeUnit.SECONDS,
+	public static final ThreadPoolExecutor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(
+			0, 
+			Integer.MAX_VALUE,
+            60L, 
+            TimeUnit.SECONDS,
             new SynchronousQueue<Runnable>());
 	
 	public static void execute(Runnable command){

@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.Sys;
 
 
 @Component

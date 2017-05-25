@@ -16,7 +16,7 @@ import com.sincetimes.website.redis.jedis.spring.JedisWrapperBase;
 /***
  * sorted set<name,0>
  * dict <id, user>可用dict id,hash>扩展
- * <br>
+ * <br> 
  */
 @Component
 public class UserProvider extends JedisWrapperBase{

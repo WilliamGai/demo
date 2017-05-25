@@ -47,7 +47,7 @@
 				<td><a th:href="${'user?user_name='+item.name}">重置密码</a></td>
 				<td><a th:href="${'secure_user_config?user_name='+item.name}">配置角色</a></td>
 				<td><a th:href="${'secure_user?user_name='+item.name}">查看</a></td>
-				<td><a th:href="${'user?user_name='+item.name}"><span class="glyphicon glyphicon-trash"></span></a></td>
+				<td><a th:href="${'delete_user?user_name='+item.name}"><span class="glyphicon glyphicon-trash"></span></a></td>
 			</tr>
 		</table>
 		<!-- <button onclick="clear_all_score()">清除所有用户的分数,并清空排行榜</button> -->
