@@ -20,6 +20,7 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Sys;
 import com.sincetimes.website.core.spring.AppStarter;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
+import com.sincetimes.website.core.spring.manger.SpringManager;
 
 import de.codecentric.boot.admin.config.EnableAdminServer;
 
@@ -32,11 +33,11 @@ import de.codecentric.boot.admin.config.EnableAdminServer;
 @RestController
 @SpringBootApplication(scanBasePackages={"com.sincetimes.website"})
 public class App extends SpringBootServletInitializer implements CommandLineRunner {
-	public static String START_TAG = "=================:";
+	public static String START_TAG = "=================";
 
-	@Value("${appName:none_name}")
+	@Value("${app_name:none_name}")
 	public String app_name;
-	
+//	
 	@Value("${server.port}")
 	public String server_port;
 	
@@ -69,6 +70,9 @@ public class App extends SpringBootServletInitializer implements CommandLineRunn
 		AppStarter.initManagers(context);
 		LogCore.BASE.info(START_TAG + "app started!,dir={},os={},args={}", Sys.getAppDir(), Sys.getOs(), Arrays.toString(args));// AppConfig
 		LogCore.BASE.info(START_TAG + "profiles={}", Arrays.toString(context.getEnvironment().getActiveProfiles()));// AppConfig
+		String appName = SpringManager.inst().getEnvironment().getProperty("app_name");
+		LogCore.BASE.info(START_TAG + "app_name={}", appName);// AppConfig
+
 	}
 
 	public void run(String... args) throws Exception {

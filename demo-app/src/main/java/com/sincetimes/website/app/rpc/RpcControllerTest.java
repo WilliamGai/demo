@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.ContextLoader;
 
-import com.sincetimes.website.app.rpc.dubbo.DubboManagerTest;
+//import com.sincetimes.website.app.rpc.dubbo.DubboManagerTest;
 import com.sincetimes.website.core.common.manager.annotation.ManangerOrder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
@@ -37,10 +37,10 @@ public class RpcControllerTest implements ControllerInterface{
 			return e.getMessage();
 		}  
 	}
-	@RequestMapping("/dubbo_test")
+	/*@RequestMapping("/dubbo_test")
 	Object  testDubbo(HttpServletRequest req, HttpServletResponse resp){
 		return DubboManagerTest.inst().getRemoteServices();
-	}
+	}*/
 	
 	@Autowired
 	ApplicationContext context;

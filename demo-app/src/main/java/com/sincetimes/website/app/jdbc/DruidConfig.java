@@ -43,8 +43,12 @@ public class DruidConfig {
 			e.printStackTrace();
 			LogCore.BASE.error("druid err:{}", e);
 		}
-		LogCore.BASE.info("druidDataSourceCreated:{}", ds);
-		LogCore.BASE.info("druidUrl:{}", url);
+		LogCore.BASE.info("driverClass:{}", driverClass);
+		LogCore.BASE.info("mysql (druid) Url:{}", url);
+		LogCore.BASE.info("removeAbandoned:{}", removeAbandoned);
+		LogCore.BASE.info("removeAbandonedTimeOut:{}", removeAbandonedTimeOut);
+		LogCore.BASE.info("username:{}", username);
+		LogCore.BASE.info("password:{}", password);
 		return ds;
 	}
 	@Bean 

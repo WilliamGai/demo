@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="telephone=no" name="format-detection">
+    <title>新春大转盘</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="js/reset.js"></script>
+    <script src="js/zepto.js"></script>
+    <script src="js/fastclick.js"></script>
+    <script src="js/index.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            FastClick.attach(document.body);  
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+    <div style='display:none;'>
+        <img src='imgs/icon.jpg'/>
+    </div>
+    <!-- loading -->
+    <div class="loading_gif">
+        <a href="http://jztpy.sincetimes.com/mobile_new/download.html">
+            <img src="imgs/lodaing-1.gif" alt="">
+        </a>
+    </div>
+        <div class="toptitle">
+            <img src="imgs/titile.png" alt="">
+        </div>
+        <div class="recored">中奖纪录</div>
+        <!-- 转盘 -->
+        <div class="rota_div">
+            <div class="rota_container">
+                <ul>
+                    <li>
+                        <img src="imgs/zp_1.png" alt="">
+                        <img class="light light_1" src="imgs/light.png" alt="">
+                    </li>
+                    <li>
+                        <img src="imgs/zp_2.png" alt="">
+                        <img class="light light_2" src="imgs/light.png" alt="">
+                    </li>
+                    <li style="margin-right:0;">
+                        <img src="imgs/zp_3.png" alt="">
+                        <img class="light light_3" src="imgs/light.png" alt="">
+                    </li>
+                    <li>
+                        <img src="imgs/zp_4.png" alt="">
+                        <img class="light light_8" src="imgs/light.png" alt="">
+                    </li>
+                    <li>
+                        <img class="zp_start" src="imgs/zp_start.png" alt="">
+                    </li>
+                    <li style="margin-right:0;">
+                        <img src="imgs/zp_5.png" alt="">
+                        <img class="light light_4" src="imgs/light.png" alt="">
+                    </li>
+                    <li>
+                        <img src="imgs/zp_6.png" alt="">
+                        <img class="light light_7" src="imgs/light.png" alt="">
+                    </li>
+                    <li>
+                        <img src="imgs/zp_7.png" alt="">
+                        <img class="light light_6" src="imgs/light.png" alt="">
+                    </li>
+                    <li style="margin-right:0;">
+                        <img src="imgs/zp_8.png" alt="">
+                        <img class="light light_5" src="imgs/light.png" alt="">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 中奖轮播 -->
+     <!--    <div class="zj_slider">
+            <div class="zj_container">
+                <ul>
+                    <li>恭喜李健抽取10000钻石 </li>
+                    <li>恭喜玩家李健抽取了iphone 7 plus</li>
+                    <li>恭喜李健抽取10000钻石 </li>
+                    <li>恭喜玩家李健抽取了iphone 7 plus</li>
+                    <li>恭喜李健抽取10000钻石 </li>
+                    <li>恭喜玩家李健抽取了iphone 7 plus</li>
+                    <li>恭喜李健抽取10000钻石 </li>
+                    <li>恭喜玩家邵伟康抽取了珍藏版充气娃娃</li>
+                </ul>
+            </div>
+        </div> -->
+        <img class="chiken" src="imgs/ck.png" alt="">
+        <!-- 游戏规则 -->
+        <div class="game_text">
+            <img src="imgs/game_text.png" alt="">
+        </div>
+        <!-- bottom  -->
+        <div class="bottom">
+            华清飞扬公司保留在法律规定的范围内对上述规则进行解释权利
+        </div>
+        <!-- 中奖纪录弹窗 -->
+        <div class="recored_slider">
+            <p class="close_p">
+                <img class="close_slider" src="imgs/close.png" alt="">
+            </p>
+            <div class="recored_C">
+                
+            </div>
+        </div>
+        <!-- 未中奖 -->
+        <div class="haveno">
+            <p class="close_p_2">
+                <img class="close_slider" src="imgs/close.png" alt="">
+            </p>
+        </div>
+        <!-- 抽过奖 -->
+        <div class="already_use">
+            <div class="already_div">
+                 <p class="close_p_2">
+                    <img class="close_slider" src="imgs/close.png" alt="">
+                </p>
+            </div>
+             <!-- 按钮 -->
+            <a href="http://jztpy.sincetimes.com/mobile_new/download.html "><button class="down_load" type=""></button></a>
+            <button class="invat_btn" type=""></button>
+        </div>
+        <!-- 中奖了 -->
+        <div class="zj_C">
+            <p class="close_p_2">
+                <img class="close_slider" src="imgs/close.png" alt="">
+            </p>
+            <div class="zj_top">
+                <!-- 合金0 -->
+                <div class="zj_jp">
+                    <p class="zp_p">合金X1000</p>
+                    <div class="zp_detail">
+                        <img src="imgs/hejin.png" alt="">
+                    </div>
+                </div>
+                <!-- 钻石 1-->
+                <div class="zj_jp">
+                    <p class="zp_p">钻石x288</p>
+                    <div class="zp_detail">
+                        <img src="imgs/zuanshi.png" alt="">
+                    </div>
+                </div>
+                 <!-- 能量包 2-->
+                <div class="zj_jp">
+                    <p class="zp_p">能量包x5</p>
+                    <div class="zp_detail">
+                        <img src="imgs/nengliangbao.png" alt="">
+                    </div>
+                </div>
+                 <!-- 储油罐 3-->
+                <div class="zj_jp">
+                    <p class="zp_p">储油罐x10</p>
+                    <div class="zp_detail">
+                        <img src="imgs/yuanyoutong.png" alt="">
+                    </div>
+                </div>
+                 <!-- 特工令 4-->
+                <div class="zj_jp zj_jp_show">
+                    <p class="zp_p">高级特工令 x1</p>
+                    <div class="zp_detail">
+                        <img src="imgs/gaojitegonglin.png" alt="">
+                    </div>
+                </div>
+                <!-- 激活码 5-->
+                <div class="jp_jhm">
+                    <p class="jp_text_1">获得领取码：</p>
+                    <ul>
+                        <li>
+                            <span class="r_sp_1"></span>
+                            <span class="r_sp_2">复制粘贴</span>
+                        </li>
+                    </ul>
+                    <p class="jp_text_2">进入游戏，点击左上角玩家信息 →设置按钮 → 点击礼包兑换
+输入礼包码即可领取对应奖励</p>
+                </div>
+                <!-- 按钮 -->
+                <button class="down_load" type=""></button>
+                <button class="invat_btn" type=""></button>
+            </div>
+        </div>
+        <!-- 黑色背景 -->
+        <div class="black_bg">
+        </div>
+         <div class="black_bg_2">
+        </div>
+        <!-- 分享界面 -->
+        <div class="share">
+            <img class="share_1" src="imgs/share_1.png" alt="">
+            <img class="share_2" src="imgs/erweima.jpg" alt="">
+            <img class="hand" src="imgs/hand.png" alt="">
+            <p class="share_p">长按二维码下载游戏</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -38,8 +38,8 @@ public final class AppStarter {
 			ManagerBase.putInst(obj.getClass(), obj);
 			stopWatch.stop();
 		}
-		LogCore.BASE.info("first mananger is {}" ,runners.get(0));
 		LogCore.BASE.info("managers[] init used time:{}" ,stopWatch.prettyPrint());
+		LogCore.BASE.info("first mananger is {}" ,runners.get(0));
 		LogCore.BASE.info("port is {}" ,context.getEnvironment().getProperty("server.port"));
 	}
 }

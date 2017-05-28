@@ -22,9 +22,6 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.manager.DataManager;
-/**
- * TODO:放队列里处理
- */
 @Component
 public class StatsManager extends ManagerBase {
 

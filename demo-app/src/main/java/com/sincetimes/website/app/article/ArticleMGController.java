@@ -1,7 +1,6 @@
 package com.sincetimes.website.app.article;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -35,10 +34,6 @@ import com.sincetimes.website.manager.DataManager;
 public class ArticleMGController implements ControllerInterface {
 	
 	private static final int PAGE_SIZE = 10;
-	public void run(String... args) throws SQLException {
-		int orderValue = this.getClass().getAnnotation(Order.class).value();
-		LogCore.BASE.info("{} init start! the order is {} !!! ", this.getClass().getName(), orderValue);
-	}
 
 	@ResponseBody
 	@RequestMapping("/articles_reload")

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>舰指太平洋</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/swiper.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="css/landing.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/landing.js"></script>
+</head>
+<script>
+    var userAgentInfo = navigator.userAgent;
+    var Agents = ["Android", "iPhone",
+        "SymbianOS", "Windows Phone",
+        "iPad", "iPod"];
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            location.href= 'http://jztpy.sincetimes.com/mobile_new/index.html';
+        }
+    }
+</script>
+<body>
+    <div class="container">
+     <!-- video -->
+        <div class="video_bg"> 
+        </div>
+        <div class="video_C">
+            <div class="video_box">
+                <video id="video" autobuffer autoloop loop controls >
+                    <source src="video/cg.mp4">
+                    </object>
+                </video>
+                <img class="close" src="imgs/close.png" alt="">
+            </div>
+        </div>
+        <div class="center_box">
+           <div class="top_text">
+                <img class="top_img" src="imgs/text.png" alt="">
+                <div class="top_move_img">
+                    <div class="top_m_C">
+                        <img class="top_light" src="imgs/light.png" alt="">
+                    </div>
+                </div>
+                <img class="video_start" src="imgs/video.png" alt="">
+            </div>
+            <div class="content">
+                <div class="landing_box">
+                    <div class="ld_video">
+                        <video poster="imgs/video_bg.jpg" autoplay="autoplay" autobuffer controls autoloop loop>
+                            <source src="video/cg.mp4">
+                        </video>
+                    </div>
+                    <div class="ld_down">
+                        <img class="ld_erweima" src="imgs/down_load_iso_andorid.png" alt="">
+                        <a href="https://itunes.apple.com/cn/app/jian-zhi-tai-ping-yang-quan/id1192178767?l=zh&ls=1&mt=8">
+                            <img class="ios_btn" src="imgs/ios_btn.png" alt="">
+                        </a>
+                        <a href="http://1005323.1251006671.cdn.myqcloud.com/1251006671/warship2/chinese_r2/android_ios_pkg/android/warship_hqfy.apk">
+                            <img class="and_btn" src="imgs/anz_btn.png" alt="">
+                        </a>
+                    </div>
+                    <div class="ld_show">
+                        <div class="ld_btn_C">
+                            <a class="lqlb" href="#"></a>
+                            <a class="jrgw" href="/pc/index.html"></a>
+                        </div>
+                        <div class="ld_d_C">
+                             <ul>
+                                <li dd="1" class="ld_li">
+                                    <img class="ld_img_1" src="imgs/01.jpg" alt="">
+                                </li>
+                                <div ad="1" class="ld_div">
+                                    <img src="imgs/750x442/1.jpg" alt="">
+                                </div>
+                                 <li dd="2" class="ld_li">
+                                    <img class="ld_img_2" src="imgs/02.jpg" alt="">
+                                </li>
+                                <div ad="2" class="ld_div">
+                                    <img src="imgs/750x442/2.jpg" alt="">
+                                </div>
+                                 <li dd="3" class="ld_li">
+                                    <img class="ld_img_3" src="imgs/03.jpg" alt="">
+                                </li>
+                                <div ad="3" class="ld_div">
+                                    <img src="imgs/750x442/3.jpg" alt="">
+                                </div>
+                                 <li dd="4" class="ld_li">
+                                    <img class="ld_img_4" src="imgs/04.jpg" alt="">
+                                </li>
+                                <div ad="4" class="ld_div">
+                                    <img src="imgs/750x442/4.jpg" alt="">
+                                </div>
+                                 <li dd="5" class="ld_li">
+                                    <img class="ld_img_5" src="imgs/05.jpg" alt="">
+                                </li>
+                                <div ad="5" class="ld_div slider_div">
+                                    <img class="ld_img_slider" src="imgs/750x442/5.jpg" alt="">
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <!-- 领取激活弹窗-->
+        <div class="lq_slider">
+            <img class="lq_close" src="imgs/close_btn.jpg" alt="">
+            <div class="num_C">
+                <p>手机号：<input class="num_input" placeholder="请输入手机号" type="text"></p>
+                <p class="num_p"><img class="lq_btn" src="imgs/lq_btn.png" alt=""></p>
+                <p class="num_P_1">礼包内容：88钻石，储油罐x3，高级间谍令x1，科技点包x1
+                </p>
+                <p class="num_P_1">领取说明：复制激活码后，进入游戏，在角色界面点“设置”→“礼包兑换”，粘贴后点击领取即可获得尊享礼包</p>
+            </div>
+        </div>
+        <!-- 领取成功slider -->
+        <div class="lqcg">
+         <img class="lq_close" src="imgs/close_btn.jpg" alt="">
+            <div class="lqcg_C">
+                <span>请记住激活码:</span>
+                <span class="lqcg_jhm"></span>
+            </div>
+        </div>
+        <!-- 重复领取 -->
+        <div class="cflq">
+             <img class="lq_close" src="imgs/close_btn.jpg" alt="">
+             <div class="lqcg_C">
+                <span>已领激活码:</span>
+                <span class="lqcg_jhm"></span>
+            </div>
+        </div>
+        <div class="slier_bg">
+            
+        </div>
+         <!-- bottom -->
+        <div class="bottom">
+            <div class="c_center_box">
+                <ul class="c_way_ul">
+                    <a href="#">
+                        <li>
+                            <img src="imgs/down_img.png" alt="">
+                            <p class="c_p_title">游戏下载</p>
+                            <p class="c_p_2">游戏最新版本下载</p>
+                        </li>
+                   </a>
+                    <li class="gf_wx">
+                        <img src="imgs/wx_img.png" alt="">
+                        <p class="c_p_title">官方微信</p>
+                        <p class="c_p_2">收听官方微信,获得第一手游戏资讯</p>
+                        <div class="gfwx_div">
+                            <div class="erweima">
+                                <img src="imgs/wx_erweima.png" alt="">
+                            </div>
+                            <p>扫描二维码</p>
+                            <p>关注《舰指太平洋》官方微信号</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="imgs/lx_img.png" alt="">
+                        <p class="c_p_title">官方QQ</p>
+                        <p class="c_p_2">官方QQ交流群：370062940</p>
+                    </li>
+                </ul>
+                <div class="logo_C">
+                    <img class="logo_1" src="imgs/hq_logo.png" alt="">
+                    <img class="logo_2" src="imgs/logo.png" alt="">
+                </div>
+                <p class="b_p_text">联系方式：010-65101870 京ICP备09083283号 京ICP证080373号</p>
+                <p class="b_p_text">北京华清飞扬网络股份有限公司是一家集投资、研发、运营、服务为一体的综合性数字互动娱乐高新技术企业。</p>
+                <p class="b_p_text">京网文[2013]0451-084</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.sincetimes.website.app.rpc.dubbo;
+/*package com.sincetimes.website.app.rpc.dubbo;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -43,7 +43,7 @@ public class DubboConfiguration {
     @Value("${dubbo.provider.delay}")
     private int delay;
     
-    /**设置dubbo扫描包*/
+    *//**设置dubbo扫描包*//*
     @Bean
     public static AnnotationBean annotationBean(@Value("${dubbo.annotation.package}") String packageName) {
         AnnotationBean annotationBean = new AnnotationBean();
@@ -51,7 +51,7 @@ public class DubboConfiguration {
         return annotationBean;
     }
 
-    /**dubbo上下文*/
+    *//**dubbo上下文*//*
     @Bean
     public ApplicationConfig applicationConfig() {
         ApplicationConfig applicationConfig = new ApplicationConfig();
@@ -59,7 +59,7 @@ public class DubboConfiguration {
         return applicationConfig;
     }
 
-    /** 注册zookeeper*/
+    *//** 注册zookeeper*//*
     @Bean
     public RegistryConfig registryConfig() {
         RegistryConfig registry = new RegistryConfig();
@@ -68,7 +68,7 @@ public class DubboConfiguration {
         return registry;
     }
 
-   /**协议 */
+   *//**协议 *//*
     @Bean
     public ProtocolConfig protocolConfig() {
         ProtocolConfig protocolConfig = new ProtocolConfig();
@@ -79,7 +79,7 @@ public class DubboConfiguration {
         return protocolConfig;
     }
 
-    /**服务提供者*/
+    *//**服务提供者*//*
     @Bean(name="myProvider")
     public ProviderConfig providerConfig(ApplicationConfig applicationConfig, RegistryConfig registryConfig, ProtocolConfig protocolConfig) {
         ProviderConfig providerConfig = new ProviderConfig();
@@ -92,10 +92,11 @@ public class DubboConfiguration {
         return providerConfig;
     }
 
-    /**dubbo消费*/
+    *//**dubbo消费*//*
     @Bean(name="defaultConsumer")
     public ConsumerConfig consumerConfig(ApplicationConfig applicationConfig, RegistryConfig registryConfig) {
     	ConsumerConfig consumerConfig = new ConsumerConfig();
         return consumerConfig;
     }
 }
+*/

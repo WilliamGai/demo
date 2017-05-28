@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>舰指太平洋</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/swiper.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/swiper.jquery.min.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<script>
+    /*** 分页start **/
+    $(document).ready(function(){
+
+        var userAgentInfo = navigator.userAgent;
+        var Agents = ["Android", "iPhone",
+            "SymbianOS", "Windows Phone",
+            "iPad", "iPod"];
+        for (var v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                location.href= 'http://jztpy.sincetimes.com/mobile_new/index.html';
+                return;
+            }
+        }
+
+        freshInfos('news_list_1', '1_2_4', 5);
+        freshInfos('news_list_2', '2', 5);
+        freshInfos('news_list_4', '4', 5);
+
+        var sliderUrl = "/get_lunbo?lunbo_group_no=lunbo_1";
+        Slider(sliderUrl);
+    });
+    // 轮播图
+    function Slider(url){
+        $.ajax({
+            url:url,
+            dataType:"json",
+            type:"GET",
+            data:{
+
+            },
+            success:function(data){
+                var data =eval(data);
+                showSlider(data);
+                  var mySwiper = new Swiper('.swiper_1 .swiper-container', {
+                    // direction: 'vertical',
+                    loop: true,
+
+                    // 如果需要分页器
+                    pagination: '.swiper_1 .swiper-pagination',
+
+                    // 如果需要前进后退按钮
+                    nextButton: '.swiper_1 .swiper-button-next',
+                    prevButton: '.swiper_1 .swiper-button-prev',
+                    autoplay: 2000,
+                    // 如果需要滚动条
+                    // scrollbar: '.swiper-scrollbar',
+                });
+            }
+        })
+    };
+    function showSlider(data){
+        var str="";
+        for(var i =0;i<data.lunbos.length;i++){
+            str+="<div class='swiper-slide'>" +
+                    "<a  href='newsdetail.html?id="+data.lunbos[i].link_url+"'><img class='slider_img' src='" +data.lunbos[i].img_url+
+                    "' alt=''/></a></div>";
+
+        };
+        $('.addin_slider').append(str);
+    };
+    function freshInfos(class_tar, type_ids,page_size){
+        $.ajax({
+            type: "POST",
+            /*  dataType: 'json', */
+            url: "/articles?type_ids=" +type_ids
+            +"&pageno=0&page_size="+page_size,
+            data: {
+                openid: "testajax",
+                sign: "testsign"
+            },
+            success: function(data) {
+                var pages_num=data.pages_num;
+                var sum=data.sum;
+                var page_no = data.page_no;
+                var infos = data.list;
+                var content="";
+                var ids = new Array();//数组
+                for (var i = 0; i < infos.length; i++){
+                    ids[i] = infos[i].id;
+                }
+                for (var i = 0; i < infos.length; i++) {
+                    var array_element = infos[i];
+                    var id= array_element.id;
+                    var dt = new Date(array_element.time);
+                    var f_dt = dt.getFullYear()+"-"+(dt.getUTCMonth()+1)+"-"+dt.getDate();
+                    var title = array_element.title;
+                    var type_id=array_element.type_id;
+                    var class_square = 't_ig';
+                    var biaoqian="新闻";
+                    var class_arrow='triangle-right';
+                    if(type_id==3){
+                        class_arrow = 'triangle-right t_yx_s';
+                        class_square = 't_ig t_yx';
+                        biaoqian="攻略";
+                    }
+                    var _img_url = 'imgs/hd.png';
+                    if(type_id==1){
+                        _img_url = 'imgs/xw.png';
+                    }
+                    if(type_id==2){
+                        _img_url = 'imgs/gg.png';
+                    }
+                    var link_url='newsdetail.html?id='+id;
+                    if(ids[i-1]){
+                        link_url+="&id_pre="+ids[i-1];
+                    }
+                    if(ids[i+1]){
+                        link_url+="&id_next="+ids[i+1];
+                    }
+                    //var article_content = array_element.content;
+                    content += "<a href='"+link_url+
+                    "'><li><img class='nav_img'' src='"+_img_url+"' alt=''><p>"
+                        +title+"</p><span class='news_time'>"+f_dt+"</span></li></a>";
+                }
+
+                var news_url = "news.html?type_ids="+type_ids;
+//                content+="<a href='"
+//                        +news_url
+//                        +"'><p class='check_more'>查看更多></p></a>";
+                //$(".dt_text_C").empty();
+                //news_2
+                var _class_tar = "."+class_tar;
+
+                $(_class_tar).empty();
+                $(_class_tar).append(content);
+
+            },
+            error: function() {
+                console.log("fail!!!,请刷新再试!");
+            }
+        });
+    }
+    /**  分页end **/
+</script>
+<body>
+    <div class="container">
+    <div class="slider_box">
+        <span class="s_o_c"></span>  
+        <img class="s_b_img" src="imgs/ios_down.png" alt="">
+        <a href="https://itunes.apple.com/cn/app/jian-zhi-tai-ping-yang-quan/id1192178767?l=zh&ls=1&mt=8"><img class="ios_btn" src="imgs/ios_btn.png" alt=""></a>
+        <a href="http://1005323.1251006671.cdn.myqcloud.com/1251006671/warship2/chinese_r2/android_ios_pkg/android/warship_hqfy.apk"><img class="and_btn" src="imgs/anz_btn.png" alt=""></a>
+    </div>
+    <!-- video -->
+    <div class="video_bg"> 
+    </div>
+    <div class="video_C">
+        <div class="video_box">
+            <video id="video" autobuffer autoloop loop controls >
+                <source src="video/cg.mp4">
+                </object>
+            </video>
+            <img class="close" src="imgs/close.png" alt="">
+        </div>
+    </div>
+        <div class="head">
+            <div class="hd_C">
+                <div class="hd_left_C">
+                    <ul class="hd_ul">
+                        <li class="hd_li_1 hd_li_left">
+                           <a href="index.html">
+                               <p style="border-right:2px solid white;" class="hd_p_top">
+                                    <img src="imgs/gfsy.png" alt="">
+                                    <span>官方首页</span>
+                               </p>
+                                <p class="hd_p_bootom">HOME</p>
+                           </a>
+                        </li>
+                        <li class="hd_li_1 hd_li_left">
+                            <a href="news.html">
+                                <p class="hd_p_top">
+                                <img src="imgs/xwzx.png" alt="">
+                                <span>新闻资讯</span>
+                                </p>
+                                <p class="hd_p_bootom">NEWS</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="hd_ul hd_ul_2">
+                        <li class="hd_li_2">
+                            <img class="light light_1 show_light" src="imgs/hd_light.png" alt="">
+                        </li>
+                        <li class="hd_li_2">
+                            <img class="light light_1" src="imgs/hd_light.png" alt="">
+                        </li>
+                    </ul>
+                </div>
+                <img class="hd_logo" src="imgs/logo.png" alt="">
+                <div class="hd_right_C">
+                    <ul class="hd_ul">
+                        <li class="hd_li_1 hd_li_right">
+                           <a href="newsDocument.html">
+                               <p style="border-right:2px solid white;" class="hd_p_top">
+                                <img src="imgs/hd_yxzl.png" alt="">
+                                <span>游戏资料</span>
+                               </p>
+                                <p class="hd_p_bootom">DATA</p>
+                           </a>
+                        </li>
+                        <li class="hd_li_1 hd_li_right">
+                          <a href="http://forum.sincetimes.com/forum.php?mod=forumdisplay&fid=40">
+                               <p class="hd_p_top">
+                                <img src="imgs/xwzx.png" alt="">
+                                <span>官方论坛</span>
+                               </p>
+                                <p class="hd_p_bootom">FORUM</p>
+                          </a>
+                        </li>
+                    </ul>
+                    <ul class="hd_ul hd_ul_2">
+                        <li class="hd_li_2">
+                            <img class="light light_2" src="imgs/hd_light.png" alt="">
+                        </li>
+                        <li class="hd_li_2">
+                            <img class="light light_2" src="imgs/hd_light.png" alt="">
+                        </li>
+                    </ul>
+                </div>
+                <!-- 微信 -->
+                <div class="wx_C">
+                    <img class="wx_logo" src="imgs/wx_logo.png" alt="">
+                    <p style="color:#8fd940;">关注微信公众号</p>
+                    <p>海量活动抢先看</p>
+                    <img class="hd_r_arrow" src="imgs/right_arrow.png" alt="">
+                </div>
+                <!-- 微信 box-->
+                <div class="wx_box">
+                    <div class="wx_left_b">
+                        <p class="wx_title">微信公众号</p>
+                        <p class="wx_text">关注<span>《舰指太平洋》</span>，获取福利活动等官方一手资讯。</p>
+                    </div>
+                    <img class="ios_code" src="imgs/aa.png" alt="">
+                </div>
+            </div>
+        </div>
+        <!-- content -->
+        <div class="content_C">
+            <div class="top_text">
+                <img class="top_img" src="imgs/text.png" alt="">
+                <div class="top_move_img">
+                    <div class="top_m_C">
+                        <img class="top_light" src="imgs/light.png" alt="">
+                    </div>
+                </div>
+                <img class="video_start" src="imgs/video.png" alt="">
+            </div>
+            <!-- 新闻和图片 -->
+            <div class="news_C">
+                <div class="news_left swiper_1">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper addin_slider">
+
+                        </div>
+                        <!-- 如果需要分页器 -->
+                        <div class="swiper-pagination swiper_fy_1"></div>
+                    </div>
+                </div>
+                <div class="news_right">
+                    <ul class="news_nav">
+                        <li class="news_1 news_active">新闻</li>
+                        <li class="news_1">活动</li>
+                        <li style="margin-right:0px;" class="news_1">公告</li>
+                    </ul>
+                    <a class="more" href="news.html">更多</a>
+                    <div class="news_div news_div_active">
+                        <ul class="right_ul news_list_1">
+                            <a href="#">
+                                <li>
+                                    <img class="nav_img" src="imgs/xw.png" alt="">
+                                    <p>《战舰帝国》之低调的死神—属性提升是根本! <span class="new">NEW</span></p>
+                                    <span class="news_time">2016-12-12</span>
+                                </li>
+                            </a>
+                        </ul>
+                    </div>
+                    <div class="news_div">
+                        <ul class="right_ul news_list_4">
+                            <a href="#">
+                                <li>
+                                    <img class="nav_img" src="imgs/xw.png" alt="">
+                                    <p>20008 <span class="new">NEW</span></p>
+                                    <span class="news_time">2016-12-12</span>
+                                </li>
+                            </a>
+                        </ul>
+                    </div>
+                    <div class="news_div">
+                        <ul class="right_ul news_list_2">
+                            <a href="#">
+                                <li>
+                                    <img class="nav_img" src="imgs/xw.png" alt="">
+                                     <p>《战舰帝国》真机测试，低端机玩出高端范儿!</p>
+                                    <span class="news_time">2016-12-16</span>
+                                </li>
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- 战舰介绍 -->
+            <div class="zj_introduce">
+                <div class="zj_js">
+                    <ul class="js_left">
+                        <li class="js_li js_action">战列舰</li>
+                        <li class="js_li">航空母舰</li>
+                        <li class="js_li">巡洋舰</li>
+                        <li class="js_li">驱逐舰</li>
+                        <li style="margin-bottom:0px;" class="js_li">潜艇</li>
+                    </ul>
+                    <div class="js_div_C">
+                        <!-- 战列舰-->
+                        <div class="js_div js_div_action">
+                            <img class="zj_img zj_img_1" src="imgs/zj_1.png" alt="">
+                            <div class="js_d_1">
+                                <p class="js_p_1">战列舰</p>
+                                <p><img class="js_star" src="imgs/star.png" alt=""></p>
+                            </div>
+                            <div class="js_d_2">
+                                <p>
+                                    <img class="jianjie" src="imgs/jianjie.png" alt="">
+                                </p>
+                                <p class="js_p_2">火炮攻击强，装甲防护厚，可以有效执行远洋作战任务</p>
+                            </div>
+                            <div class="js_d_3">
+                                 <p class="js_p_3">
+                                    <img class="dingwei" src="imgs/dingwei.png" alt="">
+                                </p>
+                                  <p class="js_p_4">超高格挡，秒杀后排</p>
+                            </div>
+                        </div>
+                        <!-- 航空母舰 -->
+                        <div class="js_div">
+                            <img class="zj_img zj_img_1" src="imgs/zj_2.png" alt="">
+                            <div class="js_d_1">
+                                <p class="js_p_1">航空母舰</p>
+                                <p><img class="js_star" src="imgs/star.png" alt=""></p>
+                            </div>
+                            <div class="js_d_2">
+                                <p>
+                                    <img class="jianjie" src="imgs/jianjie.png" alt="">
+                                </p>
+                                <p class="js_p_2">攻防兼备，作战能力强，是海战中最强大的力量</p>
+                            </div>
+                            <div class="js_d_3">
+                                 <p class="js_p_3">
+                                    <img class="dingwei" src="imgs/dingwei.png" alt="">
+                                </p>
+                                  <p class="js_p_4">攻防兼备，王者归来</p>
+                            </div>
+                        </div>
+                        <!-- 巡洋舰 -->
+                        <div class="js_div">
+                            <img class="zj_img zj_img_1" src="imgs/zj_3.png" alt="">
+                            <div class="js_d_1">
+                                <p class="js_p_1">巡洋舰</p>
+                                <p><img class="js_star" src="imgs/star.png" alt=""></p>
+                            </div>
+                            <div class="js_d_2">
+                                <p>
+                                    <img class="jianjie" src="imgs/jianjie.png" alt="">
+                                </p>
+                                <p class="js_p_2">火力猛，用途多，堪称全能战士</p>
+                            </div>
+                            <div class="js_d_3">
+                                 <p class="js_p_3">
+                                    <img class="dingwei" src="imgs/dingwei.png" alt="">
+                                </p>
+                                  <p class="js_p_4">火力威猛，用途多样</p>
+                            </div>
+                        </div>
+                        <!-- 驱逐舰 -->
+                        <div class="js_div">
+                            <img class="zj_img zj_img_1" src="imgs/zj_4.png" alt="">
+                            <div class="js_d_1">
+                                <p class="js_p_1">驱逐舰</p>
+                                <p><img class="js_star" src="imgs/star.png" alt=""></p>
+                            </div>
+                            <div class="js_d_2">
+                                <p>
+                                    <img class="jianjie" src="imgs/jianjie.png" alt="">
+                                </p>
+                                <p class="js_p_2">高速灵活，快速移动，是主力战舰的最大噩梦</p>
+                            </div>
+                            <div class="js_d_3">
+                                 <p class="js_p_3">
+                                    <img class="dingwei" src="imgs/dingwei.png" alt="">
+                                </p>
+                                  <p class="js_p_4">高速灵活，快速移动</p>
+                            </div>
+                        </div>
+                        <!-- 潜艇 -->
+                        <div class="js_div">
+                            <img class="zj_img zj_img_1" src="imgs/zj_5.png" alt="">
+                            <div class="js_d_1">
+                                <p class="js_p_1">潜艇</p>
+                                <p><img class="js_star" src="imgs/star.png" alt=""></p>
+                            </div>
+                            <div class="js_d_2">
+                                <p>
+                                    <img class="jianjie" src="imgs/jianjie.png" alt="">
+                                </p>
+                                <p class="js_p_2">安全性高，续航力大，在海战中占有重要一席之地</p>
+                            </div>
+                            <div class="js_d_3">
+                                 <p class="js_p_3">
+                                    <img class="dingwei" src="imgs/dingwei.png" alt="">
+                                </p>
+                                  <p class="js_p_4">最强隐蔽， 极限突击</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 游戏资料 -->
+            <div class="game_data">
+                <a href="newsDocument.html">
+                    <img class="data_more" src="imgs/more.png" alt="">
+                </a>
+                <div class="data_content">
+                    <ul class="data_ul">
+                        <li>
+                            <a href="newsdetail.html?id=98">
+                                <p><span class="triangle-right"></span>如何选船</p>
+                            </a>
+                            <a href="newsdetail.html?id=99">
+                                <p><span class="triangle-right"></span>初识船长</p>
+                            </a>
+                             <a href="newsdetail.html?id=100">
+                                <p><span class="triangle-right"></span>升旗介绍</p>
+                            </a>
+                            <a href="newsdetail.html?id=102">
+                                <p><span class="triangle-right"></span>军团指南</p>
+                            </a>
+                        </li>
+                        <li>
+                             <a href="newsdetail.html?id=103">
+                                <p><span class="triangle-right"></span>船长日记</p>
+                            </a>
+                            <a href="newsdetail.html?id=104">
+                                <p><span class="triangle-right"></span>军衔系统</p>
+                            </a>
+                             <a href="newsdetail.html?id=105">
+                                <p><span class="triangle-right"></span>挑战巨头</p>
+                            </a>
+                            <a href="newsdetail.html?id=106">
+                                <p><span class="triangle-right"></span>造船厂</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="newsdetail.html?id=109">
+                                <p><span class="triangle-right"></span>大洋运输线</p>
+                            </a>
+                            <a href="newsdetail.html?id=110">
+                                <p><span class="triangle-right"></span>火线救援</p>
+                            </a>
+                             <a href="newsdetail.html?id=111">
+                                <p><span class="triangle-right"></span>竞技场</p>
+                            </a>
+                            <a href="newsdetail.html?id=112">
+                                <p><span class="triangle-right"></span>军需商店</p>
+                            </a>
+                        </li>
+                        <li style="margin-right:0px;">
+                            <a href="newsdetail.html?id=118">
+                                <p><span class="triangle-right"></span>升级窍门</p>
+                            </a>
+                            <a href="newsdetail.html?id=119">
+                                <p><span class="triangle-right"></span>竞技场争霸</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 游戏展示 -->
+            <div class="game_show">
+                <div class="game_s_C">
+                    <ul class="game_s_ul">
+                        <li class="game_s_ac game_s_Li">视频</li>
+                        <li style="left:221px;" class="game_s_Li">截图</li>
+                        <li  class="game_s_Li" style="margin-right:0px;left:442px">原画</li>
+                    </ul>
+                    <div class="g_d_C">
+                       <!-- video -->
+                        <div class="g_d_div g_d_action">
+                            <div class="game_video swiper_2">
+                                <div class="swiper-container">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide sd_1">
+                                            <video autobuffer autoloop loop controls poster="imgs/video_1.png">
+                                                <source src="video/cg.mp4">
+                                            </video>
+                                            <img class="video_st_1" src="imgs/start.png" alt="">
+                                        </div>
+                                        <div class="swiper-slide sd_2">
+                                            <video id="s"  autobuffer autoloop loop controls poster="imgs/video_2.png">
+                                                <source src="video/xc.mp4">
+                                            </video>
+                                            <img class="video_st_2" src="imgs/start.png" alt="">
+                                        </div>
+                                    </div>
+                                    <!-- 如果需要分页器 -->
+                                    <div class="swiper-pagination video_radio"></div>
+                                    <!-- 如果需要滚动条 -->
+                                    <div class="swiper-scrollbar"></div>
+                                </div>
+                                    <!-- 如果需要导航按钮 -->
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                        <!-- screep_picture -->
+                        <div class="g_d_div">
+                           <div class="swiper_3 game_video">
+                                <div class="swiper-container">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_16.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_17.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_18.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_19.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_20.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_21.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_22.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_23.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <!-- 如果需要分页器 -->
+                                    <div class="swiper-pagination"></div>
+                                    <!-- 如果需要滚动条 -->
+                                    <div class="swiper-scrollbar"></div>
+                                </div>
+                                    <!-- 如果需要导航按钮 -->
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                        <!-- picture -->
+                        <div class="g_d_div">
+                           <div class="swiper_4 game_video">
+                                <div class="swiper-container">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_10.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_11.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_12.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_13.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_14.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img class="slider_img" src="imgs/slider_15.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <!-- 如果需要分页器 -->
+                                    <div class="swiper-pagination"></div>
+                                    <!-- 如果需要滚动条 -->
+                                    <div class="swiper-scrollbar"></div>
+                                </div>
+                                    <!-- 如果需要导航按钮 -->
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- bottom -->
+        <div class="bottom">
+            <div class="c_center_box">
+                <ul class="c_way_ul">
+                   <a href="#">
+                        <li>
+                            <img src="imgs/down_img.png" alt="">
+                            <p class="c_p_title">游戏下载</p>
+                            <p class="c_p_2">游戏最新版本下载</p>
+                        </li>
+                   </a>
+                    <li class="gf_wx">
+                        <img src="imgs/wx_img.png" alt="">
+                        <p class="c_p_title">官方微信</p>
+                        <p class="c_p_2">收听官方微信,获得第一手游戏资讯</p>
+                        <div class="gfwx_div">
+                            <div class="erweima">
+                                <img src="imgs/wx_erweima.png" alt="">
+                            </div>
+                            <p>扫描二维码</p>
+                            <p>关注《舰指太平洋》官方微信号</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="imgs/lx_img.png" alt="">
+                        <p class="c_p_title">官方QQ</p>
+                        <p class="c_p_2">官方QQ交流群：370062940</p>
+                    </li>
+                </ul>
+                <div class="logo_C">
+                    <img class="logo_1" src="imgs/hq_logo.png" alt="">
+                    <img class="logo_2" src="imgs/logo.png" alt="">
+                </div>
+                <p class="b_p_text">联系方式：010-65101870 京ICP备09083283号 京ICP证080373号</p>
+                <p class="b_p_text">北京华清飞扬网络股份有限公司是一家集投资、研发、运营、服务为一体的综合性数字互动娱乐高新技术企业。</p>
+                <p class="b_p_text">京网文[2013]0451-084</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

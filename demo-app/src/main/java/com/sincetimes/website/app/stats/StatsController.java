@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.core.common.support.DataVO;
 import com.sincetimes.website.core.common.support.LogCore;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 
 
 @Controller
 @Order(value = 7)
 @RequestMapping("/mg")
-public class StatsController implements CommandLineRunner {
+public class StatsController implements ControllerInterface {
 
 	@RequestMapping("/gclook")
 	@ResponseBody
@@ -61,11 +61,5 @@ public class StatsController implements CommandLineRunner {
 	@ResponseBody
 	public String download(@PathVariable String name) {
 		return StatsManager.inst().get(name);
-	}
-	
-	@Override
-	public void run(String... args) throws Exception {
-		int orderValue = this.getClass().getAnnotation(Order.class).value();
-		LogCore.BASE.info("{} init start! the order is {} !!! ", this.getClass().getName(), orderValue);
 	}
 }

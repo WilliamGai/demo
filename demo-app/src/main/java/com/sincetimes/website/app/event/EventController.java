@@ -1,7 +1,6 @@
 package com.sincetimes.website.app.event;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -129,15 +128,4 @@ public class EventController implements ControllerInterface {
 			}
 		}
 	}
-	public void print(PrintWriter w,String s){
-		try {
-			w.print(s);
-			w.close();
-			Thread.sleep(2000);
-			LogCore.BASE.info(s);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	/* 测试  end*/
 }

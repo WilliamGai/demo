@@ -1,0 +1,267 @@
+body{
+    background:url(../imgs/c_bg.jpg) no-repeat center 0px #161623;
+}
+.container{
+    min-height:1550px;
+}
+.center_box{
+    width:1000px;
+    height:auto;
+    min-height:1000px;
+    margin:0 auto;
+    margin-bottom:100px;
+}
+.top_text_C{
+    width:100%;
+    height:570px;
+}
+.content{
+    width:100%;
+    height:860px;
+    background:url(../imgs/landing_bg.png) no-repeat;
+    background-size:100% 100%;
+}
+.landing_box{
+    width:943px;
+    height:762px;
+    background:#171d27;
+    margin:53px 0 0 30px;
+    float: left;
+}
+.ld_video{
+    width:395px;
+    height:214px;
+    margin:20px 0 0 15px;
+    float: left;
+}
+.ld_video video{
+    width:100%;
+    height:100%;
+}
+.ld_down{
+    width:500px;
+    height:210px;
+    background:url(../imgs/ld_down_bg.png) no-repeat;
+    background-size:100% 100%;
+    float: left;
+    margin:20px 0 0 15px;
+}
+.ld_erweima{
+    width:155px;
+    height:155px;
+    float: left;
+    margin:26px 0 0 65px;
+}
+.ios_btn{
+    float: left;
+    width:235px;
+    height:70px;
+    margin:26px 0 0 20px;
+}
+.and_btn{
+    float: left;
+    width:235px;
+    height:70px;
+    margin:15px 0 0 20px;
+}
+.ld_show{
+    width:886px;
+    height:488px;
+    margin:24px 0 0 30px;
+    float: left;
+}
+.ld_btn_C{
+    width:100%;
+    height:122px;
+    background:url(../imgs/ld_btn_1.png) no-repeat;
+    background-size:100% 100%;
+}
+.ld_d_C{
+    width:866px;
+    height:344px;
+    margin:20px 0 0 9px;
+    background:black;
+}
+.ld_li{
+    width:60px;
+    height:338px;
+    float: left;
+    cursor:pointer;
+    margin-left:5px;
+}
+.ld_div{
+    float: left;
+    height:334px;
+    display:none;
+    width:0;
+    position:relative;
+    overflow: hidden;
+}
+.ld_div img{
+    width:100%;
+    height:100%;
+    position: absolute;
+    left:-540px;
+    top:0;
+}
+.slider_div{
+    width:540px;
+    display:block;
+}
+.ld_img_slider{
+    animation:addW 0.3s ease-in-out forwards;
+    -webkit-animation:addW 0.3s ease-in-out forwards;
+    -moz-animation:addW 0.3s ease-in-out forwards;
+    -ms-animation:addW 0.3s ease-in-out forwards;
+}
+@keyframes addW{
+    0%{
+        left:-540px;
+    }
+    100%{
+        left:0px;
+    }
+}
+@-webkit-keyframes addW{
+    0%{
+        left:-540px;
+    }
+    100%{
+        left:0px;
+    }
+}
+@-moz-keyframes addW{
+    0%{
+        left:-540px;
+    }
+    100%{
+        left:0px;
+    }
+}
+@-ms-keyframes addW{
+    0%{
+        left:-540px;
+    }
+    100%{
+        left:0px;
+    }
+}
+.lqlb{
+    width:204px;
+    height:55px;
+    display:inline-block;
+    float: left;
+    margin-left:237px;
+}
+.jrgw{
+     width:204px;
+    height:55px;
+    display:inline-block;
+    float: left;
+}
+.slier_bg{
+    display:none;
+    position:fixed;
+    width:100%;
+    height:100%;
+    left:0;
+    top:0;
+    z-index:998;
+    background:black;
+    opacity:0.8;
+}
+.lq_slider{
+    display:none;
+    position:fixed;
+    width:900px;
+    height:600px;
+    left:50%;
+    top:50%;
+    z-index:999;
+    margin-top:-300px;
+    margin-left:-450px;
+    background:url(../imgs/lqcg.png) no-repeat;
+    background-size:100% 100%;
+}
+.lqcg{
+    display:none;
+    position:fixed;
+    width:900px;
+    height:300px;
+    left:50%;
+    top:50%;
+    z-index:999;
+    margin-top:-150px;
+    margin-left:-450px;
+    background:url(../imgs/lqcg.jpg) no-repeat;
+    background-size:100% 100%;
+}
+.cflq{
+    display:none;
+    position:fixed;
+    width:800px;
+    height:270px;
+    left:50%;
+    top:50%;
+    z-index:999;
+    margin-top:-135px;
+    margin-left:-400px;
+    background:url(../imgs/cflq.jpg) no-repeat;
+    background-size:100% 100%;
+}
+.lqcg_C{
+    width:380px;
+    height:50px;
+    line-height:50px;
+    font-size:16px;
+    text-align:center;
+    background:url(../imgs/num_bg.png) repeat;
+    border-radius:5px;
+    margin:0 auto;
+    color:#5d5a55;
+    margin-top:180px;
+}
+.lqcg_jhm{
+}
+.lq_close{
+    width:50px;
+    height:50px;
+    float:right;
+    cursor:pointer;
+    margin:2px 5px 0 0;
+}
+.num_C{
+    width: 400px;
+    height: 34px;
+    line-height:30px;
+    margin: 0 auto;
+    margin-top: 146px;
+}
+.num_C p{
+    font-size:16px;
+}
+.num_input{
+    width:300px;
+    height:30px;
+    outline:none;
+    border:1px solid #a98652;
+    border-radius:6px;
+    padding-left:10px;
+}
+.num_p{
+    width:100%;
+    text-align:center;
+}
+.lq_btn{
+    width: 160px;
+    height: 35px;
+    display: inline-block;
+    padding-top: 30px;
+    cursor: pointer;
+}
+.num_P_1{
+    color:red;
+}
+.lqlb{
+    cursor:pointer;
+}

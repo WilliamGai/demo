@@ -16,21 +16,22 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 
 public interface ControllerInterface extends CommandLineRunner, FilePathInterface {
-	
+	/**实现CommandLineRunner的run(String[])方法*/
 	default void run(String... args) throws SQLException {
 		LogCore.CORE.info("{} init start! the order is {} !!! ", this.getClass().getName(), this.getClass().getAnnotation(Order.class));
 	}
-	/**跨域*/
+	/**允许跨域*/
 	default void allowAccess(HttpServletResponse resp){
 		HttpHeadUtil.allowAccess(resp);
 	}
+	/**urlEnchode*/
 	default String urlEncode(String msg){
 		return HttpUtil.urlEncode(msg);
 	}
 	default void redirect(HttpServletResponse resp, String uri){
 		try {
 			resp.sendRedirect(uri);
-		} catch (IOException e) {
+		} catch (IOException e) {//输出错误日志,哪个类的哪个方法重定向失败
 	        String className = Thread.currentThread().getStackTrace()[2].getClassName();
 	        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
 			LogCore.BASE.error("{},{}invoke redirect fail,uri={}", className, methodName, uri);
@@ -39,7 +40,7 @@ public interface ControllerInterface extends CommandLineRunner, FilePathInterfac
 	default void forward(HttpServletRequest req, HttpServletResponse resp, String uri){
 		try {
 			req.getRequestDispatcher(uri).forward(req, resp);
-		} catch (Exception e) {
+		} catch (Exception e) {//输出错误日志,哪个类的哪个方法转发向失败
 			String className = Thread.currentThread().getStackTrace()[2].getClassName();
 			String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
 			LogCore.BASE.error("{},{} invoke forward fail,uri={}", className, methodName, uri);

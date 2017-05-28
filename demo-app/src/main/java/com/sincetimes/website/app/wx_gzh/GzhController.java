@@ -78,7 +78,7 @@ public class GzhController implements ControllerInterface {
 			resp.sendRedirect(new_url);
 			return;
 		} 
-		/**以下说明是客户端请求的授权 */
+		/*以下说明是客户端请求的授权 */
 		String _back_url = req.getParameter("back_url");// 带此参数说明是客户端请求的，
 		shouquan(resp, SNSAPI_BASE, _back_url);// openid可能为null,即用户点进空白页面后授权
 	}

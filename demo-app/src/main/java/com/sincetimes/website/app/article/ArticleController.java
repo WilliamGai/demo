@@ -1,6 +1,5 @@
 package com.sincetimes.website.app.article;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,7 +12,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,22 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 
 /**
  * 前端展示访问
  */
 @RestController
 @Order(value = 8)
-public class ArticleController implements CommandLineRunner {
+public class ArticleController implements ControllerInterface {
 
-	public void run(String... args) throws SQLException {
-		int orderValue = this.getClass().getAnnotation(Order.class).value();
-		LogCore.BASE.info("{} init start! the order is {} !!! ", this.getClass().getName(), orderValue);
-	}
 
 	@RequestMapping("/article")
 	Object article(HttpServletRequest req, HttpServletResponse resp, @RequestParam Integer id,  @RequestParam Optional<Integer> id_pre, @RequestParam Optional<Integer> id_next) {
-		//HttpHeadTool.allowAccess(resp);
 		JSONBuilder jb = JSONBuilder.create();
 		Article article = ArticleManager.inst().getArticleWithRead(id);
 		if(id_pre.isPresent()){

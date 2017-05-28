@@ -46,53 +46,7 @@
     		<groupId>com.google.protobuf</groupId>
    		 	<artifactId>protobuf-java</artifactId>
 		</dependency>
-		<!-- distributed start-->
-		<!-- distributed.rpc.dubbo -->
-		<dependency>
-    		<groupId>com.alibaba</groupId>
-			<artifactId>dubbo</artifactId>
-			<exclusions>
-          		<exclusion>
-          			<!-- 不去除也能打包并运行,但是mvn run就会以内使用这里的旧版本spring而出错,仔细起见也要去除 -->
-           			<groupId>org.springframework</groupId>
-					<artifactId>spring</artifactId>
-          		</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-    		<groupId>org.apache.zookeeper</groupId>
-    		<artifactId>zookeeper</artifactId>
-    		<exclusions>
-          		<exclusion>
-          			<!-- 项目使用logback, 去除所有的log4j -->
-           			<groupId>log4j</groupId>
-            		<artifactId>log4j</artifactId>
-          		</exclusion>
-          		<exclusion>
-           			 <groupId>org.slf4j</groupId>
-      				 <artifactId>slf4j-log4j12</artifactId>
-          		</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-    		<groupId>com.github.sgroschupf</groupId>
-    		<artifactId>zkclient</artifactId>
-		</dependency>
-		<!-- distributed.rpc.dubbo end -->
-		<!-- distributed end-->
-		<!-- 监控  有了spring boot admin client 则不需要引入actuator
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		 监控end -->
-		<!-- spring boot admin监控 client 
-		<dependency>
-    		<groupId>de.codecentric</groupId>
-    		<artifactId>spring-boot-admin-starter-client</artifactId>
-		</dependency>
-		spring boot admin监控 client end-->
-		<!-- spring boot admin监控end-->
+		<!-- 监控线程和进程状态,调整日志级别等-->
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server</artifactId>
@@ -101,7 +55,6 @@
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server-ui</artifactId>
 		</dependency> 
-		<!-- spring boot admin监控end-->
 	</dependencies>
 	<build>
 		<plugins>

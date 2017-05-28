@@ -1,4 +1,4 @@
-package com.sincetimes.website.app.rpc.dubbo;
+/*package com.sincetimes.website.app.rpc.dubbo;
 
 import com.alibaba.dubbo.config.annotation.Service;
 
@@ -9,4 +9,4 @@ public class HelloDubboService implements IHelloDubboService {
 		return System.getProperty("user.dir")+System.getProperty("os.name");
 	}
 
-}
+}*/

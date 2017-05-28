@@ -5,17 +5,16 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 @Order(value = 4)
 @RestController
-public class RedisController implements CommandLineRunner {
+public class RedisController implements ControllerInterface {
 
 	@Autowired
 	RedisCacheService redisCacheService;
@@ -58,11 +57,5 @@ public class RedisController implements CommandLineRunner {
 		String _name = Objects.toString(name, "testName");
 		String _no = Objects.toString(no, "testNo");
 		return redisCacheService.putUser(_no, _name);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		int orderValue = this.getClass().getAnnotation(Order.class).value();
-		LogCore.BASE.info("{} init start! the order is {} !!! ", this.getClass().getSimpleName(), orderValue);
 	}
 }

@@ -22,7 +22,6 @@ import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 /**
  * 激活码
- * TODO LRU缓存
  */
 @RequestMapping("/mg")
 @Controller

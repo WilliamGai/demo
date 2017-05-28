@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.sincetimes.website.core.common.support.LogCore;
 /**
- * tips:web容器会输出app的所有的异常,但是无效地址404请在服务器(apache,nginx)控制
+ * tips:web容器会输出app的所有的异常,但是无效地址404建议在服务器apache/nginx控制
  */
 @ControllerAdvice
 public class ExeptionHandler {

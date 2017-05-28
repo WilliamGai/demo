@@ -8,6 +8,7 @@ import com.sincetimes.website.redis.jedis.JedisPoolTemplate;
 import com.sincetimes.website.redis.jedis.interfaces.JedisWrapper;
 
 /**
+ * 为ManagerBase提供的redis操作,所有继承此类的manager都会以自己的类名作为redis的"域"来操作自己的数据<br>
  * 所有继承此类的派生类不可以在上线后更改自己的类名
  */
 @Component

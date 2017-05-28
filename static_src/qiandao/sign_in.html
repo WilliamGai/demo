@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="telephone=no" name="format-detection">
+    <title>每日签到</title>
+    <link rel="stylesheet" type="text/css" href="css/sign_in.css">
+    <script src="js/reset.js"></script>
+    <script src="js/zepto.js"></script>
+    <script src="js/fastclick.js"></script>
+    <script src="js/sign_in.js"></script>
+    <script>
+        $(function() {
+            FastClick.attach(document.body);  
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="logo_div">
+            <img class="sign_logo" src="imgs/qd_logo.png" alt="">
+        </div>
+        <div class="head_img">
+            <img src="imgs/head.png" alt="">
+            <p class="head_p"></p>
+        </div>
+        <div class="sign_C">
+            <img class="sign_btn" src="imgs/sing_btn.png" alt="">
+            <p>
+                我的积分:<span class="myNum"></span>
+                <span class="numL">[积分榜]</span>
+            </p>
+        </div>
+        <div class="hd_gz">
+            <img src="imgs/hd_gz.png" alt="">
+        </div>
+        <!-- bottom -->
+        <div class="bottom">
+            <p class="bttom_p">北京华清飞扬网络股份有限公司</p>
+            <p class="bttom_p">北京市东城区建国门内大街光华长安大厦<span>联系方式:010-65101870</span></p>
+        </div>
+        <!-- bg -->
+        <div class="slider_bg">
+            
+        </div>
+        <!-- 签到成功 -->
+        <div class="slider_1">
+            <div class="slider_C">
+                <img class="sign_img" src="imgs/sign_ss.png" alt="">
+                <p class="sd1_p">+<span class="addNum"></span>积分</p>
+                <button class="sd1_btn" type="button"></button>
+            </div>
+        </div>
+        <!-- 已签到 -->
+        <div class="slider_2">
+            <div class="slider_C">
+                <p style="padding-top:0.986667rem;" class="sd1_p">今天已签到</p>
+                <button style="margin-top:0.6rem;" class="sd1_btn" type="button"></button>
+            </div>
+        </div>
+        <!-- 积分榜 -->
+        <div class="numList">
+            <div class="close">
+                <img src="imgs/close.png" alt="">
+            </div>
+            <p class="jf_text">积分排行榜TOP10</p>
+            <table cellspacing="0" cellpadding="0"  class="jf_table" border="1">
+               
+                <thead>
+                    <tr>
+                        <th style="width:0.72rem;">名次</th>
+                        <th style="width: 1.533333rem;">头像</th>
+                        <th style="width:2.613333rem;">昵称</th>
+                        <th>积分</th>
+                    </tr>
+                </thead>
+                <tbody class="tbody">
+                </tbody>
+            </table>
+            <p style="padding-top:0.5rem;" class="jf_text">我的积分</p>
+            <table cellspacing="0" cellpadding="0" border="1" class="jf_table_2">
+                <thead>
+                </thead>
+                <tbody class="tbody_2">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
