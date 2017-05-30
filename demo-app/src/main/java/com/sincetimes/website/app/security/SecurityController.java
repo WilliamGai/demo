@@ -61,7 +61,7 @@ public class SecurityController implements SecureAccessSupport {
 	 * <br>注册
 	 */
 	@RequestMapping("/sign_up_submit")
-	void sign_up_submit(
+	String sign_up_submit(
 			Model model, 
 			String name, 
 			String nickname, 
@@ -70,12 +70,14 @@ public class SecurityController implements SecureAccessSupport {
 			StandardMultipartHttpServletRequest freq,
 			HttpServletResponse resp){
 		String pic = FileManager.inst().uploadFileSimple(freq, ACCOUNT_PICS_PATH);
-		if(!Util.nonEmpty(name, password)){
-			model.addAttribute("tips", "名称或密码不可为空");
+		ParamResult rst = SecurityManager.inst().signUp(name, nickname, password, female, pic);
+		if(!rst.isSuccess()){
+			model.addAttribute("tips", rst.get());
+			return "sign_up";
 		}
-		SecurityManager.inst().signUp(name, nickname, password, female, pic);
-		LogCore.BASE.info("sign_in_submit name={}, password={}, female={}, pic={}", name, password, female, pic);
+		LogCore.BASE.info("sign_in_submit name={}, password={}, female={}, pic={}, rst={}", name, password, female, pic, Util.prettyJsonStr(rst));
 		redirect(resp, "login");
+		return null;
 	}
 	/**  用户登录后主界面也可能是管理员查询此页面 */
 	@RequestMapping("/secure_user")

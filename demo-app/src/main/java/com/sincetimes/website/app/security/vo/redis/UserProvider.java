@@ -51,8 +51,8 @@ public class UserProvider extends JedisWrapperBase{
 	}
 
 	public void deleteUser(String name) {
-		zrem(USERS_SET, name);
 		del(name);
+		zrem(USERS_SET, name);
 	}
 
 	public Boolean existUserByName(String name) {
