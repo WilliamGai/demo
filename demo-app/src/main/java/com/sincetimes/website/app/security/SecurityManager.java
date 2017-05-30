@@ -92,9 +92,9 @@ public class SecurityManager extends ManagerBase {
 			addUserRole(DEFAULT_ADMIN_USER_NAME, DEFAULT_ROLE_ACTIVE);
 			addUserRole(DEFAULT_ADMIN_USER_NAME, DEFAULT_ROLE_PEMISSION);
 			addUserRole(DEFAULT_ADMIN_USER_NAME, DEWFAULT_ROLE_DEBUG);
-			LogCore.BASE.info("init admin permission admin:{} ", getUser(DEFAULT_ADMIN_USER_NAME));
 			return;
 		}
+		LogCore.BASE.info("sercurity inited!, rolesNumBefore={}, userNumBefore:{}, admin:{}",rolesNum ,userNum, getUser(DEFAULT_ADMIN_USER_NAME));
 	}
 	
 	/**
