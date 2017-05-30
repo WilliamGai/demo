@@ -30,6 +30,9 @@ public class ArticleManager extends ManagerBase {
 	@Autowired
 	ArticleService articleService;
 	
+	@Autowired
+	ArticleTableCreateService articleInitService;
+	
 	public static ArticleManager inst() {
 		return ManagerBase.inst(ArticleManager.class);
 	}
@@ -37,6 +40,7 @@ public class ArticleManager extends ManagerBase {
 	/* 优化项, 费时操作 */
 	@Override
 	public void init() {
+		articleInitService.checkTables();
 		reloadAll();
 	}
 

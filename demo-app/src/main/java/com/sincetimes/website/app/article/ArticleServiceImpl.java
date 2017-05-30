@@ -147,9 +147,4 @@ public class ArticleServiceImpl implements ArticleService {
 	public int deleteArticleType(String id) {
 		return jdbcTemplate.update("DELETE FROM t_article_type WHERE id = ?", new Object[] { id });
 	}
-	@Override
-	public boolean checkTables() {
-//		jdbcTemplate.e
-		return false;
-	}
 }

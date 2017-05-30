@@ -8,7 +8,6 @@ public interface ArticleService {
 	int insertArtical(Article atc);
 	/** 更改已有文章*/
 	int updateArtical(Article atc);
-	boolean checkTables();
 	Map<Integer, Article> getAllArticles();
 
 	int deleteArticle(int id);

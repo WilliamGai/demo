@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.app.security.vo.Permission;
 import com.sincetimes.website.app.security.vo.RoleVO;
-import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.manger.SpringManager;
 import com.sincetimes.website.redis.jedis.spring.JedisWrapperBase;
