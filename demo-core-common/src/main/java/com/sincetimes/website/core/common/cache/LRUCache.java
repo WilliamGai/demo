@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 /**
- * LinkedHashMap为我们提供了removeEldestEntry(Map.Entry<K,V> eldest)来支持缓存实现
+ * LinkedHashMap提供了removeEldestEntry(Map.Entry<K,V> eldest)来支持缓存实现
  * afterNodeInsertion(boolean evict)来移除最老的
  * afterNodeAccess(Node<K,V> e)来标记不活跃
  * @see LinkedHashMap

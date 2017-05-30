@@ -13,9 +13,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
 
+import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-
+/**
+ * 使用spring的redisTemplate,目前在公众号用户信息中使用
+ */
 @Service
 public class RedisService{
 	@Autowired
@@ -128,7 +131,6 @@ public class RedisService{
 
 	/**
 	 * 将 srcKey列表的尾部的数据弹出一个并插入到dstKey列表中
-	 * 
 	 * @param srcKey,此列表不存在会返回nil
 	 * @param dstKey,此列表不存在会创建
 	 * @return 可能为null
@@ -137,26 +139,6 @@ public class RedisService{
 		return redisTemplate.execute((RedisConnection c) -> {
 			byte[] _code = c.rPopLPush(Util.getUtfBytes(srcKey), Util.getUtfBytes(dstKey));
 			return Util.getUtf(_code);
-		});
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public long save(UserInfo usrInfo) {
-		return redisTemplate.execute((RedisConnection c) -> {
-			RedisSerializer key_slz = redisTemplate.getKeySerializer();
-			RedisSerializer slz = redisTemplate.getValueSerializer();
-			LogCore.BASE.info("key_slz={},slz={}", key_slz.getClass().getSimpleName(), slz.getClass().getSimpleName());
-			c.set(key_slz.serialize(usrInfo.getClass().getSimpleName() + ":" + usrInfo.no), slz.serialize(usrInfo));
-			return 1L;
-		});
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public UserInfo getUserInfo(String no) {
-		return (UserInfo) redisTemplate.execute((RedisConnection c) -> {
-			RedisSerializer key_slz = redisTemplate.getKeySerializer();
-			RedisSerializer slz = redisTemplate.getValueSerializer();
-			return slz.deserialize(c.get(key_slz.serialize(UserInfo.class.getSimpleName() + ":" + no)));
 		});
 	}
 
@@ -299,6 +281,26 @@ public class RedisService{
 		LogCore.BASE.debug("hincrby {} {} {}", key, field, delta);
 		return redisTemplate.execute((RedisConnection c) -> {
 			return c.hIncrBy(Util.getUtfBytes(key), Util.getUtfBytes(field), delta);
+		});
+	}
+	/*** redis序列化一个对象示例 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public long save(UserVO user) {
+		return redisTemplate.execute((RedisConnection c) -> {
+			RedisSerializer key_slz = redisTemplate.getKeySerializer();
+			RedisSerializer slz = redisTemplate.getValueSerializer();
+			LogCore.BASE.info("key_slz={},slz={}", key_slz.getClass().getSimpleName(), slz.getClass().getSimpleName());
+			c.set(key_slz.serialize(user.getClass().getSimpleName() + ":" + user.getId()), slz.serialize(user));
+			return 1L;
+		});
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public UserVO getUserInfo(String id) {
+		return (UserVO) redisTemplate.execute((RedisConnection c) -> {
+			RedisSerializer key_slz = redisTemplate.getKeySerializer();
+			RedisSerializer slz = redisTemplate.getValueSerializer();
+			return slz.deserialize(c.get(key_slz.serialize(UserVO.class.getSimpleName() + ":" + id)));
 		});
 	}
 }

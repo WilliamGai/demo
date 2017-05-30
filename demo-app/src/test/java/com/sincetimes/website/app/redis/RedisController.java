@@ -9,6 +9,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sincetimes.website.app.redis.RedisCacheService;
+import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.interfaces.AccessSupport;
@@ -32,18 +34,18 @@ public class RedisController implements AccessSupport {
 	}
 	
 	@RequestMapping("/test")
-	public Object test(String name, String no, HttpServletRequest req) {
+	public Object test(String name, String password, HttpServletRequest req) {
 		String _name = Objects.toString(name, "testName");
-		String _no = Objects.toString(no, "testNo");
-		User o = redisCacheService.getUser(_no, _name);
+		String _psw = Objects.toString(password, "testPsw");
+		UserVO o = redisCacheService.getUser(_name, _psw);
 //		Integer i = jdbcTemplate.queryForObject("select value from t_value where name='1'", int.class);
 		String sid = req.getSession().getId();
 		return   System.getProperty("user.dir") + o+",sessionid="+sid;
 	}
 
 	@RequestMapping("/redis/get")
-	public User getUser(String name, String no) {
-		return redisCacheService.getUser(no, name);
+	public UserVO getUser(String name, String password) {
+		return redisCacheService.getUser(name, password);
 	}
 
 	@RequestMapping("/redis/clear")

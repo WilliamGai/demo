@@ -20,7 +20,7 @@ import com.sincetimes.website.core.spring.HttpHeadUtil;
 public interface AccessSupport extends CommandLineRunner, FilePathSupport {
 	/**实现CommandLineRunner的run(String[])方法*/
 	default void run(String... args) throws SQLException {
-		LogCore.CORE.info("{} init start! the order is {} !!! ", this.getClass().getName(), Util.toNullDefalut(this.getClass().getAnnotation(Order.class), Order::value,  "null"));
+		LogCore.CORE.info("{} init start! the order is {}", this.getClass().getName(), Util.toNullDefalut(this.getClass().getAnnotation(Order.class), Order::value,  "null"));
 	}
 	/**允许跨域*/
 	default void allowAccess(HttpServletResponse resp){

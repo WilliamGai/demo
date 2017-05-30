@@ -21,17 +21,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.base.Objects;
+import com.sincetimes.website.app.security.interfaces.SecureAccessSupport;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Result;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 import com.sincetimes.website.manager.DataManager;
 
 @Controller
 @Order(value = 7)
 @RequestMapping("/mg/article")
-public class ArticleMGController implements AccessSupport {
+public class ArticleMGController implements SecureAccessSupport {
 	
 	private static final int PAGE_SIZE = 10;
 	@RequestMapping
@@ -123,10 +123,7 @@ public class ArticleMGController implements AccessSupport {
 	@ResponseBody
 	@RequestMapping("/article/{id}")
 	Object article(HttpServletRequest req, @PathVariable Integer id) {
-		Article article = ArticleManager.inst().getArticleWithInit(id);
-		//		LogCore.BASE.info("query article result:{}", article);
-		//		model.addAttribute("list", list);
-		return article;
+		return ArticleManager.inst().getArticleWithInit(id);
 	}
 	
 	
@@ -150,16 +147,14 @@ public class ArticleMGController implements AccessSupport {
 		atc.setSort(req.getParameter("sort"));
 		atc.setTitle(req.getParameter("title"));
 		atc.setType_id(req.getParameter("type_id"));
-		
-		Object user = req.getSession().getAttribute("user");
-		if(user instanceof UserVO){
-			UserVO _user = (UserVO)user;
+		UserVO user = getSessioUser(req);
+		if(null != user){
 			if(0 == id.orElse(0)){
 				atc.setCreate_time(System.currentTimeMillis());
-		    	atc.setCreated_by(((UserVO) _user).getName());
+		    	atc.setCreated_by(user.getName());
 			}else{
 				atc.setUpdate_time(System.currentTimeMillis());
-				atc.setUpdated_by(((UserVO) _user).getName());
+				atc.setUpdated_by(user.getName());
 			}
 		}
 		Result rst = ArticleManager.inst().saveOrUpdateArticles(atc);
@@ -181,11 +176,10 @@ public class ArticleMGController implements AccessSupport {
 		ArticleType tp = new ArticleType();
 		tp.setId(type_id.get());
 		tp.setName(name.orElse("未定义"));
-		Object user = req.getSession().getAttribute("user");
-		if(user instanceof UserVO){
-			UserVO _user = (UserVO)user;
-			tp.setCreated_by(((UserVO) _user).getName());
-			tp.setUpdated_by(((UserVO) _user).getName());
+		UserVO user = getSessioUser(req);
+		if(null != user){
+			tp.setCreated_by(user.getName());
+			tp.setUpdated_by(user.getName());
 			tp.setCreate_time(System.currentTimeMillis());
 			tp.setUpdate_time(System.currentTimeMillis());
 		}
@@ -211,10 +205,9 @@ public class ArticleMGController implements AccessSupport {
 			return;
 		}
 		tp.setName(name.get());
-		Object user = req.getSession().getAttribute("user");
-		if(user instanceof UserVO){
-			UserVO _user = (UserVO)user;
-			tp.setUpdated_by(((UserVO) _user).getName());
+		UserVO user = getSessioUser(req);
+		if(null != user){
+			tp.setUpdated_by(user.getName());
 			tp.setUpdate_time(System.currentTimeMillis());
 		}
 		ArticleManager.inst().saveOrUpdateArticleType(tp);
