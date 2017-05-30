@@ -37,7 +37,7 @@
 				<td th:text="${item.gender.name}"></td>
 				<td>
 					<img th:if="${item.pic}" height="24" width="24" th:src="${item.pic}" onerror="this.onerror='';src='images/boy.png'"/>
-					<img th:if="${item.pic==null}" height="24" width="24" th:src="${item.gender.defaultPic}" onerror="this.onerror='';src='images/boy.png'"/>
+					<img th:if="${item.pic==null}" height="24" width="24" th:src="${item.gender.defaultPic}" onerror="this.onerror='';src='/mg/images/boy.png'"/>
 				</td>
 				<td th:text="${item.nickname}"></td>
 				<td th:text="${item.password}"></td>
