@@ -53,7 +53,6 @@ public class SecurityController implements SecureAccessSupport {
 	String sign_up(Model model, HttpServletRequest req, HttpServletResponse rsp){
 		String ssid = req.getSession().getId();
 		model.addAttribute("data",ssid + HttpHeadUtil.getParamsMap(req));//调试用
-		model.addAttribute("pic","test");
 		model.addAttribute("tips", "upload your profile image");
 		return "sign_up";
 	}
