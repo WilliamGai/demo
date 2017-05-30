@@ -14,11 +14,11 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.ParamResult;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 
 @Controller
 @Order(value = 7)
-public class SecurityController implements ControllerInterface {
+public class SecurityController implements AccessSupport {
 
 	private static final String ACCOUNT_PICS_PATH = "account_pics";
 	@RequestMapping("/login")

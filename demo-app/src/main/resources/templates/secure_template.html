@@ -14,30 +14,34 @@
 		<div id="wrapper">
 		<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
-						class="icon-bar"></span><span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" th:href="${'/mg/secure_user'}"><span class="glyphicon glyphicon-home">Home</span></a>
+				<a class="navbar-brand" th:href="${'/secure_user'}" ><span class="glyphicon glyphicon-home" >Home</span></a>
 			</div>
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/mg/secure_roles">角色列表</a></li>
-					<li><a href="/mg/secure_users">用户列表</a></li>
+					<li th:if="${user.name=='admin'}" th:class="${#httpServletRequest.requestURI=='/mg/secure/secure_roles'?'active':''}"><a href="/mg/secure/secure_roles">角色列表</a></li>
+					<li th:if="${user.name=='admin'}" th:class="${#httpServletRequest.requestURI=='/mg/secure/secure_users'?'active':''}"><a href="/mg/secure/secure_users" >用户列表</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">功能列表<strong class="caret"></strong></a>
 						<ul class="dropdown-menu">
-							<li><a href="/mg/page_template">自定义模板</a></li>
-							<li class="divider"></li>
-							<li><a href="/mg/articles">图文编辑</a></li>
+							<li th:each="item: ${user.permissions}">
+								<a th:href="${item.uri}" th:text="${item.name}"></a>
+							</li>
+							<!-- <li class="divider"></li> -->
+							<li th:if="${#lists.isEmpty(user.permissions)}">请联系管理员分配权限</li>
+							<!-- <li><a href="/mg/articles">图文编辑</a></li>
 							<li><a href="/mg/upload_media">轮播图</a></li>
 							<li class="divider"></li>
 							<li><a href="/mg/lucky_draw">转盘/宝箱抽奖</a></li>
 							<li><a href="/mg/point_shop_mg">积分商城</a></li>
 							<li class="divider"></li>
-							<li><a href="code">激活码</a></li>
+							<li><a href="code">激活码th:each="role: ${user.roles}"</a></li> -->
+						</ul>
+						<ul class="dropdown-menu">
+							<li th:each="item: ${user.permissions}">
+								<a th:href="${item.uri}" th:text="${item.name}"></a>
+							</li>
+							<li th:if="${#lists.isEmpty(user.permissions)}">请联系管理员分配权限</li>
 						</ul>
 					</li>
 				</ul>
@@ -52,12 +56,14 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">调试<strong class="caret"></strong></a>
 						<ul class="dropdown-menu">
-							<li><a href="/mg/all">访问记录</a></li>
+							<li><a href="/mg/stats" target="_blank">访问记录</a></li>
 							<li class="divider"></li>
-							<li><a href="/hi">AdminServer</a></li>
+							<li><a href="/druid/index.html" target="_blank">mysql监控</a></li>
+							<li class="divider"></li>
+							<li><a href="/hi">BootAdminServer</a></li>
 							<li class="divider"></li>
 							<!-- admin client -->
-							<li>------<span class="glyphicon glyphicon-wrench">调试</span>-------------</li>
+							<li>-----------<span class="glyphicon glyphicon-wrench">调试</span>-------------</li>
 							<li><a href="/health" target="_blank">health</a></li>
 							<li><a href="/mappings" target="_blank">mappings</a></li>
 							<li><a href="/env" target="_blank">env</a></li>
@@ -84,7 +90,7 @@
 							<li><a href="/login">注销</a></li>
 							<li><a href="/sign_up">注册</a></li>
 							<li class="divider"></li>
-							<li><a href="/mg/secure_user"><i class="icon-cog"></i>账户中心</a></li>
+							<li><a href="/secure_user"><i class="icon-cog"></i>账户中心</a></li>
 						</ul>
 					</li>
 				</ul>

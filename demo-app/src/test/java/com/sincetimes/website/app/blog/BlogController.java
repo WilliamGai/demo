@@ -32,12 +32,12 @@ import com.sincetimes.website.core.common.port.PortInstance;
 import com.sincetimes.website.core.common.support.HTMLFilter;
 import com.sincetimes.website.core.common.support.HttpUtil;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 import com.sincetimes.website.core.spring.manger.SpringManager;
 import com.sincetimes.website.redis.jedis.excample.JedisServiceDemo;
 @Controller
 @Order(value = 5)
-public class BlogController implements ControllerInterface{
+public class BlogController implements AccessSupport{
 	public static AtomicInteger count= new AtomicInteger();
 	
 	@Autowired

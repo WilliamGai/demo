@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
 <head>
 <title>大转盘</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
-<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
-<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
-<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
 <script type="text/javascript">
 function showImg(fileObj,imgId) {
     console.log(imgId);
@@ -62,10 +60,11 @@ function up_lucky_draw_item(sn, item_sn){
 	});
 }
 </script>
+</head>
 <body>
 <!--  -->
 <div id="wrapper">
-	<iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+<div th:fragment="content" >	
 	<div class="container">
         <div class="col-md-2 column">
 			<a th:each="item:${lucky_draw_infos}" th:href="${'lucky_draw?sn='+item.sn}" th:text="${item.name}" th:class="${lucky_draw_info.sn==item.sn?'list-group-item active':'list-group-item'}"></a>
@@ -273,7 +272,7 @@ function up_lucky_draw_item(sn, item_sn){
     		
     		<div th:each="i,iterStat: ${lucky_draw_info.shelfs}" class="form-inline">
     		<label th:text="${iterStat.index}" class="text-danger"></label>
-            <img  width="200" height="190" th:src="${i.pic_url}" onerror="this.onerror='';src='images/no.png'" class="img-rounded"/>
+            <img  width="200" height="190" th:src="${i.pic_url}" onerror="this.onerror='';src='/mg/images/no.png'" class="img-rounded"/>
             <div class="form-group">
                 <label th:text="${i.goods_name+':[sn='+i.sn+']'}" class="text-info">商品名称</label>
                 <br/>
@@ -291,20 +290,13 @@ function up_lucky_draw_item(sn, item_sn){
              	<a class="btn btn-default btn-warning" th:onclick="${'delete_item_code_list('''+lucky_draw_info.sn+''','''+i.sn+''')'}">清除旧激活码</a>
              	<button  class="btn btn-default btn-info" type="submit" th:href="${'#form_motai'+i.sn}" role="button" data-toggle="modal">修改</button>
              	<button  class="btn btn-default btn-info" th:onclick="${'up_lucky_draw_item('''+lucky_draw_info.sn+''','''+i.sn+''')'}">↑</button>
-                
              </div>
-                          
             <hr/>
         </div>
     	</div>
     	</div>
         </div><!-- container end -->
-
-
-		
-		<div id="footer">
-    		@ sincetimes
-		</div>
+	</div>
 	</div>
 </body>
 </html>

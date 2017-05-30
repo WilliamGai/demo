@@ -2,10 +2,9 @@ package com.sincetimes.website.app.security.vo;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
-public class Permission implements Serializable{
+public class Permission extends ToStringAbstract implements Serializable{
 	private static final long serialVersionUID = 6075482255307965611L;
 	private String name;
 	private String uri;
@@ -18,6 +17,12 @@ public class Permission implements Serializable{
 		super();
 		this.name = name;
 		this.uri = uri;
+	}
+	
+	public Permission(Permission permission) {
+		super();
+		this.name = permission.name;
+		this.uri = permission.uri;
 	}
 	
 	public String getName() {
@@ -34,9 +39,5 @@ public class Permission implements Serializable{
 	
 	public void setUri(String uri) {
 		this.uri = uri;
-	}
-	
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

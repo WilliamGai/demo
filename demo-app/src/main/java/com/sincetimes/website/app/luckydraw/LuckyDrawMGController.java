@@ -31,16 +31,18 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 /**
  * 激活码
- * TODO LRU缓存
  */
-@RequestMapping("/mg")
+@RequestMapping("/mg/luckydraw")
 @Controller
 @Order(value = 5)
-public class LuckyDrawMGController implements ControllerInterface{
-	
+public class LuckyDrawMGController implements AccessSupport{
+	@RequestMapping
+	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
+		redirect(resp, req.getRequestURI()+"/lucky_draw");
+	}
 	@RequestMapping("/lucky_draw")
 	String  code(Model model, @RequestParam Optional<String> sn, HttpServletRequest req, HttpServletResponse resp){
 		List<LuckyDrawConfVO> code_infos = LuckyDrawManager.inst().getAllLuckyDrawConfs();

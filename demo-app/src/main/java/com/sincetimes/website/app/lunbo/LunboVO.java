@@ -3,14 +3,12 @@ package com.sincetimes.website.app.lunbo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.alibaba.fastjson.JSON;
 import com.sincetimes.website.core.common.support.HttpUtil;
 import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
-public class LunboVO {
+public class LunboVO extends ToStringAbstract{
 	private static final byte STATUS_OK_1 = 1;
 	private static final byte STATUS_ERR_0 = 0;
 	
@@ -58,10 +56,5 @@ public class LunboVO {
 			return null;
 		}
 		return JSON.toJSONString(list);
-	}
-
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

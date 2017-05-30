@@ -6,18 +6,16 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Objects;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
 /**
  * 大转盘的VO类，主要用于Json之间互转。
  */
-public class LuckyDrawConfVO implements Serializable {
+public class LuckyDrawConfVO extends ToStringAbstract implements Serializable {
 	private static final long serialVersionUID = -2796572185654770931L;
 	
 	public String sn;					//主键
@@ -105,10 +103,5 @@ public class LuckyDrawConfVO implements Serializable {
 			return null;
 		}
 		return JSON.parseObject(jsonStr, LuckyDrawConfVO.class);
-	}
-	
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

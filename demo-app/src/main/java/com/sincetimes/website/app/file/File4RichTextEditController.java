@@ -25,14 +25,14 @@ import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 @RestController
 @Order(value = 6)
 @RequestMapping("/mg")
 /**
  * 富文本编辑器的上传文件请求和打开文件管理器的请求
  */
-public class File4RichTextEditController implements ControllerInterface {
+public class File4RichTextEditController implements AccessSupport {
 	public static final HashMap<String, List<String>> EXT_MAP = new HashMap<>();//支持的文件类型，目前不限制
 	public static final List<String> IMGE_TYPES =Arrays.asList("gif","jpg","jpeg","png","bmp");
 	static{

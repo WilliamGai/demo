@@ -19,12 +19,12 @@ import com.sincetimes.website.core.common.support.BiDataResult;
 import com.sincetimes.website.core.common.support.DataResult;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 /**
  * 积分兑换商城
  */
 @RestController
-public class ShopController implements ControllerInterface{
+public class ShopController implements AccessSupport{
 
 	@RequestMapping("/{shop_sn}/get_shop_infos")
 	public Object get_shop_infos(String openid, @PathVariable String shop_sn, @RequestParam Optional<Integer> page_no) {

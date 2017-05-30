@@ -19,18 +19,17 @@ import com.sincetimes.website.app.file.FileManager;
 import com.sincetimes.website.app.page.builders.ItemPictureBuiler;
 import com.sincetimes.website.app.page.vo.Item;
 import com.sincetimes.website.app.page.vo.ItemPage;
-import com.sincetimes.website.app.security.interfaces.SecureControllerInterface;
+import com.sincetimes.website.app.security.interfaces.SecureAccessSupport;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
 
 @Controller
 @Order(value = 7)
-@RequestMapping("/mg")
-public class ItemPageMGController implements SecureControllerInterface {
+@RequestMapping("/mg/page")
+public class ItemPageMGController implements SecureAccessSupport {
 	/** 目录页面 */
 	@RequestMapping("/page")
 	String pageTemplate(Model model, HttpServletRequest req, String template_id){
-		setUser(model, req);
 		model.addAttribute("type_list", ItemType.values());
 		Collection<ItemPage> templatePages = ItemPageTemplateManager.inst().getAllItemPages().values();
 		ItemPage templatePage = ItemPageTemplateManager.inst().getItemPageById(template_id);
@@ -73,7 +72,6 @@ public class ItemPageMGController implements SecureControllerInterface {
 			redirect(resp, "page?template_id=" + template_id);
 			return null;
 		}
-		setUser(model, req);
 		model.addAttribute("type_list", ItemType.values());
 		Collection<ItemPage> pages =  ItemPageManager.inst().getAllItemPagesWithSort(template_id);
 		Collection<ItemPage> templatePages = ItemPageTemplateManager.inst().getAllItemPages().values();
@@ -117,21 +115,4 @@ public class ItemPageMGController implements SecureControllerInterface {
 	public Object getPageByJson(String template_id, String id){
 		return ItemPageManager.inst().getItemPageById(template_id, id);
 	}
-	
-/*	@RequestMapping("/add_page")
-	void add_page(HttpServletRequest req, HttpServletResponse resp, String template_id, String id, String name){
-		if(Util.isEmpty(id)){
-			redirect(resp, "page_template");
-			return;
-		}
-		ItemPage itemPage = ItemPageManager.inst().getItemPageById(template_id, id);
-		if(null != itemPage){
-			redirect(resp, "page_template?id=" + id);
-			return;
-		}
-		itemPage = new ItemPage(id, name);
-		itemPage.setId(id);
-		ItemPageManager.inst().saveOrUpdateItemPage(template_id, itemPage);
-		redirect(resp, "page_template?id=" + id);
-	}
-*/}
+}

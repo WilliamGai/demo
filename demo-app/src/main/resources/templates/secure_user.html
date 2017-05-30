@@ -5,7 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="secure_template">
 <head>
-<title>个人中心</title>
+<title>HOME个人中心</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script type="text/javascript">
 	/** server event start*/
@@ -47,14 +47,10 @@
 					<ul class="nav nav-list">
             			<!-- <li class="nav-header">角色</li> -->
             			<li class="active"><a href="#"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-            			<li><a href="/mg/page_template">自定义模板</a></li>
-            			<li><a href="/mg/articles">图文编辑</a></li>
-            			<li><a href="/mg/upload_media">轮播图</a></li>
-            			<li class="divider"></li>
-            			<li><a href="/mg/lucky_draw">转盘/宝箱抽奖</a></li>
-            			<li><a href="/mg/point_shop_mg">积分商城</a></li>
-            			<li class="divider"></li>
-            			<li><a href="/mg/code">激活码</a></li>
+            			<li th:each="item: ${user.permissions}">
+								<a th:href="${item.uri}" th:text="${item.name}"></a>
+							</li>
+            			<li th:if="${#lists.isEmpty(user.permissions)}">请联系管理员分配权限</li>
         			</ul>
 				</div>
 			</div>
@@ -77,16 +73,45 @@
 						<br/>
 						<label>上次登录时间:</label><label th:text="${user.lastLoginTimeStr}" class="text-info"></label>
 						<br/>
-						<div class="container">
-							
+						<a th:if="${allowedit}" id="modal-303936" href="#modal-container-303937" role="button" class="btn btn-default btn-info" data-toggle="modal">修改密码</a>
+					</div>
+					<!-- 修改密码 -->
+					<div class="modal fade" id="modal-container-303937" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+					     <div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									<h4 class="modal-title" id="myModalLabel">
+										修改密码
+									</h4>
+								</div>
+							<div class="modal-body">
+								<form role="form" class="form-inline" action="change_user_psw" method="post">
+                					<div class="modal-body">
+		    							<label th:text="${'用户名:'+user.name}"></label>
+		    							<br/>
+		    							<label for="name">新密码 :</label>
+		    							<input type="hidden" id="user_name" name="user_name" th:value="${user.name}" />
+		    							<input name="user_password" id="user_password"/>
+										<br/>
+									</div>
+                					<div class="modal-footer">
+                						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+										<input class="btn btn-primary" type="submit" value="修改" onclick="javascript:return confirm('确认要修改?');" />
+               				 	</div>
+								</form>
+							</div>
 						</div>
 					</div>
-						<div class="col-md-4 column">
-							<blockquote>
+					</div>
+					<!-- 修改文章类型名称 end -->
+					<!--  -->
+					<div class="col-md-4 column">
+						<blockquote>
 							<p>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+								Manager Trace
 							</p> 
-							<small>Someone famous <cite>Source Title</cite><br/><cite id="msg_result"></cite></small>
+							<small>---------时间 / 用户名称 /URI----------<br/><cite id="msg_result"></cite></small>
 							</blockquote>
 						</div>
 					</div>

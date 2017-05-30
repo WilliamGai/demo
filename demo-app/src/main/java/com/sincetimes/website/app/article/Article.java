@@ -1,11 +1,9 @@
 package com.sincetimes.website.app.article;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
-public class Article {
+public class Article extends ToStringAbstract{
 	private int id;//auto incr
 	private String title;
 	private String content;//byte[],blob
@@ -171,10 +169,5 @@ public class Article {
 
 	public void setLink_url(String link_url) {
 		this.link_url = link_url;
-	}
-
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

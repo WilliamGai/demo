@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 @Order(value = 4)
 @RestController
-public class RedisController implements ControllerInterface {
+public class RedisController implements AccessSupport {
 
 	@Autowired
 	RedisCacheService redisCacheService;

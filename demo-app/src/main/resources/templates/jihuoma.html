@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
 <head>
 <title>激活码</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
-<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
-<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
-<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
 <script>
 function showImg(fileObj,imgId) {
     console.log(imgId);
@@ -21,17 +18,15 @@ function showImg(fileObj,imgId) {
     })
 }
 </script>
+</head>
 <body>
 <!--  -->
 <div id="wrapper">
-	<iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+<div th:fragment="content" >
 	<div class="container">
         <div class="col-md-2 column">
 			<a th:each="item:${code_infos}" th:href="${'code?sn='+item.sn}" th:text="${item.name}" th:class="${code_info.sn==item.sn?'list-group-item active':'list-group-item'}"></a>
-
    		 </div>
-    
-    
     <div class="col-md-10 column">
          	<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default btn-success" data-toggle="modal">创建一个新的激活码配置</a>
 			<!-- 添加激活码配置 start -->
@@ -193,20 +188,14 @@ function showImg(fileObj,imgId) {
     			<br/>
     			<label class="text-muted">标题:</label><label th:text="${title}"  class="text-danger"></label>
     			<br/>
-    			<label class="text-muted">链接:</label><a th:href="${'../jihuoma_wx?sn='+code_info.sn}" th:text="${'jihuoma_wx?sn='+code_info.sn}"  class="text-danger"></a>
+    			<label class="text-muted">链接:</label><a th:href="${'../../jihuoma_wx?sn='+code_info.sn}" th:text="${'jihuoma_wx?sn='+code_info.sn}"  class="text-danger"></a>
     			<br/>
     		</div>
-
     		<a href="#modal-container-add_wx_jhm_img" role="button" class="btn btn-default active" data-toggle="modal">一键生成微信激活码页面(备选功能)</a>
-    		
-    </div>
-       </div><!-- container end -->
-
+    	</div>
+       	</div><!-- container end -->
 		<hr/>
-		
-		<div id="footer">
-    		@ sincetimes
-		</div>
 	</div>
+</div>
 </body>
 </html>

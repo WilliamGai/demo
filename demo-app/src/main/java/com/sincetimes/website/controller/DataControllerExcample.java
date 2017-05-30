@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sincetimes.website.app.stats.StatsManager;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 import com.sincetimes.website.core.spring.manger.SpringManager;
 import com.sincetimes.website.manager.DataManager;
 /**
- * 参考
+ * 参考示例
  */
 @RestController
 @Order(value = 5)
-public class DataControllerExcample implements ControllerInterface {
+public class DataControllerExcample implements AccessSupport {
 
 	@RequestMapping("/get_value")
 	public Object get_value(String name) {
@@ -46,5 +46,12 @@ public class DataControllerExcample implements ControllerInterface {
 	@RequestMapping("/lookenv")
 	Object lookenv(HttpServletRequest req, HttpServletResponse resp){
 		return SpringManager.inst().getEnvironmentJsonStr();
+	}
+	@ResponseBody
+	@RequestMapping("/lookproperty")
+	Object lookenv(HttpServletRequest req, HttpServletResponse resp, String key){
+		redirect(resp, "lookenv");
+//		forward(req, resp, "lookenv");
+		return null;
 	}
 }

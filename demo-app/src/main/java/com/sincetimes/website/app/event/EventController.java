@@ -1,7 +1,6 @@
 package com.sincetimes.website.app.event;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 /**
  * 使用serverEvent实现服务器主动给前端推送<br>
  * 从http1.1开始是长连接,类似多路复用。同个浏览器多个请求是同一个tcp链接<br>
@@ -36,7 +35,7 @@ import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 @Controller
 @Order(value = 8)
 @RequestMapping("/hourlinks")
-public class EventController implements ControllerInterface {
+public class EventController implements AccessSupport {
 	/**
 	 * 推送记录
 	 * 不要返回,方法返回依然输出会出现异常：
@@ -54,9 +53,9 @@ public class EventController implements ControllerInterface {
 		
 		while(true){
 			try {
-				Thread.sleep(500);
-				while(!EventMsgContext.inst().getMsgQueue(req).isEmpty()){
-					String s= "data:" + EventMsgContext.inst().getMsgQueue(req).poll() + "\n\n";
+				Thread.sleep(1000);
+				while(!EventMsgContext.inst().getMsgDeque(req).isEmpty()){
+					String s= "data:" + EventMsgContext.inst().getMsgDeque(req).pollLast() + "\n\n";
 					resp.getOutputStream().write(s.getBytes());
 					if(LogCore.BASE.isDebugEnabled()){
 						LogCore.BASE.debug("servlet={} ,request={},threadId={}, s={}",this.hashCode(), req.hashCode(),Thread.currentThread().getId(), s);
@@ -65,66 +64,14 @@ public class EventController implements ControllerInterface {
 			} catch (Exception e) {
 				LogCore.BASE.error("trace err", e);
 				EventMsgContext.inst().unregist(req);
+				return;//结束
 			}
 			try {
 				resp.flushBuffer();
 			} catch (IOException e) {//前端页面关闭或刷新
 				LogCore.BASE.error("{} ,{},threadId={}, end message={}",this.hashCode(), req.hashCode(),Thread.currentThread().getId(), e.getMessage());
+				EventMsgContext.inst().unregist(req);
 				return;//结束
-			}
-		}
-	}
-	
-	/* 测试  start*/
-	/**
-	 * 测试例子
-	 * 极坐标实现钟表旋转
-	 * <a href="http://demo.williamy.xin/event.html">每2秒推送时间(请用chrome打开)</a>
-	 */
-	@RequestMapping("/getmsg")
-	@ResponseBody
-	String getmsg(HttpServletRequest req, HttpServletResponse resp){
-		resp.setContentType("text/event-stream");
-		resp.setHeader("expires", "-1");
-		resp.setHeader("cache-control", "no-cache");
-		return "data:"+new Date().toString()+"\n\n";
-	}
-	/***测试例子<a href="http://demo.williamy.xin/event2.html">每2秒推送时间(请用chrome打开)</a> */
-	@RequestMapping("/doevent")
-	void doEvent(HttpServletRequest req, HttpServletResponse resp)
-	{
-		LogCore.BASE.info("{} doevent", req.getSession().getId());
-		resp.setContentType("text/event-stream");
-		resp.setHeader("expires", "-1");
-		resp.setHeader("cache-control", "no-cache");
-		
-		int i = 0;
-		int r = 40;//半径
-		int v = 10;//速度
-		
-		while(true){
-			i = (i+1)%(v*2);//i越大 越 
-	        double angel = i*Math.PI/v;//i 从   0到2π
-				int x = (int)Math.round( r* Math.cos(angel) );
-				int y = (int)Math.round( r* Math.sin(angel) );
-			String s = "data:"+x+","+y+"\n\n";
-			try {
-				resp.getOutputStream().write(s.getBytes());
-			} catch (Exception e) {
-				LogCore.BASE.error(e.getMessage());
-				return;
-			}
-			try {
-				resp.flushBuffer();//前端页面关闭或刷新
-			} catch (IOException e) {
-				LogCore.BASE.error(e.getMessage());
-				return;
-			}
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				LogCore.BASE.error(e.getMessage());
-				return;
 			}
 		}
 	}

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
 <head>
 <title>文章列表</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta charset="UTF-8" />
-</head>
 <link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/mg/kindeditor/themes/default/default.css}" />
@@ -23,8 +26,8 @@
 				cssPath : '/mg/kindeditor/plugins/code/prettify.css',
 				//uploadJson : 'upload_json.jsp',
 				//fileManagerJson : 'file_manager_json.jsp'
-				uploadJson : 'upload_file_json',
-				fileManagerJson : 'file_manager_json',
+				uploadJson : '/mg/upload_file_json',
+				fileManagerJson : '/mg/file_manager_json',
 				allowFileManager : true,
 				afterCreate : function() {
 					var self = this;
@@ -95,11 +98,13 @@
 	}
 	/** submit form end */
 </script>
+</head>
 <body>
+<div th:fragment="content" >
 <div id="wrapper">
 
-   <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
-<div class="container">
+<!--    <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+ --><div class="container">
 	<h3 th:if="${article.id!=0}">修改</h3>
 	<h3 th:if="${article.id==0}">添加</h3>
 <!-- 	<h3 th:text="${article.type_id}"></h3>
@@ -151,5 +156,6 @@
 	</form>
 	</div>
 	</div>
+</div>
 </body>
 </html>

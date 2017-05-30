@@ -1,7 +1,7 @@
 
 package com.sincetimes.website.app.security.vo.redis;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -95,14 +95,13 @@ public class RoleProvider extends JedisWrapperBase{
 	 * @return
 	 */
 	public Set<Permission> getPermissionsByIds(String ... ids){
-		Set<Permission> ps = new HashSet<>();
+		Set<Permission> ps = new LinkedHashSet<>();
 		if(Util.isEmpty(ids)){
 			return ps;
 		}
 		Stream.of(ids).forEach(id ->{
 			ps.addAll(getPermissionById(id));
 		});
-		LogCore.BASE.info("ids={}, permissions={}", ids, ps);
 		return ps;
 	}
 
@@ -111,5 +110,9 @@ public class RoleProvider extends JedisWrapperBase{
 			return new ArrayList<>();
 		}
 		return Stream.of(ids).map(this::getRoleById).filter(Objects::nonNull).collect(Collectors.toList());
+	}
+
+	public Long getRolesNum() {
+		return zcard(ROLES_SET); 
 	}
 }

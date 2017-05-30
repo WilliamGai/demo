@@ -18,10 +18,10 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import com.sincetimes.website.app.file.function.FileConsumer;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeTool;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 @RestController
 @Order(value = 6)
-public class FileTestController implements ControllerInterface {
+public class FileTestController implements AccessSupport {
 	
 	@RequestMapping("/upload_file_simple2")
 	Object upload_file_simple(@RequestParam Optional<StandardMultipartHttpServletRequest> freq){

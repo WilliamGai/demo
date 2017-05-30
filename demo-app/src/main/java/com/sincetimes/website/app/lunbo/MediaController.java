@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 @RestController
 @Order(value = 5)
-public class MediaController implements ControllerInterface {
+public class MediaController implements AccessSupport {
 
 	@RequestMapping("/get_lunbo")
 	public Object get_lunbo(@RequestParam Optional<String> lunbo_group_no) {

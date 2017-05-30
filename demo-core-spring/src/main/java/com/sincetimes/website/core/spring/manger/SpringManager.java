@@ -36,7 +36,12 @@ public class SpringManager  extends ManagerBase implements ApplicationListener<C
 	public Environment getEnvironment(){
 		return env;
 	}
-	
+	public String getSysProperty(String key){
+		return env.getProperty(key);
+	}
+	public <T> T  getSysProperty(String key, Class<T> targetType, T defaultValue){
+		return env.getProperty(key, targetType, defaultValue);
+	}
 	public Object getEnvironmentJsonStr(){
 		return JSON.toJSONString(env,SerializerFeature.PrettyFormat,SerializerFeature.WriteClassName, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);
 	}

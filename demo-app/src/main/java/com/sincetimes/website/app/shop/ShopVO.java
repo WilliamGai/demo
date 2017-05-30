@@ -6,19 +6,17 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Objects;
 import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
 /**
  * 商店的VO类，主要用于Json之间互转。
  */
-public class ShopVO implements Serializable {
+public class ShopVO extends ToStringAbstract implements Serializable {
 	private static final long serialVersionUID = -9142050972467351648L;
 	public String sn;	
 	public String shop_name;
@@ -131,8 +129,4 @@ public class ShopVO implements Serializable {
 		return JSON.parseObject(jsonStr, ShopVO.class);
 	}
 	
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
 }

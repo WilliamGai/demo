@@ -1,9 +1,8 @@
 package com.sincetimes.website.app.article;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
-public class ArticleVO {
+public class ArticleVO extends ToStringAbstract{
 	public int id;//auto incr
 	public String title;
 	public String short_title;
@@ -27,10 +26,5 @@ public class ArticleVO {
 
 		time = Math.max(ar.getCreate_time(), ar.getUpdate_time());
 		//date = new Date(time);
-	}
-	
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

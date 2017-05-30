@@ -25,15 +25,18 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 /**
  * 积分兑换商城
  */
-@RequestMapping("/mg")
+@RequestMapping("/mg/shop")
 @Controller
 @Order(value = 5)
-public class ShopMGController implements ControllerInterface{
-	
+public class ShopMGController implements AccessSupport{
+	@RequestMapping
+	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
+		redirect(resp, req.getRequestURI()+"/point_shop_mg");
+	}
 	@RequestMapping("/point_shop_mg")
 	String point_shop_mg(Model model, @RequestParam Optional<String> shop_sn){
 		List<ShopVO> shop_list = ShopManager.inst().getAllShop();

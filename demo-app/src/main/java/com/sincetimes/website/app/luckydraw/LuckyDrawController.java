@@ -20,14 +20,14 @@ import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Param;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 
 /**
  * 大转盘 TODO:设置奖品信息过期时间为半年
  */
 @RestController
 @Order(value = 5)
-public class LuckyDrawController implements ControllerInterface {
+public class LuckyDrawController implements AccessSupport {
 	// 领取标志,激活码,0被抢光,1第一次领取，2已经领取
 	@RequestMapping("/get_lucky_draw")
 	Object code(@RequestParam Optional<String> sn, @RequestParam Optional<String> who,

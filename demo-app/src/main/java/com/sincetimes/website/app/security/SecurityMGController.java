@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sincetimes.website.app.security.interfaces.SecureControllerInterface;
+import com.sincetimes.website.app.security.interfaces.SecureAccessSupport;
 import com.sincetimes.website.app.security.vo.RoleVO;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.DataResult;
@@ -21,9 +21,13 @@ import com.sincetimes.website.core.common.support.Util;
 
 @Controller
 @Order(value = 6)
-@RequestMapping("/mg")
-public class SecurityMGController implements SecureControllerInterface {
-	
+@RequestMapping("/mg/secure")
+public class SecurityMGController implements SecureAccessSupport {
+	private static final String CONFIG_USER_KEY = "config_user";
+	@RequestMapping
+	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
+		redirect(resp, req.getRequestURI()+"/secure_users");
+	}
 	/**
 	 * 用户管理列表
 	 */
@@ -32,7 +36,6 @@ public class SecurityMGController implements SecureControllerInterface {
 		Collection<UserVO> users = SecurityManager.inst().getAllUsers();
 		users.forEach(UserVO::getCreatedBy);
 		model.addAttribute("users", users);
-		setUser(model, req);
 		return "secure_users";
 	}
 	/**
@@ -42,47 +45,23 @@ public class SecurityMGController implements SecureControllerInterface {
 	String secure_roles(Model model, HttpServletRequest req) {
 		Collection<RoleVO> roles = SecurityManager.inst().getAllRoles();
 		model.addAttribute("roles", roles);
-		setUser(model, req);
 		return "secure_roles";
 	}
 
 	/**  用户登录后主界面 */
-	@RequestMapping("/secure_user")
-	String secure_user(Model model, String user_name, HttpServletRequest req) {
-		if(!Util.isEmpty(user_name)){
-			UserVO user = SecurityManager.inst().getUser(user_name);
-			if(null != user){
-				SecurityManager.inst().initUser(user);
-				model.addAttribute("user", user);
-				return "secure_user";
-			}
-		}
-		Object _user = req.getSession().getAttribute("user");
-		if(_user instanceof UserVO){
-			UserVO user = (UserVO) _user;
-			SecurityManager.inst().initUser(user);
-			model.addAttribute("user", user);
-			return "secure_user";
-		}
-		model.addAttribute("user", new UserVO());
-		return "secure_user";
-	}
-	
-	/**  用户登录后主界面 */
 	@RequestMapping("/secure_user_config")
 	String secure_user_config(Model model, String user_name, HttpServletRequest req) {
+		UserVO user = null;
 		if(!Util.isEmpty(user_name)){
-			UserVO user = SecurityManager.inst().getUser(user_name);
-			if(null != user){
-				SecurityManager.inst().initUser(user);
-				model.addAttribute("user", user);
-				Collection<RoleVO> roles = SecurityManager.inst().getAllRoles();
-				LogCore.BASE.debug("roles={}", roles);
-				model.addAttribute("roles", roles);
-				return "secure_user_config";
-			}
+			user = SecurityManager.inst().getUserAndInit(user_name);
 		}
-		model.addAttribute("user", new UserVO());
+		if(null == user){
+			user = new UserVO();
+		}
+		Collection<RoleVO> roles = SecurityManager.inst().getAllRoles();
+		model.addAttribute("roles", roles);
+		model.addAttribute(CONFIG_USER_KEY, user);
+		LogCore.BASE.debug("user config user={}, all sys's roles={}", user, roles);
 		return "secure_user_config";
 	}
 	@RequestMapping("/add_user_role")
@@ -109,6 +88,16 @@ public class SecurityMGController implements SecureControllerInterface {
 		redirect(resp, "secure_users");
 	}
 	
+	@RequestMapping("/lock_user")
+	void lock_user(String user_name, HttpServletResponse resp) {
+		SecurityManager.inst().lockUser(user_name);
+		redirect(resp, "secure_users");
+	}
+	@RequestMapping("/unlock_user")
+	void unlock_user(String user_name, HttpServletResponse resp) {
+		SecurityManager.inst().unlockUser(user_name);
+		redirect(resp, "secure_users");
+	}
 	@RequestMapping("/add_role")
 	void add_role(String role_id, String role_name, HttpServletResponse resp) {
 		if(!Util.nonEmpty(role_id, role_name)){
@@ -151,7 +140,6 @@ public class SecurityMGController implements SecureControllerInterface {
 	
 	@RequestMapping("/secure_role")
 	Object secure_role(Model model, String role_id, HttpServletRequest req) {
-		setUser(model, req);
 		if(Util.isEmpty(role_id)){
 			return "secure_role";
 		}
@@ -159,4 +147,10 @@ public class SecurityMGController implements SecureControllerInterface {
 		model.addAttribute("role", role);
 		return "secure_role";
 	}
+	@RequestMapping("/login")
+	void login(HttpServletRequest req, HttpServletResponse resp) {
+//		forward(req, resp, "/login");
+		redirect(resp, "/login");
+	}
+	
 }

@@ -12,6 +12,9 @@ import com.sincetimes.website.core.common.vo.VOBase;
 
 public class UserVO extends VOBase implements Serializable{
 	private static final long serialVersionUID = -12245282415965949L;
+	public static final byte USER_STATUS_OK_1 = 1;
+	public static final byte USER_STATUS_LOCKED_0 = 0;
+	
 	private int id;
 	private String name;//登录名 unique
 	private String password;
@@ -24,16 +27,15 @@ public class UserVO extends VOBase implements Serializable{
 	private String createdBy;
 	private long lastLoginTime;
 	private long loginTime;
-	private byte status;// -1已删除
+	private byte status = 1;// 1正常,0锁定
 	
+	private List<RoleVO> roles = new ArrayList<>();
+	private Set<Permission> permissions = new HashSet<>();//权限列表,从role取得
 	private transient String createTimeStr;
 	private transient String updateTimeStr;
 	private transient String lastLoginTimeStr;
 	private transient String loginTimeStr;
 	private transient List<String> roleNames = new ArrayList<>();
-	private List<RoleVO> roles = new ArrayList<>();
-	private Set<Permission> permissions = new HashSet<>();//权限列表,从role取得
-
 	public UserVO() {
 		super();
 	}
@@ -192,7 +194,18 @@ public class UserVO extends VOBase implements Serializable{
 	public List<RoleVO> getRoles() {
 		return roles;
 	}
-
+	public List<RolePermission> rolePermissionList(){
+		List<RolePermission> list = new ArrayList<>();
+		if(Util.isEmpty(roles)){
+			return list;
+		}
+		roles.forEach(role->{
+			role.getPermissions().stream()
+				.map(pms-> new RolePermission(pms, role.getName()))
+				.forEach(list::add);
+		});
+		return list;
+	}
 	public void setRoles(List<RoleVO> roles) {
 		this.roles = roles;
 	}

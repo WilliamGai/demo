@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 /**
  * 使用serverEvent实现服务器主动给前端推送<br>
  * 从http1.1开始是长连接,类似多路复用。同个浏览器多个请求是同一个tcp链接<br>
@@ -37,7 +37,7 @@ import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 @Controller
 @Order(value = 8)
 @RequestMapping("/hourlinks")
-public class EventController implements ControllerInterface {
+public class EventController implements AccessSupport {
 	/**
 	 * 推送记录
 	 * 不要让结果返回否则方法返回依然输出会出现异常：

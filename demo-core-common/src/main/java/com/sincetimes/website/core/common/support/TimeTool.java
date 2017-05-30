@@ -19,6 +19,13 @@ public class TimeTool {
 			return new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
 		}
 	};
+	/**HH:mm:ss*/
+	public static final ThreadLocal<DateFormat> SDF_TIME = new ThreadLocal<DateFormat>() {
+		@Override
+		protected DateFormat initialValue() {
+			return new SimpleDateFormat("HH:mm:ss");
+		}
+	};
 	public static boolean isSameWeek(long a, long b){
 		Calendar ca = Calendar.getInstance();
 		ca.setTimeInMillis(a);
@@ -78,5 +85,8 @@ public class TimeTool {
 			LogCore.BASE.warn("time formatter err{}:", value,  e);
 			return value;
 		}
+	}
+	public static String getTimeStr(){
+		return SDF_TIME.get().format(new Date());
 	}
 }

@@ -18,7 +18,7 @@
 				<div class="page-sidebar" style="position: fixed">
 				    <h4 th:text="${'模板列表'}"></h4>
 					<ul class="nav nav-list">
-            			<li th:each="pg, iterStat: ${pages}"><a th:href="${'/mg/page_template?id='+pg.id}"><i th:text="${pg.name+'('+pg.id+')'}" th:class="${id==pg.id?'glyphicon glyphicon-flag':''}"></i></a></li>
+            			<li th:each="pg, iterStat: ${pages}"><a th:href="${'page_template?id='+pg.id}"><i th:text="${pg.name+'('+pg.id+')'}" th:class="${id==pg.id?'glyphicon glyphicon-flag':''}"></i></a></li>
         			</ul>
 				</div>
 			</div>
@@ -125,13 +125,13 @@
 				</form>
 			</div>
 			<div th:if="${item.type.name=='图片'}">
-				<img height="60" width="60" src="images/default.png"/>
+				<img height="60" width="60" src="/mg/images/default.png"/>
 			</div>
 			<div th:if="${item.type.name=='图片组'}">
-				<img height="60" width="60" src="images/default.png"/>
-				<img height="60" width="60" src="images/default.png"/>
-				<img height="60" width="60" src="images/default.png"/>
-				<img height="60" width="60" src="images/ddd.png"/>
+				<img height="60" width="60" src="/mg/images/default.png"/>
+				<img height="60" width="60" src="/mg/images/default.png"/>
+				<img height="60" width="60" src="/mg/images/default.png"/>
+				<img height="60" width="60" src="/mg/images/ddd.png"/>
 			</div>
 			<a th:class="${'btn btn-small small btn-danger'}" th:href="${'delete_item?key='+item.key+'&amp;id='+page.id}" onclick="javascript:return confirm('确认要删除?删除后不能恢复！');">删除</a>
 			<hr/>

@@ -21,7 +21,7 @@ import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.FilePathInterface;
+import com.sincetimes.website.core.spring.interfaces.FilePathSupport;
 import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
 /**
  * TODO:
@@ -29,7 +29,7 @@ import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
  * @author BAO
  */
 @Component
-public class FileManager extends JedisManagerBase implements InputFileSupport, FilePathInterface{
+public class FileManager extends JedisManagerBase implements InputFileSupport, FilePathSupport{
 	
 	public static FileManager inst() {
 		return ManagerBase.inst(FileManager.class);

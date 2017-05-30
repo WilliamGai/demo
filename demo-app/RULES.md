@@ -125,3 +125,10 @@ Builder<?> downloadBuilder = excel.isPresent()?new ExcelBuilder():new TextBuilde
 ```
 List的遍历
 LinkedList的遍历用迭代器快,ArrayList的迭代器用loop快
+
+```
+Objects.toString(req.getAttribute(REDIRECT_URL_TAG), "/secure_user");
+```
+```
+<p th:text="${#httpServletRequest.requestURI=='/mg/secure/secure_users'}"></p>
+```

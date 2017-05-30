@@ -15,15 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.app.page.vo.Item;
 import com.sincetimes.website.app.page.vo.ItemPage;
-import com.sincetimes.website.app.security.interfaces.SecureControllerInterface;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 @Controller
 @Order(value = 7)
-@RequestMapping("/mg")
-public class ItemPageTemplateMGController implements SecureControllerInterface {
-	
+@RequestMapping("/mg/page")
+public class ItemPageTemplateMGController implements AccessSupport {
+	@RequestMapping
+	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
+		redirect(resp, req.getRequestURI()+"/page_template");
+	}
 	@ResponseBody
 	@RequestMapping("/items_reload")
 	String reload(Model model, HttpServletRequest req){
@@ -32,7 +34,6 @@ public class ItemPageTemplateMGController implements SecureControllerInterface {
 	
 	@RequestMapping("/page_template")
 	String pageTemplate(Model model, HttpServletRequest req, String id){
-		setUser(model, req);
 		model.addAttribute("type_list", ItemType.values());
 		ItemPage page = ItemPageTemplateManager.inst().getItemPageById(id);
 		Collection<ItemPage> pages = ItemPageTemplateManager.inst().getAllItemPages().values();

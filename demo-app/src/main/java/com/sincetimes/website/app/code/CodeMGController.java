@@ -19,15 +19,18 @@ import com.sincetimes.website.app.file.FileManager;
 import com.sincetimes.website.app.file.function.FileConsumer;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 /**
  * 激活码
  */
-@RequestMapping("/mg")
+@RequestMapping("/mg/code")
 @Controller
 @Order(value = 5)
-public class CodeMGController implements ControllerInterface{
-	
+public class CodeMGController implements AccessSupport{
+	@RequestMapping
+	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
+		redirect(resp, req.getRequestURI()+"/code");
+	}
 	@RequestMapping("/code")
 	String  code(Model model, @RequestParam Optional<String> sn, HttpServletRequest req, HttpServletResponse resp){
 		List<CodeInfoVO> code_infos = CodeManager.inst().getAllCodeInfo();

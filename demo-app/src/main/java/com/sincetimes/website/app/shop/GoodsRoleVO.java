@@ -1,9 +1,6 @@
 package com.sincetimes.website.app.shop;
 
 import java.io.Serializable;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * 客户端展示用
  */
@@ -26,10 +23,5 @@ public class GoodsRoleVO  extends GoodsVO implements Serializable {
 	public GoodsRoleVO initSatus(int status){
 		this.status = status;
 		return this;
-	}
-	
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

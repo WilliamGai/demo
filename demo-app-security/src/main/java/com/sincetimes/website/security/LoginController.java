@@ -13,10 +13,10 @@ import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.ParamResult;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 
 @Controller
-public class LoginController implements ControllerInterface {
+public class LoginController implements AccessSupport {
 
 	@RequestMapping("/login")
 	String login(Model model, HttpServletRequest req, HttpServletResponse rsp) throws IOException {

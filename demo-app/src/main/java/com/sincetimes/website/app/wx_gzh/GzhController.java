@@ -15,13 +15,13 @@ import com.sincetimes.website.core.common.support.DataResult;
 import com.sincetimes.website.core.common.support.HttpUtil;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 
 
 /** 微信公众号 */
 @RestController
 @Order(value = 5)
-public class GzhController implements ControllerInterface {
+public class GzhController implements AccessSupport {
 	private static final String SNSAPI_USERINFO = "snsapi_userinfo";
 	private static final String SNSAPI_BASE = "snsapi_base";
 

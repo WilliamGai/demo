@@ -22,7 +22,7 @@ import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Result;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 import com.sincetimes.website.manager.DataManager;
 /**
  * 参考
@@ -30,7 +30,7 @@ import com.sincetimes.website.manager.DataManager;
 @Controller
 @Order(value = 6)
 @RequestMapping("/mg")
-public class MGControllerExcample implements ControllerInterface {
+public class MGControllerExcample implements AccessSupport {
 
 	/**
 	 * 修改变量

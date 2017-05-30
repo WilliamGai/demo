@@ -17,11 +17,12 @@ import com.sincetimes.website.core.spring.HttpHeadUtil;
  * 拦截器,单例
  */
 public class BootInterceptor implements HandlerInterceptor {
-	public final AtomicLong _count = new AtomicLong();// 计数器
+	private static final String BEGIN_NAO_TIME_TAG = "begin_nao_time";
+	private final AtomicLong requestId = new AtomicLong();// 计数器
 
 	// 1
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object arg2) {
-		long begin_nao_time = System.nanoTime();
+		long beginNaoTime = System.nanoTime();
 		if (req.getRequestURI().contains("error")) {
 			LogCore.BASE.error("{}-------------------get one error request! {},arg2={}, referer={}", req.getRequestURI(), arg2, req.getHeader("referer"));
 			return true;
@@ -30,7 +31,7 @@ public class BootInterceptor implements HandlerInterceptor {
 			LogCore.BASE.debug("{}----------------begin,ip={},req params:{},Origin={}", req.getRequestURI(),
 					req.getRemotePort(), HttpHeadUtil.getParamsMap(req), req.getHeader("Origin"));
 		}
-		req.setAttribute("begin_nao_time", begin_nao_time);
+		req.setAttribute(BEGIN_NAO_TIME_TAG, beginNaoTime);
 		LogCore.BASE.debug("{}--------------begin req,Uri= {}", this.hashCode(), req.getRequestURI());
 		return true;
 	}
@@ -42,16 +43,16 @@ public class BootInterceptor implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest req, HttpServletResponse resp, Object arg2, Exception arg3)
 			throws Exception {
 		String uri = req.getRequestURI();
-		Object begin_nao_time_str = req.getAttribute("begin_nao_time");
-		if(null == begin_nao_time_str){
+		Object beginNaoTimeStr = req.getAttribute(BEGIN_NAO_TIME_TAG);
+		if(null == beginNaoTimeStr){
 			LogCore.BASE.warn("{} get null,referer:{}, the uri looks useless " ,uri, req.getHeader("referer"));
 			return;
 		}
-		long begin_nao_time = (Long)begin_nao_time_str ;
- 		long interval = System.nanoTime() - begin_nao_time;
+		long beginNaoTime = (Long)beginNaoTimeStr ;
+ 		long interval = System.nanoTime() - beginNaoTime;
 		
 		LogCore.BASE.info(this.hashCode() + "{}==========={}=========end,id={},params:{}, from:{},e:{}", uri,
-				interval / 1000000, _count.getAndIncrement(), HttpHeadUtil.getParamsMap(req), req.getRemotePort(), arg3);
+				interval / 1000000, requestId.getAndIncrement(), HttpHeadUtil.getParamsMap(req), req.getRemotePort(), arg3);
 		statEvent(uri, interval);
 	}
 

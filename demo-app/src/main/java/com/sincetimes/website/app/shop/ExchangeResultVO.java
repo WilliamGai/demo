@@ -4,16 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.alibaba.fastjson.JSON;
 import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
 /**
  * VO类，主要用于Json之间互转。
  */
-public class ExchangeResultVO implements Serializable {
+public class ExchangeResultVO extends ToStringAbstract implements Serializable {
 	private static final long serialVersionUID = -5453577543529861867L;
 	public String sn;	
 	public String code;
@@ -66,9 +64,5 @@ public class ExchangeResultVO implements Serializable {
 			return null;
 		}
 		return JSON.toJSONString(obj);
-	}
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

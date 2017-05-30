@@ -22,6 +22,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.google.common.base.MoreObjects;
 import com.sincetimes.website.core.common.extension.UnsafeStringWriter;
 
 public class Util {
@@ -91,6 +92,8 @@ public class Util {
 		}
 		return func.apply(t);
 	}
+	/**@see MoreObjects#firstNonNull
+	 * @see Objects#toString(Object, String)*/
 	public static <T> T toNullDefalut(T s, T nullDefalut){
 		if(null == s){
 			return nullDefalut;

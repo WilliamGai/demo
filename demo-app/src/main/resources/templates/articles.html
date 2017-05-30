@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
 <head>
+<!-- 主页面/mg/articles -->
 <title>文章列表</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta charset="UTF-8" />
-</head>
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}"/>
-<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
-<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
-<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
 <script type="text/javascript">
 	/*触发选择文章类型*/
 	function change_type(obj){			
@@ -45,14 +44,14 @@
 	}
 	
 </script>
+</head>
 <body>
+<div th:fragment="content" >
 	<div id="wrapper">
-   <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
-	<div class="container">
+<!--    <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+ -->	<div class="container">
 	<h3>文章列表</h3>
-<!-- 	<h3 th:text="${pages_num}"></h3>
-	<h3 th:text="${page_no}"></h3>
-	<h3 th:text="${page_size}"></h3> -->
+
 	<p th:text="${ (page_no+1)+'&frasl;'+pages_num+'共'+sum+'篇'}"></p>
 
  	<button  class="btn btn-default btn-info" onclick="window.open('article_alter')">+ New</button>
@@ -189,9 +188,7 @@
             </ul>
         </div>
         </div>
-        		<div id="footer">
-    		@ sincetimes
-		</div>
+	</div>
 </div>
 </body>
 </html>

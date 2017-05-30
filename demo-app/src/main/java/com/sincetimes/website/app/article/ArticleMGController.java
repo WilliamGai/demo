@@ -25,16 +25,20 @@ import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Result;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 import com.sincetimes.website.manager.DataManager;
 
 @Controller
 @Order(value = 7)
-@RequestMapping("/mg")
-public class ArticleMGController implements ControllerInterface {
+@RequestMapping("/mg/article")
+public class ArticleMGController implements AccessSupport {
 	
 	private static final int PAGE_SIZE = 10;
-
+	@RequestMapping
+	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
+		redirect(resp, req.getRequestURI()+"/articles");
+	}
+	
 	@ResponseBody
 	@RequestMapping("/articles_reload")
 	String reload(){
@@ -42,6 +46,7 @@ public class ArticleMGController implements ControllerInterface {
 		return "ok";
 	}
 	/**
+	 * 主页
 	 * @param type_id 类型,	0和空串都是全部文章
 	 * @param page_no 第几页,	0为第一页,1为第二页
 	 * @return

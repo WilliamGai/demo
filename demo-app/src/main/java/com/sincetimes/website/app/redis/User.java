@@ -1,10 +1,9 @@
 package com.sincetimes.website.app.redis;
 
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
-public class User{
+public class User extends ToStringAbstract{
 //	private static final long serialVersionUID = 1L;
 	public String no;
 	public String name;
@@ -16,9 +15,5 @@ public class User{
 		this.no = no;
 		this.name = name;
 		this.time = System.currentTimeMillis();
-	}
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

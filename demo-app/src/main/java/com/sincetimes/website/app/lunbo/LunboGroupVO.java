@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.alibaba.fastjson.JSON;
 import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
-public class LunboGroupVO {
+public class LunboGroupVO extends ToStringAbstract{
 	public String group_no;
 	public String desc;//描述信息
 	public List<LunboVO> lunbos = new ArrayList<>();
@@ -56,10 +54,6 @@ public class LunboGroupVO {
 			return null;
 		}
 		return JSON.parseObject(jsonStr, LunboGroupVO.class);
-	}
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 
 	public void deleteLunboPage(Integer ordinal) {

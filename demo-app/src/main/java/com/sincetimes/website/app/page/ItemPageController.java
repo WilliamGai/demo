@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sincetimes.website.app.page.vo.ItemPage;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 
 /**
  * 前端展示访问
  */
 @RestController
 @Order(value = 8)
-public class ItemPageController implements ControllerInterface {
+public class ItemPageController implements AccessSupport {
 
 	@ResponseBody
 	@RequestMapping("/page_rst")

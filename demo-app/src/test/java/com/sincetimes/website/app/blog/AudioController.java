@@ -20,17 +20,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import com.sincetimes.website.app.file.FileManager;
-import com.sincetimes.website.app.security.interfaces.SecureControllerInterface;
+import com.sincetimes.website.app.security.interfaces.SecureAccessSupport;
 @Controller
 @Order(value = 5)
 @RequestMapping("/mg")
-public class AudioController implements SecureControllerInterface{
+public class AudioController implements SecureAccessSupport{
 
 	private static final String UPLOAD_AUDIO_PATH = "/upload/audio";
 
 	@RequestMapping("/audio")
 	public Object audio(Model model,String filter, HttpServletRequest req) {
-		setUser(model, req);
 		String rootPath = getRootFilePath(req);
 	
 		File dir = new File(rootPath + UPLOAD_AUDIO_PATH);

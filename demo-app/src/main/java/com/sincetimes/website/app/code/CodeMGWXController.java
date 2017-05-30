@@ -14,32 +14,18 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import com.sincetimes.website.app.file.FileManager;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 import com.sincetimes.website.redis.jedis.JedisPoolTemplate;
 /**
- * 微信礼包激活码快捷生成
+ * 微信礼包激活码快捷生成<br>
+ * 这个功能比较特殊,微信激活码的页面只有一张图和一个激活码<br>
+ * 为了减少交互,决定只返回一次页面视图。包含激活码,不再请求图片地址也不再请求激活码。
  */
 @Controller
-public class CodeMGWXController implements ControllerInterface{
-	
+public class CodeMGWXController implements AccessSupport{
 	@Autowired
 	public JedisPoolTemplate jedisTemplate;
 	
-	@Deprecated
-	@RequestMapping("/edit_code_cf＿wx")
-	String  edit_code_cf＿wx(Model model, StandardMultipartHttpServletRequest req){
-		//SingleFileCallBack<byte[]> consume = (m)->  ;
-		//String base64Str = new String(Base64.getEncoder().encodeToString(data));
-		
-		byte[] data = FileManager.inst().excuteFile(FileManager.inst()::readFileBytes, req);
-		if(!Util.isEmpty(data)){
-			return "_jihuoma_wx";
-		}
-		String base64Str = new String(Base64.getEncoder().encodeToString(data));
-		model.addAttribute("data", base64Str);
-		//jedisTemplate.excute(jedis->jedis.set(key, value));
-		return "_jihuoma_wx";
-	}
 	@RequestMapping("/jihuoma_wx")
 	String  _jihuoma_wx(@RequestParam Optional<String> sn, Model model, HttpServletResponse resp){
 		if(sn.isPresent()){
@@ -59,7 +45,7 @@ public class CodeMGWXController implements ControllerInterface{
 	/**
 	 * 微信激活码页面生成
 	 */
-	@RequestMapping("/mg/add_wx_jhm_img")
+	@RequestMapping("/mg/code/add_wx_jhm_img")
 	void  edit_code_cf＿wx(
 			@RequestParam Optional<String> code_sn, 
 			@RequestParam Optional<String> title, 

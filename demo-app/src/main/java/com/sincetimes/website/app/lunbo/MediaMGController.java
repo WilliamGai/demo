@@ -20,14 +20,18 @@ import com.sincetimes.website.app.file.FileManager;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 /**
  * 轮播图和视频等多媒体信息
  */
 @Controller
 @Order(value = 5)
-@RequestMapping("/mg")
-public class MediaMGController implements ControllerInterface {
+@RequestMapping("/mg/lunbo")
+public class MediaMGController implements AccessSupport {
+	@RequestMapping
+	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
+		redirect(resp, req.getRequestURI()+"/upload_media");
+	}
 	@RequestMapping("/upload_media")
 	String upload_media(Model model, @RequestParam Optional<String> group_no, @RequestParam Optional<Integer> num, HttpServletRequest req){
 		List<LunboGroupVO> list = MediaManager.inst().getAllLunboGroupVO();

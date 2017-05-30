@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
 <head>
 <title>传送文件</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
-<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
-<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
-<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
-
 <script type="text/javascript">
 
 function change_lunbo(obj){			
@@ -26,10 +22,12 @@ function showImg(fileObj,imgId) {
     })
 }
 </script>
+</head>
 <body>
+<div th:fragment="content" >
 <div id="wrapper">
-   <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
-
+<!--    <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+ -->
  <div class="container">
 
             <div class="tabbable" id="tabs-50930">
@@ -88,6 +86,7 @@ function showImg(fileObj,imgId) {
 		<!-- 新增一个 空的轮播图页 start -->
 		<a  class="btn btn-default btn-warning" th:href="${'add_lunbo_empty_page?group_no='+lunbo.group_no}" onclick="javascript:return confirm('添加一个空白页？');">新增空的轮播图页</a>
         <a  th:class="${user_name=='admin'?'btn btn-default btn-danger ':'btn btn-default btn-danger disabled'}" th:href="${'delete_lunbo_cf?group_no='+lunbo.group_no}" onclick="javascript:return confirm('确认要删除轮播图?删除后不能恢复！');">删除轮播图配置</a>
+        <a th:href="${'/get_lunbo?lunbo_group_no='+lunbo.group_no}">显示json</a>
         <br/>
         <br/>
         <!-- 新增一个空的轮播图页 end -->
@@ -109,6 +108,8 @@ function showImg(fileObj,imgId) {
 				tips:
 			</h4> 删除清联系管理员
 		</div>
+		
+		
 		<div class="col-md-6 column">
         <div class="carousel slide" id="carousel-786045">
             <ol class="carousel-indicators">
@@ -119,7 +120,7 @@ function showImg(fileObj,imgId) {
             <div class="carousel-inner">
                 <!-- 如果是第一个得有active -->
                 <div th:each="i,iterStat: ${lunbo.lunbos}" th:class="${iterStat.index==0}? 'item active':'item'">
-                    <img alt="" th:src="${i.img_url}" />
+                    <img alt="" th:src="${i.img_url}" onerror="this.onerror='';src='/mg/images/no.png'"/>
                 </div>
             </div>
             <a class="left carousel-control" href="#carousel-786045" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-786045" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
@@ -127,7 +128,7 @@ function showImg(fileObj,imgId) {
     </div>
     <div class="col-md-6 column">
         <form th:each="i,iterStat: ${lunbo.lunbos}" role="form" class="form-inline" action="edit_lunbo_empty_page" method="post" enctype="multipart/form-data">
-            <img th:id ="${'pic'+iterStat.index}" width="180" height="120" th:src="${i.img_url}"  onerror="this.onerror='';src='images/no.png'" />
+            <img th:id ="${'pic'+iterStat.index}" width="180" height="120" th:src="${i.img_url}"  onerror="this.onerror='';src='/mg/images/no.png'" />
             <div class="form-group">
                 <input type="hidden" name="id" th:value="${iterStat.index}" />
                 <input type="hidden" name="group_no" th:value="${lunbo.group_no}" />
@@ -176,14 +177,8 @@ function showImg(fileObj,imgId) {
                     </div>
                 </div>
             </div>
- 
-</div>
-
-
-		
-		<div id="footer">
-    		@ sincetimes
 		</div>
+	</div>
 	</div>
 </body>
 </html>

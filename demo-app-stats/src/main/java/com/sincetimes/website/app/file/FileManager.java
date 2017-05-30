@@ -21,14 +21,14 @@ import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.spring.interfaces.FilePathInterface;
+import com.sincetimes.website.core.spring.interfaces.FilePathSupport;
 /**
  * TODO:
  * replace JedisManagerBase by ManagerBase
  * @author BAO
  */
 @Component
-public class FileManager extends ManagerBase implements InputFileSupport, FilePathInterface{
+public class FileManager extends ManagerBase implements InputFileSupport, FilePathSupport{
 	
 	public static FileManager inst() {
 		return ManagerBase.inst(FileManager.class);

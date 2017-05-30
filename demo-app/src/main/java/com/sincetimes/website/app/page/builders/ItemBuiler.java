@@ -9,7 +9,6 @@ import com.sincetimes.website.core.common.support.Util;
 /**
  * GOF.3/4 FactoryMethod TemplateMethod
  * @author BAO
- *
  * @param <T>
  */
 public abstract class ItemBuiler<T extends Item> {

@@ -2,17 +2,15 @@ package com.sincetimes.website.app.luckydraw;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.alibaba.fastjson.JSON;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.common.support.WeightSupport;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
 /**
  * 大转盘的VO类，主要用于Json之间互转。
  */
-public class LuckyDrawItemVO implements Serializable, WeightSupport<String> {
+public class LuckyDrawItemVO extends ToStringAbstract implements Serializable, WeightSupport<String> {
 	private static final long serialVersionUID = -723711346541610282L;
 	public String sn;		
 	public String goods_name;
@@ -59,11 +57,6 @@ public class LuckyDrawItemVO implements Serializable, WeightSupport<String> {
 		return JSON.parseObject(jsonStr, LuckyDrawItemVO.class);
 	}
 	
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
-
 	@Override
 	public String mkKey() {
 		return sn;

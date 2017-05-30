@@ -13,16 +13,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sincetimes.website.app.security.interfaces.SecureAccessSupport;
 import com.sincetimes.website.core.common.support.DataVO;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
 
 
 @Controller
 @Order(value = 7)
-@RequestMapping("/mg")
-public class StatsController implements ControllerInterface {
-
+@RequestMapping("/mg/stats")
+public class StatsController implements SecureAccessSupport {
+	@RequestMapping
+	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
+		redirect(resp, req.getRequestURI()+"/all");
+	}
+	
 	@RequestMapping("/gclook")
 	@ResponseBody
 	String gclook(HttpServletRequest req, HttpServletResponse rsp) {
@@ -32,9 +36,8 @@ public class StatsController implements ControllerInterface {
 	}
 	
 	@RequestMapping("/all")
-	String all(Model model) {
+	String all(HttpServletRequest req, Model model) {
 		List<DataVO> base_info_list = StatsManager.inst().getBaseInfos();
-
 		List<DataVO> uri_list = StatsManager.inst().getUriStatsThisTime();
 		List<DataVO> uri_db_list = StatsManager.inst().getUriStatsAllTime();
 		List<DataVO> time_db_list = StatsManager.inst().getTimeStats();

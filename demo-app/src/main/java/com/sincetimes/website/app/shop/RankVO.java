@@ -1,12 +1,10 @@
 package com.sincetimes.website.app.shop;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.sincetimes.website.core.common.support.WeightSupport;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
 
-public class RankVO implements WeightSupport<String>{
+public class RankVO extends ToStringAbstract implements WeightSupport<String>{
 	public int ranking;
 	public String name;
 	public String pic;
@@ -35,8 +33,4 @@ public class RankVO implements WeightSupport<String>{
 		return score;
 	}
 	
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
 }

@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.sincetimes.website.core.common.support.ClassTool;
@@ -18,7 +15,7 @@ import com.sincetimes.website.core.common.support.Util;
  * VOBase不可以出现 getXXX()方法
  * JSONObject.parse返回的是JSONArray或JSONObject
  */
-public abstract class VOBase {
+public abstract class VOBase extends ToStringAbstract{
 	/* fastJson */
 	public String toJSONString() {
 		return JSON.toJSONString(this);
@@ -61,8 +58,5 @@ public abstract class VOBase {
 	public Map<String, Object> generalFieldMap(){
 		Predicate<Field> special = field->((Modifier.STATIC|Modifier.TRANSIENT|Modifier.FINAL)&field.getModifiers()) != 0;
  		return ClassTool.getFields(this, special.negate());
-	}
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

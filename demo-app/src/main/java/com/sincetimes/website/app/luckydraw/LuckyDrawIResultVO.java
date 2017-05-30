@@ -6,16 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.alibaba.fastjson.JSON;
 import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
 /**
  * 大转盘的VO类，主要用于Json之间互转。
  */
-public class LuckyDrawIResultVO implements Serializable {
+public class LuckyDrawIResultVO extends ToStringAbstract implements Serializable {
 	private static final long serialVersionUID = -7687955182997833348L;
 	public String sn;	//奖品编号	
 	public int ordinal; //当时抽奖的下标
@@ -82,9 +80,5 @@ public class LuckyDrawIResultVO implements Serializable {
 			return null;
 		}
 		return JSON.toJSONString(obj);
-	}
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

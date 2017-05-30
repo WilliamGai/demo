@@ -14,14 +14,14 @@ import com.sincetimes.website.core.common.support.HttpUtil;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.MD5;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 
 
 
 /** 低配版第三方手机充值 */
 @RestController
 @Order(value = 5)
-public class TopUpController implements ControllerInterface {
+public class TopUpController implements AccessSupport {
 
 	/**
 	 * 畅天游接口的回调

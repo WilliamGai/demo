@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.redis.jedis.JedisPoolTemplate;
 
@@ -83,7 +82,6 @@ public class StatsServiceJedisImpl implements StatsService {
 	@Override
 	public Map<String, Long> getRecordList2Map(String listName, Predicate<? super Record> f) {
 		List<byte[]> list = jedisTemplate.excute((jedis) -> jedis.lrange(Util.getUtfBytes(listName), 0, -1));
-		LogCore.BASE.info("record list.size={}", list.size());
 		return list.parallelStream().map(Record::getRecord).filter(f)
 				.collect(Collectors.toConcurrentMap(Record::getSn, Record::getTime, (newValue, oldVlaue) -> newValue));
 	}

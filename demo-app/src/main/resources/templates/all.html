@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
 <head>
 <title>所有预览</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -11,88 +15,96 @@
 <link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
 <script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
 <body>
-<div id="wrapper">
-   <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
-	<div class="container">
-	<h3>预览</h3>
-	
-	<a href="/info" target="_blank">/info</a><br/>
-	<a href="/health" target="_blank">/health</a><br/>
-	<a href="/mappings" target="_blank">/mappings</a><br/>
-	<a href="/env" target="_blank">/env</a><br/>
-	<a href="/metrics " target="_blank">/metrics </a><br/>
-	<a href="/trace" target="_blank">/trace</a><br/>
-	<a href="/beans" target="_blank">/beans</a><br/>
-	<a href="/configprops" target="_blank">/configprops</a><br/>
-	<a href="/autoconfig" target="_blank">/autoconfig</a><br/>
-	<a href="/dump" target="_blank">/dump</a><br/>
+<div th:fragment="content" >
+	<div id="wrapper">
+	<!--    <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+ 	-->
+ 		<div class="container">
+		<h3>预览</h3>
+<!-- 		<p th:text="${user}"></p>
+		<p th:text="${user.roleIds}"></p>
+		<p th:text="${user.roles}"></p>
+		<div th:each="item: ${user.permissions}">
+		  <p th:text="${item}"></p>
+		</div>
+		<a href="/info" target="_blank">/info</a><br/>
+		<a href="/health" target="_blank">/health</a><br/>
+		<a href="/mappings" target="_blank">/mappings</a><br/>
+		<a href="/env" target="_blank">/env</a><br/>
+		<a href="/metrics " target="_blank">/metrics </a><br/>
+		<a href="/trace" target="_blank">/trace</a><br/>
+		<a href="/beans" target="_blank">/beans</a><br/>
+		<a href="/configprops" target="_blank">/configprops</a><br/>
+		<a href="/autoconfig" target="_blank">/autoconfig</a><br/>
+		<a href="/dump" target="_blank">/dump</a><br/> -->
 
-	<table class="gridtable">
-		<caption>基本信息</caption>
-		<tr>
-			<th>name</th>
-			<th>value</th>
-		</tr>
-		<tr th:each="item: ${base_info_list}">
-			<td th:text="${item.name}"></td>
-			<td th:text="${item.value}"></td>
-		</tr>
-	</table>
-	<table th:if="${time_db_list}" class="gridtable">
-		<caption>其他信息</caption>
-		<tr>
-			<th>name</th>
-			<th>value</th>
-		</tr>
-		<tr th:each="item: ${time_db_list}">
-			<td th:text="${item.name}"></td>
-			<td th:text="${item.value}"></td>
-		</tr>
-	</table>
-	<table class="gridtable">
-		<caption>变量</caption>
-		<tr>
-			<th>name</th>
-			<th>value</th>
-		</tr>
-		<tr th:each="item: ${constant_list}">
-			<td th:text="${item.name}"></td>
-			<td th:text="${item.value}"></td>
-		</tr>
-	</table>
+		<table class="gridtable">
+			<caption>基本信息</caption>
+			<tr>
+				<th>name</th>
+				<th>value</th>
+			</tr>
+			<tr th:each="item: ${base_info_list}">
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.value}"></td>
+			</tr>
+		</table>
+		<table th:if="${time_db_list}" class="gridtable">
+			<caption>其他信息</caption>
+			<tr>
+				<th>name</th>
+				<th>value</th>
+			</tr>
+			<tr th:each="item: ${time_db_list}">
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.value}"></td>
+			</tr>
+		</table>
+		<table class="gridtable">
+			<caption>变量</caption>
+			<tr>
+				<th>name</th>
+				<th>value</th>
+			</tr>
+			<tr th:each="item: ${constant_list}">
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.value}"></td>
+			</tr>
+		</table>
 
-	<table class="gridtable">
-		<caption>本次启动访问记录</caption>
-		<tr>
-			<th>URI</th>
-			<th>总时间 (毫秒)</th>
-			<th>平均时间(毫秒)</th>
-			<th>访问次数</th>
-		</tr>
-		<tr th:each="item: ${uri_list}">
-			<td th:text="${item.name}"></td>
-			<td th:text="${item.value}"></td>
-			<td th:text="${item.value2}"></td>
-			<td th:text="${item.value3}"></td>
-		</tr>
-	</table>
-	<a href="clear_node_uri_stats">clear this process's uri_stats</a>
-	<table class="gridtable">
-		<caption>总访问记录</caption>
-		<tr>
-			<th>URI</th>
-			<th>总时间 (毫秒)</th>
-			<th>平均时间(毫秒)</th>
-			<th>访问次数</th>
-		</tr>
-		<tr th:each="item: ${uri_db_list}">
-			<td th:text="${item.name}"></td>
-			<td th:text="${item.value}"></td>
-			<td th:text="${item.value2}"></td>
-			<td th:text="${item.value3}"></td>
-		</tr>
-	</table>
-	<a href="all">刷新</a>
+		<table class="gridtable">
+			<caption>本次启动访问记录</caption>
+			<tr>
+				<th>URI</th>
+				<th>总时间 (毫秒)</th>
+				<th>平均时间(毫秒)</th>
+				<th>访问次数</th>
+			</tr>
+			<tr th:each="item: ${uri_list}">
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.value}"></td>
+				<td th:text="${item.value2}"></td>
+				<td th:text="${item.value3}"></td>
+			</tr>
+		</table>
+		<a href="clear_node_uri_stats">clear this process's uri_stats</a>
+		<table class="gridtable">
+			<caption>总访问记录</caption>
+			<tr>
+				<th>URI</th>
+				<th>总时间 (毫秒)</th>
+				<th>平均时间(毫秒)</th>
+				<th>访问次数</th>
+			</tr>
+				<tr th:each="item: ${uri_db_list}">
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.value}"></td>
+				<td th:text="${item.value2}"></td>
+				<td th:text="${item.value3}"></td>
+			</tr>
+		</table>
+		<a href="all">刷新</a>
+	</div>
 	</div>
 	</div>
 </body>

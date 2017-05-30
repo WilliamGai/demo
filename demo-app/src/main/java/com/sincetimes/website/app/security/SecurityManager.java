@@ -2,11 +2,12 @@ package com.sincetimes.website.app.security;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.app.security.vo.Permission;
@@ -24,6 +25,11 @@ import com.sincetimes.website.core.common.support.Util;
 @Component
 public class SecurityManager extends ManagerBase {
 	
+	private static final String DEWFAULT_ROLE_DEBUG = "debugstats";
+	private static final String DEFAULT_ROLE_ACTIVE = "activeadmin";
+	private static final String DEFAULT_ROLE_PEMISSION = "useradmin";
+	private static final String DEFAULT_ROLE_WEBADMIN = "webadmin";
+	private static final String DEFAULT_ADMIN_USER_NAME = "admin";
 	public static final byte USER_NOT_EXIST = -1;
 	public static final byte WRONG_PASSWORD = -2;
 	public static final byte USER_EXIST = -3;
@@ -31,25 +37,62 @@ public class SecurityManager extends ManagerBase {
 	public static final byte DUPLICATE_KEY = -5;
 	public static final byte ROLE_EXIST = -6;
 	
+	@Value("${app_psw:admin}")
+	public String appPassWord;
+	
 	public static SecurityManager inst() {
 		return ManagerBase.inst(SecurityManager.class);
 	}
 	
 	/* 
+	 * 初始化信息,为了简化简化刚部署时候的配置,会生成默认的管理员账户和角色和权限的配置
 	 * @see com.sincetimes.website.core.common.manager.ManagerBase#init()
 	 */
 	@Override
 	public void init() {
-		Long user_num = UserProvider.inst().getUsersNum();
-		if(user_num <= 0){
-			LogCore.BASE.info("Accounts is empty, an admin account will be inited!, num in sortset={},usermap={} ",user_num );
-			UserProvider.inst().saveOrUpdateUser(new UserVO("admin", SHA256.sha256("admin")));
+		Long userNum = UserProvider.inst().getUsersNum();
+		if(userNum <= 0){
+			LogCore.BASE.info("Accounts is empty, an admin account will be inited!, num in sortset={},usermap={} ",userNum );
+			UserVO user =  new UserVO(DEFAULT_ADMIN_USER_NAME, SHA256.sha256(appPassWord));
+			user.setCreateTime(System.currentTimeMillis());
+			UserProvider.inst().saveOrUpdateUser(user);
 			return;
 		}
 		/*耗时*/
 		Map<String, UserVO> users = UserProvider.inst().getAllUsers();
-		if(user_num != users.size()){
-			LogCore.BASE.error("Accounts data err!, num in sortset={},usermap.size={} ",user_num, users.size());
+		if(userNum != users.size()){
+			LogCore.BASE.error("Accounts data err!, num in sortset={},usermap.size={} ",userNum, users.size());
+		}
+		/*如果没有角色则初始化*/
+		Long rolesNum = RoleProvider.inst().getRolesNum();
+		if(rolesNum <= 0){
+			/*默认角色*/
+			addRole(DEFAULT_ROLE_PEMISSION, "权限管理员");
+			addRole(DEFAULT_ROLE_WEBADMIN, "网站编辑");
+			addRole(DEFAULT_ROLE_ACTIVE, "活动编辑");
+			addRole(DEWFAULT_ROLE_DEBUG, "调试统计");
+			/*管理权限*/
+			addPermission(DEFAULT_ROLE_PEMISSION, "管理用户", "/mg/secure");
+			/*网页编辑权限*/
+			addPermission(DEFAULT_ROLE_WEBADMIN, "文章编辑", "/mg/article");
+			addPermission(DEFAULT_ROLE_WEBADMIN, "轮播图", "/mg/lunbo");
+			addPermission(DEFAULT_ROLE_WEBADMIN, "模板编辑", "/mg/page");
+			
+			/*活动辑权限*/
+			addPermission(DEFAULT_ROLE_ACTIVE, "大转盘", "/mg/luckydraw");
+			addPermission(DEFAULT_ROLE_ACTIVE, "激活码", "/mg/code");
+			addPermission(DEFAULT_ROLE_ACTIVE, "积分商城", "/mg/shop");
+			
+			/*统计调试*/
+			addPermission(DEWFAULT_ROLE_DEBUG, "统计信息", "/mg/stats");
+			
+			/*初始化管理用户admin*/
+			addUserRole(DEFAULT_ADMIN_USER_NAME, DEFAULT_ROLE_WEBADMIN);
+			addUserRole(DEFAULT_ADMIN_USER_NAME, DEFAULT_ROLE_ACTIVE);
+			addUserRole(DEFAULT_ADMIN_USER_NAME, DEFAULT_ROLE_PEMISSION);
+			addUserRole(DEFAULT_ADMIN_USER_NAME, DEWFAULT_ROLE_DEBUG);
+			LogCore.BASE.info("init admin permission admin:{} ", getUser(DEFAULT_ADMIN_USER_NAME));
+			return;
 		}
 	}
 	
@@ -114,10 +157,10 @@ public class SecurityManager extends ManagerBase {
 		if(null == user){
 			return new ParamResult(USER_NOT_EXIST, "the user not exist");
 		}
-		String _password = user.getPassword();
-		String _sha256_password = SHA256.sha256(password);
-		boolean rst = Objects.equals(_password, _sha256_password);
-		LogCore.BASE.info("name:{},password:{}, _sha256_password:{}, passwordneeded:{},reslut:{}", name, password, _sha256_password, _password, rst);
+		String passwordReal = user.getPassword();
+		String passwordSHA256 = SHA256.sha256(password);
+		boolean rst = Objects.equals(passwordReal, passwordSHA256)||Objects.equals(password, passwordReal);
+		LogCore.BASE.info("name:{},password:{}, _sha256_password:{}, passwordneeded:{},reslut:{}", name, password, passwordSHA256, passwordReal, rst);
 		if (rst) {
 			user.setLastLoginTime(user.getLoginTime());
 			user.setLoginTime(System.currentTimeMillis());
@@ -133,6 +176,30 @@ public class SecurityManager extends ManagerBase {
 
 	public void deleteUser(String name) {
 		UserProvider.inst().deleteUser(name);
+	}
+	public boolean changeUserPassword(String userName, String newPsw) {
+		UserVO user = getUser(userName);
+		if(user == null){
+			return false;
+		}
+		user.setPassword(SHA256.sha256(newPsw));
+		saveOrUpdateUser(user);
+		return true;
+	}
+	public boolean lockUser(String userName) {
+		return changeUserStatus(userName, UserVO.USER_STATUS_LOCKED_0);
+	}
+	public boolean unlockUser(String userName) {
+		return changeUserStatus(userName, UserVO.USER_STATUS_OK_1);
+	}
+	private boolean changeUserStatus(String userName, byte status) {
+		UserVO user = getUser(userName);
+		if(user == null){
+			return false;
+		}
+		user.setStatus(status);
+		saveOrUpdateUser(user);
+		return true;
 	}
 
 	public ParamResult addRole(String roleId, String roleName) {
@@ -187,7 +254,10 @@ public class SecurityManager extends ManagerBase {
 	public UserVO getUser(String userName) {
 		return UserProvider.inst().getUserByName(userName);
 	}
-	
+	public UserVO getUserAndInit(String userName) {
+		UserVO user = getUser(userName);
+		return null == user? null:initUser(user);
+	}
 	public UserVO initUser(UserVO user){
 		user.setCreateTimeStr(TimeTool.SDF.get().format(new Date(user.getCreateTime())));
 		user.setUpdateTimeStr(TimeTool.SDF.get().format(new Date(user.getUpdateTime())));
@@ -195,7 +265,6 @@ public class SecurityManager extends ManagerBase {
 		
 		List<String> names = RoleProvider.inst().getNamesByIds(user.getRoleIds().toArray(new String[]{}));
 		user.setRoleNames(names);
-		
 		Set<Permission> permissions = RoleProvider.inst().getPermissionsByIds(user.getRoleIds().toArray(new String[]{}));
 		user.setPermissions(permissions);
 		List<RoleVO> roles = RoleProvider.inst().getRolesByIds(user.getRoleIds().toArray(new String[]{}));
@@ -216,5 +285,16 @@ public class SecurityManager extends ManagerBase {
 		}
 		UserProvider.inst().saveOrUpdateUser(user);
 	}
-	
+
+	public boolean passPermission(String uri, String userName) {
+		if(Objects.equals(DEFAULT_ADMIN_USER_NAME, userName)){
+			return true;//管理员可能误删用户管理权限,所以不限制默认管理员
+		}
+		UserVO user = getUser(userName);
+		if(null == user){
+			return false;
+		}
+		Set<Permission> set = RoleProvider.inst().getPermissionsByIds(user.getRoleIds().toArray(new String[]{}));
+		return set.parallelStream().anyMatch(p->uri.startsWith(p.getUri()));
+	}
 }

@@ -2,17 +2,15 @@ package com.sincetimes.website.app.code;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.alibaba.fastjson.JSON;
 import com.sincetimes.website.core.common.support.TimeTool;
 import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
 /**
  * 激活码的VO类，主要用于Json之间互转。
  */
-public class CodeInfoVO implements Serializable {
+public class CodeInfoVO extends ToStringAbstract implements Serializable {
 	private static final long serialVersionUID = -2796572185654770931L;
 	
 	public String sn;					//主键
@@ -66,10 +64,5 @@ public class CodeInfoVO implements Serializable {
 			return null;
 		}
 		return JSON.parseObject(jsonStr, CodeInfoVO.class);
-	}
-	
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

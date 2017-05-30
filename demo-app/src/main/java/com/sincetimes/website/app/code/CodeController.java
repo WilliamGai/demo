@@ -13,13 +13,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Param;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 /**
  * 激活码
  */
 @RestController
 @Order(value = 5)
-public class CodeController implements ControllerInterface{
+public class CodeController implements AccessSupport{
 	
 	//领取标志,激活码,0被抢光,1第一次领取，2已经领取,-1时间没到,-2时间过了,-3这个激活码地址不存在
 	@RequestMapping("/get_a_code")

@@ -18,10 +18,10 @@ import org.springframework.web.context.ContextLoader;
 //import com.sincetimes.website.app.rpc.dubbo.DubboManagerTest;
 import com.sincetimes.website.core.common.manager.annotation.ManangerOrder;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.spring.interfaces.ControllerInterface;
+import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 @RestController
 @Order(value = 5)
-public class RpcControllerTest implements ControllerInterface{
+public class RpcControllerTest implements AccessSupport{
 	public static final AtomicInteger count = new AtomicInteger(0);
 	@RequestMapping("/rpc_test")
 	Object  testRpc(HttpServletRequest req, HttpServletResponse resp

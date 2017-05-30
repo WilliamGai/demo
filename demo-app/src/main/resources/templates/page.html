@@ -23,8 +23,8 @@
 		</div>
 		<div class="col-md-10 column">
 		    <h2 th:if="${page}" th:text="${page.id+':'+page.name}"></h2>
-			<a th:href="${'page_template?id='+template_id}">查看模板</a>
-			<a th:href="${'/pages_rst?template_id='+template_id}">预览所有页面</a><hr/>
+			<a th:href="${'/mg/page_template?id='+template_id}">查看模板</a>
+			<a th:href="${'/pages_rst?template_id='+template_id}">所有页面的json</a><hr/>
 <!-- 		 	<a th:if="${template_id}" class="btn btn-default btn-info" th:href="${'page_editor?template_id='+template_id}">+ New</a>
  -->			
 			<!-- add page start -->
@@ -39,7 +39,7 @@
 							</h4>
 						</div>
 						<div class="modal-body">
-							<form role="form" class="form-inline" action="page_add" method="post">
+							<form role="form" class="form-inline" action="/mg/page_template/page_add" method="post">
 								<input type="hidden" name="template_id" th:value="${template_id}" />
                 				<!-- <label>编号(No):</label>
 		    					<input name="id" id="id"/>
