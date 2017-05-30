@@ -56,7 +56,6 @@ public class SecurityManager extends ManagerBase {
 			UserVO user =  new UserVO(DEFAULT_ADMIN_USER_NAME, SHA256.sha256(appPassWord));
 			user.setCreateTime(System.currentTimeMillis());
 			UserProvider.inst().saveOrUpdateUser(user);
-			return;
 		}
 		/*耗时*/
 		Map<String, UserVO> users = UserProvider.inst().getAllUsers();
@@ -92,7 +91,6 @@ public class SecurityManager extends ManagerBase {
 			addUserRole(DEFAULT_ADMIN_USER_NAME, DEFAULT_ROLE_ACTIVE);
 			addUserRole(DEFAULT_ADMIN_USER_NAME, DEFAULT_ROLE_PEMISSION);
 			addUserRole(DEFAULT_ADMIN_USER_NAME, DEWFAULT_ROLE_DEBUG);
-			return;
 		}
 		LogCore.BASE.info("sercurity inited!, rolesNumBefore={}, userNumBefore:{}, admin:{}",rolesNum ,userNum, getUser(DEFAULT_ADMIN_USER_NAME));
 	}

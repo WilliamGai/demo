@@ -29,9 +29,9 @@ public final class AppStarter {
 			return Integer.compare(order_value_a, order_value_b);
 		});
 		for (Object obj : runners) {
-			Object order = obj.getClass().getAnnotation(ManangerOrder.class);
 			String className =  obj.getClass().getSimpleName();
-			LogCore.BASE.info("mananger orders {},{}" ,className, order);
+			/*Object order = obj.getClass().getAnnotation(ManangerOrder.class);
+			LogCore.BASE.info("mananger orders {},{}" ,className, order);*/
 
 			stopWatch.start(className);
 			((ManagerBase)obj).init();
