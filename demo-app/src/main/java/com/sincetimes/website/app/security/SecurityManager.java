@@ -71,8 +71,8 @@ public class SecurityManager extends ManagerBase {
 			addRole(DEFAULT_ROLE_ACTIVE, "活动编辑");
 			addRole(DEWFAULT_ROLE_DEBUG, "调试统计");
 			/*管理权限*/
-			addPermission(DEFAULT_ROLE_PEMISSION, "用户管理", "/mg/secure/secure_users");
-			addPermission(DEFAULT_ROLE_PEMISSION, "角色管理", "/mg/secure/secure_roles");
+			addPermission(DEFAULT_ROLE_PEMISSION, "用户管理", "/mg/secure");//包括 mg/secure/secure_users
+			addPermission(DEFAULT_ROLE_PEMISSION, "角色管理", "/mg/secure/secure_roles");///mg/secure,已经保证可以访问,这里是为了增加菜单
 			/*网页编辑权限*/
 			addPermission(DEFAULT_ROLE_WEBADMIN, "文章编辑", "/mg/article");
 			addPermission(DEFAULT_ROLE_WEBADMIN, "轮播图", "/mg/lunbo");
