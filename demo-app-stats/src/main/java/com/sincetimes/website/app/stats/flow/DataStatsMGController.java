@@ -28,6 +28,7 @@ import com.sincetimes.website.core.common.support.Util;
 @Controller
 @Order(value = 5)
 public class DataStatsMGController implements SecureControllerInterface {
+	private static final int DEFAULT_PAGE_SIZE_20000 = 20000;
 	@RequestMapping("/tables")
 	@ResponseBody
 	public Object tables() {
@@ -276,7 +277,7 @@ public class DataStatsMGController implements SecureControllerInterface {
 		stopWatch.stop();
 		stopWatch.start("paging query");
 		/**分页*/
-		int _page_size = pageSize.orElse(20);
+		int _page_size = pageSize.orElse(DEFAULT_PAGE_SIZE_20000);
 		long sum = DataStatsManager.inst().queryCount(id, filters);
 		int page_no = pageNo.orElse(0);
 		int pages_num = (int) Math.ceil((double)sum/(double)_page_size);
