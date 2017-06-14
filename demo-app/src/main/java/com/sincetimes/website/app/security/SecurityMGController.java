@@ -26,7 +26,7 @@ public class SecurityMGController implements SecureAccessSupport {
 	private static final String CONFIG_USER_KEY = "config_user";
 	@RequestMapping
 	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
-		redirect(resp, req.getRequestURI()+"/secure_users");
+		redirect(resp, req.getRequestURL()+"/secure_users");
 	}
 	/**
 	 * 用户管理列表

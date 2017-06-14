@@ -24,7 +24,7 @@ import com.sincetimes.website.core.common.support.LogCore;
 public class StatsController implements SecureAccessSupport {
 	@RequestMapping
 	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
-		redirect(resp, req.getRequestURI()+"/all");
+		redirect(resp, req.getRequestURL()+"/all");
 	}
 	
 	@RequestMapping("/gclook")

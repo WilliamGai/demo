@@ -41,7 +41,7 @@ import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 public class LuckyDrawMGController implements AccessSupport{
 	@RequestMapping
 	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
-		redirect(resp, req.getRequestURI()+"/lucky_draw");
+		redirect(resp, req.getRequestURL()+"/lucky_draw");
 	}
 	@RequestMapping("/lucky_draw")
 	String  code(Model model, @RequestParam Optional<String> sn, HttpServletRequest req, HttpServletResponse resp){

@@ -36,7 +36,7 @@ public class ArticleMGController implements SecureAccessSupport {
 	private static final int PAGE_SIZE = 10;
 	@RequestMapping
 	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
-		redirect(resp, req.getRequestURI()+"/articles");
+		redirect(resp, req.getRequestURL()+"/articles");
 	}
 	
 	@ResponseBody

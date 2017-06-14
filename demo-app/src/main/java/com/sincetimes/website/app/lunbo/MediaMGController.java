@@ -30,7 +30,7 @@ import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 public class MediaMGController implements AccessSupport {
 	@RequestMapping
 	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
-		redirect(resp, req.getRequestURI()+"/upload_media");
+		redirect(resp, req.getRequestURL()+"/upload_media");
 	}
 	@RequestMapping("/upload_media")
 	String upload_media(Model model, @RequestParam Optional<String> group_no, @RequestParam Optional<Integer> num, HttpServletRequest req){

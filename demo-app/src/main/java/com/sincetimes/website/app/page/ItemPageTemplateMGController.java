@@ -24,7 +24,7 @@ import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 public class ItemPageTemplateMGController implements AccessSupport {
 	@RequestMapping
 	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
-		redirect(resp, req.getRequestURI()+"/page_template");
+		redirect(resp, req.getRequestURL()+"/page_template");
 	}
 	@ResponseBody
 	@RequestMapping("/items_reload")

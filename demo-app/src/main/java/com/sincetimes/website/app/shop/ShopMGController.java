@@ -35,7 +35,7 @@ import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 public class ShopMGController implements AccessSupport{
 	@RequestMapping
 	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
-		redirect(resp, req.getRequestURI()+"/point_shop_mg");
+		redirect(resp, req.getRequestURL()+"/point_shop_mg");
 	}
 	@RequestMapping("/point_shop_mg")
 	String point_shop_mg(Model model, @RequestParam Optional<String> shop_sn){
