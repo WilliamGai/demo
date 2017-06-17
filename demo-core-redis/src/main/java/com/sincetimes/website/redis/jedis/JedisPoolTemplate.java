@@ -34,7 +34,7 @@ public class JedisPoolTemplate {
 		try (Jedis jedis = pool.getResource()){
 			return action.doInRedis(jedis);
 		} catch (Exception e) {
-			LogCore.BASE.error("jedisHandler err", e);
+			LogCore.BASE.error("jedisTemplate excute err", e);
 			return null;
 		}
 	}
