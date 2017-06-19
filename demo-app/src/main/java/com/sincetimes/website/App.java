@@ -64,6 +64,5 @@ public class App extends SpringBootServletInitializer{
 		LogCore.BASE.info(START_TAG + "server.port={}", SpringManager.inst().getSysProperty("server.port"));// application.properties
 		LogCore.BASE.info(START_TAG + "upload_path={}", SpringManager.inst().getSysProperty("upload_path"));// application.properties
 		LogCore.BASE.info(START_TAG + "http://localhost:{}/login", SpringManager.inst().getSysProperty("server.port"));
-
 	}
 }
