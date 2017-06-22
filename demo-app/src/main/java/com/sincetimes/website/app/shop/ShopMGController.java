@@ -80,6 +80,8 @@ public class ShopMGController implements AccessSupport{
 	@RequestMapping("/del_goods")
 	void del_goods(HttpServletRequest req, HttpServletResponse resp, String sn, String shop_sn){
 		ShopManager.inst().deleteGoods(sn, shop_sn);
+		req.getParameterMap();
+//		HttpHeadUtil.getParamsMap(req)
 		forward(req, resp, "point_shop_mg");
 	}
 	/**
