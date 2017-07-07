@@ -24,8 +24,8 @@ public final class AppStarter {
 		List<Object> runners = new ArrayList<Object>();
 		runners.addAll(map.values());
 		runners.sort((a, b)->{
-			int order_value_a = Util.toNullDefalut(a.getClass().getAnnotation(ManangerOrder.class), an->an.value(), Integer.MAX_VALUE/2);
-			int order_value_b = Util.toNullDefalut(b.getClass().getAnnotation(ManangerOrder.class), an->an.value(), Integer.MAX_VALUE/2);
+			int order_value_a = Util.toNullDefalut(a.getClass().getAnnotation(ManangerOrder.class), ManangerOrder::value, Integer.MAX_VALUE/2);
+			int order_value_b = Util.toNullDefalut(b.getClass().getAnnotation(ManangerOrder.class), ManangerOrder::value, Integer.MAX_VALUE/2);
 			return Integer.compare(order_value_a, order_value_b);
 		});
 		for (Object obj : runners) {

@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.manager.annotation.ManangerOrder;
+import com.sincetimes.website.core.common.support.LogCore;
 
 /**
  * 这也看以看作SpringBeanUtil
@@ -64,6 +65,7 @@ public class SpringManager  extends ManagerBase implements ApplicationListener<C
     
 	@Override
 	public void init() {
+		LogCore.BASE.info("springManager init! {}", applicationContext);
 	}
 }
  

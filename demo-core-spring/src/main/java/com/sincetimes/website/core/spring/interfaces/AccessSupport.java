@@ -39,6 +39,9 @@ public interface AccessSupport extends CommandLineRunner, FilePathSupport {
 			LogCore.BASE.error("{},{}invoke redirect fail,uri={}", className, methodName, uri);
 		}
 	}
+	default void redirectAppend(HttpServletRequest req, HttpServletResponse resp, String uri){
+		redirect(resp, req.getRequestURL()+"/"+uri);
+	}
 	default void forward(HttpServletRequest req, HttpServletResponse resp, String uri){
 		try {
 			req.getRequestDispatcher(uri).forward(req, resp);

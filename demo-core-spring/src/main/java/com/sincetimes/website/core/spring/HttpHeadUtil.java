@@ -181,7 +181,16 @@ public class HttpHeadUtil {
 		}
 		return map;
 	}
-	public static Map<String, String> getParamsMap(HttpServletRequest req) {
+	public static Map<String, String> getParamsMapLimit(HttpServletRequest req) {
 		return getParamsMap(req, MAX_PARAM_SIZE_DEFALUT_50);
+	}
+	public static Map<String, String> getParamsMap(HttpServletRequest req) {
+		Map<String, String> map = new HashMap<String, String>();
+		Enumeration<String> names = req.getParameterNames();
+		while (names.hasMoreElements()) {
+			String name = names.nextElement();
+			map.put(name, req.getParameter(name));
+		}
+		return map;
 	}
 }
