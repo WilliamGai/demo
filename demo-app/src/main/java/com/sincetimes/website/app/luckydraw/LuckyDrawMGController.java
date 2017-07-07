@@ -76,7 +76,7 @@ public class LuckyDrawMGController implements AccessSupport{
 			@RequestParam Optional<Integer> limit_num, 
 			HttpServletRequest req, 
 			HttpServletResponse resp){
-		LogCore.BASE.info("params={}",HttpHeadUtil.getParamsMap(req));
+		LogCore.BASE.info("params={}",HttpHeadUtil.getParamsMapLimit(req));
 		String create_by = getSessionAttrFncOrElse(req, "user", UserVO::getName, "unknown");
 		LuckyDrawManager.inst().addCodeInfo(sn.get(), create_by, name.get(), desc.get(), fresh_type.get(), open_time.get(), close_time.get(), limit_num.get());
 		redirect(resp, "lucky_draw?sn="+sn.get());
@@ -183,7 +183,7 @@ public class LuckyDrawMGController implements AccessSupport{
 			@RequestParam Optional<Integer> current_turn_sn, 
 			@RequestParam Optional<Integer> global_sn,
 			StandardMultipartHttpServletRequest req, HttpServletResponse resp){
-		LogCore.BASE.info("edit_lucky_draw_item weight={},req={}", weight, HttpHeadUtil.getParamsMap(req));
+		LogCore.BASE.info("edit_lucky_draw_item weight={},req={}", weight, HttpHeadUtil.getParamsMapLimit(req));
 		String dirName = Objects.toString(req.getParameter("dir"), "image");
 		String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 		String dirPath = "upload/";

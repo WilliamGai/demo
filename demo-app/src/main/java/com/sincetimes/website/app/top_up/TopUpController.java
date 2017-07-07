@@ -28,13 +28,13 @@ public class TopUpController implements AccessSupport {
 	 */
 	@RequestMapping("/cty_pay_back")
 	String cty_pay_back(HttpServletRequest req) {
-		LogCore.BASE.info("cty_pay_back=====", HttpHeadUtil.getParamsMap(req));
+		LogCore.BASE.info("cty_pay_back=====", HttpHeadUtil.getParamsMapLimit(req));
 		return "1";
 	}
 
 	@RequestMapping("/topup_back_test")
 	String topup_back_test(HttpServletRequest req) {
-		LogCore.BASE.info("topup_back_test=====", HttpHeadUtil.getParamsMap(req));
+		LogCore.BASE.info("topup_back_test=====", HttpHeadUtil.getParamsMapLimit(req));
 		return "1";
 	}
 

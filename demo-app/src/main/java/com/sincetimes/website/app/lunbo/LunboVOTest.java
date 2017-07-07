@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.sincetimes.website.core.common.support.JSONBuilder;
+import com.sincetimes.website.core.common.support.LogCore;
+import com.sincetimes.website.core.common.support.Util;
 
 public class LunboVOTest {
 	
@@ -26,7 +28,8 @@ public class LunboVOTest {
 		LunboGroupVO lunbos2 = JSON.parseObject(s, LunboGroupVO.class);
 		
 
-		System.out.println(lunbos2);
+		LogCore.BASE.info("{}", Util.prettyJsonStr(lunbos2));
+		LogCore.BASE.info("{}", Util.prettyJsonStr(lunbos2.lunbos.get(0)));
 		
 		Map<Integer,Object> map = new HashMap<>();
 		map.put(0, "ABC");

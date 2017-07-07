@@ -29,7 +29,7 @@ import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 public class CodeMGController implements AccessSupport{
 	@RequestMapping
 	void pageTemplate(HttpServletRequest req, HttpServletResponse resp){
-		redirect(resp, req.getRequestURL()+"/code");
+        redirectAppend(req, resp, "code");
 	}
 	@RequestMapping("/code")
 	String  code(Model model, @RequestParam Optional<String> sn, HttpServletRequest req, HttpServletResponse resp){

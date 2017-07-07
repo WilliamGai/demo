@@ -127,7 +127,7 @@ public class ShopMGController implements AccessSupport{
 	 */
 	@RequestMapping("/edit_goods")
 	void edit_goods(@RequestParam String shop_sn, @RequestParam String sn, @RequestParam String goods_name, @RequestParam String goods_desc, @RequestParam Optional<Integer> point_need, StandardMultipartHttpServletRequest req, HttpServletResponse resp){
-		LogCore.BASE.info("edit_goods point_need={},req={}", point_need, HttpHeadUtil.getParamsMap(req));
+		LogCore.BASE.info("edit_goods point_need={},req={}", point_need, HttpHeadUtil.getParamsMapLimit(req));
 		String dirName = Objects.toString(req.getParameter("dir"), "image");
 		String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 		String dirPath = "upload/";

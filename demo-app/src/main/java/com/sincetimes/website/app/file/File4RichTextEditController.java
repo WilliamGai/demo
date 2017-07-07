@@ -165,7 +165,7 @@ public class File4RichTextEditController implements AccessSupport {
 	@RequestMapping("/upload_file_json")
 	Object upload_media(StandardMultipartHttpServletRequest req, HttpServletResponse rsp){
 		try {
-			LogCore.BASE.info("upload_file_json' invoked{}",HttpHeadUtil.getParamsMap(req));
+			LogCore.BASE.info("upload_file_json' invoked{}",HttpHeadUtil.getParamsMapLimit(req));
 			String dirName = Objects.toString(req.getParameter("dir"), "image");
 			
 			//文件保存目录路径
