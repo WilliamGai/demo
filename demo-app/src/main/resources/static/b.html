@@ -6,11 +6,11 @@
 <script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <script type="text/javascript">
-$(document).ready(function(){
+function test_ajax(){
     $.ajax({
         type: "POST",
        /*  dataType: 'json', */
-        url: "http://service.sincetimes.com/moon/testjdbc",
+        url: "tst",
         data: {
             openid: "testajax",
             sign: "testsign"
@@ -23,11 +23,50 @@ $(document).ready(function(){
             alert("fail!!!,请刷新再试!");
         }
     });
-});
+}
+function test_post(){
+	$.post("tst", {"openid":"testOpenid2","sign":"testSign2"},function(data){
+		$('.detial_f').show().html(data);
+		console.log("post "+data);
+	});
+}
+function testbody_ajax(){
+    $.ajax({
+        type: "POST",
+        dataType: 'json', 
+        contentType:"application/json",
+        url: "tstbody",
+        data: '{ "openid": "testajax", "sign": "testsign" }',
+        success: function(data) { 
+        	alert('data='+data);
+        	$('.detial_f').show().html(data);
+        	console.log(data);
+        	
+        },
+        error: function() {
+            alert("fail!!!,请刷新再试!testbody_ajax");
+        }
+    });
+}
+function tstbody(){
+	$.post("tstbody", {"openid":"testOpenid2","sign":"testSign2"},function(data){
+		$('.detial_f').show().html(data);
+		console.log("post "+data);
+	});
+}
 </script>
 <body>
 	<div class="button_control">
-		<button onClick ="getpara()" class="button_start">按钮</button>
+		<button onClick ="test_ajax()" class="button_start">ajax按钮</button>
+	</div>
+	<div class="button_control2">
+		<button onClick ="test_post()" class="button_start_post">post按钮</button>
+	</div>
+	<div class="button_control3">
+		<button onClick ="testbody_ajax()">body_ajax按钮</button>
+	</div>
+	<div class="button_control4">
+		<button onClick ="tstbody()">body按钮</button>
 	</div>
 	<div class="test">
 		<p class="detial_f"></p>

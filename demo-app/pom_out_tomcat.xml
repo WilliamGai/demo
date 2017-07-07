@@ -114,9 +114,10 @@
 				<version>2.2</version>
 				<configuration>
 					<url>http://119.29.52.126:8060/manager/text</url>
-					<!-- <url>http://localhost:8084/manager/text</url> -->
+				<!--<url>http://localhost:8084/manager/text</url> -->
 					<username>tomcat</username>
 					<password>tomcat</password>
+					<server>tomcat</server>
 				</configuration>
 			</plugin>
 		</plugins>

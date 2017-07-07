@@ -81,6 +81,6 @@ public class BootLoginInterceptor extends WebContentInterceptor implements Secur
 		req.setAttribute(REDIRECT_URL_TAG, uri);
 		req.setAttribute(LOGIN_TIPMSG, tipmsg);//tipmsg
 		forward(req, resp, "/login");
-		LogCore.BASE.debug("{}-------------------find, dispatch to ../login req={}", uri, HttpHeadUtil.getParamsMap(req));
+		LogCore.BASE.debug("{}-------------------find, dispatch to ../login req={}", uri, HttpHeadUtil.getParamsMapLimit(req));
 	}
 }

@@ -1,10 +1,14 @@
 package com.sincetimes.website.controller;
 
+import java.io.Serializable;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sincetimes.website.app.stats.StatsManager;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
+import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 import com.sincetimes.website.core.spring.manger.SpringManager;
 import com.sincetimes.website.manager.DataManager;
@@ -20,8 +26,25 @@ import com.sincetimes.website.manager.DataManager;
  */
 @RestController
 @Order(value = 5)
-public class DataControllerExcample implements AccessSupport {
-
+public class ControllerExcample implements AccessSupport {
+    public static class LoginRequestVO implements Serializable{
+		private static final long serialVersionUID = 1L;
+		public String openid;
+    	public String sign;
+    }
+    
+    @RequestMapping("/tstbody")
+	public Object tstBody(@RequestBody LoginRequestVO test) {
+		LogCore.BASE.info("testbody param={}", Util.prettyJsonStr(test));
+		LogCore.BASE.info("result={}", JSONBuilder.creatJsonString("result", 1,"data", test));
+		return JSONBuilder.creatJsonString("result", 1,"data", test);
+	}
+	@RequestMapping("/tst")
+	public Object get_value(HttpServletRequest req) {
+		Map<String, String> map = HttpHeadUtil.getParamsMapLimit(req);
+		return map;
+	}
+	
 	@RequestMapping("/get_value")
 	public Object get_value(String name) {
 		String v = DataManager.inst().get(name);

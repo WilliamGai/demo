@@ -43,7 +43,7 @@ public class App extends SpringBootServletInitializer{
 	@RequestMapping("/welcome")
 	@ResponseBody
 	String method(HttpServletRequest req, HttpServletResponse resp) {
-		LogCore.BASE.info("{}", HttpHeadUtil.getParamsMap(req));
+		LogCore.BASE.info("{}", HttpHeadUtil.getParamsMapLimit(req));
 		return Util.format("welcome {}, dir is{}", SpringManager.inst().getSysProperty("app_name"), System.getProperty("user.dir"));
 	}
 

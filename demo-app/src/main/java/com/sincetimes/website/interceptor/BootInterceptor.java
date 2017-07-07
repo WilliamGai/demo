@@ -28,8 +28,8 @@ public class BootInterceptor implements HandlerInterceptor {
 			return true;
 		}
 		if (LogCore.BASE.isDebugEnabled()) {
-			LogCore.BASE.debug("{}----------------begin,ip={},req params:{},Origin={}", req.getRequestURI(),
-					req.getRemotePort(), HttpHeadUtil.getParamsMap(req), req.getHeader("Origin"));
+			LogCore.BASE.debug("{}----------------begin,ip={},req params:{},Origin={},all headers={}", req.getRequestURI(),
+					req.getRemotePort(), HttpHeadUtil.getParamsMapLimit(req), req.getHeader("Origin"), HttpHeadUtil.getReqHeads(req));
 		}
 		req.setAttribute(BEGIN_NAO_TIME_TAG, beginNaoTime);
 		LogCore.BASE.debug("{}--------------begin req,Uri= {}", this.hashCode(), req.getRequestURI());
@@ -51,8 +51,8 @@ public class BootInterceptor implements HandlerInterceptor {
 		long beginNaoTime = (Long)beginNaoTimeStr ;
  		long interval = System.nanoTime() - beginNaoTime;
 		
-		LogCore.BASE.info(this.hashCode() + "{}==========={}=========end,id={},params:{}, from:{},e:{}", uri,
-				interval / 1000000, requestId.getAndIncrement(), HttpHeadUtil.getParamsMap(req), req.getRemotePort(), arg3);
+		LogCore.BASE.debug(this.hashCode() + "{}==========={}=========end,id={},params:{}, from:{},e:{}", uri,
+				interval / 1000000, requestId.getAndIncrement(), HttpHeadUtil.getParamsMapLimit(req), req.getRemotePort(), arg3);
 		statEvent(uri, interval);
 	}
 
