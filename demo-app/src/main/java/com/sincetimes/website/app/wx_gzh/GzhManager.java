@@ -171,7 +171,7 @@ public class GzhManager extends ManagerBase {
 	@Test
 	public ConcurrentHashMap<String, Integer> getScoresMap() {
 		JedisPoolConfig poolConfig = new JedisPoolConfig();
-		JedisPool pool = new JedisPool(poolConfig, "localhost", 6377, 0, "foobared", 13);
+		JedisPool pool = new JedisPool(poolConfig, "23.56.13.70", 6379, 0, "foobared", 13);
 
 		ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
 

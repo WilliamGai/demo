@@ -5,6 +5,7 @@ import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +22,7 @@ import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.AppStarter;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.manger.SpringManager;
+import com.sincetimes.website.redis.jedis.JedisPoolTemplate;
 
 import de.codecentric.boot.admin.config.EnableAdminServer;
 
@@ -53,7 +55,9 @@ public class App extends SpringBootServletInitializer{
 		LogCore.BASE.info(START_TAG + "configure", builder.sources(App.class));// AppConfig
 		return builder.sources(App.class);
 	}
-
+	@Autowired
+	JedisPoolTemplate jedisTemplate;
+	
 	/** 外部tomcat启动的时不执行此方法 {@link CommandLineRunner#run(String...)}*/
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(App.class, args);

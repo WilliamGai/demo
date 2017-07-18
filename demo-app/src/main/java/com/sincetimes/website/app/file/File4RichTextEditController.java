@@ -28,7 +28,7 @@ import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 @RestController
 @Order(value = 6)
-@RequestMapping("/mg")
+@RequestMapping("/mg/article")
 /**
  * 富文本编辑器的上传文件请求和打开文件管理器的请求
  */
