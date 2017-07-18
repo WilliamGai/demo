@@ -16,7 +16,6 @@ public class JedisServiceDemo implements JedisWrapper{
 
 	@Override
 	public JedisPoolTemplate template() {
-		
 		return jedisTemplate;
 	}
 }

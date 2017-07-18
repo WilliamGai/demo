@@ -40,6 +40,8 @@ public class ConcurrentTest {
 				}
 			}).start();
 		}
+		
+		
 		ThreadTool.sleep(10000);
 		try (Jedis jedis = pool.getResource()) {
 			Long rst = jedis.incr(timeStr);
@@ -52,5 +54,4 @@ public class ConcurrentTest {
 		}
 //		pool.close();
 	}
-	
 }
