@@ -161,13 +161,13 @@ public class HttpUtil {
 			if (resultCode == 200) {
 				InputStream is = conn.getInputStream();
 				byte[] d = getStreamBytes(is);
-				LogCore.BASE.debug(TAG_POST, "<<<< sucess" + new String(d));
+				LogCore.BASE.debug(TAG_POST + "<<<< sucess {}", new String(d));
 				return new String(d);
 			} else {
-				LogCore.BASE.debug(TAG_POST, "<<<< failed " + conn.getResponseCode());
+				LogCore.BASE.debug(TAG_POST + "<<<< failed {}" + conn.getResponseCode());
 			}
 		} catch (Exception e) {
-			LogCore.BASE.error(TAG_POST, "<<<< error" + resultCode + e.toString());
+			LogCore.BASE.error(TAG_POST + "<<<< error {}", resultCode, e);
 		}
 		return null;
 	}

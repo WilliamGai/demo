@@ -11,12 +11,19 @@ public class TimeTool {
 	public static final int HOUR_SECONDS = 3600;
 	public static final int DAY_SECONDS = HOUR_SECONDS * 24;
 	public static final int WEEK_SECONDS = DAY_SECONDS * 7;
-	
+	public static final int DAY_MILLISECONDS = DAY_SECONDS * 1000;
+	public static final int WEEK_MILLISECONDS = DAY_MILLISECONDS * 7;
 	/**sdf有全局变量线程不安全,用ThreadLocal提供线程安全的sdf*/
 	public static final ThreadLocal<DateFormat> SDF = new ThreadLocal<DateFormat>() {
 		@Override
 		protected DateFormat initialValue() {
 			return new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+		}
+	};
+	public static final ThreadLocal<DateFormat> SDF_WITH_MILLIS = new ThreadLocal<DateFormat>() {
+		@Override
+		protected DateFormat initialValue() {
+			return new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
 		}
 	};
 	/**HH:mm:ss*/
@@ -66,12 +73,11 @@ public class TimeTool {
 		SimpleDateFormat format = new SimpleDateFormat(pattern);
 		return format.parse(s).getTime();
 	}
-	/**
-	 * formatTime(System.currentTimeMillis(), "yyyy-MM-dd-HH:mm:ss");会new 一个format
-	 * @return
-	 */
 	public static String getLocalTime(){
 		return SDF.get().format(new Date());
+	}
+	public static String getLocalTimeFull(){
+		return SDF_WITH_MILLIS.get().format(new Date());
 	}
 	/**
 	 * 2017年4月20日21:51:21
@@ -88,5 +94,8 @@ public class TimeTool {
 	}
 	public static String getTimeStr(){
 		return SDF_TIME.get().format(new Date());
+	}
+	public static Long getTime(String timeStr) throws ParseException{
+		return SDF.get().parse(timeStr).getTime();
 	}
 }
