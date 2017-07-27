@@ -34,8 +34,9 @@ public final class AppStarter {
 			LogCore.BASE.info("mananger orders {},{}" ,className, order);*/
 
 			stopWatch.start(className);
-			((ManagerBase)obj).init();
-			ManagerBase.putInst(obj.getClass(), obj);
+			ManagerBase instance = (ManagerBase)obj;
+			instance.init();//只所以要先初始化再放进去,是为了保证使用的时候已经是加载完数据的Manager,防止初始化的时候在其他类调用Manager
+			ManagerBase.putInst(obj.getClass(), instance);
 			stopWatch.stop();
 		}
 		LogCore.BASE.info("managers[] init used time:{}" ,stopWatch.prettyPrint());

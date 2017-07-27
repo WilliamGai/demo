@@ -1,8 +1,5 @@
 package com.sincetimes.website.redis.jedis;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import com.sincetimes.website.redis.LogCore;
 import com.sincetimes.website.redis.jedis.funciton.JedisCallBack;
 
@@ -21,7 +18,7 @@ import redis.clients.jedis.JedisPoolConfig;
 public class JedisPoolTemplate {
 
 	private JedisPool pool;
-	private Lock LOCK = new ReentrantLock();//jedis线程不安全
+//	private Lock LOCK = new ReentrantLock();//jedis线程不安全
 	/**
 	 * @param timeout
 	 * 此参数表示，连接池建立的时候连接redis的时候，如果超过多时间没有连接成功则返回失败的异常，
@@ -35,14 +32,14 @@ public class JedisPoolTemplate {
 	}
 
 	public <T> T excute(JedisCallBack<T> action){
-		LOCK.lock();
+//		LOCK.lock();
 		try (Jedis jedis = pool.getResource()){
 			return action.doInRedis(jedis);
 		} catch (Exception e) {
-			LogCore.BASE.error("jedisTemplate excute err 可能是redis关了或者网络不可用，请排查", e.getMessage());//断网的情况,恢复网络后正常
+			LogCore.BASE.error("jedisTemplate excute err 可能是redis关了或者网络不可用，请排查", e);//断网的情况,恢复网络后正常
 			return null;
 		}finally {
-			LOCK.unlock();
+//			LOCK.unlock();
 		}
 	}
 	/**redis连接是否可用*/

@@ -1,4 +1,9 @@
 # 提供redis的使用
+## 关于jedis
+是git上star比较多的redis client
+但是Jedis是单线程的,并发访问线程不安全。比如不可以用java8的并行流来操作jedis
+
+
 ## 项目的依赖关系
 ``` xml
 demo-redis-->demo-parent
