@@ -164,7 +164,7 @@ public class SecurityManager extends ManagerBase {
 	}
 
 	public ParamResult deletePermission(String roleId, int index) {
-		if(!Util.nonEmpty(roleId)){
+		if(!Util.notEmpty(roleId)){
 			return new ParamResult(PARAM_ERR, "param empty!"); 
 		}
 		RoleVO role = RoleReference.inst().getRoleById(roleId);

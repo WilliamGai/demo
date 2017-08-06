@@ -41,7 +41,7 @@ public class BootLoginInterceptor implements HandlerInterceptor {
 			EventMsgContext.inst().putMsg(msg);
 			req.setAttribute("redirect_url", uri);
 			req.getRequestDispatcher("/login").forward(req, resp);//转发
-			LogCore.BASE.debug("{}-------------------find, dispatch to ../login req={}", uri, HttpHeadUtil.getParamsMap(req));
+			LogCore.BASE.debug("{}-------------------find, dispatch to ../login req={}", uri, HttpHeadUtil.getParamsMapLimit(req));
 			return false;
 	}
 

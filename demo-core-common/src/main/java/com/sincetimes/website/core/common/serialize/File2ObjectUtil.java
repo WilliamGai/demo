@@ -1,4 +1,4 @@
-package com.sincetimes.website.core.common.support;
+package com.sincetimes.website.core.common.serialize;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -16,6 +16,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.junit.Test;
+
+import com.sincetimes.website.core.common.support.LogCore;
+import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.Util;
 /**
  * 推荐的方法
  * readFileFast
@@ -24,7 +28,7 @@ import org.junit.Test;
  * @author BAO
  * jdk序列化的缺点 慢,发布后不能更改包名
  */
-public class SerializeFileTool {
+public class File2ObjectUtil {
 	public static boolean existFile(String fileName){
 		return Files.exists(Paths.get(fileName));
 	}
@@ -34,13 +38,11 @@ public class SerializeFileTool {
 	 *	InputStream in = Files.newInputStream(Paths.get(fileName), StandardOpenOption.READ);
 	 * }
 	 * </pre>
-	 * @param fileName
-	 * @return
 	 */
 	public static <T> T readFile(String fileName){
 		try (InputStream in = new FileInputStream(fileName);
 			 DataInputStream stream = new DataInputStream(in)){
-			return SerializeTool.read(stream);
+			return DistributedUtil.read(stream);
 		} catch (Exception e) {
 			LogCore.BASE.error("read file err:{}", e);
 			return null;
@@ -53,7 +55,7 @@ public class SerializeFileTool {
 		}
 		try{
 			byte[] data =  Files.readAllBytes(Paths.get(fileName));
-			return SerializeTool.deserilize(data);
+			return DistributedUtil.deserilize(data);
 		}catch (Exception e) {
 			LogCore.BASE.error("read file err:{}", e);
 			return null;
@@ -69,7 +71,7 @@ public class SerializeFileTool {
 			 DataInputStream stream = new DataInputStream(in)){
 			List<T> list =  new ArrayList<>();
 			while(stream.available() > 0){
-				T t = SerializeTool.read(stream);
+				T t = DistributedUtil.read(stream);
 				list.add(t);
 			}
 			return list;
@@ -92,7 +94,7 @@ public class SerializeFileTool {
 		}
 		try {
 			byte[] data =  Files.readAllBytes(Paths.get(fileName));
-			return SerializeTool.deserilize2List(data, list);
+			return DistributedUtil.deserilize2List(data, list);
 		} catch (Exception e) {
 			LogCore.BASE.error("read file err:{}", e);
 			return null;
@@ -126,7 +128,7 @@ public class SerializeFileTool {
 		String tempFileName = fileName.concat("_temp");
 		try(OutputStream fileOut = Files.newOutputStream(Paths.get(tempFileName));
 			DataOutputStream stream = new DataOutputStream(fileOut);) {
-			SerializeTool.writeObject(obj, stream);
+			DistributedUtil.writeObject(obj, stream);
 		} catch (IOException e) {
 			LogCore.BASE.error("write file err:{}", e);
 		}
@@ -143,7 +145,7 @@ public class SerializeFileTool {
 	public static void writeFileSafe(String fileName, Object value){
 		try {
 			String tempFileName = fileName.concat("_temp");
-			byte[] data = SerializeTool.serlize(value);
+			byte[] data = DistributedUtil.serlize(value);
 			Files.write(Paths.get(tempFileName), data);
 			Files.move(Paths.get(tempFileName), Paths.get(fileName), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
@@ -153,14 +155,14 @@ public class SerializeFileTool {
 	/**
 	 * 中间会产生临时文件,防止写的过程中意外中断而破坏原文件
 	 * 超过2GB或者内存不足会报java.lang.OutOfMemoryError: Java heap space
-	 * @see SerializeFileTool#writeFileFastAppend(String, Object)
+	 * @see File2ObjectUtil#writeFileFastAppend(String, Object)
 	 */
 	public static void writeFileFastAppendSafe(String fileName, Object value){
 		if(existFile(fileName)){
 			try {
 				String tempFileName = getRandomTempFileName(fileName);
 				byte[] data = Files.readAllBytes(Paths.get(fileName));
-				byte[] append = SerializeTool.serlize(value);
+				byte[] append = DistributedUtil.serlize(value);
 				byte[] newData = Util.mergeBytes(data, append);
 				Files.write(Paths.get(tempFileName), newData);
 				Files.move(Paths.get(tempFileName), Paths.get(fileName), StandardCopyOption.REPLACE_EXISTING);
@@ -173,7 +175,7 @@ public class SerializeFileTool {
 	}
 	public static void writeFileFast(String fileName, Object value){
 		try {
-			byte[] data = SerializeTool.serlize(value);
+			byte[] data = DistributedUtil.serlize(value);
 			Files.write(Paths.get(fileName), data);
 		} catch (IOException e) {
 			LogCore.BASE.error("move file err:{}", e);
@@ -186,13 +188,14 @@ public class SerializeFileTool {
 	 */
 	public static void writeFileFastAppend(String fileName, Object value){
 		try {
-			byte[] data = SerializeTool.serlize(value);
+			byte[] data = DistributedUtil.serlize(value);
 			Files.write(Paths.get(fileName), data, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 		} catch (IOException e) {
 			LogCore.BASE.error("move file err:{}", e);
 		}
 	}
-	public static void writeFileAcessFast(String fileName, Object value) throws Exception{
+
+    public static void writeFileAcessFast(String fileName, Object value) throws Exception{
 //		RandomAccessFile file = new RandomAccessFile("file", "rw");
 //		String tempFileName = fileName.concat("_temp");
 //		SeekableByteChannel channel = Files.newByteChannel(Paths.get("a"));
@@ -210,7 +213,7 @@ public class SerializeFileTool {
 //		map.put(ll, ll);
 		ll.add(ll);
 //		ll.add(map);
-		byte[] data = SerializeTool.serlize(ll);
+		byte[] data = DistributedUtil.serlize(ll);
 		System.out.println(ll);
 		System.out.println(data.length);
 	}

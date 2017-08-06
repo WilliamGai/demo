@@ -21,9 +21,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 import com.sincetimes.website.core.common.manager.ManagerBase;
-import com.sincetimes.website.core.common.support.IOTool;
+import com.sincetimes.website.core.common.serialize.File2ObjectUtil;
+import com.sincetimes.website.core.common.serialize.IOUtil;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.SerializeFileTool;
 import com.sincetimes.website.core.common.support.Sys;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.common.threadpool.ThreadPoolTool;
@@ -92,12 +92,12 @@ public class DataStatsManager extends ManagerBase {
  			String listFile = config.getId() + ".os";
 			String incrflagFile = config.getId() +config.getIncrName()+ ".os";
 			sw.start("parse file");
-			Long lastIncrValue = SerializeFileTool.existFile(incrflagFile)?SerializeFileTool.readFileFast(incrflagFile): 0L;
+			Long lastIncrValue = File2ObjectUtil.existFile(incrflagFile)?File2ObjectUtil.readFileFast(incrflagFile): 0L;
 			LinkedList<Map<String, Object>> oldList = allDataMap.computeIfAbsent(config.getId(), (key)->new LinkedList<>());
 			LogCore.BASE.info("{}, oldList.size={},lastIncrValue={}", config.getId(), oldList.size(), lastIncrValue);
 			if(oldList.isEmpty()){//说明是第一次,从缓存文件中读取,文件中的数据新的在后面
-				if(SerializeFileTool.existFile(listFile)){
-					List<List<Map<String, Object>>> list = SerializeFileTool.readFileFast2List(listFile);
+				if(File2ObjectUtil.existFile(listFile)){
+					List<List<Map<String, Object>>> list = File2ObjectUtil.readFileFast2List(listFile);
 					if(!Util.isEmpty(list)){
 						list.forEach(oldList::addAll);
 						LogCore.BASE.info("list.size={},", list.size());
@@ -125,12 +125,12 @@ public class DataStatsManager extends ManagerBase {
 				if(oldList.size() > limit_threshold){
 					LogCore.BASE.info("jvm free={},oldList.size={}", Sys.getJVMStatus(), oldList.size());
 				    oldList.subList(0, oldList.size() - limit).clear();//subList()是List快照,不要直接使用。
-					SerializeFileTool.writeFileSafe(listFile, oldList);
+					File2ObjectUtil.writeFileSafe(listFile, oldList);
 					LogCore.BASE.info("jvm free={} after sub list, oldList.size={}", Sys.getJVMStatus(), oldList.size());
 				}else{
-					SerializeFileTool.writeFileFastAppendSafe(listFile, newlist);
+					File2ObjectUtil.writeFileFastAppendSafe(listFile, newlist);
 				}
-				SerializeFileTool.writeFileFast(incrflagFile, lastIncrValue);
+				File2ObjectUtil.writeFileFast(incrflagFile, lastIncrValue);
 			}	
 			//debug oldList.forEach(m->LogCore.BASE.debug(m.get("id")+""));
 
@@ -334,14 +334,14 @@ public class DataStatsManager extends ManagerBase {
 
 	@SuppressWarnings("deprecation")
 	public void initConigMap(){
-		if(SerializeFileTool.existFile(CONFIGMAP_FILE_NAME)){
-			configMap = IOTool.readObject(CONFIGMAP_FILE_NAME);
+		if(File2ObjectUtil.existFile(CONFIGMAP_FILE_NAME)){
+			configMap = IOUtil.readObject(CONFIGMAP_FILE_NAME);
 		}
 	}
 	@SuppressWarnings("deprecation")
 	public void saveOrUpdateConfig(DataStatsConfig config) {
 		configMap.put(config.getId(), config);
-		IOTool.writeObject(configMap, CONFIGMAP_FILE_NAME);
+		IOUtil.writeObject(configMap, CONFIGMAP_FILE_NAME);
 	}
 
 	public long querySum(String id, List<FilterItem> filters) {

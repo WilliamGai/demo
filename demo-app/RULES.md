@@ -132,3 +132,20 @@ Objects.toString(req.getAttribute(REDIRECT_URL_TAG), "/secure_user");
 ```
 <p th:text="${#httpServletRequest.requestURI=='/mg/secure/secure_users'}"></p>
 ```
+
+关于请求参数
+@RequestParam 是必传，如果不传会报错。
+@RequestParam Optional<String> confName 可以不传 
+再就是表单的文本栏如果不写的话会传过来字符串 不确定传入的字符串还是用  name这种
+
+```
+@RequestParam Integer threads 必须传参数
+表单必须有这个参数
+表单如果不填传来的参数这样
+{confName=d, threads=, sn=001, confDesc=} 其中threads接收不到的是个null
+```
+```
+@RequestParam Optional<String> confName 如果用thymleaf提交的时候 表单啥不填会传来空字符串
+
+{confName=d, threads=, sn=001, confDesc=}
+```

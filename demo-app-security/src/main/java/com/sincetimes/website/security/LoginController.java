@@ -40,7 +40,7 @@ public class LoginController implements AccessSupport {
 			redirect(rsp, redirect_url.toString());
 			return null;
 		}
-		model.addAttribute("data", ssid + result + HttpHeadUtil.getParamsMap(req));// 调试用
+		model.addAttribute("data", ssid + result + HttpHeadUtil.getParamsMapLimit(req));// 调试用
 		model.addAttribute("password", password);
 		return "login";
 	}

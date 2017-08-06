@@ -4,9 +4,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import com.sincetimes.website.app.security.SecurityManager;
+import com.sincetimes.website.app.security.annoation.NeedLogin;
 import com.sincetimes.website.app.event.EventMsgContext;
 import com.sincetimes.website.app.security.interfaces.SecureAccessSupport;
 import com.sincetimes.website.app.security.vo.UserVO;
@@ -27,7 +29,16 @@ public class BootLoginInterceptor extends WebContentInterceptor implements Secur
 	public static final String REDIRECT_URL_TAG = "redirect_url";
 
 	/* 1*/
-	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object arg2) throws ServletException {
+	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws ServletException {
+		HandlerMethod handlerMethod = (HandlerMethod)handler;
+		Object bean = handlerMethod.getBean();
+//		NeedLogin methodAnnotation = handlerMethod.getMethodAnnotation(NeedLogin.class);
+		NeedLogin  needLogin = bean.getClass().getAnnotation(NeedLogin.class);
+		if(needLogin == null){
+			return true;
+		}
+//		LogCore.BASE.info("who is handler{}", Util.prettyJsonStr(handler));
+//		LogCore.BASE.info("who is bean{}", Util.prettyJsonStr(bean));
 		String uri = req.getRequestURI();
 		UserVO user = getSessioUser(req);
 		if(null == user){

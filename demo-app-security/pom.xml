@@ -19,9 +19,9 @@
 		</dependency>
  		<dependency>
 			<groupId>com.sincetimes.website</groupId>
-			<artifactId>demo-redis</artifactId>
+			<artifactId>demo-core-redis</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency> 
+		</dependency>
 		<!-- spring boot admin监控end-->
 		<dependency>
 			<groupId>de.codecentric</groupId>

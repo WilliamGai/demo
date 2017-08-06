@@ -41,7 +41,7 @@ public class SecurityController implements AccessSupport {
 				return null;
 			}
 		}
-		model.addAttribute("data",req.getSession().getId()+result+HttpHeadUtil.getParamsMap(req));//调试用
+		model.addAttribute("data",req.getSession().getId()+result+HttpHeadUtil.getParamsMapLimit(req));//调试用
 		model.addAttribute("username",username);
 		model.addAttribute("password",password);
 		return "login";
@@ -54,7 +54,7 @@ public class SecurityController implements AccessSupport {
 	@RequestMapping("/sign_up")
 	String sign_up(Model model, HttpServletRequest req, HttpServletResponse rsp){
 		String ssid = req.getSession().getId();
-		model.addAttribute("data",ssid + HttpHeadUtil.getParamsMap(req));//调试用
+		model.addAttribute("data",ssid + HttpHeadUtil.getParamsMapLimit(req));//调试用
 		model.addAttribute("pic","test");
 		model.addAttribute("tips", "upload your profile image");
 		return "sign_up";

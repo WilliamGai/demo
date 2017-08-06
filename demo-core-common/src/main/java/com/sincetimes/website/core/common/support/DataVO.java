@@ -1,9 +1,7 @@
 package com.sincetimes.website.core.common.support;
 
 /** ::new */
-public class DataVO{
-	public String name;
-	public Object value;
+public class DataVO  extends DataSimpleVO{
 	public Object value2;
 	public Object value3;
 	public Object value4;
@@ -13,6 +11,7 @@ public class DataVO{
 	public Object value8;
 	/*排序用,不参与序列化*/
 	transient public int weight;
+	public DataVO(){}
 	public DataVO(String name, Object value) {
 		this.name = name;
 		this.value = value;

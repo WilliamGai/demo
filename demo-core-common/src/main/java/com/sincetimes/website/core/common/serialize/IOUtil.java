@@ -1,4 +1,4 @@
-package com.sincetimes.website.core.common.support;
+package com.sincetimes.website.core.common.serialize;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +15,9 @@ import java.nio.file.OpenOption;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-public class IOTool {
+import com.sincetimes.website.core.common.support.LogCore;
+
+public class IOUtil {
 	/** 低效率8Xmysql */
 	@Deprecated
 	public static void writeObject(Object obj, String fileName) {

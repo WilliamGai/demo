@@ -78,7 +78,7 @@ public class MGControllerExcample implements AccessSupport {
 	@ResponseBody
 	Object delete_bi(String k) {
 		LogCore.BASE.info("del, k={}", k);
-		if (Util.nonEmpty(k)) {
+		if (Util.notEmpty(k)) {
 			DataManager.inst().delBiValue(k);
 		}
 		return new Result().success();

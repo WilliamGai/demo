@@ -8,6 +8,9 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.sincetimes.website.core.common.support.DataSimpleVO;
+import com.sincetimes.website.core.common.support.DataVO;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
@@ -27,20 +30,31 @@ public class LunboVOTest {
 		String s = JSON.toJSONString(group);
 		LunboGroupVO lunbos2 = JSON.parseObject(s, LunboGroupVO.class);
 		
-
-		LogCore.BASE.info("{}", Util.prettyJsonStr(lunbos2));
-		LogCore.BASE.info("{}", Util.prettyJsonStr(lunbos2.lunbos.get(0)));
+		/*
+		 *序列化一个类，因为类型和属性的类型确定，所以可以任意转换 
+		 */
+		LogCore.BASE.info("lunboString={}", s);
+		LogCore.BASE.info("lunbos2={}", Util.prettyJsonStr(lunbos2));
+		LogCore.BASE.info("lunbos2[1]={}", Util.prettyJsonStr(lunbos2.lunbos.get(0)));
 		
 		Map<Integer,Object> map = new HashMap<>();
+		DataSimpleVO v1 = new DataVO("a", "b");
+		DataSimpleVO v2 = new DataVO("vo", v1);
 		map.put(0, "ABC");
+//		map.put(2, v2);
 		map.put(1, lunbos2);
-		String ss = JSON.toJSONString(map);
+//		v1.value=map;
+		String ss = JSON.toJSONString(v2,SerializerFeature.WriteClassName);
 		
-		@SuppressWarnings("unchecked")
-		Map<Integer,Object> map2=JSON.parseObject(ss, Map.class);
+		/*
+		 *序列化一个不明确的类型，需要用PrettyJSON才可以
+		 */
+//		@SuppressWarnings("unchecked")
+//		Map<Integer,Object> map2=JSON.parseObject(ss, Map.class);
+		v2= JSON.parseObject(ss, DataSimpleVO.class);
 		System.err.println(ss);
-		System.err.println(map2);
-		System.err.println(map2.get(0));
+		System.err.println(v2);
+		System.err.println(v2.value.getClass().getSimpleName());//JSONObject
 		
 		
 		List<String> lunbos = new ArrayList<>();

@@ -51,7 +51,10 @@ public class CodeMGController implements AccessSupport{
 		}
 		String user_name = getSessionAttrFncOrElse(req, "user", UserVO::getName, null);
 		model.addAttribute("user_name", user_name);
-		//微信部分
+		/***
+		 * 微信部分  
+		 * TODO： 不可以使用FileManager的操作redis部分,未来会改掉 2017年07月19日
+		 */
 		if(sn.isPresent()){
 			String titlekey = sn.get()+"titl_url";
 			String imgkey = sn.get()+"img_url";

@@ -5,7 +5,7 @@
 			<pattern>%d %p (%file:%line\)- %m%n</pattern>
 		</encoder>
 	</appender>
-	<root level="debug">
+	<root level="info">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>

@@ -47,7 +47,8 @@ mvn spring-boot:run -D spring.profiles.active=jztpy -D ip=119.29.52.126 -D serve
         Header set Access-Control-Allow-Origin *
         ProxyRequests Off
         ProxyPreserveHost On
-        ProxyPassMatch  /mg/  http://127.0.0.1:8123/
+        ProxyPassMatch  /mg/  http://127.0.0.1:8123  
+        # 线上多个项目验证写为  ProxyPassMatch  /mg/  http://127.0.0.1:8123/ 的时候 mg代理后的URI为//mg/article/articles 多了个反斜杠
         ProxyPassMatch /*.jpg !
         ProxyPassMatch /*.mp4 !
         ProxyPassMatch /*.css !

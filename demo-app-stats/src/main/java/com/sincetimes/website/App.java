@@ -52,7 +52,7 @@ public class App extends SpringBootServletInitializer implements CommandLineRunn
 	@RequestMapping("/welcome")
 	@ResponseBody
 	String method(HttpServletRequest req, HttpServletResponse resp) {
-		LogCore.BASE.info("{}", HttpHeadUtil.getParamsMap(req));
+		LogCore.BASE.info("{}", HttpHeadUtil.getParamsMapLimit(req));
 		return app_name + "welcome springboot test" + System.getProperty("user.dir");
 	}
 

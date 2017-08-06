@@ -7,14 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.core.common.support.JSONBuilder;
+import com.sincetimes.website.core.spring.AppStarter;
 @Controller
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={"com.sincetimes.website"})
+@EnableAsync
 public class App {
 	@RequestMapping("/")
 	@ResponseBody
@@ -28,7 +31,7 @@ public class App {
 	String main() {
 		return "main";
 	}
-	@RequestMapping("/test")
+	@RequestMapping("/testattr")
 	String test(Model model) {
 		TestObject o = new TestObject();
 		o.name = "heihie";
@@ -41,7 +44,7 @@ public class App {
 		model.addAttribute("mp", map);
 		return "test";
 	}
-	@RequestMapping("/tst")
+	@RequestMapping("/tstmap")
 	@ResponseBody
 	Object tst() {
 		TestObject o = new TestObject();
@@ -54,6 +57,6 @@ public class App {
 		return map;
 	}
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(App.class, args);
+		AppStarter.initManagers(SpringApplication.run(App.class, args));
 	}
 }

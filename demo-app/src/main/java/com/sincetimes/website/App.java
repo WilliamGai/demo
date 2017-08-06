@@ -62,7 +62,8 @@ public class App extends SpringBootServletInitializer{
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
 		AppStarter.initManagers(context);
-		LogCore.BASE.info(START_TAG + "app started!,dir={},os={},args={}", Sys.getAppDir(), Sys.getOs(), Arrays.toString(args));
+		LogCore.BASE.info(START_TAG + "app started!,dir={},os={},args={}", Sys.getAppDir(), Sys.getOs(),
+				Arrays.toString(args));
 		LogCore.BASE.info(START_TAG + "profiles={}", Arrays.toString(context.getEnvironment().getActiveProfiles()));
 		LogCore.BASE.info(START_TAG + "app_name={}", SpringManager.inst().getSysProperty("app_name"));// application.properties
 		LogCore.BASE.info(START_TAG + "server.port={}", SpringManager.inst().getSysProperty("server.port"));// application.properties
