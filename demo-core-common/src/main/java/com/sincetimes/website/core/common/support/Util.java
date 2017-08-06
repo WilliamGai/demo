@@ -140,6 +140,7 @@ public class Util {
 	    consumer.accept(t);
 	}
     }
+
     public static boolean isEmpty(Object obj) {
 	if (obj == null)
 	    return true;
@@ -180,7 +181,7 @@ public class Util {
 	return null == os || 0 == os.length;
     }
 
-    public static boolean isEmpty(String str) {
+    public static <E extends CharSequence> boolean isEmpty(E str) {
 	return null == str || 0 == str.length();
     }
 
@@ -188,12 +189,13 @@ public class Util {
 	return !isEmpty(str);
     }
 
-    public static boolean isEmpty(Map<?, ?> map) {
-	return null == map || 0 == map.size();
+    public static <T extends Map<?, ?>> boolean isEmpty(T t) {
+	return null == t || 0 == t.size();
     }
 
-    public static boolean isEmpty(Collection<?> collection) {
-	return null == collection || 0 == collection.size();
+    /* public static boolean isEmpty(Collection<?> t)跟这个是一样的 */
+    public static <T extends Collection<?>> boolean isEmpty(T t) {
+	return null == t || 0 == t.size();
     }
 
     public <E> int getSize(Collection<E> collection) {
@@ -443,27 +445,25 @@ public class Util {
 	Map<String, Object> map = new HashMap<>();
 	map.put("a", 1);
 	Object obj = map;
-	
-	Util.isEmpty(obj);	
-//	JSONUtil.serialize(serializable)
-	byte [] data = new byte[]{};
-	System.out.println(data.getClass()==byte[].class);
+
+	Util.isEmpty(obj);
+	// JSONUtil.serialize(serializable)
+	byte[] data = new byte[] {};
+	System.out.println(data.getClass() == byte[].class);
 	System.out.println(data.getClass().isArray());
-	System.out.println(data.getClass().getComponentType()==byte.class);
+	System.out.println(data.getClass().getComponentType() == byte.class);
 	System.out.println(map.getClass().isAssignableFrom(Map.class));
 	System.out.println(Map.class.isAssignableFrom(HashMap.class));
 	System.out.println(null instanceof String);
 	System.out.println(String.class.isInstance("a"));
-	
-//	System.out.println(Util.isEmpty(data));
 
-	
-//	Integer[] idata= new Integer[]{1,2,3};
-//	Object o =  data;
-//	System.out.println(arr.length);
+	// System.out.println(Util.isEmpty(data));
+
+	// Integer[] idata= new Integer[]{1,2,3};
+	// Object o = data;
+	// System.out.println(arr.length);
 	Util.isEmpty(data);
-	
-	
+
     }
 
 }
