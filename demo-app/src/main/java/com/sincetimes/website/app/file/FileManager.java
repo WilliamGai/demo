@@ -19,7 +19,7 @@ import com.sincetimes.website.app.file.function.FileConsumer;
 import com.sincetimes.website.app.file.interfaces.InputFileSupport;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.interfaces.FilePathSupport;
 import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
@@ -48,7 +48,7 @@ public class FileManager extends JedisManagerBase implements InputFileSupport, F
 	 */
 	public String uploadFileSimple(StandardMultipartHttpServletRequest req, String defalut_dir) {
 		String dirName = Objects.toString(req.getParameter("dir"), defalut_dir);
-		String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
+		String ymdPath = TimeUtil.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 		String dirPath = "upload/";
 		String filePath = dirPath + dirName+ "/"+ ymdPath;
 		return uploadFileSimple(req, filePath, this::randomFileName);

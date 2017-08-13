@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.RandomAccess;
 
 /** 抽奖工具类 */
-public class DrawTool {
+public class DrawUtil {
 	public static final SecureRandom RAND = new SecureRandom();
 
 	/** simple */
@@ -119,53 +119,57 @@ public class DrawTool {
 		return list.get(RAND.nextInt(list.size()));
 	}
 
-	/*一下 参考API.Collections.shuffle */
-	public static <T> List<T> any(List<T> list, int num){
-    	List<T> rst = new ArrayList<>(num);
-    	while(num-->0){
-    		rst.add(any(list));
-    	}
-    	return rst;
-    }
-	public static <T> List<T> any(T[] arr, int num){
+	/* 一下 参考API.Collections.shuffle */
+	public static <T> List<T> any(List<T> list, int num) {
 		List<T> rst = new ArrayList<>(num);
-    	while(num-->0){
-    		rst.add(any(arr));
-    	}
-    	return rst;
+		while (num-- > 0) {
+			rst.add(any(list));
+		}
+		return rst;
 	}
-	/**会改变传进来的列表*/
-	public static <T> List<T> anyUnique(List<T> list, int num){
-    	List<T> rst = new ArrayList<>(num);
-    	int size = list.size();
-    	int count = 0;
-        if (list instanceof RandomAccess) {
-            for (int i=size; i>1 && count<num; i--,count++)//随机出一个跟最后一个交换，然后随机一个跟倒数第二个交换
-            {
-            	T t = swap(list, RAND.nextInt(i), i-1);
-            	rst.add(t);
-            }
-        } else {
-            Object arr[] = list.toArray();
-            for (int i=size; i>1&& count<num; i--,count++){
-            	T t = swap(arr, RAND.nextInt(i), i-1);
-            	rst.add(t);
-            }
-            
-        }
-        return rst;
-    }
-	/**会改变传进来的数组*/
-	public static <T> List<T> anyUnique(Object[] arr, int num){
-    	List<T> rst = new ArrayList<>(num);
-    	int size = arr.length;
-    	int count = 0;
-    	for (int i=size; i>1&& count<num; i--,count++){
-        	T t = swap(arr, RAND.nextInt(i), i-1);
-        	rst.add(t);
-        }
-    	return rst;
+
+	public static <T> List<T> any(T[] arr, int num) {
+		List<T> rst = new ArrayList<>(num);
+		while (num-- > 0) {
+			rst.add(any(arr));
+		}
+		return rst;
 	}
+
+	/** 会改变传进来的列表 */
+	public static <T> List<T> anyUnique(List<T> list, int num) {
+		List<T> rst = new ArrayList<>(num);
+		int size = list.size();
+		int count = 0;
+		if (list instanceof RandomAccess) {
+			for (int i = size; i > 1 && count < num; i--, count++)// 随机出一个跟最后一个交换，然后随机一个跟倒数第二个交换
+			{
+				T t = swap(list, RAND.nextInt(i), i - 1);
+				rst.add(t);
+			}
+		} else {
+			Object arr[] = list.toArray();
+			for (int i = size; i > 1 && count < num; i--, count++) {
+				T t = swap(arr, RAND.nextInt(i), i - 1);
+				rst.add(t);
+			}
+
+		}
+		return rst;
+	}
+
+	/** 会改变传进来的数组 */
+	public static <T> List<T> anyUnique(Object[] arr, int num) {
+		List<T> rst = new ArrayList<>(num);
+		int size = arr.length;
+		int count = 0;
+		for (int i = size; i > 1 && count < num; i--, count++) {
+			T t = swap(arr, RAND.nextInt(i), i - 1);
+			rst.add(t);
+		}
+		return rst;
+	}
+
 	/** @return 返回原来的i位置的值 */
 	public static <T> T swap(List<T> list, int i, int j) {
 		final List<T> l = list;

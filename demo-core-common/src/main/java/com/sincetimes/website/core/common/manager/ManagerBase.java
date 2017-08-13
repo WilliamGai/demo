@@ -1,11 +1,12 @@
 package com.sincetimes.website.core.common.manager;
 
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.sincetimes.website.core.common.manager.annotation.ManangerInject;
-import com.sincetimes.website.core.common.support.ClassTool;
+import com.sincetimes.website.core.common.support.ClassUtil;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
 
@@ -30,8 +31,13 @@ public abstract class ManagerBase{
 
 	public static void putInst(Class<?> clazz, Object inst) {
 		LogCore.BASE.debug("ManagerBase.putInstances:({},{})", clazz, inst);
-		if (!ClassTool.isInstanceof(clazz, ManagerBase.class) || Modifier.isAbstract(clazz.getModifiers())) {// 再次检查
+		if (!ClassUtil.isInstanceof(clazz, ManagerBase.class) || Modifier.isAbstract(clazz.getModifiers())) {// 再次检查
 			throw new RuntimeException(Util.format("Manager put inst err,class={}", clazz));
+		}
+		if(clazz.getName().contains("CGLIB$$")){//被Spring的AOP代理 TODO:manager全部代理
+			LogCore.BASE.error("遇到CGLIB动态代理!{},superClass is{}", Arrays.toString(clazz.getName().split("\\u0024\\u0024")),clazz.getSuperclass());
+//			instances.put(clazz.getName().split("\\u0024\\u0024")[0], (ManagerBase) inst);
+			instances.put(clazz.getSuperclass().getName().split("\\u0024\\u0024")[0], (ManagerBase) inst);
 		}
 		instances.put(clazz.getName(), (ManagerBase) inst);
 	}

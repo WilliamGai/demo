@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ClassTool {
+public class ClassUtil {
 	/**
 	 * 参数1是否为参数2的子类或接口实现
 	 */
@@ -68,15 +68,20 @@ public class ClassTool {
 	}
 	/**推荐,获取某个类或者接口的所有方法列表,default的标识符保留public*/
 	public static String getGenericMethodSimpleString(Class<?> clazz) {
+		List<String> list = getGenericMethodSimpleList(clazz);
+		return list.stream().collect(Collectors.joining("\n")).replaceAll("([a-zA-Z]+\\.)", "");
+	}
+
+	public static List<String> getGenericMethodSimpleList(Class<?> clazz) {
 		List<String> list = new ArrayList<>(clazz.getMethods().length);
-		Arrays.stream(clazz.getMethods()).forEach((m)->{
+		Arrays.stream(clazz.getDeclaredMethods()).forEach((m)->{
 			list.add(m.toGenericString());
 		});
 		list.sort(Comparator.comparing(Function.identity()));
-		return list.stream().collect(Collectors.joining("\n")).replaceAll("([a-zA-Z]+\\.)", "");
+		return list;
 	}
 	
-	/** 输出所有的方法, 抹掉泛型, {@link Method#isDefault()}可以看到default的真正含义*/
+	/** 输出所有的public方法, 抹掉泛型, {@link Method#isDefault()}可以看到default的真正含义*/
 	public static String getMethodSimpleString(Class<?> clazz) {
 		StringBuilder sb = new StringBuilder();
 		Arrays.stream(clazz.getMethods()).forEach((m)->{

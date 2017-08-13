@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sincetimes.website.app.event.EventMsgContext;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 
@@ -29,7 +29,7 @@ public class BootLoginInterceptor implements HandlerInterceptor {
 	/* 1*/
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object arg2) throws ServletException, IOException {
 			String uri = req.getRequestURI();
-			String timeStr = TimeTool.formatTime(System.currentTimeMillis(), "HH:mm:ss");
+			String timeStr = TimeUtil.formatTime(System.currentTimeMillis(), "HH:mm:ss");
 			Object _user = req.getSession().getAttribute("user");
 			if(_user instanceof UserVO){
 				UserVO user = (UserVO) _user;

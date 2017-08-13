@@ -3,7 +3,7 @@ package com.sincetimes.website.app.code;
 import java.io.Serializable;
 
 import com.alibaba.fastjson.JSON;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
@@ -48,9 +48,9 @@ public class CodeInfoVO extends ToStringAbstract implements Serializable {
 	public CodeInfoVO init(){
 		left_codes_num = CodeManager.inst().getLeftCodesNum(sn);
 		rmv_codes_num = CodeManager.inst().getRemovedCodesNum(sn);
-		open_time_str = TimeTool.formatTime(open_time, "yyyy-MM-dd-HH:mm:ss");
-		close_time_str = TimeTool.formatTime(close_time, "yyyy-MM-dd-HH:mm:ss");
-		create_time_str = TimeTool.formatTime(create_time, "yyyy-MM-dd-HH:mm:ss");
+		open_time_str = TimeUtil.formatTime(open_time, "yyyy-MM-dd-HH:mm:ss");
+		close_time_str = TimeUtil.formatTime(close_time, "yyyy-MM-dd-HH:mm:ss");
+		create_time_str = TimeUtil.formatTime(create_time, "yyyy-MM-dd-HH:mm:ss");
 		return this;
 	}
 	

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 
-import com.sincetimes.website.core.common.support.ClassTool;
+import com.sincetimes.website.core.common.support.ClassUtil;
 import com.sincetimes.website.core.common.support.HttpUtil;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
@@ -59,7 +59,7 @@ public interface AccessSupport extends CommandLineRunner, FilePathSupport {
 	@SuppressWarnings("unchecked")
 	default <T> T getSessionAttr(HttpServletRequest req, String param, Class<T> clazz){
 		Object obj = req.getSession().getAttribute(param);
-		if(null == obj || !ClassTool.isInstanceof(obj.getClass(), clazz)){
+		if(null == obj || !ClassUtil.isInstanceof(obj.getClass(), clazz)){
 			return null;
 		}
 		return (T)obj;

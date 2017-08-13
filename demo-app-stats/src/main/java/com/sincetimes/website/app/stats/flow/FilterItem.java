@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.google.common.base.Objects;
 import com.sincetimes.website.core.common.support.CloneableSupport;
 import com.sincetimes.website.core.common.support.KeySupport;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 
 public class FilterItem implements KeySupport<String>,CloneableSupport<FilterItem>, Serializable{
@@ -66,7 +66,7 @@ public class FilterItem implements KeySupport<String>,CloneableSupport<FilterIte
 			return Objects.equal(rowValue, inputValue);
 		case TIME_BEFORE:
 			try {							    
-				time = TimeTool.parseAndGetTime(inputValue, "yyyy-MM-dd");
+				time = TimeUtil.parseAndGetTime(inputValue, "yyyy-MM-dd");
 				rowTime = Long.parseLong(rowValue);
 				return rowTime <= time;
 			} catch (ParseException e) {
@@ -74,7 +74,7 @@ public class FilterItem implements KeySupport<String>,CloneableSupport<FilterIte
 			}
 		case TIME_AFTER:
 			try {
-				time = TimeTool.parseAndGetTime(inputValue, "yyyy-MM-dd");//mm/dd/yyyy 不是java的日期格式
+				time = TimeUtil.parseAndGetTime(inputValue, "yyyy-MM-dd");//mm/dd/yyyy 不是java的日期格式
 				rowTime = Long.parseLong(rowValue);
 				return rowTime >= time;
 			} catch (ParseException e) {

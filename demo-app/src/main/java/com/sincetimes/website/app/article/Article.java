@@ -1,6 +1,6 @@
 package com.sincetimes.website.app.article;
 
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
 public class Article extends ToStringAbstract{
@@ -99,7 +99,7 @@ public class Article extends ToStringAbstract{
 
 	public void setCreate_time(long create_time) {
 		if(0 != create_time){
-			this.setCreate_time_str(TimeTool.formatTime(create_time, "yyyy-MM-dd-HH:mm"));
+			this.setCreate_time_str(TimeUtil.formatTime(create_time, "yyyy-MM-dd-HH:mm"));
 		}
 		this.create_time = create_time;
 	}
@@ -142,7 +142,7 @@ public class Article extends ToStringAbstract{
 
 	public void setUpdate_time(long update_time) {
 		if(0 != update_time){
-			this.update_time_str = TimeTool.formatTime(update_time, "yyyy-MM-dd-HH:mm");
+			this.update_time_str = TimeUtil.formatTime(update_time, "yyyy-MM-dd-HH:mm");
 		}
 		this.update_time = update_time;
 	}

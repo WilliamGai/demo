@@ -14,7 +14,7 @@ import com.sincetimes.website.app.redis.RedisService;
 import com.sincetimes.website.core.common.cache.MyCache;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 
 import redis.clients.jedis.Jedis;
@@ -112,7 +112,7 @@ public class GzhManager extends ManagerBase {
 		redisService.hset(key, FIELD_NICKNAME, nickname_pic[0]);
 		redisService.hset(key, FIELD_HEADPIC, nickname_pic[1]);
 		redisService.hsetNX(key, FIELD_CREATE_TIME,
-				TimeTool.formatTime(System.currentTimeMillis(), "yyyy-MM-dd-HH:mm:ss"));
+				TimeUtil.formatTime(System.currentTimeMillis(), "yyyy-MM-dd-HH:mm:ss"));
 	}
 
 	/**

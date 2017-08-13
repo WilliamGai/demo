@@ -28,7 +28,7 @@ import com.sincetimes.website.app.wx_gzh.GzhManager;
 import com.sincetimes.website.core.common.support.DataVO;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.interfaces.AccessSupport;
@@ -137,7 +137,7 @@ public class LuckyDrawMGController implements AccessSupport{
 			@RequestParam Optional<Integer> global_sn, 
 			StandardMultipartHttpServletRequest req, HttpServletResponse resp){
 		String dirName = Objects.toString(req.getParameter("dir"), "image");
-		String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
+		String ymdPath = TimeUtil.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 		String dirPath = "upload/";
 		String rootPath = getRootFilePath(req);
 		String filePath = dirPath + dirName+ "/"+ ymdPath;
@@ -185,7 +185,7 @@ public class LuckyDrawMGController implements AccessSupport{
 			StandardMultipartHttpServletRequest req, HttpServletResponse resp){
 		LogCore.BASE.info("edit_lucky_draw_item weight={},req={}", weight, HttpHeadUtil.getParamsMapLimit(req));
 		String dirName = Objects.toString(req.getParameter("dir"), "image");
-		String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
+		String ymdPath = TimeUtil.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 		String dirPath = "upload/";
 		String rootPath = getRootFilePath(req);
 		String filePath = dirPath + dirName+ "/"+ ymdPath;

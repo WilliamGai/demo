@@ -20,11 +20,11 @@ public class TopUpTest {
 		String rst = HttpUtil.post(url, map);
 		System.out.println(rst);
 	}
-	//@org.junit.Test
+//	@org.junit.Test
 	public void Test2(){
 		String url = "http://jztpy.sincetimes.com/cty_topup";
 		//stats_config
-		String mobile = "18561308856";//18210153252  18301082100 13811279857 15122987310 18561308856
+		String mobile = "13522889046";//18210153252  18301082100 13811279857 15122987310 18561308856
 		String openid="test";
 		String sign = new StringBuilder(MD5.md5(mobile.concat(openid))).reverse().toString();
 		Map<String, String> map = new HashMap<>();

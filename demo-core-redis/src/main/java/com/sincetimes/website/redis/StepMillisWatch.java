@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.threadpool.ThreadTool;
 
 public class StepMillisWatch {
@@ -25,7 +25,7 @@ public class StepMillisWatch {
 	}
 	public long interval() {
 		long interval = System.currentTimeMillis() - timeCount.getAndSet(System.currentTimeMillis());
-		history.put(TimeTool.getLocalTimeFull() + "(" + count.getAndIncrement() + ")", interval);
+		history.put(TimeUtil.getLocalTimeFull() + "(" + count.getAndIncrement() + ")", interval);
 		return interval;
 	}
 

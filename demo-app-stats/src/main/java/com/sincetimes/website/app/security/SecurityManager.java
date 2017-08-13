@@ -18,7 +18,7 @@ import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.ParamResult;
 import com.sincetimes.website.core.common.support.SHA256;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 
 @Component
@@ -189,9 +189,9 @@ public class SecurityManager extends ManagerBase {
 	}
 	
 	public UserVO initUser(UserVO user){
-		user.setCreateTimeStr(TimeTool.SDF.get().format(new Date(user.getCreateTime())));
-		user.setUpdateTimeStr(TimeTool.SDF.get().format(new Date(user.getUpdateTime())));
-		user.setLastLoginTimeStr(TimeTool.SDF.get().format(new Date(user.getLastLoginTime())));
+		user.setCreateTimeStr(TimeUtil.SDF.get().format(new Date(user.getCreateTime())));
+		user.setUpdateTimeStr(TimeUtil.SDF.get().format(new Date(user.getUpdateTime())));
+		user.setLastLoginTimeStr(TimeUtil.SDF.get().format(new Date(user.getLastLoginTime())));
 		
 		List<String> names = RoleReference.inst().getNamesByIds(user.getRoleIds().toArray(new String[]{}));
 		user.setRoleNames(names);

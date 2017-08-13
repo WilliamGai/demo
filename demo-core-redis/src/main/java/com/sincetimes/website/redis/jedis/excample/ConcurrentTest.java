@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.threadpool.ThreadTool;
 
 import redis.clients.jedis.Jedis;
@@ -27,7 +27,7 @@ public class ConcurrentTest {
 //		ss.poll(timeout, unit)
 //		ss.poll(timeout, unit)
 		AtomicInteger n =new AtomicInteger(10);
-		String timeStr = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd_HH_mm_ss_SSS");
+		String timeStr = TimeUtil.formatTime(System.currentTimeMillis(), "yyyy_MM_dd_HH_mm_ss_SSS");
 		ThreadTool.sleep(100);
 		while(n.decrementAndGet()>0){
 			new Thread(()->{

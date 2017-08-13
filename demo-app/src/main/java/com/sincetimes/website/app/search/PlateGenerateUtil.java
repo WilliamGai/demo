@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.sincetimes.website.core.common.support.DrawTool;
+import com.sincetimes.website.core.common.support.DrawUtil;
 import com.sincetimes.website.core.common.support.FileTool;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
@@ -14,7 +14,7 @@ import com.sincetimes.website.core.common.support.Util;
  * 随机生成车牌号
  * @author bao 
  */
-public class SearchTest {
+public class PlateGenerateUtil {
 	public static final String[][] ZONES = { { "北京市", "京", "北京" }, { "上海市", "沪", "上海" }, { "天津市", "津", "天津" },
 			{ "重庆市", "渝", "重庆" }, { "黑龙江省", "黑", "哈尔滨" }, { "吉林省", "吉", "长春" }, { "辽宁省", "辽", "沈阳" },
 			{ "内蒙古", "内蒙古", "呼和浩特" }, { "河北省", "冀", "石家庄" }, { "新疆", "新", "乌鲁木齐" }, { "甘肃省", "甘", "兰州" },
@@ -32,15 +32,19 @@ public class SearchTest {
 	public static void main(String args[]) throws Exception {
 		List<String> lines = FileTool.readLines("a.txt");
 		LogCore.BASE.info("{},{}", lines, lines.size());
-		DrawTool.any(ZONES);
+		DrawUtil.any(ZONES);
 		lines.forEach(s -> {
 			String[] ss = s.split(" ");
 //			System.out.println("{\"" + ss[0] + "\",\"" + ss[1] + "\",\"" + ss[2] + "\"},");
-			String rst = DrawTool.any(ZONES)[1]+DrawTool.any(UPPER_CASE_CHARS)+DrawTool.any(DIGITS,5).stream().map(Object::toString).collect(Collectors.joining());
+			String rst = geneateOnePlate();
 			System.out.println(rst);
 
 		});
 		System.out.println("tst");
 		Util util;
+	}
+
+	private static String geneateOnePlate() {
+		return DrawUtil.any(ZONES)[1]+DrawUtil.any(UPPER_CASE_CHARS)+DrawUtil.any(DIGITS,5).stream().map(Object::toString).collect(Collectors.joining());
 	}
 }

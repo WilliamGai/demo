@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.sincetimes.website.core.common.support.ClassTool;
+import com.sincetimes.website.core.common.support.ClassUtil;
 import com.sincetimes.website.core.common.support.Util;
 /**
  * VOBase不可以出现 getXXX()方法
@@ -57,6 +57,6 @@ public abstract class VOBase extends ToStringAbstract{
 	 */
 	public Map<String, Object> generalFieldMap(){
 		Predicate<Field> special = field->((Modifier.STATIC|Modifier.TRANSIENT|Modifier.FINAL)&field.getModifiers()) != 0;
- 		return ClassTool.getFields(this, special.negate());
+ 		return ClassUtil.getFields(this, special.negate());
 	}
 }

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 /***
  * 配置用
  */
@@ -50,9 +50,9 @@ public class ColumnItem implements Serializable{
 		}
 		switch (columnType) {
 		case TIME_MILLI_SECODS:
-			return TimeTool.getTimeString(value, ()->Long.parseLong(value));
+			return TimeUtil.getTimeString(value, ()->Long.parseLong(value));
 		case TIME_SECONDS:
-			return TimeTool.getTimeString(value, ()->Long.parseLong(value)*1000);
+			return TimeUtil.getTimeString(value, ()->Long.parseLong(value)*1000);
 		default:
 			return value;
 		}

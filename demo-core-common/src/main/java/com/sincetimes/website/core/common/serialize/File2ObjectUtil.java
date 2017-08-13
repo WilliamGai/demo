@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 import org.junit.Test;
 
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 /**
  * 推荐的方法
@@ -218,6 +218,6 @@ public class File2ObjectUtil {
 		System.out.println(data.length);
 	}
 	public static String getRandomTempFileName(String fileName){
-		return fileName + TimeTool.formatTime(System.currentTimeMillis(), "yyyy-MM-dd-HH_mm_ss") + new SecureRandom().nextInt(1000);
+		return fileName + TimeUtil.formatTime(System.currentTimeMillis(), "yyyy-MM-dd-HH_mm_ss") + new SecureRandom().nextInt(1000);
 	}
 }

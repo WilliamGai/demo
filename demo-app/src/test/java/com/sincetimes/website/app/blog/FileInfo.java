@@ -3,7 +3,7 @@ package com.sincetimes.website.app.blog;
 import java.io.File;
 import java.io.Serializable;
 
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.vo.VOBase;
 
 public class FileInfo extends VOBase implements Serializable{
@@ -25,7 +25,7 @@ public class FileInfo extends VOBase implements Serializable{
 		type = f.getName().substring(f.getName().lastIndexOf(".") + 1).toLowerCase();
 		size = f.length();
 		lastModifiedTime = f.lastModified();
-		lastModifiedTimeStr = TimeTool.getLocalTime();
+		lastModifiedTimeStr = TimeUtil.getLocalTime();
 		uri = f.getPath();
 	}
 

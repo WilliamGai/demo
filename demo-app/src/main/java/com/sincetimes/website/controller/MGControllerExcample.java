@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sincetimes.website.app.security.SecurityManager;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.app.stats.StatsManager;
-import com.sincetimes.website.core.common.support.ClassTool;
+import com.sincetimes.website.core.common.support.ClassUtil;
 import com.sincetimes.website.core.common.support.DataVO;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
@@ -37,7 +37,7 @@ public class MGControllerExcample implements AccessSupport {
 	 */
 	@RequestMapping("/mg")
 	String gm(Model model, HttpServletRequest req) {
-		Map<String, Object> map = ClassTool.getFields(DataManager.inst(), x -> x.getName().startsWith("VALUE"));
+		Map<String, Object> map = ClassUtil.getFields(DataManager.inst(), x -> x.getName().startsWith("VALUE"));
 		List<DataVO> list = new ArrayList<>();
 		map.values().forEach(x -> list.add(new DataVO(x + "", DataManager.inst().get(x + ""))));
 		list.sort((x,y) -> x.name.compareTo(y.name));

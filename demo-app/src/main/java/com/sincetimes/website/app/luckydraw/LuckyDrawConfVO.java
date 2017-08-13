@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Objects;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.common.vo.ToStringAbstract;
 
@@ -52,9 +52,9 @@ public class LuckyDrawConfVO extends ToStringAbstract implements Serializable {
 	}
 	
 	public LuckyDrawConfVO init(){
-		open_time_str = TimeTool.formatTime(open_time, "yyyy-MM-dd-HH:mm:ss");
-		close_time_str = TimeTool.formatTime(close_time, "yyyy-MM-dd-HH:mm:ss");
-		create_time_str = TimeTool.formatTime(create_time, "yyyy-MM-dd-HH:mm:ss");
+		open_time_str = TimeUtil.formatTime(open_time, "yyyy-MM-dd-HH:mm:ss");
+		close_time_str = TimeUtil.formatTime(close_time, "yyyy-MM-dd-HH:mm:ss");
+		create_time_str = TimeUtil.formatTime(create_time, "yyyy-MM-dd-HH:mm:ss");
 		shelfs.forEach(LuckyDrawItemVO::init);
 		return this;
 	}

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Sys;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 
 @Controller
 public class DemoController {
@@ -51,7 +51,7 @@ public class DemoController {
 		while(true){
 			try {
 				Thread.sleep(500);
-				String msg  = Sys.getJVMStatus()+TimeTool.getLocalTime();
+				String msg  = Sys.getJVMStatus()+TimeUtil.getLocalTime();
 				String s= "data:" + msg + "\n\n";
 				resp.getOutputStream().write(s.getBytes());
 				if(LogCore.BASE.isDebugEnabled()){

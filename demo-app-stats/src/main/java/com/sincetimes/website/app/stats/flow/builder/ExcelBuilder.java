@@ -13,7 +13,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 
 /**
@@ -72,7 +72,7 @@ public class ExcelBuilder extends Builder<HSSFWorkbook> {
 		 }
 		 row = sheet.createRow(rowIndex.getAndIncrement());
 		 cell = row.createCell(0);  
-	     cell.setCellValue("create time:" + TimeTool.getLocalTime()); 
+	     cell.setCellValue("create time:" + TimeUtil.getLocalTime()); 
 	     //支持空行
 	     wordsList.forEach(ss->{
 	    	 HSSFRow rowNew = sheet.createRow(rowIndex.getAndIncrement());

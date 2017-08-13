@@ -14,7 +14,7 @@ import java.util.function.Function;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 /**
  * 用于‘继承’的接口, 在不修改原来类本身和父类的情况下增加方法,实现多重继承
@@ -114,7 +114,7 @@ public interface InputFileSupport{
 	 */
 	default String randomFileName(String fileName) {
 		String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();//检查后缀名
-		String newFileName = TimeTool.formatTime(System.currentTimeMillis(), "HH_mm_ss_") + new Random().nextInt(1000);
+		String newFileName = TimeUtil.formatTime(System.currentTimeMillis(), "HH_mm_ss_") + new Random().nextInt(1000);
 		return newFileName+"."+fileExt;
 	}
 }

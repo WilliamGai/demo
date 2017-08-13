@@ -22,7 +22,7 @@ import com.sincetimes.website.app.file.FileManager;
 import com.sincetimes.website.app.file.function.FileConsumer;
 import com.sincetimes.website.core.common.support.DataVO;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.interfaces.AccessSupport;
@@ -90,7 +90,7 @@ public class ShopMGController implements AccessSupport{
 	@RequestMapping("/add_goods")
 	void add_goods(@RequestParam String shop_sn, @RequestParam String goods_name, @RequestParam String goods_desc, @RequestParam Optional<Integer> point_need, StandardMultipartHttpServletRequest req, HttpServletResponse resp){
 		String dirName = Objects.toString(req.getParameter("dir"), "image");
-		String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
+		String ymdPath = TimeUtil.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 		String dirPath = "upload/";
 		String rootPath = getRootFilePath(req);
 		String filePath = dirPath + dirName+ "/"+ ymdPath;
@@ -129,7 +129,7 @@ public class ShopMGController implements AccessSupport{
 	void edit_goods(@RequestParam String shop_sn, @RequestParam String sn, @RequestParam String goods_name, @RequestParam String goods_desc, @RequestParam Optional<Integer> point_need, StandardMultipartHttpServletRequest req, HttpServletResponse resp){
 		LogCore.BASE.info("edit_goods point_need={},req={}", point_need, HttpHeadUtil.getParamsMapLimit(req));
 		String dirName = Objects.toString(req.getParameter("dir"), "image");
-		String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
+		String ymdPath = TimeUtil.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 		String dirPath = "upload/";
 		String rootPath = getRootFilePath(req);
 		String filePath = dirPath + dirName+ "/"+ ymdPath;

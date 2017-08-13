@@ -18,7 +18,7 @@ import com.sincetimes.website.core.common.support.BiDataResult;
 import com.sincetimes.website.core.common.support.DataResult;
 import com.sincetimes.website.core.common.support.DataVO;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
 /**
@@ -55,7 +55,7 @@ public class ShopManager extends JedisManagerBase {
 	public void addShop(String shop_sn, String shop_name, String shop_desc, String open_time) {
 		long openTime;
 		try {
-			openTime = TimeTool.parseAndGetTime(open_time, "yyyy-MM-dd-HH:mm:ss");
+			openTime = TimeUtil.parseAndGetTime(open_time, "yyyy-MM-dd-HH:mm:ss");
 		} catch (ParseException e) {
 			LogCore.BASE.error("error time parameter={}", open_time);
 			openTime = System.currentTimeMillis();
@@ -137,14 +137,14 @@ public class ShopManager extends JedisManagerBase {
 	public DataResult qiandao(String shop_sn, String openid) {
 		String jifenKey = mkJifenKey(shop_sn);
 		Double score = zscore(jifenKey, openid);
-		String date_tag = TimeTool.formatTime(System.currentTimeMillis(), "yyyyMMdd");
+		String date_tag = TimeUtil.formatTime(System.currentTimeMillis(), "yyyyMMdd");
 		String tag_key = "sign_up".concat(date_tag).concat(openid);
 		String tag_history = get(tag_key);
 		LogCore.BASE.info("get sign_up_tag={},get value={}", tag_key, tag_history);
 		if(!Util.isEmpty(tag_history)){
 			return new BiDataResult(0, 0, score.intValue());
 		}
-		String expire_rst = setEX_NX_Exipire(tag_key, "1", TimeTool.WEEK_SECONDS);
+		String expire_rst = setEX_NX_Exipire(tag_key, "1", TimeUtil.WEEK_SECONDS);
 		LogCore.BASE.info("set expire_rst={}, ttl={}", expire_rst, ttl(tag_key));
 		if(score == null){
 			zincrby(jifenKey, 20, openid);

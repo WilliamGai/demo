@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.redis.StepMillisWatch;
 import com.sincetimes.website.redis.jedis.annoation.RedisDataBaseSelect;
@@ -114,7 +114,7 @@ public class SearchManager extends JedisManagerBase {
     public SearchInfoVO initConfigVO(SearchInfoVO vo) {
 	vo.left_codes_num = getLeftCodesNum(vo.sn);
 	vo.rmv_codes_num = getRemovedCodesNum(vo.sn);
-	vo.create_time_str = TimeTool.formatTime(vo.create_time, "yyyy-MM-dd-HH:mm:ss");
+	vo.create_time_str = TimeUtil.formatTime(vo.create_time, "yyyy-MM-dd-HH:mm:ss");
 	return vo;
     }
 

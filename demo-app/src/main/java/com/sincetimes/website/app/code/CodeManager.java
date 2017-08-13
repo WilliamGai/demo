@@ -10,7 +10,7 @@ import com.sincetimes.website.app.stats.StatsManager;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Param;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
 /**
@@ -73,8 +73,8 @@ public class CodeManager extends JedisManagerBase {
 	public void addCodeInfo(String sn, String create_by, String code_name, String code_desc,byte fresh_getType, String open_time, String close_time, List<String> codes) {
 		long openTime, closeTime;
 		try {
-			openTime = TimeTool.parseAndGetTime(open_time, "yyyy-MM-dd-HH:mm:ss");
-			closeTime = TimeTool.parseAndGetTime(close_time, "yyyy-MM-dd-HH:mm:ss");
+			openTime = TimeUtil.parseAndGetTime(open_time, "yyyy-MM-dd-HH:mm:ss");
+			closeTime = TimeUtil.parseAndGetTime(close_time, "yyyy-MM-dd-HH:mm:ss");
 		} catch (ParseException e) {
 			LogCore.BASE.error("error time parameter:open_time={},close_time={}", open_time);
 			closeTime = openTime = System.currentTimeMillis();
@@ -89,8 +89,8 @@ public class CodeManager extends JedisManagerBase {
 	public void editCodeInfo(String sn, String open_time, String close_time, List<String> codes) {
 		long openTime, closeTime;
 		try {
-			openTime = TimeTool.parseAndGetTime(open_time, "yyyy-MM-dd-HH:mm:ss");
-			closeTime = TimeTool.parseAndGetTime(close_time, "yyyy-MM-dd-HH:mm:ss");
+			openTime = TimeUtil.parseAndGetTime(open_time, "yyyy-MM-dd-HH:mm:ss");
+			closeTime = TimeUtil.parseAndGetTime(close_time, "yyyy-MM-dd-HH:mm:ss");
 		} catch (ParseException e) {
 			LogCore.BASE.error("error time parameter:open_time={},close_time={}", open_time);
 			closeTime = openTime = System.currentTimeMillis();

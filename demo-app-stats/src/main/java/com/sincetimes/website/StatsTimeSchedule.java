@@ -1,8 +1,8 @@
 package com.sincetimes.website;
 
 
-import static com.sincetimes.website.core.common.support.TimeTool.formatTime;
-import static com.sincetimes.website.core.common.support.TimeTool.isSameDay;
+import static com.sincetimes.website.core.common.support.TimeUtil.formatTime;
+import static com.sincetimes.website.core.common.support.TimeUtil.isSameDay;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;

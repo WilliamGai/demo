@@ -23,7 +23,7 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import com.alibaba.fastjson.JSONObject;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 @RestController
@@ -170,7 +170,7 @@ public class File4RichTextEditController implements AccessSupport {
 			
 			//文件保存目录路径
 			//rootPath/dirPath/dirName/ymdPath/fileName
-			String ymdPath = TimeTool.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
+			String ymdPath = TimeUtil.formatTime(System.currentTimeMillis(), "yyyy_MM_dd")+"/";
 			String dirPath = "upload/";
 			String rootPath = getRootFilePath(req);
 			String filePath = dirPath + dirName+ "/"+ ymdPath;

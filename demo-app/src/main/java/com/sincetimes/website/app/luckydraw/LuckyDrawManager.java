@@ -19,10 +19,10 @@ import com.sincetimes.website.app.stats.StatsManager;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.BiDataResult;
 import com.sincetimes.website.core.common.support.DataResult;
-import com.sincetimes.website.core.common.support.DrawTool;
+import com.sincetimes.website.core.common.support.DrawUtil;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Param;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
 /**
@@ -74,8 +74,8 @@ public class LuckyDrawManager extends JedisManagerBase {
 	public void addCodeInfo(String sn, String create_by, String code_name, String code_desc,byte fresh_getType, String open_time, String close_time,int limit_num) {
 		long openTime, closeTime;
 		try {
-			openTime = TimeTool.parseAndGetTime(open_time, "yyyy-MM-dd-HH:mm:ss");
-			closeTime = TimeTool.parseAndGetTime(close_time, "yyyy-MM-dd-HH:mm:ss");
+			openTime = TimeUtil.parseAndGetTime(open_time, "yyyy-MM-dd-HH:mm:ss");
+			closeTime = TimeUtil.parseAndGetTime(close_time, "yyyy-MM-dd-HH:mm:ss");
 		} catch (ParseException e) {
 			LogCore.BASE.error("error time parameter:open_time={},close_time={}", open_time);
 			closeTime = openTime = System.currentTimeMillis();
@@ -87,8 +87,8 @@ public class LuckyDrawManager extends JedisManagerBase {
 	public void editLuckyDrawConf(String sn, String open_time, String close_time, Optional<Integer> limit_num) {
 		long openTime, closeTime;
 		try {
-			openTime = TimeTool.parseAndGetTime(open_time, "yyyy-MM-dd-HH:mm:ss");
-			closeTime = TimeTool.parseAndGetTime(close_time, "yyyy-MM-dd-HH:mm:ss");
+			openTime = TimeUtil.parseAndGetTime(open_time, "yyyy-MM-dd-HH:mm:ss");
+			closeTime = TimeUtil.parseAndGetTime(close_time, "yyyy-MM-dd-HH:mm:ss");
 		} catch (ParseException e) {
 			LogCore.BASE.error("error time parameter:open_time={},close_time={}", open_time);
 			closeTime = openTime = System.currentTimeMillis();
@@ -196,7 +196,7 @@ public class LuckyDrawManager extends JedisManagerBase {
 		if(Util.isEmpty(weightMap)){
 			return new BiDataResult(0, "已经被抢光了", reslut_before);
 		}
-		String item_sn = DrawTool.getOne(weightMap);
+		String item_sn = DrawUtil.getOne(weightMap);
 		LuckyDrawItemVO item_get = codeCf.getGoods(item_sn);
 		int ordinal = codeCf.shelfs.indexOf(item_get);
 		String code_key = makeCodeKey(item_sn);

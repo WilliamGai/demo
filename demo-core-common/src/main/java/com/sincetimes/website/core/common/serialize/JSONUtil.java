@@ -1,4 +1,4 @@
-package com.sincetimes.website.core.common.serialize.interfaces;
+package com.sincetimes.website.core.common.serialize;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

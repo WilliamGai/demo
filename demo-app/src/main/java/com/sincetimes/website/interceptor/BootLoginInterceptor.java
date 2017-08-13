@@ -13,7 +13,7 @@ import com.sincetimes.website.app.event.EventMsgContext;
 import com.sincetimes.website.app.security.interfaces.SecureAccessSupport;
 import com.sincetimes.website.app.security.vo.UserVO;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 
@@ -58,7 +58,7 @@ public class BootLoginInterceptor extends WebContentInterceptor implements Secur
 			failAndForwardLogin(req, resp, uri, "没有权限");
 			return false;
 		}
-		String msg = Util.format("{}, {} visited {}", TimeTool.getTimeStr(), user.getName(), uri);
+		String msg = Util.format("{}, {} visited {}", TimeUtil.getTimeStr(), user.getName(), uri);
 		EventMsgContext.inst().putMsg(msg);
 		return true;
 		
@@ -87,7 +87,7 @@ public class BootLoginInterceptor extends WebContentInterceptor implements Secur
 	}
 	
 	private void failAndForwardLogin(HttpServletRequest req, HttpServletResponse resp, String uri, String tipmsg) {
-		String msg = Util.format("{}, {} visit {} prohibit", TimeTool.getTimeStr(), req.getRemotePort(), uri);
+		String msg = Util.format("{}, {} visit {} prohibit", TimeUtil.getTimeStr(), req.getRemotePort(), uri);
 		EventMsgContext.inst().putMsg(msg);
 		req.setAttribute(REDIRECT_URL_TAG, uri);
 		req.setAttribute(LOGIN_TIPMSG, tipmsg);//tipmsg

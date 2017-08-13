@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sincetimes.website.app.redis.RedisCacheService;
 import com.sincetimes.website.app.security.vo.UserVO;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 @Order(value = 4)
@@ -27,9 +27,9 @@ public class RedisController implements AccessSupport {
 	 */
 	@RequestMapping("/time")
 	public Object time(long time, HttpServletRequest req) throws InterruptedException {
-		String beginTime = TimeTool.getLocalTime();
+		String beginTime = TimeUtil.getLocalTime();
 		Thread.sleep(time);
-		String endTime = TimeTool.getLocalTime();
+		String endTime = TimeUtil.getLocalTime();
 		return Util.format("ok,starttime={},endtime={}", beginTime, endTime);
 	}
 	

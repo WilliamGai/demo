@@ -8,7 +8,7 @@ import org.thymeleaf.templateresolver.FileTemplateResolver;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sincetimes.website.core.common.support.DrawTool;
+import com.sincetimes.website.core.common.support.DrawUtil;
 import com.sincetimes.website.core.common.support.FileTool;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;

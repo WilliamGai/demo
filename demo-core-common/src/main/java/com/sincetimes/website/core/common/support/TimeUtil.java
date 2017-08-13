@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.function.Supplier;
 
-public class TimeTool {
+public class TimeUtil {
 	public static final int HOUR_SECONDS = 3600;
 	public static final int DAY_SECONDS = HOUR_SECONDS * 24;
 	public static final int WEEK_SECONDS = DAY_SECONDS * 7;
@@ -86,7 +86,7 @@ public class TimeTool {
 	public static String getTimeString(String value, Supplier<Long> supplier) {
 		try {
 			long time = supplier.get();
-			return TimeTool.SDF.get().format(new Date(time));
+			return TimeUtil.SDF.get().format(new Date(time));
 		} catch (Exception e) {
 			LogCore.BASE.warn("time formatter err{}:", value,  e);
 			return value;

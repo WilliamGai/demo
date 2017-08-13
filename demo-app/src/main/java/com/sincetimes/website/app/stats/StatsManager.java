@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 import com.sincetimes.website.app.websocket.WebSocket;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.port.PortInstance;
-import com.sincetimes.website.core.common.support.ClassTool;
+import com.sincetimes.website.core.common.support.ClassUtil;
 import com.sincetimes.website.core.common.support.DataVO;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.manager.DataManager;
 @Component
@@ -74,11 +74,11 @@ public class StatsManager extends ManagerBase {
 			LogCore.BASE.info("StatsManager init return, stats_load_histoy={}", stats_load_histoy);
 			return;
 		}
-		String date_tag = TimeTool.formatTime(System.currentTimeMillis(), "yyyyMMdd");
+		String date_tag = TimeUtil.formatTime(System.currentTimeMillis(), "yyyyMMdd");
 		// 加载今天的登陆openid
 		long time_today_begin;
 		try {
-			time_today_begin = TimeTool.parseAndGetTime(date_tag, "yyyyMMdd");
+			time_today_begin = TimeUtil.parseAndGetTime(date_tag, "yyyyMMdd");
 			PortInstance.inst().addQueue(p->{
 				Map<String, Long> sn_time_map_all_temp = dataService.getRecordList2Map(LIST_NAME, x -> true);
 				Map<String, Long> sn_time_map_temp = dataService.getRecordList2Map(LIST_NAME, x -> x.getTime() > time_today_begin);
@@ -132,7 +132,7 @@ public class StatsManager extends ManagerBase {
 	 * 获取常量信心
 	 */
 	public List<DataVO> getConstantStats() {
-		Map<String, Object> map = ClassTool.getFields(DataManager.inst(), x -> x.getName().startsWith("VALUE"));
+		Map<String, Object> map = ClassUtil.getFields(DataManager.inst(), x -> x.getName().startsWith("VALUE"));
 		List<DataVO> list = new ArrayList<>();
 		map.values().forEach(x -> list.add(new DataVO(x + "", DataManager.inst().get(x + ""))));
 		LogCore.BASE.debug("all constants :{}", list);
@@ -169,7 +169,7 @@ public class StatsManager extends ManagerBase {
 
 	// 获取列表大小
 	public List<DataVO> getListSizes() {
-		Map<String, Object> map = ClassTool.getFields(DataManager.inst(), x -> x.getName().startsWith("LIST_NAME"));
+		Map<String, Object> map = ClassUtil.getFields(DataManager.inst(), x -> x.getName().startsWith("LIST_NAME"));
 		List<DataVO> size_list = new ArrayList<>();
 		map.values().forEach(x -> size_list.add(new DataVO(x + "", DataManager.inst().llen(x + ""))));
 		return size_list;
@@ -220,13 +220,13 @@ public class StatsManager extends ManagerBase {
 	 *            必须是此类的常量
 	 */
 	public void countByDay(String tag) {
-		String date_tag = TimeTool.formatTime(System.currentTimeMillis(), "yyyyMMdd");
+		String date_tag = TimeUtil.formatTime(System.currentTimeMillis(), "yyyyMMdd");
 		dataService.hIncrBy(MAP_NAME, date_tag.concat(tag), 1);
 	}
 
 	/*** 每天新增,每天的访问的人数，每天访问人次 **/
 	public void countOpenid(String openid) {
-		String date_tag = TimeTool.formatTime(System.currentTimeMillis(), "yyyyMMdd");
+		String date_tag = TimeUtil.formatTime(System.currentTimeMillis(), "yyyyMMdd");
 		// 访问记录
 		dataService.addRecordList(LIST_NAME, openid);
 		// 每日访问人次

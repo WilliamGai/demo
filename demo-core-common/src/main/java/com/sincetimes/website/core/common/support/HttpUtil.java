@@ -173,7 +173,7 @@ public class HttpUtil {
 		LogCore.BASE.debug(TAG_POST + "<<<< failed {}" + conn.getResponseCode());
 	    }
 	} catch (Exception e) {
-	    LogCore.BASE.error(TAG_POST + "<<<< error {}", resultCode, e);
+	    LogCore.BASE.error(TAG_POST + "<<<< error {},{}", resultCode,path, e);
 	}
 	return null;
     }

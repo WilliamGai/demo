@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 public enum LuckyDrawFreshType {
 	NEVER((byte) 1,	"永远不"),
 	DAY((byte) 2,	"每日"),
@@ -31,11 +31,11 @@ public enum LuckyDrawFreshType {
 	public String getNowTimeTag(){
 		switch (this) {
 		case DAY:
-			return TimeTool.formatTime(System.currentTimeMillis(), "yyyy-MM-dd");
+			return TimeUtil.formatTime(System.currentTimeMillis(), "yyyy-MM-dd");
 		case WEEK:
 			return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)+"";
 		case MONTH:
-			return TimeTool.formatTime(System.currentTimeMillis(), "yyyy-MM");
+			return TimeUtil.formatTime(System.currentTimeMillis(), "yyyy-MM");
 		default:
 			return this.name();
 		}

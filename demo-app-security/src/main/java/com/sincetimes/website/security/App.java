@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sincetimes.website.core.common.support.Sys;
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.spring.AppStarter;
 import com.sincetimes.website.redis.jedis.excample.JedisServiceDemo;
 
@@ -32,7 +32,7 @@ public class App {
 	@RequestMapping("/hello")
 	@ResponseBody
 	String hello() {
-		String now = jedisService.getSet("now", TimeTool.getLocalTime());
+		String now = jedisService.getSet("now", TimeUtil.getLocalTime());
 		return "Hello app security server!"+now;
 	}
 	@RequestMapping("/main")

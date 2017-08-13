@@ -2,7 +2,7 @@ package com.sincetimes.website.app.stats.flow.builder;
 
 import java.util.Arrays;
 
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 
 public class TextBuilder extends Builder<String> {
@@ -45,7 +45,7 @@ public class TextBuilder extends Builder<String> {
 			content.append(author);
 			content.append("\t\n");
 		}
-		content.append("create time:" + TimeTool.getLocalTime());
+		content.append("create time:" + TimeUtil.getLocalTime());
 		content.append("\t\n");
 		return content.toString() + sb.toString();
 	}

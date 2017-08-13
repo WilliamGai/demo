@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sincetimes.website.core.common.support.TimeTool;
+import com.sincetimes.website.core.common.support.TimeUtil;
 /**
  * 序列化的时候为一个简单的字符串,"NEVER",DAY"等
  * 反序列化的情形,既可以从NEVER这样的字符串反序列化出枚举,也会从0,1这样的整形作为下标反序列化出对应的枚举
@@ -35,11 +35,11 @@ public enum CodeFreshType {
 	public String getNowTimeTag(){
 		switch (this) {
 		case DAY:
-			return TimeTool.formatTime(System.currentTimeMillis(), "yyyy-MM-dd");
+			return TimeUtil.formatTime(System.currentTimeMillis(), "yyyy-MM-dd");
 		case WEEK:
 			return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)+"";
 		case MONTH:
-			return TimeTool.formatTime(System.currentTimeMillis(), "yyyy-MM");
+			return TimeUtil.formatTime(System.currentTimeMillis(), "yyyy-MM");
 		default:
 			return this.name();
 		}
