@@ -29,7 +29,7 @@ public class PlateGenerateUtil {
 			'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 	public static final Integer[] DIGITS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-	public static void main(String args[]) throws Exception {
+	public static void main2(String args[]) throws Exception {
 		List<String> lines = FileTool.readLines("a.txt");
 		LogCore.BASE.info("{},{}", lines, lines.size());
 		DrawUtil.any(ZONES);
