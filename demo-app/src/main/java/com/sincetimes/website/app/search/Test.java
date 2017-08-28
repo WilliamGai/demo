@@ -19,7 +19,7 @@ import com.sincetimes.website.core.common.support.Util;
  */
 public class Test {
 
-	public static void main(String args[]) throws Exception {
+	public static void main2(String args[]) throws Exception {
 	    
 	    JSONArray ja = new JSONArray();  
 	    ja.add("a");
