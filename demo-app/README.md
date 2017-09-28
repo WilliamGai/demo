@@ -37,6 +37,10 @@ mvn spring-boot:run -D spring.profiles.active=jztpy -D ip=119.29.52.126
 ``` xml
 mvn spring-boot:run -D spring.profiles.active=jztpy -D ip=119.29.52.126 -D server.port=8060
 ```
+或
+```
+mvn spring-boot:run -Drun.jvmArguments="-XX:+PerfBypassFileSystemCheck" -D spring.profiles.active=demo
+```
 ## 2 服务器部署
 ### 2.1 使用Apache:
 ``` xml
