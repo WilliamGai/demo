@@ -171,13 +171,14 @@ public class ItemPageProvider extends JedisWrapperBase implements CloneableSuppo
 	}
 
 	/**
-	 * 申请一个页面的自增ID
+	 * 申请一个页面的自增ID 
+	 * 当前机制是ID会根据当前最小的ID来自增。也可以简化这个过程只自增incr(KEY_LAST_ITEM_PAGE_ID);
 	 * as same like:<br>
 	 * {@code ids.stream().mapToInt(Integer::parseInt).max();}
 	 * @return Long
 	 */
 	public synchronized Long applyItemPageId() {
-		Set<String> ids = zrange(PAGES_SET, 0, 1);
+		Set<String> ids = zrange(PAGES_SET, 0, -1);
 		if(Util.isEmpty(ids)){
 			return incr(KEY_LAST_ITEM_PAGE_ID);
 		}
