@@ -6,7 +6,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -18,7 +17,6 @@ import com.sincetimes.website.core.common.support.LogCore;
  * 这也看以看作SpringBeanUtil
  */
 @ManangerOrder(value = -1)
-@Component
 public class SpringManager extends ManagerBase implements ApplicationListener<ContextRefreshedEvent> {
 
 	@Value("${upload_path:./}")

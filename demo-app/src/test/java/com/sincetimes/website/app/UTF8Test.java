@@ -27,5 +27,6 @@ public class UTF8Test {
 		System.out.println(Arrays.toString(str.getBytes()));//[-27, -91, -67],[-26, -65, -126, -17, -65, -67]
 		String csn = Charset.defaultCharset().name();
 		System.out.println(csn);
+		URLEncoder.encode(str, enc)
 	}
 }

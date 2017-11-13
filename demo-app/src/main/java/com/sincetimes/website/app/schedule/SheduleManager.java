@@ -8,8 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Component;
-
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeUtil;
@@ -21,7 +19,6 @@ import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
 /**
  * 测试各个搜索性能
  */
-@Component
 @RedisDataBaseSelect(value = 13)
 public class SheduleManager extends JedisManagerBase {
 

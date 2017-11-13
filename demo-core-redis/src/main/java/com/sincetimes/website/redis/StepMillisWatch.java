@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sincetimes.website.core.common.support.TimeUtil;
-import com.sincetimes.website.core.common.threadpool.ThreadTool;
+import com.sincetimes.website.core.common.threadpool.ThreadUtil;
 
 public class StepMillisWatch {
 	private final AtomicLong timeCount = new AtomicLong(System.currentTimeMillis());
@@ -40,7 +40,7 @@ public class StepMillisWatch {
 		new Thread(() -> {
 			int n = 5;
 			while (n-- > 0) {
-				ThreadTool.sleep(100);
+				ThreadUtil.sleep(100);
 				sw.interval();
 			}
 		}).start();

@@ -202,6 +202,8 @@ public class File2ObjectUtil {
 	}
 	@Test
 	public void test() throws IOException{
+		writeFileFast("a/bc", "abc");
+		
 		String fileName = "moddm";
 		writeFileFastAppendSafe(fileName, 8L);
 		writeFileFastAppendSafe(fileName, 2L);
@@ -211,7 +213,7 @@ public class File2ObjectUtil {
 		ll.add("a");
 		ll.add(1);
 //		map.put(ll, ll);
-		ll.add(ll);
+//		ll.add(ll);//不可以循环引用
 //		ll.add(map);
 		byte[] data = DistributedUtil.serlize(ll);
 		System.out.println(ll);

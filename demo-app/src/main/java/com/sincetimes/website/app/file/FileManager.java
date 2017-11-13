@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
@@ -28,7 +27,6 @@ import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
  * replace JedisManagerBase by ManagerBase
  * @author BAO
  */
-@Component
 public class FileManager extends JedisManagerBase implements InputFileSupport, FilePathSupport{
 	
 	public static FileManager inst() {

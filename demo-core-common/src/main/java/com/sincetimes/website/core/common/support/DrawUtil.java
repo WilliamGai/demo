@@ -144,13 +144,13 @@ public class DrawUtil {
 		if (list instanceof RandomAccess) {
 			for (int i = size; i > 1 && count < num; i--, count++)// 随机出一个跟最后一个交换，然后随机一个跟倒数第二个交换
 			{
-				T t = swap(list, RAND.nextInt(i), i - 1);
+				T t = Util.swap(list, RAND.nextInt(i), i - 1);
 				rst.add(t);
 			}
 		} else {
 			Object arr[] = list.toArray();
 			for (int i = size; i > 1 && count < num; i--, count++) {
-				T t = swap(arr, RAND.nextInt(i), i - 1);
+				T t = Util.swap(arr, RAND.nextInt(i), i - 1);
 				rst.add(t);
 			}
 
@@ -164,24 +164,10 @@ public class DrawUtil {
 		int size = arr.length;
 		int count = 0;
 		for (int i = size; i > 1 && count < num; i--, count++) {
-			T t = swap(arr, RAND.nextInt(i), i - 1);
+			T t = Util.swap(arr, RAND.nextInt(i), i - 1);
 			rst.add(t);
 		}
 		return rst;
 	}
 
-	/** @return 返回原来的i位置的值 */
-	public static <T> T swap(List<T> list, int i, int j) {
-		final List<T> l = list;
-		return l.set(i, l.set(j, l.get(i)));
-	}
-
-	/** @return 返回原来的i位置的值 */
-	@SuppressWarnings("unchecked")
-	private static <T> T swap(Object[] arr, int i, int j) {
-		Object tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-		return (T) tmp;
-	}
 }

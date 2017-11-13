@@ -46,7 +46,7 @@ public class TimeToolNew {
 	}
 	public static boolean isSameDay(long ta, long tb) {
 		LocalDateTime dta = getLocalDateTime(ta);
-		LocalDateTime dtb = getLocalDateTime(ta);
+		LocalDateTime dtb = getLocalDateTime(tb);
 		return dta.isEqual(dtb);
 //		return dta.toLocalDate().until(dtb.toLocalDate()).isZero();
 	}

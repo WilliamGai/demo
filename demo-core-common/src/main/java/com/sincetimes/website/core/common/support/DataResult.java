@@ -1,11 +1,5 @@
 package com.sincetimes.website.core.common.support;
 
-/**
- * 状态结果
- *	1 为成功
- *  0 为失败
- *  静态属性不会发给客户端
- */
 public class DataResult{
 	public byte result;
 	public Object data;

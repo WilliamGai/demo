@@ -14,6 +14,7 @@ import com.sincetimes.website.core.common.support.Util;
  * 所有继承ManagerBase的已经注册为组件的子类都将注册到本类的instances变量中
  * <br/>
  * tips:如果使用外部tomcat可以用继承一个CommandLineRunner来对所有子类初始化
+ * Spring注入ManagerInject标注的类的方式已经改为根据是不是ManagerBase这个类的子类来IOC也就是@ManangerInject已经不再使用了
  */
 @ManangerInject
 public abstract class ManagerBase{

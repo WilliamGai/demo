@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeUtil;
-import com.sincetimes.website.core.common.threadpool.ThreadTool;
+import com.sincetimes.website.core.common.threadpool.ThreadUtil;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -28,7 +28,7 @@ public class ConcurrentTest {
 //		ss.poll(timeout, unit)
 		AtomicInteger n =new AtomicInteger(10);
 		String timeStr = TimeUtil.formatTime(System.currentTimeMillis(), "yyyy_MM_dd_HH_mm_ss_SSS");
-		ThreadTool.sleep(100);
+		ThreadUtil.sleep(100);
 		while(n.decrementAndGet()>0){
 			new Thread(()->{
 				System.out.print(".");
@@ -42,7 +42,7 @@ public class ConcurrentTest {
 		}
 		
 		
-		ThreadTool.sleep(10000);
+		ThreadUtil.sleep(10000);
 		try (Jedis jedis = pool.getResource()) {
 			Long rst = jedis.incr(timeStr);
 			LogCore.BASE.info("end test={},max_active={}, watiters={}, idel={}", rst, 

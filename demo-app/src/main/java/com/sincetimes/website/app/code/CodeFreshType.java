@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.sincetimes.website.core.common.support.TimeUtil;
 /**
- * 序列化的时候为一个简单的字符串,"NEVER",DAY"等
+ * 序列化的时候为一个简单的字符串,"NEVER",DAY"等<br>
  * 反序列化的情形,既可以从NEVER这样的字符串反序列化出枚举,也会从0,1这样的整形作为下标反序列化出对应的枚举
  */
 public enum CodeFreshType {

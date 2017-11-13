@@ -12,6 +12,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * 1.try-with-resources
  * <br>
  * 2.redis连接池
+ * 关闭资源的时候仅仅调用Jedis.close就可以了。
  * <br>
  * @author BAO
  */
@@ -32,14 +33,11 @@ public class JedisPoolTemplate {
 	}
 
 	public <T> T excute(JedisCallBack<T> action){
-//		LOCK.lock();
 		try (Jedis jedis = pool.getResource()){
 			return action.doInRedis(jedis);
 		} catch (Exception e) {
 			LogCore.BASE.error("jedisTemplate excute err 可能是redis关了或者网络不可用，请排查", e);//断网的情况,恢复网络后正常
 			return null;
-		}finally {
-//			LOCK.unlock();
 		}
 	}
 	/**redis连接是否可用*/
@@ -48,6 +46,18 @@ public class JedisPoolTemplate {
 			return jedis.isConnected();
 		} catch (Exception e) {
 			return false;//断网的情况,恢复网络后正常
+		}
+	}
+	
+	
+	
+	
+	public String test(){
+		try (Jedis jedis = pool.getResource()){
+			return jedis.get("a");
+		} catch (Exception e) {
+			LogCore.BASE.error("jedisTemplate excute err 可能是redis关了或者网络不可用，请排查", e);//断网的情况,恢复网络后正常
+			return null;
 		}
 	}
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.threadpool.ThreadPoolTool;
+import com.sincetimes.website.core.common.threadpool.LimitedThreadPool;
 
 /**
  * rpc示例
@@ -34,7 +34,7 @@ public class RpcManagerTest extends ManagerBase {
 	@Override
 	public void init() {
 		HelloRpcService service = new HelloRpcServiceImpl(); 
-		ThreadPoolTool.execute(()->export(service, 10086));
+		LimitedThreadPool.execute(()->export(service, 10086));
 	    LogCore.RPC.info("rpc ready");
 	}
 	public void export(final Object service, int port){

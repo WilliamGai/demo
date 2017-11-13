@@ -1,5 +1,6 @@
 package com.sincetimes.website.app.article;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -11,16 +12,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.core.common.manager.ManagerBase;
-import com.sincetimes.website.core.common.manager.annotation.ManangerInject;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Result;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.manager.DataManager;
-@ManangerInject
-@Component
 public class ArticleManager extends ManagerBase {
 	private static Map<Integer,Article> ARTICLE_MAP = new HashMap<>();
 	private static Map<String, ArticleType> ARTICLE_TYPE_MAP = new LinkedHashMap<>();//ordered
@@ -40,8 +37,8 @@ public class ArticleManager extends ManagerBase {
 	/* 优化项, 费时操作 */
 	@Override
 	public void init() {
-		articleInitService.checkTables();
-		reloadAll();
+//		articleInitService.checkTables();
+//		reloadAll();
 	}
 
 	public void reloadAll() {
@@ -138,5 +135,11 @@ public class ArticleManager extends ManagerBase {
 	public void deleteArticleType(String type_id) {
 		ARTICLE_TYPE_MAP.remove(type_id);
 		articleService.deleteArticleType(type_id);
+	}
+	public static void main(String args[]){
+		System.out.println("haha");
+		LogCore.BASE.info("{}={}", Arrays.toString(ArticleManager.class.getAnnotations()));
+		System.out.println(ArticleManager.class.getAnnotations());
+		
 	}
 }

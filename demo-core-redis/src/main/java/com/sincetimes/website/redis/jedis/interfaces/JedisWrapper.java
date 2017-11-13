@@ -29,6 +29,10 @@ public interface JedisWrapper{
 	default String makeKey(String key) {
 		return this.getClass().getCanonicalName().concat(":").concat(key);
 	}
+	/**扩展*/
+	default String makeKey(String scope, String key) {
+		return this.getClass().getCanonicalName().concat(":").concat(scope).concat(":").concat(key);
+	}
 	/** Time complexity: O(1) */
 	default Boolean exist(String name) {
 		return template().excute(jedis -> jedis.exists(makeKey(name)));

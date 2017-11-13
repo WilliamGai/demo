@@ -9,7 +9,7 @@ public class Item extends VOBase implements CloneableSupport<Item>{
 	private String key;
 	private String name;//名称
 	private ItemType type;
-	private Object data;//可能为String, List<String>, List<ItemData>等,复制后clone更改原来的也回更改
+	private Object data;//可能为String, List<String>, List<ItemData>等,复制后clone更改原来的也会更改
 	private long createTime;
 	private transient String createTimeStr;
 	

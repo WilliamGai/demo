@@ -26,7 +26,6 @@ import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
  * 商店数目比较少，几个，但是货架商品多，因此商店采用的数据结构为 一个hash,物品的激活码比较多,因此放在list
  * 商店信息比较多，所以商店只准创建和删除
  */
-@Component
 public class ShopManager extends JedisManagerBase {
 	
 	public static final String CODE_LIST_KEY_PREFIX ="codes_";//记录激活码队列的名字的前缀

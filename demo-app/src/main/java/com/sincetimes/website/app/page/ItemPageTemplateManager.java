@@ -3,16 +3,11 @@ package com.sincetimes.website.app.page;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
 import com.sincetimes.website.app.page.vo.Item;
 import com.sincetimes.website.app.page.vo.ItemPage;
 import com.sincetimes.website.app.page.vo.ItemPageProvider;
 import com.sincetimes.website.app.page.vo.ItemPageProviderManager;
 import com.sincetimes.website.core.common.manager.ManagerBase;
-import com.sincetimes.website.core.common.manager.annotation.ManangerInject;
-@ManangerInject
-@Component
 public class ItemPageTemplateManager extends ManagerBase {
 	
 	/**模板*/

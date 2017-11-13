@@ -1,9 +1,7 @@
 package com.sincetimes.website.app.search;
 
-import ac.ahocorasick.trie.Trie;
-
 public class SearchTemplate {
-	private Trie trie;
+//	private Trie trie;
 	// trie.addKeyword("sugar");
 	private SearchTemplate() {
 	}

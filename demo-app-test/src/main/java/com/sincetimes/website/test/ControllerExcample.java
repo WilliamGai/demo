@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.common.threadpool.ThreadPoolTool;
-import com.sincetimes.website.core.common.threadpool.ThreadTool;
+import com.sincetimes.website.core.common.threadpool.LimitedThreadPool;
+import com.sincetimes.website.core.common.threadpool.ThreadUtil;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 import com.sincetimes.website.core.spring.manger.SpringManager;
@@ -54,7 +54,7 @@ public class ControllerExcample implements AccessSupport {
 	@RequestMapping("/tst")
 	public Object get_value(HttpServletRequest req) {
 		Map<String, String> map = HttpHeadUtil.getParamsMapLimit(req);
-		ThreadTool.sleep(10);
+		ThreadUtil.sleep(10);
         LogCore.BASE.info("controller Uri= {},{},{}, {}, reqId= {}", req.getRequestURI(), Thread.currentThread().getName(), Thread.currentThread().getId(), req.getAttribute("p_req_id"), HttpHeadUtil.getParamsMapLimit(req));
         return map;
 	}
@@ -64,7 +64,7 @@ public class ControllerExcample implements AccessSupport {
 
 			@Override
 			public String call() throws Exception {
-				ThreadTool.sleep(10);
+				ThreadUtil.sleep(10);
 				LogCore.BASE.info("controller Uri= {},{},{}, {}, reqId= {}", req.getRequestURI(), Thread.currentThread().getName(), Thread.currentThread().getId(), req.getAttribute("p_req_id"), HttpHeadUtil.getParamsMapLimit(req));
 				return "enen";
 			}
@@ -84,15 +84,15 @@ public class ControllerExcample implements AccessSupport {
 		final AtomicLong sum = new AtomicLong();
 		CountDownLatch latch = new CountDownLatch(3);
 		long start = System.currentTimeMillis();
-		ThreadPoolTool.execute(() -> {
+		LimitedThreadPool.execute(() -> {
 			sum.addAndGet(task.doTaskOne());
 			latch.countDown();
 		});// 为什么lambda表达式必须得是final的， 为什么必须在里面try cath
-		ThreadPoolTool.execute(() -> {
+		LimitedThreadPool.execute(() -> {
 			sum.addAndGet(task.doTaskTwo());
 			latch.countDown();
 		});// 为什么lambda表达式必须得是final的， 为什么必须在里面try cath
-		ThreadPoolTool.execute(() -> {
+		LimitedThreadPool.execute(() -> {
 			sum.addAndGet(task.doTaskThree());
 			latch.countDown();
 		});// 为什么lambda表达式必须得是final的， 为什么必须在里面try cath

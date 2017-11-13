@@ -22,7 +22,6 @@ import com.sincetimes.website.core.common.support.SHA256;
 import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 
-@Component
 public class SecurityManager extends ManagerBase {
 	
 	private static final String DEWFAULT_ROLE_DEBUG = "debugstats";

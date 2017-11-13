@@ -6,14 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
-
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
 
-@Component
 public class MediaManager extends JedisManagerBase {
 	
 	private static final LunboGroupVO EMPTY_LUNBO_GROUP;

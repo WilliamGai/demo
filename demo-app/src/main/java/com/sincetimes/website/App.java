@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sincetimes.website.app.article.ArticleManager;
+import com.sincetimes.website.app.jdbc.DruidConfig;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Sys;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.AppStarter;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
+import com.sincetimes.website.core.spring.ioc.DemoBeanFactoryPostProcessor;
 import com.sincetimes.website.core.spring.manger.SpringManager;
 import com.sincetimes.website.redis.jedis.JedisPoolTemplate;
 
@@ -69,5 +72,10 @@ public class App extends SpringBootServletInitializer{
 		LogCore.BASE.info(START_TAG + "server.port={}", SpringManager.inst().getSysProperty("server.port"));// application.properties
 		LogCore.BASE.info(START_TAG + "upload_path={}", SpringManager.inst().getSysProperty("upload_path"));// application.properties
 		LogCore.BASE.info(START_TAG + "http://localhost:{}/login", SpringManager.inst().getSysProperty("server.port"));
+		LogCore.BASE.info(START_TAG + "test App={}", context.getBean(App.class));
+		LogCore.BASE.info(START_TAG + "test DruidConfig={}", context.getBean(DruidConfig.class));
+		LogCore.BASE.info(START_TAG + "test DemoBeanFactoryPostProcessor={}", context.getBean(DemoBeanFactoryPostProcessor.class));
+		LogCore.BASE.info(START_TAG + "test ArticleManager={}", context.getBean(ArticleManager.class));
+
 	}
 }

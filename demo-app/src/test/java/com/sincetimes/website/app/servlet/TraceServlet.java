@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.threadpool.ThreadPoolTool;
+import com.sincetimes.website.core.common.threadpool.LimitedThreadPool;
 /**
  * 错误例子,会返回异常
  */
@@ -20,7 +20,7 @@ public class TraceServlet extends HttpServlet {
 		resp.setContentType("text/event-stream;charset=utf-8");
 		resp.setHeader("expires", "-1");
 		resp.setHeader("cache-control", "no-cache");
-		ThreadPoolTool.execute(()->{
+		LimitedThreadPool.execute(()->{
 			while(true){
 				try {
 					Thread.sleep(2000);

@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.threadpool.ThreadTool;
+import com.sincetimes.website.core.common.threadpool.ThreadUtil;
 import com.sincetimes.website.redis.StepMillisWatch;
 /***
  * 
@@ -42,7 +42,7 @@ public class MonitorThread extends Thread {
 	@Override
 	public void run() {
 		for (;;) {
-			ThreadTool.sleep(intervalMilliseconds);
+			ThreadUtil.sleep(intervalMilliseconds);
 			boolean isConnected = triger.get();
 			if (isConnected) {
 				COUNT.set(0);

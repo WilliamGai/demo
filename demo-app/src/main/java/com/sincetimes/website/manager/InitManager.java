@@ -1,13 +1,10 @@
 package com.sincetimes.website.manager;
 
-import org.springframework.stereotype.Component;
-
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.redis.jedis.MonitorThread;
 import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
 
-@Component
 public class InitManager extends JedisManagerBase {
 	
 	public static InitManager inst() {

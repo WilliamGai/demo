@@ -3,7 +3,6 @@ package com.sincetimes.website.app.search;
 import java.io.Serializable;
 
 import com.alibaba.fastjson.JSON;
-import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.common.vo.ToStringAbstract;
 

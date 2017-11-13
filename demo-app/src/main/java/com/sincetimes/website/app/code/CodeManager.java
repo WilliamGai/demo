@@ -4,8 +4,6 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Component;
-
 import com.sincetimes.website.app.stats.StatsManager;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
@@ -17,7 +15,6 @@ import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
  * 激活码，激活码是一个hash，其中有一个字段指向list
  * 领取的激活码在很多个hash, 总个激活码名单存在一个zset
  */
-@Component
 public class CodeManager extends JedisManagerBase {
 	
 	public static final String CODE_HASH_KEY = "codes_keys";

@@ -3,8 +3,6 @@ package com.sincetimes.website.app.wx_gzh;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -12,7 +10,6 @@ import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.HttpUtil;
 import com.sincetimes.website.core.common.support.LogCore;
 
-@Component
 public class WechatManager extends ManagerBase {
 	public static final String accessUrl = "https://api.weixin.qq.com/cgi-bin/token";
 

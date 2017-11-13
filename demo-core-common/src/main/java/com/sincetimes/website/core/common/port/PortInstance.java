@@ -10,7 +10,7 @@ import com.sincetimes.website.core.common.core.Port;
  * Port所在的子线程创建后不会销毁。可以将各种服务挂在在port下,port内部维护了一个或多个队列,保证任务在子线程中串行执行。
  * <br>
  * 通过port来处理服务/RPC/API/HTTP,共享资源的数据类型不必线程安全。
- * @see ThreadPoolTool
+ * @see LimitedThreadPool
  */
 public class PortInstance{
 	private static final Map<String, Port> instances = new ConcurrentHashMap<>();

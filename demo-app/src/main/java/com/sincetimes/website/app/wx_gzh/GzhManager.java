@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.app.redis.RedisService;
 import com.sincetimes.website.core.common.cache.MyCache;
@@ -24,7 +23,6 @@ import redis.clients.jedis.JedisPoolConfig;
 /**
  * GuavaCache + redis
  */
-@Component
 public class GzhManager extends ManagerBase {
 
 	public static final String SET_KEY = "user~keys";

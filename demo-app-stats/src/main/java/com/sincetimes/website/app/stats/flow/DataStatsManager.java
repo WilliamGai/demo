@@ -26,7 +26,7 @@ import com.sincetimes.website.core.common.serialize.IOUtil;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.Sys;
 import com.sincetimes.website.core.common.support.Util;
-import com.sincetimes.website.core.common.threadpool.ThreadPoolTool;
+import com.sincetimes.website.core.common.threadpool.LimitedThreadPool;
 
 @Component
 public class DataStatsManager extends ManagerBase {
@@ -62,7 +62,7 @@ public class DataStatsManager extends ManagerBase {
 		Map<String, Long> timeMap = new HashMap<>();
 		CountDownLatch latch = new CountDownLatch(configMap.size());//协作  
 		configMap.values().forEach(config->{ 
-			ThreadPoolTool.execute(()->{
+			LimitedThreadPool.execute(()->{
 				long timeBegin = System.currentTimeMillis();
 				initData(config);
 				long interval = System.currentTimeMillis() - timeBegin;
@@ -71,7 +71,7 @@ public class DataStatsManager extends ManagerBase {
 			});
 		});
 		/* 不用线程池启动的时候可能会阻塞*/
-		ThreadPoolTool.execute(()->{
+		LimitedThreadPool.execute(()->{
 			try {
 				latch.await();
 			} catch (InterruptedException e) {

@@ -149,3 +149,29 @@ Objects.toString(req.getAttribute(REDIRECT_URL_TAG), "/secure_user");
 
 {confName=d, threads=, sn=001, confDesc=}
 ```
+
+
+
+
+
+
+
+Spring boot还有更基本的依赖包。这个没有web只有IOC
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter</artifactId>
+</dependency>
+另外还有个AOP依赖的包为
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+
+
+
+@Autowired和@Qualifier("StatsServiceJedisImpl")只用一个即可
+
+
+String className = Thread.currentThread().getStackTrace()[2].getClassName();
+			String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+			LogCore.BASE.error("{},{}invoke redirect fail,uri={}", className, methodName, uri);

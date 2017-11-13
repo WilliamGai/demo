@@ -22,3 +22,4 @@ public abstract class JedisManagerBase extends ManagerBase implements JedisWrapp
 		return jedisTemplate;
 	}
 }
+

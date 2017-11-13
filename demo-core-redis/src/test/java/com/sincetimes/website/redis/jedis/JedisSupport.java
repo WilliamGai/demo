@@ -11,8 +11,10 @@ import java.util.RandomAccess;
 
 /**
  * 控制redis域的接口
+ * 思考:只所有不选代理
  */
 public interface JedisSupport{
+	
 	public default void test(){
 		Proxy.newProxyInstance(
 	               ArrayList.class.getClassLoader(),

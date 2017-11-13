@@ -19,7 +19,11 @@ java -jar target/XXX.jar --spring.profiles.active=dev --logging.level.org.spring
 ``` xml
 java -jar  -Xms8000m -Xmx8000m -Xmn6000m -Xss256k -XX:PermSize=64m -Dcom.sun.management.jmxremote.port=8999 -Djava.rmi.server.hostname=123.56.78.9 -Dcom.sun.managent.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false   XXX.jar --spring.profiles.active=dev
 ```
-在某些服务器会清除/tmp目录的情况下添加系统参数`java.io.tmpdir`或者application参数`server.tomcat.basedir`(推荐g)
+如果调整jvm参数和启动jstat 和 jxm以供visualvm远程连接
+``` xml
+(java -jar  -Xms800m -Xmx800m -Xmn600m -Xss256k -XX:PermSize=64m -XX:+PerfBypassFileSystemCheck -Dcom.sun.management.jmxremote.port=8999 -Djava.rmi.server.hostname=23.56.13.70 -Dcom.sun.managent.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false   target/demo-app-55.jar --spring.profiles.active=demo &)
+```
+在某些服务器会清除/tmp目录的情况下添加系统参数`java.io.tmpdir`或者application参数`server.tomcat.basedir`(推荐)
 ``` xml
 java -jar -Djava.io.tmpdir=/data/temp app-52.jar --spring.profiles.active=demo  
 java -jar  app-55.jar  --spring.profiles.active=demo --server.tomcat.basedir=./tmp2

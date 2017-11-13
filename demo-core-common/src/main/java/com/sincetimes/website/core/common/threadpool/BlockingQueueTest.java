@@ -24,5 +24,7 @@ public class BlockingQueueTest {
 		Executors.newSingleThreadExecutor();
 		CopyOnWriteArrayList c;
 		ArrayList aa;
+		
+		ClassLoader clsl;
 	}
 }

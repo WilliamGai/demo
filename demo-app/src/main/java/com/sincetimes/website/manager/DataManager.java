@@ -1,12 +1,9 @@
 package com.sincetimes.website.manager;
 
-import org.springframework.stereotype.Component;
-
 import com.sincetimes.website.core.common.cache.MyCache;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
 
-@Component
 public class DataManager extends JedisManagerBase {
 	
 	/**

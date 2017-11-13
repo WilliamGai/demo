@@ -7,13 +7,12 @@ import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;
-import com.sincetimes.website.core.common.threadpool.ThreadPoolTool;
+import com.sincetimes.website.core.common.threadpool.LimitedThreadPool;
 
 /**
  * rpc示例
  * 因为RpcFramework.export(service, port);是阻塞的因此需要另起线程
  */
-@Component
 public class RpcManagerTest extends ManagerBase {
 	public Map<String, Object> REMOTE_SERVICE_MAP = new HashMap<>();
 	
@@ -34,7 +33,7 @@ public class RpcManagerTest extends ManagerBase {
 	@Override
 	public void init() {
 		HelloRpcService service = new HelloRpcServiceImpl(); 
-		ThreadPoolTool.execute(()->export(service, 10086));
+		LimitedThreadPool.execute(()->export(service, 10086));
 	    LogCore.RPC.info("rpc ready");
 	}
 	public void export(final Object service, int port){

@@ -13,8 +13,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Component;
-
 import com.sincetimes.website.app.stats.StatsManager;
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.BiDataResult;
@@ -28,7 +26,6 @@ import com.sincetimes.website.redis.jedis.spring.JedisManagerBase;
 /**
  * 大转盘等权重抽奖
  */
-@Component
 public class LuckyDrawManager extends JedisManagerBase {
 	
 	private static final String CODE_USER_SET_KEY = "code_user_set";
