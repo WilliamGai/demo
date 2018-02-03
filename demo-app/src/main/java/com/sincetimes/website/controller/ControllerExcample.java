@@ -33,6 +33,12 @@ public class ControllerExcample implements AccessSupport {
     	public String sign;
     }
     
+    @ResponseBody
+    @RequestMapping("/testhttps")
+	String testhttps(HttpServletRequest req, HttpServletResponse resp){
+		return "abc";
+    }
+    
     @RequestMapping("/tstbody")
 	public Object tstBody(@RequestBody LoginRequestVO test) {
 		LogCore.BASE.info("testbody param={}", Util.prettyJsonStr(test));
