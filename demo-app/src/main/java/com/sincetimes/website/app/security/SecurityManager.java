@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.app.security.vo.Permission;
 import com.sincetimes.website.app.security.vo.RoleVO;

@@ -39,7 +39,6 @@ public class PlateGenerateUtil {
 
 		});
 		System.out.println("tst");
-		Util util;
 	}
 
 	private static String geneateOnePlate() {

@@ -20,10 +20,10 @@ public class CachedThreadPool implements ThreadPool {
 
     public Executor getExecutor() {
         String name = "";
-        int cores = ThreadPoolConstants.DEFAULT_CORE_THREADS;
+        int cores = ThreadPoolConstants.DEFAULT_CORE_THREADS;//0
         int threads = Integer.MAX_VALUE;
-        int queues = ThreadPoolConstants.DEFAULT_QUEUES;
-        int alive = ThreadPoolConstants.DEFAULT_ALIVE;
+        int queues = ThreadPoolConstants.DEFAULT_QUEUES;//0
+        int alive = ThreadPoolConstants.DEFAULT_ALIVE;//6000
         return new ThreadPoolExecutor(cores, threads, alive, TimeUnit.MILLISECONDS, 
         		queues == 0 ? new SynchronousQueue<Runnable>() : 
         			(queues < 0 ? new LinkedBlockingQueue<Runnable>() 

@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 import com.sincetimes.website.app.wx_gzh.GzhManager;

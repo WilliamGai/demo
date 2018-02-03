@@ -20,14 +20,6 @@ public class JedisProxy{
 		            new JedisInvocationHandler(pool));
 	}
 
-	// public static void main(String args[]) {
-	// System.out.println("hei");
-	// LogCore.BASE.info("getInterfaces: {}", Arrays.toString(Jedis.class.getInterfaces()));
-	// LogCore.BASE.info("getAnnotatedInterfaces: {}", Arrays.toString(Jedis.class.getAnnotatedInterfaces()));
-	// LogCore.BASE.info("getInterfaces: {}", Arrays.toString(Jedis.class.getGenericInterfaces()));
-	// Jedis jedis;
-	// }
-
 	private static class JedisInvocationHandler implements InvocationHandler {
 		private JedisPool pool;
 

@@ -3,7 +3,6 @@ package com.sincetimes.website.app.rpc;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
 
 import com.sincetimes.website.core.common.manager.ManagerBase;
 import com.sincetimes.website.core.common.support.LogCore;

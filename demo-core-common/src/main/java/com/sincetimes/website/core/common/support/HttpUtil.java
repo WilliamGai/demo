@@ -167,6 +167,7 @@ public class HttpUtil {
 	    if (resultCode == 200) {
 		InputStream is = conn.getInputStream();
 		byte[] d = getStreamBytes(is);
+		LogCore.BASE.debug(TAG_POST + "<<<< url={}", content);
 		LogCore.BASE.debug(TAG_POST + "<<<< sucess {}", new String(d));
 		return new String(d);
 	    } else {

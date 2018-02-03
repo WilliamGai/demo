@@ -167,7 +167,7 @@ Spring boot还有更基本的依赖包。这个没有web只有IOC
 	<artifactId>spring-boot-starter-aop</artifactId>
 </dependency>
 
-
+ 
 
 @Autowired和@Qualifier("StatsServiceJedisImpl")只用一个即可
 
@@ -175,3 +175,8 @@ Spring boot还有更基本的依赖包。这个没有web只有IOC
 String className = Thread.currentThread().getStackTrace()[2].getClassName();
 			String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
 			LogCore.BASE.error("{},{}invoke redirect fail,uri={}", className, methodName, uri);
+			
+			
+			
+消息头
+content-type=application/json

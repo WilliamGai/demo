@@ -12,7 +12,6 @@ public class UTF8Test {
 		String s = "拉拉";
 		s = new String(s.getBytes(),"utf-8");
 		System.out.println(s);
-		
 		System.getProperty("file.encoding");
 		String s2 = URLEncoder.encode("嗯嗯");
 		String s3 = URLDecoder.decode(s2);
@@ -27,6 +26,6 @@ public class UTF8Test {
 		System.out.println(Arrays.toString(str.getBytes()));//[-27, -91, -67],[-26, -65, -126, -17, -65, -67]
 		String csn = Charset.defaultCharset().name();
 		System.out.println(csn);
-		URLEncoder.encode(str, enc)
+//		URLEncoder.encode(str, enc)
 	}
 }

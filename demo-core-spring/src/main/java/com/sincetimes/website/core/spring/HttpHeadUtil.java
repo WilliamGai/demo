@@ -181,6 +181,7 @@ public class HttpHeadUtil {
 			map.put(name, req.getParameter(name));
 		}
 		return map;
+		
 	}
 
 	public static Map<String, String> getParamsMapLimit(HttpServletRequest req) {
