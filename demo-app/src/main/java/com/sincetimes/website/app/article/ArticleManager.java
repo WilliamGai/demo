@@ -136,10 +136,10 @@ public class ArticleManager extends ManagerBase {
 		ARTICLE_TYPE_MAP.remove(type_id);
 		articleService.deleteArticleType(type_id);
 	}
-	public static void main(String args[]){
-		System.out.println("haha");
-		LogCore.BASE.info("{}={}", Arrays.toString(ArticleManager.class.getAnnotations()));
-		System.out.println(ArticleManager.class.getAnnotations());
-		
-	}
+//	public static void main(String args[]){
+//		System.out.println("haha");
+//		LogCore.BASE.info("{}={}", Arrays.toString(ArticleManager.class.getAnnotations()));
+//		System.out.println(ArticleManager.class.getAnnotations());
+//		
+//	}
 }
