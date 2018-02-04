@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sincetimes.website.app.stats.StatsManager;
 import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
+import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.interfaces.AccessSupport;
@@ -37,6 +38,11 @@ public class ControllerExcample implements AccessSupport {
     @RequestMapping("/testhttps")
 	String testhttps(HttpServletRequest req, HttpServletResponse resp){
 		return "abc";
+    }
+    @ResponseBody
+    @RequestMapping("/testhttps2")
+    String testhttps2(HttpServletRequest req, HttpServletResponse resp){
+	    return "abc"+TimeUtil.getLocalTimeFull();
     }
     
     @RequestMapping("/tstbody")
