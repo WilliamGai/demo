@@ -18,6 +18,7 @@ import com.sincetimes.website.core.common.support.JSONBuilder;
 import com.sincetimes.website.core.common.support.LogCore;
 import com.sincetimes.website.core.common.support.TimeUtil;
 import com.sincetimes.website.core.common.support.Util;
+import com.sincetimes.website.core.common.threadpool.ThreadUtil;
 import com.sincetimes.website.core.spring.HttpHeadUtil;
 import com.sincetimes.website.core.spring.interfaces.AccessSupport;
 import com.sincetimes.website.core.spring.manger.SpringManager;
@@ -37,6 +38,7 @@ public class ControllerExcample implements AccessSupport {
     @ResponseBody
     @RequestMapping("/testhttps")
 	String testhttps(HttpServletRequest req, HttpServletResponse resp){
+	    ThreadUtil.sleep(10000000L);
 		return "abc";
     }
     @ResponseBody
