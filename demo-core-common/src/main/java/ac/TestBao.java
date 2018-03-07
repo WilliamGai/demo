@@ -1,12 +1,11 @@
 package ac;
 
+import java.util.Collection;
+import java.util.TreeMap;
+
 import ac.ahocorasick.trie.Emit;
 import ac.ahocorasick.trie.Token;
 import ac.ahocorasick.trie.Trie;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.TreeMap;
 /***
  * 关键词过滤
  */

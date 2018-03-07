@@ -24,7 +24,7 @@ public class TestBao2 {
 				
 //			   System.out.println(new String(line.getBytes("utf-8"),"utf-8"));
 			   System.out.println(line);
-			   int len = line.length();
+//			   int len = line.length();
 			   for (int i = 0; i < line.length(); i++) {
 				   char c = line.charAt(i);
 				   if(c=='\n'||c=='\t'||c==' '){

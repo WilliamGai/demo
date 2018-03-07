@@ -5,7 +5,7 @@
 	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
 	<parent>
-		<groupId>com.sincetimes.website</groupId>
+		<groupId>com.sonic.website</groupId>
 		<artifactId>demo-core-parent</artifactId>
 		<version>0.0.1</version>
 		<relativePath>../demo-core-parent</relativePath>

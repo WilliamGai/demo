@@ -75,7 +75,7 @@
 		<appender-ref ref="STDOUT" />
 	</root>
 	<!-- logger name="com.sincetimes" level="info" -->
-	<logger name="com.sincetimes" level="debug">
+	<logger name="com.sincetimes" level="info">
 		<appender-ref ref="baselog" />
 	</logger>
 	<logger name="USER">

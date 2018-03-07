@@ -6,19 +6,19 @@
 	<description>The security and administrator server module of app project</description>
 	<url>http://maven.apache.org</url>
 	<parent>
-		<groupId>com.sincetimes.website</groupId>
+		<groupId>com.sonic.website</groupId>
 		<artifactId>demo-app-parent</artifactId>
 		<version>0.0.1</version>
 		<relativePath>../demo-app-parent</relativePath>
 	</parent>
 	<dependencies>
 		<dependency>
-			<groupId>com.sincetimes.website</groupId>
+			<groupId>com.sonic.website</groupId>
 			<artifactId>demo-core-spring</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
  		<dependency>
-			<groupId>com.sincetimes.website</groupId>
+			<groupId>com.sonic.website</groupId>
 			<artifactId>demo-core-redis</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

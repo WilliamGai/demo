@@ -20,7 +20,7 @@ public class TestSearch {
 			while ((line = br.readLine()) != null) {
 				
 			   System.out.println(line);
-			   int len = line.length();
+//			   int len = line.length();
 			   for (int i = 0; i < line.length(); i++) {
 				   char c = line.charAt(i);
 				   if(c=='\n'||c=='\t'||c==' '){
