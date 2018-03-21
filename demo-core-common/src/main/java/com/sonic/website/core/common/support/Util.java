@@ -2,6 +2,7 @@ package com.sonic.website.core.common.support;
 
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collection;
@@ -58,12 +59,14 @@ public class Util {
 		}
 		return map.size();
 	}
-	public static int size(Object[] data){
+
+	public static int size(Object[] data) {
 		if (null == data) {
 			return 0;
 		}
 		return data.length;
 	}
+
 	public static int size(String s) {
 		if (null == s) {
 			return 0;
@@ -145,6 +148,39 @@ public class Util {
 		if (!isEmpty(t)) {
 			consumer.accept(t);
 		}
+	}
+
+	public static int size(final Object object) {
+		if (object == null) {
+			return 0;
+		}
+		int total = 0;
+		if (object instanceof Map<?, ?>) {
+			total = ((Map<?, ?>) object).size();
+		} else if (object instanceof Collection<?>) {
+			total = ((Collection<?>) object).size();
+		} else if (object instanceof Object[]) {
+			total = ((Object[]) object).length;
+		} else if (object instanceof Iterator<?>) {
+			final Iterator<?> it = (Iterator<?>) object;
+			while (it.hasNext()) {
+				total++;
+				it.next();
+			}
+		} else if (object instanceof Enumeration<?>) {
+			final Enumeration<?> it = (Enumeration<?>) object;
+			while (it.hasMoreElements()) {
+				total++;
+				it.nextElement();
+			}
+		} else {
+			try {
+				total = Array.getLength(object);
+			} catch (final IllegalArgumentException ex) {
+				throw new IllegalArgumentException("Unsupported object type: " + object.getClass().getName());
+			}
+		}
+		return total;
 	}
 
 	public static boolean isEmpty(Object obj) {
@@ -465,15 +501,16 @@ public class Util {
 	}
 
 	public <T> T orElse(T value, T other) {
-	     return value != null ? value : other;
+		return value != null ? value : other;
 	}
-	
-	public static String objString(Object o){
-		if(null == o){
+
+	public static String objString(Object o) {
+		if (null == o) {
 			return null;
 		}
 		return o.getClass().getName() + "@" + Integer.toHexString(o.hashCode());
 	}
+
 	public static void main(String args[]) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("a", 1);

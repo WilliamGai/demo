@@ -1,6 +1,7 @@
 package com.sonic.website.core.common.support;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -28,8 +29,15 @@ public class DebugUtil {
 					map.put(field.getName(), getRawArrayString(field.get(r)));
 					return;
 				}
-				// if debuged
-				map.put(field.getName(), "not raw " + field.getType());
+				/*Field中的Type是声明类型, 而Value值是运行时类型*/
+				if (Map.class.isAssignableFrom(field.getType()) || Collection.class.isAssignableFrom(field.getType())) {
+					map.put(field.getName(), "type:" + field.getType().getName() + ", size" + Util.size(field.get(r)));
+					return;
+				}
+				// if debugged
+				if(LogCore.BASE.isDebugEnabled()){
+					map.put(field.getName(), "not raw " + field.getType().getName());
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
