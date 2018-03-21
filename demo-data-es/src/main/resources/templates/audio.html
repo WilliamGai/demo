@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Audio</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+  <style type="text/css" media="screen">
+	.music{
+    	position: absolute;
+    	z-index: 996;
+    	right:0.4rem;
+    	top: 0.8rem;
+    	padding: 10px;
+    	width: 0.5rem;
+    	height:0.5rem;
+	}
+	.music .music-btn {
+    	display: block;
+    	padding-left: 1px;
+    	width:2.8rem;
+    	height:02.8rem;
+    	background-image: url(/mg/images/music_1.png);
+    	background-size: 100% 100%;
+	}
+	.music .music-btn.play {
+    	background-image: url(/mg/images/music_2.png);
+	}
+  </style>
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
+<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<script src="/mg/js/fastclick.js"></script>
+<script type="text/javascript">
+		
+		console.log('music start');
+		
+	    // 音乐控件
+	    var bgAudio = new Audio();
+	    bgAudio.loadStatus = 'unload';
+	    bgAudio.loop = true;
+
+	    console.log('bgAudio.loadStatus', bgAudio.loadStatus);
+	    function loadAudio(audio, url, callback) {
+	        audio.src = url;
+	        audio.load();
+	        audio.addEventListener('canplay', function() {
+	            bgAudio.loadStatus = 'loaded';
+	            callback();
+	        });
+	        audio.addEventListener('loadstart', function() {
+	            bgAudio.loadStatus = 'loading';
+	        });
+	    }
+
+	    function playAudio() {
+	    	console.log('playAudio');
+	        if (bgAudio.loadStatus === 'unload') {
+	            loadAudio(bgAudio, '/upload/audio/陈奕迅 - 你的背包.mp3', function() {
+	                playAudio();
+	            });
+	            return 1;
+	        }
+
+	        bgAudio.play();
+	    }
+
+	    function stopAudio() {
+	    	console.log('stopAudio()');
+	        bgAudio.pause();
+	    }
+	    bgAudio.addEventListener('pause', function(e) {
+	    	console.log('addEventListener pause ');
+	        $('#music .music-btn').removeClass('play');
+	    });
+	    bgAudio.addEventListener('playing', function(e) {
+	    	console.log('addEventListener playing ');
+	        $('#music .music-btn').addClass('play');
+	    });
+	    
+	    $('body').one('touchstart', function() {
+	        playAudio();
+	        $('#music').on('touchstart', function(e) {
+	            if (bgAudio.paused) {
+	                playAudio();
+	                return 0;
+	            }
+	            stopAudio();
+	            return 1;
+	        });
+	    });
+	    window.onload = function() {
+	    	console.log('onload{}');
+	        if (bgAudio.loadStatus != 'unload') {
+	            return;
+	        }
+	         playAudio(); 
+	    };
+	    
+	    //bqjz start
+	        //控制音乐暂停播放
+    /* 
+	        var audio = $('#Audio')[0];
+    var v = 0;
+    $('#music_C').click(function() {
+
+        if (v == 0) {
+            audio.pause();
+            $('#music_C').attr("src", "imgs/yinyue-1.png");
+            v = 1;
+            $('#music_C').css({
+                "animation": "none",
+            });
+        } else if (v == 1) {
+            audio.play();
+            $('#music_C').attr("src", "imgs/yinyue-2.png");
+            $('#music_C').css({
+                "animation": "Mrotate 4s linear infinite;",
+            })
+            v = 0;
+        }
+    });
+    //触摸自动播放音乐 （ios只有触发才播放音乐)
+    $(document).one("touchstart",function(){
+        audio.play();
+    }); */
+	    //bqjz end
+</script>
+<body>
+	<div th:fragment="content" >
+	<div class="container">
+	    <a href="/mg/audio">刷新</a>
+		<div th:if="${role==null}">
+			<h1>不存在</h1>
+		</div>
+		<div>
+		<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default" data-toggle="modal">上传音乐</a>
+		<!-- add start -->
+		<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">
+							add a audio
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form role="form" class="form-inline" action="add_audio" method="post" enctype="multipart/form-data">
+                			<div class="modal-body">
+                			   <input class="btn btn-default btn-success" type="file" name="file" /> 
+		    					<br/>
+							</div>
+                			<div class="modal-footer">
+                				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<input class="btn btn-primary" type="submit" value="save" onclick="javascript:return confirm('em?');" />
+                			</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h3 th:if="${#lists.isEmpty(list)}">无audio</h3>
+		<br/>
+		<br/>
+		<br/>
+		<table th:if="${#lists.isEmpty(list)==false}" class="table table-condensed table-bordered table-hover">
+			<caption>权限列表</caption>
+			<tr style="background:purple;">
+				<th>序号</th>
+				<th>名称</th>
+				<th>type</th>
+				<th>size</th>
+				<th>path</th>
+				<th/>
+			</tr>
+			<tr th:each="item, iterStat: ${list}">
+				<td th:text="${iterStat.index}+1"></td>
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.type}"></td>
+				<td th:text="${item.size}"></td>
+				<td>
+					<audio th:src="${path+'/'+item.name}" controls="controls">
+						您的浏览器不支持 audio 标签。
+					</audio>
+				</td>
+				<td th:text="${item.uri}"></td>
+				<td><a th:href="${'delete_role_permission?index='+iterStat.index}">删除</a></td>
+			</tr>
+		</table>
+		<!-- <div th:each="item, iterStat: ${list}">
+			<audio th:src="${path+'/'+item.name}" controls="controls" autoplay="autoplay">
+						您的浏览器不支持 audio 标签。
+			</audio>
+		</div> -->
+		<div id="music" class="music">
+          <a class="music-btn"></a>
+        </div>
+       <img alt="" src="/mg/images/music_1.png"/>
+		</div>
+		   <video width="320" height="240" controls="controls" autoplay="autoplay">
+                    <source src="/mg/cg.mp4"/>
+                 
+                </video>
+		</div>
+		</div>
+	</body>
+</html>

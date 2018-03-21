@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>查看分数,清除分数等</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<link rel="stylesheet" type="text/css" href="css/table.css" />
+<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+	function clear_all_score() {
+		console.log("危险请求");
+		$.ajax({
+			type : "POST",
+			/* dataType: 'json',  */
+			url : "http://service.sincetimes.com/moon/clear_all_score",
+			data : {
+				sign : "clearall"
+			},
+			success : function(data) {
+				console.log(data)
+				$('.text_field').show().html("result:" + data);
+			},
+			error : function() {
+				$('.text_field').show().html("获取结果失败");
+			}
+		});
+	}
+</script>
+<body>
+	<h3>查看分数</h3>
+	<h3 class="text_field"></h3>
+	<h4>
+		<span th:text="${data}"></span>
+	</h4>
+	<h4>
+		<span th:text="${data2}"></span>
+	</h4>
+	<form name="input" action="fen" method="get">
+		<input type="text" name="num" placeholder="请输入排行榜人数"/>
+	    <br/>
+		<input type="text" name="level" placeholder="请输入分数段大小"/>
+		<br/>
+		<input name="submit" type="submit" value="重新获取" />
+	</form>
+	<table class="gridtable">
+		<caption>排行榜</caption>
+		<tr>
+			<th />
+			<th th:each="item:${rankcolums}" th:text="${item}"></th>
+			<th />
+		</tr>
+		<tr th:each="item, iterStat: ${ranklist}">
+			<td th:text="${iterStat.index}+1"></td>
+			<td th:text="${item.name}"></td>
+			<td><img height="24" width="24" th:src="${item.value}" /></td>
+			<td th:text="${item.value2}"></td>
+			<td th:text="${item.value3}"></td>
+			<td th:text="${item.value4}"></td>
+			<td th:text="${item.value5}"></td>
+			<td th:text="${item.value6}"></td>
+			<td th:text="${item.value7}"></td>
+			<td th:text="${item.value8}"></td>
+			<td><a th:href="${'user?openid='+item.value2}">查看</a></td>
+		</tr>
+	</table>
+	<table class="gridtable">
+		<caption>分数一览</caption>
+		<tr>
+			<th th:each="item:${colums}" th:text="${item}"></th>
+		</tr>
+		<tr th:each="item: ${list}">
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.value}"></td>
+		</tr>
+	</table>
+	<!-- <button onclick="clear_all_score()">清除所有用户的分数,并清空排行榜</button> -->
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>个人中心</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div th:fragment="content" >
+	<div class="container" >
+		<div class="row clearfix">
+			<div class="col-md-2 column" >
+				<div class="page-sidebar" style="position: fixed">
+				</div>
+			</div>
+			<div class="col-md-10 column">
+			    <h3>用户角色配置</h3>
+			    
+				<div class="row clearfix">
+					<div class="col-md-8 column">
+				    	<img th:if="${config_user.pic}" height="120" width="120" th:src="${config_user.pic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-rounded img-responsive k"/>
+						<img th:if="${config_user.pic==null}" height="120" width="120" th:src="${config_user.gender.defaultPic}" onerror="this.onerror='';src='/mg/images/head.png'" class="img-rounded img-responsive"/> 
+						<br/>
+						<br/>
+						<label>登录名:</label><label th:text="${config_user.name}" class="text-info"></label>
+						<br/>
+						<label>昵称:</label><label th:text="${config_user.nickname}" class="text-info"></label>
+						<br/>
+						<label>角色:</label><label th:text="${config_user.roleNames}" class="text-info"></label>
+						<br/>
+						<label>创建时间:</label><label th:text="${config_user.createTimeStr}" class="text-info"></label>
+						<br/>
+						<label>上次登录时间:</label><label th:text="${config_user.lastLoginTimeStr}" class="text-info"></label>
+						<br/>
+						<div class="container">
+						</div>
+<!-- 						<h1 th:text="${roles}"></h1>
+						<h1 th:text="${config_user.name}"></h1> -->
+						<hr/>
+						<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default" data-toggle="modal">新增角色</a>
+						<!-- 添加角色 start -->
+						<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										<h4 class="modal-title" id="myModalLabel">
+											给用户增加一个角色
+										</h4>
+										</div>
+										<div class="modal-body">
+											<form role="form" class="form-inline" action="add_user_role" method="post">
+                								<div class="modal-body">
+                								    <input type="hidden" name="user_name" th:value="${config_user.name}" />
+                									<select id="role_id" name="role_id">
+														<option th:each="role: ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+													</select>
+												</div>
+                								<div class="modal-footer">
+                									<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('你确认要提交创建?');" />
+                									<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                								</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- 表格X2 -->
+							<h3 th:if="${#lists.isEmpty(config_user.roles)}">无角色</h3>
+							<table th:if="${#lists.isEmpty(config_user.permissions)==false}"  class="table table-condensed table-bordered table-hover">
+								<caption>角色列表</caption>
+								<tr style="background: blue">
+									<th>序号</th>
+									<th>角色ID</th>
+									<th>登录名</th>
+									<th>权限条数</th>
+								</tr>
+								<tr th:each="item, iterStat: ${config_user.roles}">
+									<td th:text="${iterStat.count}"></td>
+									<td th:text="${item.id}"></td>
+									<td th:text="${item.name}"></td>
+									<td th:text="${item.permissions.size()}"></td>
+								</tr>
+							</table>
+							<!-- 权限列表 -->
+							<h3 th:if="${#lists.isEmpty(config_user.permissions)}">无权限</h3>
+							<br/>
+							<br/>
+							<br/>
+							<table th:if="${#lists.isEmpty(config_user.rolePermissionList())==false}" class="table table-condensed table-bordered table-hover">
+								<caption>权限列表</caption>
+								<tr style="background:purple;">
+									<th>序号</th>
+									<th>名称</th>
+									<th>uri</th>
+									<th>角色</th>
+								</tr>
+								<tr th:each="item, iterStat: ${config_user.rolePermissionList()}">
+									<td th:text="${iterStat.count}"></td>
+									<td th:text="${item.name}"></td>
+									<td th:text="${item.uri}"></td>
+									<td th:text="${item.roleName}"></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-md-4 column">
+							<blockquote>
+								<ul>
+									<li th:each="item, iterStat: ${config_user.permissions}"  th:text="${'('+iterStat.count+')'+item.name+':'+item.uri}" >
+									</li> 
+								</ul>
+								<small>已有菜单</small>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

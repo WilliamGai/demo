@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Login</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="description" content="slick_login"/>
+		<meta name="author" content="346126185@qq.com"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+		<!-- <link rel="stylesheet" type="text/css" th:href="@{/mg/css/style.css}"/> -->
+		<link rel="stylesheet" type="text/css" href="/mg/css/style.css"/>
+		<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	</head>
+	<body>
+		<!-- <span th:text="${data}"></span>
+		<br/>
+		<span th:text="${username}"></span>
+		<br/>
+		<span th:text="${password}"></span> -->
+		<form id="slick-login">
+			<span style="color: red;" th:text="${tipmsg}"></span>
+        	<input type="text" name="username" class="placeholder" placeholder="username"/>
+        	<input type="password" name="password" class="placeholder" placeholder="password"/>
+        	<input type="hidden" name="redirect_url" th:value="${redirect_url}"/>
+        	<input type="submit" value="Sign In"/>
+       		<a style="color: silver;" th:href="${'sign_up'}">sign up</a>
+        </form>
+	</body>
+</html>

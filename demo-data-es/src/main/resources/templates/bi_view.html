@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="secure_template">
+<head>
+<title th:text="${title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" />
+</head>
+<body>
+	<div id="wrapper">
+		<div th:fragment="content">
+			<div class="container">
+				<h3 th:text="${data}"></h3>
+
+				<table th:if="${list1}" class="gridtable">
+					<caption th:text="${tablename1}"></caption>
+					<tr>
+						<th>序号</th>
+						<th th:each="item:${colums1}" th:text="${item}"></th>
+					</tr>
+					<tr th:each="item,iterStat: ${list1}">
+						<td th:text="${iterStat.index}"></td>
+						<td th:text="${item.name}"></td>
+						<td th:text="${item.value}"></td>
+					</tr>
+				</table>
+				<table th:if="${list2}" class="gridtable">
+					<caption th:text="${tablename2}"></caption>
+					<tr>
+						<th>序号</th>
+						<th th:each="item:${colums2}" th:text="${item}"></th>
+					</tr>
+					<tr th:each="item,iterStat: ${list2}">
+						<td th:text="${iterStat.index}"></td>
+						<td th:text="${item.name}"></td>
+						<td th:text="${item.value}"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

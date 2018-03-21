@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<div id="result"></div>
+<link href="styles/bootstrap.min.css" rel="stylesheet" type="text/css">
+<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<style type="text/css">
+    #box-container {
+        position: relative;
+        width : 800px;
+        height : 600px;
+    }
+    #box {
+        width : 40px;
+        height : 40px;
+        background-color : #f00;
+        position : absolute;
+    }
+    #_lable {
+        width : 20px;
+        height : 20px;
+        background-color : #00f;
+        position : absolute;
+    }
+    #_origin {
+        width : 5px;
+        height : 5px;
+        background-color : #00f;
+        position : absolute;
+    }
+</style>
+</head>
+<body>
+<div class="row-fluid">
+    <div class="row10 offset2">
+        <div class="page-header">
+            <h1>Random Movement<small> HTML 5 server sent events sample</small></h1>
+        </div>
+    </div>
+    <div id="box-container" class="row10 offset2">
+        <div id="box"></div>
+        <div id="_lable"></div>
+        <div id="_origin"></div>
+    </div>
+</div>
+<script>
+	if(typeof(EventSource)!=="undefined")
+	{
+		var source=new EventSource("doevent");
+		//打开连接
+  		source.onopen=function(event)
+    	{
+  			console.log("onopen",event);
+    	};
+    	//错误信息
+  		source.onerror=function(e)
+    	{
+  			console.log("err",e);
+    	};
+    	//处理接受到的消息
+  		source.onmessage=function(event)
+    	{
+  			console.log("onmessage",event);
+   	 		document.getElementById("result").innerHTML=event.data + "<br />";
+   	 		document.getElementById("_lable").innerHTML=event.data + "<br />";
+   	 		var pos = event.data.split(',');
+   	 		x = pos[0];
+   	 		y = pos[1];
+   	 		o_x = Number(document.body.clientWidth)/2;
+   	 		o_y = Number(document.body.clientHeight)/2;
+   	 		x = Number(x) + Number(o_x);
+   	 		y = Number(y) + Number(o_y);
+   			console.log("x=", x);
+   			console.log("y=", y);
+   	 		$('#box').css({
+   				left :  x + 'px',
+   				top : y + 'px'
+   			});
+   	 		$('#_lable').css({
+				left : x + 'px',
+				top : y + 'px'
+			});
+   	 		$('#_origin').css({
+				left : o_x + 'px',
+				top : o_y + 'px'
+			});
+    	};
+	}
+	else
+  	{
+  		document.getElementById("result").innerHTML="Sorry, your browser does not support server-sent events...";
+	}
+</script>
+</body>
+</html>

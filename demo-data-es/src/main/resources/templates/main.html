@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>menu</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" />
+</head>
+<body>
+	<h3>menu</h3>
+	<ul>
+		<li th:each="item: ${list}">
+			<a th:href="${item.value}"  th:text="${item.name}">刷新</a>
+		</li>
+	</ul>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<div id="result"></div>
+<script>
+	if(typeof(EventSource)!=="undefined")
+	{
+		var source=new EventSource("getmsg");
+		//打开连接
+  		source.onopen=function(event)
+    	{
+  			console.log("onopen",event);
+    	};
+    	//错误信息
+  		source.onerror=function(e)
+    	{
+  			console.log("err",e);
+    	};
+    	//处理接受到的消息
+  		source.onmessage=function(event)
+    	{
+  			console.log("onmessage",event);
+   	 		document.getElementById("result").innerHTML+=event.data + "<br />";
+    	};
+	}
+	else
+  	{
+  		document.getElementById("result").innerHTML="Sorry, your browser does not support server-sent events...";
+	}
+</script>
+</body>
+</html>

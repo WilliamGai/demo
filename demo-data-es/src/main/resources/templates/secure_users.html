@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>用户列表</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+	<div th:fragment="content" >
+	<!-- container有边距 -->
+	<div class="container">
+		<h3>用户信息</h3>
+		<table  class="table table-condensed table-bordered table-hover">
+			<caption>用户列表</caption>
+			<tr>
+				<th>序号</th>
+				<th>用户ID</th>
+				<th>登录名</th>
+				<th>性别</th>
+				<th>头像</th>
+				<th>昵称</th>
+				<th>密码</th>
+				<th>状态</th>
+				<th/>
+				<th/>
+				<th/>
+				<th/>
+			</tr>
+			<tr th:each="item, iterStat: ${users}">
+				<td th:text="${iterStat.index}+1"></td>
+				<td th:text="${item.id}"></td>
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.gender.name}"></td>
+				<td>
+					<img th:if="${item.pic}" height="24" width="24" th:src="${item.pic}" onerror="this.onerror='';src='/mg/images/head.png'"/>
+					<img th:if="${item.pic==null}" height="24" width="24" th:src="${item.gender.defaultPic}" onerror="this.onerror='';src='/mg/images/boy.png'"/>
+				</td>
+				<td th:text="${item.nickname}"></td>
+				<td th:text="${item.password}"></td>
+				<td th:text="${item.status}"></td>
+				<!-- <td><a th:href="${'user?user_name='+item.name}">重置密码</a></td> -->
+				<td><a th:href="${'secure_user_config?user_name='+item.name}">配置角色</a></td>
+				<td><a th:href="${'/secure_user?user_name='+item.name}">查看</a></td>
+				<td th:if="${item.status==1}"><a th:if="${item.name!='admin'}" th:href="${'lock_user?user_name='+item.name}"  class="text-danger">锁定</a></td>
+				<td th:if="${item.status==0}"><a th:if="${item.name!='admin'}" th:href="${'unlock_user?user_name='+item.name}">解锁</a></td>
+				<td><a th:if="${item.name!='admin'}" th:href="${'delete_user?user_name='+item.name}"><span class="glyphicon glyphicon-trash"></span></a></td>
+			</tr>
+		</table>	
+	</div>
+	</div>
+</body>
+</html>

@@ -12,14 +12,8 @@
 		<module>../demo-core-redis</module>
 		<module>../demo-core-spring</module>
 	</modules>
-<!-- 	<profiles>
-    	<profile>
-			<modules>
-				<module>../hq_website_app_demo_core</module>
-				<module>../hq_website_app_demo_security</module>
-			</modules>
-		</profile>
-	</profiles> -->
+	<!-- <profiles> <profile> <modules> <module>../hq_website_app_demo_core</module> 
+		<module>../hq_website_app_demo_security</module> </modules> </profile> </profiles> -->
 	<properties>
 		<spring-boot.version>1.3.5.RELEASE</spring-boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,17 +32,18 @@
 		<spring-boot-admin-server-ui.version>1.3.2</spring-boot-admin-server-ui.version>
 		<poi.version>3.16</poi.version>
 		<logback.version>1.1.7</logback.version>
+		<elasticsearch.client.version>6.2.2</elasticsearch.client.version>
 	</properties>
-	<dependencyManagement> 
-		<dependencies> 
-			<dependency>  
-				<groupId>org.springframework.boot</groupId>  
-                <artifactId>spring-boot-dependencies</artifactId>  
-                <version>${spring-boot.version}</version>  
-                <type>pom</type>  
-                <scope>import</scope>  
-			</dependency>   
-        	<dependency>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson_version}</version>
@@ -64,40 +59,40 @@
 				<version>${guava_version}</version>
 			</dependency>
 			<dependency>
-    			<groupId>org.quartz-scheduler</groupId>
-    			<artifactId>quartz</artifactId>
-    			<version>${quartz_version}</version>
-			</dependency>	
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz_version}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
 				<version>${druid_version}</version>
 			</dependency>
 			<dependency>
-    			<groupId>com.google.protobuf</groupId>
-   		 		<artifactId>protobuf-java</artifactId>
-    			<version>${protobuf-java_version}</version>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>${protobuf-java_version}</version>
 			</dependency>
 			<dependency>
-    			<groupId>com.alibaba</groupId>
+				<groupId>com.alibaba</groupId>
 				<artifactId>dubbo</artifactId>
 				<version>${dubbo_version}</version>
 			</dependency>
 			<dependency>
-    			<groupId>org.apache.zookeeper</groupId>
-    			<artifactId>zookeeper</artifactId>
-    			<version>${zookeeper_version}</version>
+				<groupId>org.apache.zookeeper</groupId>
+				<artifactId>zookeeper</artifactId>
+				<version>${zookeeper_version}</version>
 			</dependency>
 			<dependency>
-    			<groupId>com.github.sgroschupf</groupId>
-    			<artifactId>zkclient</artifactId>
-    			<version>${zkclient_version}</version>
+				<groupId>com.github.sgroschupf</groupId>
+				<artifactId>zkclient</artifactId>
+				<version>${zkclient_version}</version>
 			</dependency>
 			<!-- 监控相关 -->
 			<dependency>
-    			<groupId>de.codecentric</groupId>
-    			<artifactId>spring-boot-admin-starter-client</artifactId>
-    			<version>${spring-boot-admin-starter-client_version}</version>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-client</artifactId>
+				<version>${spring-boot-admin-starter-client_version}</version>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
@@ -108,19 +103,24 @@
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-server-ui</artifactId>
 				<version>${spring-boot-admin-server-ui.version}</version>
-			</dependency> 
-			<dependency>
-   	 		<groupId>org.apache.poi</groupId>
-    			<artifactId>poi</artifactId>
-    			<version>${poi.version}</version>
 			</dependency>
 			<dependency>
-    			<groupId>ch.qos.logback</groupId>
-    			<artifactId>logback-classic</artifactId>
-    			<version>${logback.version}</version>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>${poi.version}</version>
 			</dependency>
-        </dependencies>
-	</dependencyManagement>  
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.elasticsearch.client</groupId>
+				<artifactId>transport</artifactId>
+				<version>${elasticsearch.client.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>com.alibaba</groupId>

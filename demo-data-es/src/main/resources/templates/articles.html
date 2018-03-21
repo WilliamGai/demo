@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<!-- 主页面/mg/articles -->
+<title>文章列表</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" />
+<script type="text/javascript">
+	/*触发选择文章类型*/
+	function change_type(obj){			
+		document.location.href="articles?type_id="+obj.value;
+	}
+	/**触发预览*/
+	function look_article(id){
+		window.open('../_article.html?id='+id);
+	}
+	/**触发删除*/
+	function delete_article(id){
+		var type_id = $('#type_id').val();
+		if(confirm("你确定要删除该记录吗?")){
+			$.ajax({
+					type: "get",
+					url: "article_delete?id=" + id,
+					beforeSend: function(XMLHttpRequest){},
+					success: function(data){
+						console.log(data);
+						if(data.result == 1){
+							alert("删除成功!");
+							document.location.href="articles?type_id="+type_id;
+						}else{
+							alert("删除失败!");
+						}
+					},
+					complete: function(XMLHttpRequest, textStatus){},
+					error: function(){
+						alert("删除失败");
+					}
+			});
+		}
+	}
+	
+</script>
+</head>
+<body>
+<div th:fragment="content" >
+	<div id="wrapper">
+<!--    <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+ -->	<div class="container">
+	<h3>文章列表</h3>
+
+	<p th:text="${ (page_no+1)+'&frasl;'+pages_num+'共'+sum+'篇'}"></p>
+
+ 	<button  class="btn btn-default btn-info" onclick="window.open('article_alter')">+ New</button>
+    <a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default btn-info" data-toggle="modal">创建文章类型</a>
+	<!-- 添加新的文章类型 start -->
+	<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">
+						创建一个新的文章类型
+					</h4>
+				</div>
+			<div class="modal-body">
+				<form role="form" class="form-inline" action="add_article_type" method="post">
+                	<div class="modal-body">
+                		<label for="type_id">编号(NO.)</label>
+		    			<input name="type_id" id="type_id"/>
+		    			<br/>
+		    			<label for="name">类型名称</label>
+		    			<input name="name" id="name"/>
+						<br/>
+					</div>
+                	<div class="modal-footer">
+                		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确认要创建?');" />
+                	</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- 修改文章类型名称 start-->
+	<a th:if="${type_name}" id="modal-303936" href="#modal-container-303937" role="button" class="btn btn-default btn-info" data-toggle="modal">修改文章类型名称</a>
+	<div class="modal fade" id="modal-container-303937" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">
+						修改文章类型名称
+					</h4>
+				</div>
+			<div class="modal-body">
+				<form role="form" class="form-inline" action="edit_article_type" method="post">
+                	<div class="modal-body">
+                		<label th:text="${'编号(NO.):'+type_id}"></label>
+		    			<br/>
+		    			<label th:text="${'旧名称:'+type_name}"></label>
+		    			<br/>
+		    			<label for="name">新名称 :</label>
+		    			<input type="hidden" id="type_id" name="type_id" th:value="${type_id}" />
+		    			<input name="name" id="name"/>
+						<br/>
+					</div>
+                	<div class="modal-footer">
+                		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确认要修改?');" />
+                	</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- 修改文章类型名称 end -->
+	<a th:if="${type_name}"  th:class="${user_name=='admin'?'btn btn-default btn-danger ':'btn btn-default btn-danger disabled'}" th:href="${'delete_article_type?type_id='+type_id}" onclick="javascript:return confirm('确认要删除?');">删除文章类型</a>
+    <br/>
+    <br/>
+    <label>文章类型：</label>
+	<select id="type_id" name="type_id" onchange="change_type(this)">
+			<option value="" >-所有文章-</option>
+			<option th:each="a_type: ${type_list}" th:selected="${type_id==a_type.id}" th:value="${a_type.id}" th:text="${a_type.name}"></option>
+	</select>
+	<table th:if="${list}" class="table table-condensed table-bordered table-hover">
+		
+		<caption>文章列表</caption>
+		<thead>
+		<tr  style="background-color: orange">
+			<th>id</th>
+			<th>标题</th>
+			<!-- <th>content</th> -->
+			<th>创建时间</th>
+			<th>修改时间</th>
+			<!-- <th>user_id</th> -->
+			<th>阅读次数</th>
+			<th>类型</th>
+			<!-- <th>图片地址</th> -->
+			<!-- <th>update_time</th> -->
+			<!-- <th>short_title</th> -->
+			<!-- <th>sort</th> -->
+			<!-- <th>link_url</th> -->
+			<th>创建者</th>
+			<th>修改者</th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="item: ${list}"  class="success">
+			<td th:text="${item.id}"></td>
+			<td th:text="${item.title}"></td>
+			<td th:text="${item.create_time_str}"></td>
+			<td th:text="${item.update_time_str}"></td>
+			<td th:text="${item.read_num}"></td>
+			<td th:text="${item.type_name}" th:style="${item.type_id=='-1'}?'background-color: gray'"></td>
+			<!-- <td th:text="${item.img_url}"></td> -->
+			<td th:text="${item.created_by}"></td>
+			<td th:text="${item.updated_by}"></td>
+			<td><a th:href="${yulan_url+'?id='+item.id}">预览</a></td>
+			<td><a th:href="${'article_alter?id='+item.id}">修改</a></td>
+			<td th:onclick="${'delete_article('''+item.id+''')'}"><a href="javascript:;">删除</a></td>
+		</tr>
+		</tbody>
+	</table>
+<!-- 	<a href="articles">刷新</a> -->
+    <!-- 旧的分页样式 -->
+	<!-- 第<a th:each="no: ${page_nos}" th:href="${'articles?page_no='+no+'&amp;type_id='+type_id}" th:text="${(no+1)+'&nbsp;'}"></a>页
+	<a th:if= "${(page_no-1)&gt;=0}" th:href="${'articles?page_no='+(page_no-1)+'&amp;type_id='+type_id}">&lt;上一页</a> 
+	<a th:if= "${(page_no+1)&lt;pages_num}" th:href="${'articles?page_no='+(page_no+1)+'&amp;type_id='+type_id}">下一页&gt;</a> 
+ -->	<!-- 分页 -->
+		  <div class="col-md-12 column">
+            <ul class="pagination pagination-sm">
+                <li>
+                    <a th:if= "${(page_no-1)&gt;=0}" th:href="${'articles?page_no='+(page_no-1)+'&amp;type_id='+type_id}">Prev</a>
+                </li>
+                <li th:each="no: ${page_nos}">
+                    <a th:href="${'articles?page_no='+no+'&amp;type_id='+type_id}" th:text="${(no+1)+'&nbsp;'}" th:style="${page_no==no}?'background-color:blue'" ></a>
+                </li>
+                <li>
+                   <a th:if= "${(page_no+1)&lt;pages_num}" th:href="${'articles?page_no='+(page_no+1)+'&amp;type_id='+type_id}">Next</a>
+                </li>
+            </ul>
+        </div>
+        </div>
+	</div>
+</div>
+</body>
+</html>

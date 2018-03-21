@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>文章列表</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/table.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/css/public.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/kindeditor/themes/default/default.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/mg/kindeditor/plugins/code/prettify.css}" />
+<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script charset="utf-8" th:src="@{/mg/kindeditor/kindeditor-min.js}"></script>
+<script charset="utf-8" th:src="@{/mg/kindeditor/lang/zh_CN.js}"></script>
+<script charset="utf-8" th:src="@{/mg/kindeditor/plugins/code/prettify.js}"></script>
+<link href="//cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//cdn.bootcss.com/bootstrap/3.0.1/js/bootstrap.js"></script>
+<script type="text/javascript">
+	/** kindeditor begin**/
+	var editor;
+	KindEditor.ready(function(K) {
+			  editor = K.create('textarea[name="content"]', {
+				cssPath : '/mg/kindeditor/plugins/code/prettify.css',
+				//uploadJson : 'upload_json.jsp',
+				//fileManagerJson : 'file_manager_json.jsp'
+				uploadJson : '/mg/article/upload_file_json',
+				fileManagerJson : '/mg/article/file_manager_json',
+				allowFileManager : true,
+				afterCreate : function() {
+					var self = this;
+					K.ctrl(document, 13, function() {
+						self.sync();
+						document.forms['example'].submit();
+					});
+					K.ctrl(self.edit.doc, 13, function() {
+						self.sync();
+						document.forms['example'].submit();
+					});
+				}
+			});
+			prettyPrint();
+			console.log("kindeditor","loaded");
+		});
+	/**	kindeditor end **/
+	/** save_func begin*/
+	function save_article_func(){
+		var id = $('#id').val();
+		var title = $('#title').val();
+		var content = editor.html();			
+		var form = $("#edit_article");
+		var type_id = form.find("#type_id").val();			
+		var img_url = form.find("#img_url").val();
+		var link_url = form.find("#link_url").val();
+		var sort = form.find("#sort").val();
+		var short_title  = form.find("#short_title").val();
+		if(title == ''){
+			alert("标题不能为空!");
+			return false;
+		}
+		if(type_id == ''){
+			alert("文章类型不能为空!");
+			return false;
+		}
+		// 如果使用/article_alter/{id}  路径则需要'../'
+		$.post("save_article_func", {"id":id,"title":title,"short_title":short_title,"content":content,"sort":sort,"img_url":img_url,"link_url":link_url,"type_id":type_id},function(data){
+			console.log("start req save function");
+			console.log("id",id);
+			console.log("title",title);
+			console.log("short_title",short_title);
+			console.log("type_id",type_id);
+			console.log("img_url",img_url);
+			if(data.result == 1){
+				alert('操作成功!');
+				//document.location.href = "";
+			}else{
+				alert('操作失败!');
+			}
+		});
+		/*	$("#content").val(content);
+			$("#form1").submit();*/
+	}		
+	/** save_func_end*/
+	/** submit form begin*/
+    function check(form){
+		if(form.title.value==''){
+			alert("标题不能为空!");
+			return false;
+		}
+		if(form.type_id.value==''){
+			alert("文章类型不能为空!");
+			return false;
+		}
+		return true;
+			
+	}
+	/** submit form end */
+</script>
+</head>
+<body>
+<div th:fragment="content" >
+<div id="wrapper">
+
+<!--    <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+ --><div class="container">
+	<h3 th:if="${article.id!=0}">修改</h3>
+	<h3 th:if="${article.id==0}">添加</h3>
+<!-- 	<h3 th:text="${article.type_id}"></h3>
+	<h3 th:text="${article.type_id==type_list[0].id}"></h3>
+	<h3 th:text="${article.type_id==type_list[1].id}"></h3>
+	<h3 th:text="${article.type_id==type_list[2].id}"></h3>
+	<h3 th:text="${article.type_id==type_list[3].id}"></h3> -->
+
+	<!-- 2016年12月5日17:00:41 -->
+	<form id="edit_article" name="input" action="sumit_article" method="post">
+		<p>
+			<label>标题：</label> 
+			<input class="large-inp" type="text" id="title" name="title" th:value="${article.title}" /> 
+			<input type="hidden" id="id" name="id" th:value="${article.id}" />
+			<!-- <input type="hidden" id="type" name="type" th:value="${article.type_id}" /> -->
+		</p>
+		<p>
+			<label>副标题：</label>
+			<input class="large-inp" type="text" id="short_title" name="short_title" th:value="${article.short_title}" />
+		</p>
+		
+		<p>
+			<label>文章类型：</label>
+			<select id="type_id" name="type_id">
+				<option th:each="a_type: ${type_list}" th:value="${a_type.id}" th:selected="${article.type_id==a_type.id}" th:text="${a_type.name}"></option>
+			</select>
+		</p>
+<!-- 		<p>
+			<label>图片地址：</label>
+			<input class="large-inp" type="text" id="img_url" name="img_url" th:value="${article.img_url }" />
+		</p> 
+		<p>
+			<label>文章地址：</label>
+			<input class="large-inp" type="text" id="link_url" name="link_url" th:value="${article.link_url }" />
+		</p>
+		-->
+		<p>
+			<label>内容:</label>
+			<textarea id="content" name="content"
+				style="width: 800px; height: 270px; visibility: hidden;"
+				th:text="${article.content}">
+			</textarea>
+		</p>
+		<p>
+			<input type="submit" value="提交" onclick="return check(this.form)"/>
+			<input class="button white" type="button" value="保存修改" onclick="save_article_func()" /> 
+			<input class="button white" type="button" value="取消" onclick="javascript:history.back()" />
+		</p>
+	</form>
+	</div>
+	</div>
+</div>
+</body>
+</html>

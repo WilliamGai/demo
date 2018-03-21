@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>传送文件</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript">
+
+function change_lunbo(obj){			
+	document.location.href="upload_media?group_no="+obj.value;
+}
+function showImg(fileObj,imgId) {
+    console.log(imgId);
+    var file=fileObj.files[0];
+    var r = new FileReader();
+    r.readAsDataURL(file);
+    $(r).load(function() {
+        $('#'+imgId).attr("src", this.result);
+    })
+}
+</script>
+</head>
+<body>
+<div th:fragment="content" >
+<div id="wrapper">
+<!--    <iframe src="header.html" class="U_header"  scrolling='no' frameborder='0' width="100%"></iframe>
+ -->
+ <div class="container">
+
+            <div class="tabbable" id="tabs-50930">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#panel-41355" data-toggle="tab">轮播图</a>
+                    </li>
+                    <li>
+                        <a href="#panel-483507" data-toggle="tab">视频</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="panel-41355">
+<!--                         <p>
+                            I'm in Section 1.
+                        </p> -->                 
+	<h2 th:text="${'轮播图'+lunbo.group_no}"></h2>
+	<hr/>
+	<label>轮播图组合选择</label>
+	<!-- 	<p th:text="${lunbo_nos}"></p>
+		<p th:text="${lunbo.group_no}"></p> -->
+	<select id="_lunbo_no" name="lunbo_no" onchange="change_lunbo(this)">
+			<option th:each="_lunbo_no: ${lunbo_nos}" th:selected="${lunbo.group_no==_lunbo_no}" th:value="${_lunbo_no}" th:text="${_lunbo_no}"></option>
+	</select>
+	<br/>
+	<br/>
+	<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default btn-success" data-toggle="modal">创建一个新的轮播图配置</a>
+	<!-- 添加轮播图配置 start -->
+	<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">
+						创建一个新的轮播图配置
+					</h4>
+				</div>
+			<div class="modal-body">
+				<form role="form" class="form-inline" action="add_lunbo_cf" method="post">
+                	<div class="modal-body">
+                		<label for="group_no">轮播图编号(唯一)</label>
+		    			<input name="group_no" id="group_no"/>
+        				<input placeholder="说明" class="form-control" name ="desc" id="desc" />
+						<br/>
+					</div>
+                	<div class="modal-footer">
+                		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('你确认要提交创建?');" />
+                	</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	</div>
+	    <!-- 添加轮播图配置 end -->
+		<!-- 新增一个 空的轮播图页 start -->
+		<a  class="btn btn-default btn-warning" th:href="${'add_lunbo_empty_page?group_no='+lunbo.group_no}" onclick="javascript:return confirm('添加一个空白页？');">新增空的轮播图页</a>
+        <a  th:class="${user_name=='admin'?'btn btn-default btn-danger ':'btn btn-default btn-danger disabled'}" th:href="${'delete_lunbo_cf?group_no='+lunbo.group_no}" onclick="javascript:return confirm('确认要删除轮播图?删除后不能恢复！');">删除轮播图配置</a>
+        <a th:href="${'/get_lunbo?lunbo_group_no='+lunbo.group_no}">显示json</a>
+        <br/>
+        <br/>
+        <!-- 新增一个空的轮播图页 end -->
+<!-- 	<p th:text="${lunbo}"></p>
+	<p th:text="${#lists.size(lunbo.lunbos)}"></p> -->
+<!-- 	<form role="form" class="form-inline" action="resize_lunbo_size" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+		    <input type="hidden" name="group_no" th:value="${lunbo.group_no}" />
+        	<input th:value="${#lists.size(lunbo.lunbos)}" class="form-control" name ="lunbo_size" id="lunbo_size" />
+    	</div>
+    	 <div class="form-group">
+			<input class="btn btn-default btn-success" type="submit" value="Reset" onclick="javascript:return confirm('重置轮播图大小可能会丢失或者增加信息，你确认要重置大小?');" />
+		</div>
+	</form> -->
+
+        <div class="alert alert-dismissable alert-info">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<h4>
+				tips:
+			</h4> 删除清联系管理员
+		</div>
+		
+		
+		<div class="col-md-6 column">
+        <div class="carousel slide" id="carousel-786045">
+            <ol class="carousel-indicators">
+                <!-- th:attrappend="class=${' '+cssStyle}" -->
+                <li th:each="i,iterStat : ${#numbers.sequence( 1, #lists.size(lunbo.lunbos))}"  th:attr="data-slide-to=${iterStat.index}" data-target="#carousel-786045" th:class="${iterStat.index==0}? 'active'">
+                </li>
+            </ol>
+            <div class="carousel-inner">
+                <!-- 如果是第一个得有active -->
+                <div th:each="i,iterStat: ${lunbo.lunbos}" th:class="${iterStat.index==0}? 'item active':'item'">
+                    <img alt="" th:src="${i.img_url}" onerror="this.onerror='';src='/mg/images/no.png'"/>
+                </div>
+            </div>
+            <a class="left carousel-control" href="#carousel-786045" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-786045" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+        </div>
+    </div>
+    <div class="col-md-6 column">
+        <form th:each="i,iterStat: ${lunbo.lunbos}" role="form" class="form-inline" action="edit_lunbo_empty_page" method="post" enctype="multipart/form-data">
+            <img th:id ="${'pic'+iterStat.index}" width="180" height="120" th:src="${i.img_url}"  onerror="this.onerror='';src='/mg/images/no.png'" />
+            <div class="form-group">
+                <input type="hidden" name="id" th:value="${iterStat.index}" />
+                <input type="hidden" name="group_no" th:value="${lunbo.group_no}" />
+                <input type="text" th:id="${i.link_url+iterStat.index}" name="link_url"  th:value="${i.link_url}"/>
+                <label th:for="${i.link_url+iterStat.index}">文章链接</label>
+                <!-- <p class="help-block">
+                   	 请通过文章列表的预览功能获取超链接地址
+                </p> -->
+                <input type="file" name="file"  th:attr="onchange=${'showImg(this,''pic'+iterStat.index+''')'}"/>
+                <!--  <input type="text" id="img_url_cdn" name="img_url_cdn"  th:value="${i.img_url_cdn}"/>
+                <label>图片CND地址(可选)</label> -->
+ 				<input type="text" id="desc" name="desc"  th:value="${i.desc}"/>
+                <label>描述</label>
+           
+            <br/>
+            <button type="submit" th:class="${i.status==1}?'btn btn-default btn-success':'btn btn-default btn-warning'">保存</button>
+        	<a  class="btn btn-default btn-info" th:href="${'up_lunbo_page?group_no='+lunbo.group_no+'&amp;ordinal='+iterStat.index}">↑</a>
+        	<a  th:class="${user_name=='admin'?'btn btn-default btn-danger ':'btn btn-default btn-danger disabled'}" th:href="${'delete_lunbo_page?group_no='+lunbo.group_no+'&amp;ordinal='+iterStat.index}" onclick="javascript:return confirm('确认要删除轮播图?删除后不能恢复！');">删除轮播图配置</a>
+        	</div>
+        <hr/>
+        </form>
+     </div>
+                    </div>
+                    <div class="tab-pane" id="panel-483507">
+                       <!--  <p>
+                            Howdy, I'm in Section 2.
+                        </p> -->
+                        
+                        <div class="col-md-12 column">
+                        <video width="320" height="240" controls="controls">
+   				 <source src="../files/1.mp4" type="video/mp4"/>
+    			Your browser does not support the video tag.
+				</video>
+					<div class="alert alert-dismissable alert-warning">
+				 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<h4>
+					tips:
+				</h4> <strong>Only mp4 permitted!</strong>视频格式为mp4,且大小不能超过10M.
+			</div>
+		</div>
+                        	<form action="upload_media_submit_video" method="post" enctype="multipart/form-data">
+								<input type="hidden" id="id" name="id" th:value="1" />
+								<input class="btn btn-default btn-success" type="file" name="file" /> 
+								<input class="btn btn-default btn-success" type="submit" value="Submit" />
+							</form>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>搜索性能测试</title>
+</head>
+<body>
+<!--  -->
+<div id="wrapper">
+<div th:fragment="content" >
+	<div class="container">
+        <div class="col-md-2 column">
+			<a th:each="item:${code_infos}" th:href="${'code?sn='+item.sn}" th:text="${item.name}" th:class="${code_info.sn==item.sn?'list-group-item active':'list-group-item'}"></a>
+   		 </div>
+    <div class="col-md-10 column">
+         	<a id="modal-303936" href="#modal-container-303936" role="button" class="btn btn-default btn-success" data-toggle="modal">创建一个新的搜索配置</a>
+			<!-- 添加配置 start -->
+			<div class="modal fade" id="modal-container-303936" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">
+								创建一个新的搜索测试
+							</h4>
+						</div>
+			<div class="modal-body">
+				<form role="form" class="form-inline" action="add_code_cf" method="post" enctype="multipart/form-data">
+                	<div class="modal-body">
+                		<label>编号(唯一)</label>
+		    			<input name="code_sn" id="code_sn"/>
+		    			<br/>
+		    			<label>线程数目(大于1的整数)</label>
+		    			<input name="threds" id="threds"/>
+        				<input placeholder="名称" class="form-control" name ="code_name" id="code_name" />
+        				<input placeholder="描述" class="form-control" name ="code_desc" id="code_desc" />
+						<br/>
+						<label for="input_code_file">上传文件</label>
+        				<input type="file" id="input_code_file" name="code_file"/>
+					</div>
+                	<div class="modal-footer">
+                		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('创建后不能修改，你确认要提交创建?');" />
+                	</div>
+				</form>
+			</div>
+			</div>
+			</div>
+			</div>
+			<!-- 添加搜索配置 end -->
+			<!-- 修改搜索 start -->
+			<div th:if="${code_info}" class="modal fade" id="modal-container-edit_code_cf" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">
+								修改搜索配置
+							</h4>
+						</div>
+			<div class="modal-body">
+				<form role="form" class="form-inline" action="edit_code_cf" method="post" enctype="multipart/form-data">
+                	<div class="modal-body">
+                		<label>搜索编号:</label>
+		    			<label th:text="${code_info.sn}"></label>
+		    			<br/>
+        				<input type="hidden" name = "code_sn" th:value="${code_info.sn}"></input>
+        				<br/>
+        				<label>线程数目:</label>
+        				<br/>
+						<input name="threds" th:value="${code_info.threds}"/>
+						<br/>
+						<label for="input_code_file">上传关键词文件</label>
+        				<input type="file" id="input_code_file" name="code_file"/>
+					</div>
+                	<div class="modal-footer">
+                		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('操作后信息不能撤销，你确认要提交创建?');" />
+                	</div>
+				</form>
+			</div>
+			</div>
+			</div>
+			</div>
+			<!-- 修改搜索 end -->
+			<!-- 测试搜索 start -->
+			<div th:if="${code_info}" class="modal fade" id="modal-container-testWordsSearch" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">
+								修改搜索配置
+							</h4>
+						</div>
+			<div class="modal-body">
+				<form role="form" class="form-inline" action="testWordsSearch" method="post" enctype="multipart/form-data">
+                	<div class="modal-body">
+                		<label>搜索编号:</label>
+		    			<label th:text="${code_info.sn}"></label>
+		    			<br/>
+        				<input type="hidden" name = "code_sn" th:value="${code_info.sn}"></input>
+        				<br/>
+        				<label>线程数目:</label>
+        				<br/>
+						<input name="threds" th:value="${code_info.threds}"/>
+						<br/>
+						<label for="input_code_file">上传要搜索的关键词文件</label>
+        				<input type="file" id="input_code_file" name="code_file"/>
+					</div>
+                	<div class="modal-footer">
+						<input class="btn btn-default" type="submit" value="测试"/>
+                	</div>
+				</form>
+			</div>
+			</div>
+			</div>
+			</div>
+			<!-- 测试搜索 end -->
+			<div>
+<!-- 			<p th:each="item:${code_infos}" th:text="${item}"></p>
+			<p th:text="${code_info}"></p> -->
+			<h2 th:text="${code_info.name}"></h2>
+			<p th:text="${code_info.desc}"></p>
+			<label class="text-muted">测试搜索URI:</label><a th:href="${'testSearch?sn='+code_info.sn+'&amp;who=abc'}"  th:text="${'get_a_code?sn='+code_info.sn+'&amp;who=abc'}"  class="text-muted"></a>
+    		<br/>
+    		<label class="text-muted">搜索状态URI:</label><a th:href="${'/if_code_fit?sn='+code_info.sn}"  th:text="${'if_code_fit?sn='+code_info.sn}" class="text-muted"></a>
+    		<br/>
+			<hr/>
+			<label class="text-muted">搜索名称:</label><label th:text="${code_info.name}" class="text-info"></label>
+    		<br/>
+    		<label class="text-muted">搜索KEY:</label><label th:text="${code_info.sn}"></label>
+    		<br/>
+    		<label class="text-muted">创建者:</label><label th:text="${code_info.create_by}" class="text-success"></label>
+    		<br/>
+    		<label class="text-muted">创建时间:</label><label th:text="${code_info.create_time_str} " class="text-success"></label>
+    		<br/>
+    		<label class="text-muted">redis中关键字数目:</label><label th:text="${code_info.left_codes_num}"  class="text-danger"></label>
+    		<br/>
+    		<label class="text-muted">内存中的关键字数目:</label><label th:text="${code_info.rmv_codes_num}" class="text-warning"></label>
+    		<br/>
+    		<a  th:class="${user_name=='admin'?'btn btn-default btn-danger ':'btn btn-default btn-danger disabled'}" th:href="${'delete_code_cf?sn='+code_info.sn}" onclick="javascript:return confirm('确认要删除搜索配置?删除后信息不能恢复！');">删除搜索</a>
+    		<a  class="btn btn-default btn-warning" th:href="${'delete_code_list?sn='+code_info.sn}" onclick="javascript:return confirm('确认要删除搜索?删除后信息不能恢复！');">清除旧搜索</a>
+    		<a href="#modal-container-edit_code_cf" role="button" class="btn btn-default btn-info" data-toggle="modal">编辑搜索</a>
+    		<a href="#modal-container-testWordsSearch" role="button" class="btn btn-default " data-toggle="modal">测试搜索</a>
+    		</div>
+    		<hr/>
+    	</div>
+       	</div><!-- container end -->
+		<hr/>
+	</div>
+</div>
+</body>
+</html>

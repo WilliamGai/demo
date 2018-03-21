@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="secure_template">
+<head>
+<title>编辑页面</title>
+<script type="text/javascript">
+	/*点击图片选择*/
+	function _open_pic(src) 
+    { 
+		 console.log('_open_pic', src);
+         document.getElementById(src).click(); 
+    } 
+	/*显示刚刚选择的图片*/
+	function showImg(fileObj,imgId) {
+    	console.log(imgId);
+    	var file=fileObj.files[0];
+    	var r = new FileReader();
+    	r.readAsDataURL(file);
+    	$(r).load(function() {
+        	$('#'+imgId).attr("src", this.result);
+    	})
+	}
+	/**当选择富文本的时候使用固定的key,即一个模板只能有一个富文本*/
+	function change_type(obj){		
+		console.log(obj.value);
+		
+	}
+</script>
+</head>
+<body>
+	<div th:fragment="content" >
+	<div class="container">
+		<div class="row clearfix" style="margin-top: 5%">
+		<div class="col-md-2 column" >
+			<div class="page-sidebar" style="position: fixed">
+				<div>
+					<h3>模板列表</h3>
+				</div>
+				<ul class="nav nav-list">
+            		<li th:each="pg, iterStat: ${templatePages}"><a th:href="${'/mg/page?template_id='+pg.id}"><i th:text="${pg.name+'('+pg.id+')'}" th:class="${template_id==pg.id?'glyphicon glyphicon-flag':''}"></i></a></li>
+        		</ul>
+			</div>
+		</div>
+		<div class="col-md-10 column">
+		 	<h2 class="text-info" th:if="${page}" th:text="${page.name}"></h2>
+ 			<h4 class="text-success" th:if="${page}" th:text="${'页面ID:'+page.id+',阅读次数:'+page.visits}"></h4>
+			<a th:href="${'page_template?id='+template_id}">查看模板</a>
+			<a th:href="${'/page_rst?template_id='+template_id+'&amp;id='+id}">显示json</a><hr/>
+			<!-- add page start -->
+			<a id="modal-303937" href="#modal-container-303937" role="button" class="btn btn-default" data-toggle="modal">创建文章</a>
+			<br/>
+			<br/>
+			<div class="modal fade" id="modal-container-303937" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">
+								创建一个页面
+							</h4>
+						</div>
+						<div class="modal-body">
+							<form role="form" class="form-inline" action="page_add" method="post">
+								<input type="hidden" name="template_id" th:value="${template_id}" />
+                				<!-- <label>编号(No):</label>
+		    					<input name="id" id="id"/>
+		    					<br/> -->
+		    					<label>名称:</label>
+		    					<input name="name" id="name"/>
+                				<div class="modal-footer">
+                					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									<input class="btn btn-primary" type="submit" value="保存" onclick="javascript:return confirm('确定创建?');" />
+                				</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- add page end -->
+			<!-- <h3 th:text="${items}"></h3>
+			<h3 th:text="${'id='+id}"></h3> -->
+		<div th:each="item, iterStat: ${items}">
+<!-- 		<label th:text="${item}"></label><br/>
+ -->		<label th:text="${'说明:'+item.name}"></label><br/>
+			<label th:text="${'编号:'+item.key}"></label><br/>
+			<label th:text="${'类型:'+item.type.name}" class="text-warning"></label><br/>
+			<div th:if="${item.type.name=='文本'}">
+				<form role="form" class="form-inline "  th:action="${'page_save'}" method="post" enctype="multipart/form-data">
+					<!-- tmplt -->
+					<input type="hidden" name="template_id" th:value="${template_id}" />
+					<input type="hidden" name="id" th:value="${id}" />
+					<input type="hidden" name="key" th:value="${item.key}" />
+					<input type="hidden" name="type_id" th:value="${item.type.id}" />
+					<!-- tmplt end-->
+					<div class="form-group">
+						<input class="form-control" type="text" th:value="${item.data}" placeholder="内容" id="desc" name="desc"/>
+					</div>
+					<button class="btn btn-default btn-sm" type="submit">保存</button>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+				</form>
+			</div>
+			<div class="form-inline" th:if="${item.type.name=='文本组'}">
+			 	<div th:each="i,iterStat : ${item.data}">
+			 	    <div class="form-group">
+						<input class="text-muted form-control" th:value="${i}" readonly="readonly"/>
+					</div>
+				</div>
+				<form role="form" class="form-inline" th:action="${'page_save'}" method="post" enctype="multipart/form-data">
+					<!-- tmplt -->
+					<input type="hidden" name="template_id" th:value="${template_id}" />
+					<input type="hidden" name="id" th:value="${id}" />
+					<input type="hidden" name="key" th:value="${item.key}" />
+					<input type="hidden" name="type_id" th:value="${item.type.id}" />
+					<!-- tmplt end-->
+					<div class="form-group">
+						<input class="form-control" type="text" placeholder="内容" name="desc"/>
+					</div>
+					<br/>
+					<button class="btn btn-default btn-sm" type="submit">保存</button>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+				</form>
+			</div>
+			<div th:if="${item.type.name=='长文本'}">
+				<form role="form" class="form-inline"  th:action="${'page_save'}" method="post" enctype="multipart/form-data">
+					<!-- tmplt -->
+					<input type="hidden" name="template_id" th:value="${template_id}" />
+					<input type="hidden" name="id" th:value="${id}" />
+					<input type="hidden" name="key" th:value="${item.key}" />
+					<input type="hidden" name="type_id" th:value="${item.type.id}" />
+					<!-- tmplt end-->
+					<input th:if="${item.data}" type="text" th:value="${item.data.name}" placeholder="更新标题" name="name" class="form-control" />
+					<textarea th:if="${item.data}"  name="desc" th:text="${item.data.data}" cols="30" rows="3" class="form-control" >
+						更新内容
+					</textarea>
+					<input th:if="${item.data==null}" type="text" placeholder="标题" name="name" class="form-control" />
+					<textarea th:if="${item.data==null}"  name="desc" cols="30" rows="3" class="form-control" >
+						详细内容
+					</textarea>
+					<br/>
+					<button class="btn btn-default btn-sm" type="submit">保存</button>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+				</form>
+			</div>
+			<div th:if="${item.type.name=='长文本组'}">
+			<!-- 循环几个例子 -->
+			 	<div th:each="i,iterStat : ${item.data}">
+					<input  class="text-muted form-control"  th:value="${i.name}" readonly="readonly"/>
+					<textarea  class="text-muted form-control" th:text="${i.data}" cols="30" rows="3" readonly="readonly">
+					</textarea>
+				</div>
+				<form role="form" class="form-inline"  th:action="${'page_save'}" method="post" enctype="multipart/form-data">
+					<!-- tmplt -->
+					<input type="hidden" name="template_id" th:value="${template_id}" />
+					<input type="hidden" name="id" th:value="${id}" />
+					<input type="hidden" name="key" th:value="${item.key}" />
+					<input type="hidden" name="type_id" th:value="${item.type.id}" />
+					<!-- tmplt end-->
+					<input type="text" class="form-control" placeholder="标题" name="name"/>
+					<textarea  class="form-control" name="desc" cols="30" rows="3">
+						详情
+					</textarea>
+					<br/>
+					<button class="btn btn-default btn-sm" type="submit">保存</button>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+				</form>
+			</div>
+			<div th:if="${item.type.name=='图片'}">
+				<form role="form" class="form-inline"  th:action="${'page_save'}" method="post" enctype="multipart/form-data">
+					<!-- tmplt -->
+					<input type="hidden" name="template_id" th:value="${template_id}" />
+					<input type="hidden" name="id" th:value="${id}" />
+					<input type="hidden" name="key" th:value="${item.key}" />
+					<input type="hidden" name="type_id" th:value="${item.type.id}" />
+					<!-- tmplt end-->
+					<img class="img-rouded" th:each="m, iterStat: ${item.data}" height="80" width="100" th:src="${m}" onerror="this.onerror='';src='/mg/images/no.png'"/>
+					<input type="file" th:id="${'pic'+item.key}" name="pic" style="display: none" th:attr="onchange=${'showImg(this,'+'''_pic_show'+item.key+''')'}"/>
+					<img class="img-thumbnail" height="80" th:id="${'_pic_show'+item.key}" name="_pic_show" width="80" th:onclick="${'_open_pic('+'''pic'+item.key+''')'}" th:src="${pic}" onerror="this.onerror='';src='/mg/images/default.png'"/>
+					<button class="btn btn-default btn-sm" type="submit">保存</button>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+				</form>
+			</div>
+			<div th:if="${item.type.name=='图片组'}">
+				<form role="form" class="form-inline"  th:action="${'page_save'}" method="post" enctype="multipart/form-data">
+					<!-- tmplt -->
+					<input type="hidden" name="template_id" th:value="${template_id}" />
+					<input type="hidden" name="id" th:value="${id}" />
+					<input type="hidden" name="key" th:value="${item.key}" />
+					<input type="hidden" name="type_id" th:value="${item.type.id}" />
+					<!-- tmplt end-->
+					<img class="img-rouded" th:each="m, iterStat: ${item.data}" height="80" width="100" th:src="${m}" onerror="this.onerror='';src='/mg/images/no.png'"/>
+					<input type="file" th:id="${'pic'+item.key}" name="pic" style="display: none" th:attr="onchange=${'showImg(this,'+'''_pic_show'+item.key+''')'}"/>
+					<img class="img-thumbnail" height="80" th:id="${'_pic_show'+item.key}" name="_pic_show" width="80" th:onclick="${'_open_pic('+'''pic'+item.key+''')'}" th:src="${pic}" onerror="this.onerror='';src='/mg/images/ddd.png'"/>
+					<button class="btn btn-default btn-sm" type="submit">保存</button>
+					<a class="btn btn-default btn-sm" th:href="${'delete_page_item?id='+id+'&amp;key='+item.key+'&amp;template_id='+template_id}" onclick="javascript:return confirm('确认要清空?');">清空</a>
+				</form>
+			</div>
+			<hr/>
+		</div>
+		<!-- 例子start 
+		<form th:each="i,iterStat: ${page.lunbos}" role="form" class="form-inline" action="edit_lunbo_empty_page" method="post" enctype="multipart/form-data">
+            <img th:id ="${'pic'+iterStat.index}" width="180" height="120" th:src="${i.img_url}"  onerror="this.onerror='';src='images/no.png'" />
+            <div class="form-group">
+                <input type="hidden" name="id" th:value="${iterStat.index}" />
+                <input type="hidden" name="group_no" th:value="${lunbo.group_no}" />
+                <input type="text" th:id="${i.link_url+iterStat.index}" name="link_url"  th:value="${i.link_url}"/>
+                <label th:for="${i.link_url+iterStat.index}">文章链接</label>
+                <input type="file" name="file"  th:attr="onchange=${'showImg(this,''pic'+iterStat.index+''')'}"/>
+ 				<input type="text" id="desc" name="desc"  th:value="${i.desc}"/>
+                <label>描述</label>
+           
+            <br/>
+            <button type="submit" th:class="${i.status==1}?'btn btn-default btn-success':'btn btn-default btn-warning'">保存</button>
+        	<a  class="btn btn-default btn-info" th:href="${'up_lunbo_page?group_no='+lunbo.group_no+'&amp;ordinal='+iterStat.index}">↑</a>
+        	<a  th:class="${user_name=='admin'?'btn btn-default btn-danger ':'btn btn-default btn-danger disabled'}" th:href="${'delete_lunbo_page?group_no='+lunbo.group_no+'&amp;ordinal='+iterStat.index}" onclick="javascript:return confirm('确认要删除轮播图?删除后不能恢复！');">删除轮播图配置</a>
+        	</div>
+        <hr/>
+        </form>
+                    例子end -->
+		<br/>
+		<br/>
+		<br/>
+		</div>
+		</div>
+		</div>
+		</div>
+	</body>
+</html>

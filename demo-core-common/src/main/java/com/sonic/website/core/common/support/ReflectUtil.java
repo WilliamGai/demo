@@ -8,6 +8,34 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class ReflectUtil {
+	
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T getField(Class<?> clazz, Object r, String filedName) {
+		try {
+			Field f = clazz.getDeclaredField(filedName);
+			f.setAccessible(true);
+			return (T) f.get(r);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T changeField(Class<?> clazz, Object r, String filedName, Object newValue) {
+	    try {
+	        Field f = clazz.getDeclaredField(filedName);
+	        f.setAccessible(true);
+	        f.set(r, newValue);
+	        return (T) f.get(r);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+	
+	
 	/**
 	 * 获得某个对象的某个字段
 	 */
@@ -74,7 +102,7 @@ public class ReflectUtil {
 	}
 
 	/**
-	 * ()通过反射获得某个对象的某个方法，并返回方法的结果
+	 * 通过反射获得某个对象的某个方法，并返回方法的结果
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getReflectObject(Class<?> clazz, Object r, String methodName, Object[] params,
