@@ -31,6 +31,7 @@ public class FileTestController implements AccessSupport {
 		}
 		return FileManager.inst().uploadFileSimple(freq.get(), "simple");
 	}
+	
 	/*** MultipartHttpServletRequest**/
 	@RequestMapping("/upload_file_simple")
 	Object upload_file_simple2(StandardMultipartHttpServletRequest req, HttpServletResponse resp){

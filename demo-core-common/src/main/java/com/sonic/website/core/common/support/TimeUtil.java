@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.function.Supplier;
 
 public class TimeUtil {
+	private static final int HOUR_MILLIS = 60 * 60 * 1000;
+
 	public static final int HOUR_SECONDS = 3600;
 	public static final int DAY_SECONDS = HOUR_SECONDS * 24;
 	public static final int WEEK_SECONDS = DAY_SECONDS * 7;

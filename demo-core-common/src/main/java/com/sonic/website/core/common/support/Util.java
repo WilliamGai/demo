@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -30,7 +31,6 @@ import com.sonic.website.core.common.extension.UnsafeStringWriter;
 
 /**
  * TODO 因为Java会擦除泛型,所以要去掉因为参数列表相同而类型不同的重载,以免出错
- * 
  * @author bao
  * @date 2017年8月5日 下午11:25:41
  */
@@ -287,6 +287,10 @@ public class Util {
 
 	public static String join(Collection<String> names, String separator) {
 		return names.stream().collect(Collectors.joining(separator));
+	}
+	
+	public static String join(final Object[] array, final String separator){
+		return StringUtils.join(array, separator);
 	}
 
 	/**

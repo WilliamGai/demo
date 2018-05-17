@@ -7,8 +7,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands.Tuple;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,15 @@ public class RedisService{
 	 */
 	public Long dbSize() {
 		return redisTemplate.execute((RedisConnection c) -> c.dbSize());
+	}
+	public void setnx(byte[] key, long seconds, byte[] value) {
+		redisTemplate.execute(new RedisCallback<Void>() {
+			@Override
+			public Void doInRedis(RedisConnection connection) throws DataAccessException {
+				return null;
+			}
+		});
+		
 	}
 
 	public String ping() {

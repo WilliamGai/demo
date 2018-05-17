@@ -1,0 +1,11 @@
+management:
+  health:
+    defaults:
+      enabled: true
+  context-path: /actuator
+
+#endpoints:
+#  enabled: false
+#  health:
+#    enabled: true
+#    sensitive: true
