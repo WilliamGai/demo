@@ -33,6 +33,18 @@ public class ClassUtil {
 			return null;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T getFieldValue(Object r, Class<?> clazz, String fieldName) {
+		try {
+			Field f = clazz.getDeclaredField(fieldName);
+			f.setAccessible(true);
+			return (T) f.get(r);
+		} catch (Exception e) {
+			LogCore.BASE.error("getFieldValue err:{}", e);
+			return null;
+		}
+	}
 
 	public static Map<String, Object> getFields(Object r) {
 		Map<String, Object> map = new HashMap<>();

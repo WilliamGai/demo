@@ -10,13 +10,22 @@ import redis.clients.jedis.Jedis;
 public class JedisTest {
 	/** jedis 操作字符串 */
 //	@Test
+	public void 事务() {
+		try (Jedis jedis = new Jedis("119.29.52.126", 6377);) {
+			jedis.auth("foobared");
+			jedis.select(3);// 选择数据库
+			jedis.close();
+			jedis.watch(keys)
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public void test() {
 		try (Jedis jedis = new Jedis("119.29.52.126", 6377);) {
 			jedis.auth("foobared");
 			jedis.select(3);// 选择数据库
 			jedis.close();
 			Logger.getGlobal().info(jedis.select(3));
-
 			// 增
 			jedis.set("gao", "tia n");// 每次都会覆盖旧的key <gao,tian>
 			jedis.append("gao", "yu e");// 追加,<gao,tianyue>

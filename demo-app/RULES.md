@@ -104,8 +104,6 @@ list和map的转换
 ``` java
 		ARTICLE_TYPE_MAP = types.stream().collect(Collectors.toMap(ArticleType::getId, Function.identity(), (oldValue, newValue)->newValue, LinkedHashMap::new));
 		
-						.collect(Collectors.toMap(UserVO::getName, Function.identity()));
-		
 
 ```
 

@@ -83,7 +83,7 @@ public class JSONSerializer<T> implements Serializer<T> {
 		public Class<?> clazz[];
 	}
 
-	public static void main(String args[]) {
+	public static void main4(String args[]) {
 		Request a = new Request();
 		a.clazz = new Class<?>[] { String.class, String.class };
 
@@ -91,6 +91,21 @@ public class JSONSerializer<T> implements Serializer<T> {
 		System.out.println(jsonStr);
 		Request obj = (Request) JSON.parse(jsonStr);
 		System.out.println(obj.getClass().getCanonicalName());
+
+	}
+	//测试fastjson BUG
+	public static void main(String args[]) {
+		DataSimpleVO a = new DataSimpleVO("a", 1);
+		DataSimpleVO b = new DataSimpleVO("b", 2);
+		b.value1 = a;
+		Map<String, Object> map = new HashMap<>();
+		map.put(a.name, a);
+		b.value = map;
+		String jsonStr = JSON.toJSONString(b);
+		DataSimpleVO obj =  JSON.parseObject(jsonStr, DataSimpleVO.class);
+		System.out.println("JSON值:"+jsonStr);
+		System.out.println("原始值:"+b);
+		System.out.println("反序列化:"+obj);
 
 	}
 }

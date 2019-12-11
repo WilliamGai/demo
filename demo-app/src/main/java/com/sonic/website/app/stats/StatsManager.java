@@ -52,7 +52,7 @@ public class StatsManager extends ManagerBase {
 	public Map<String, Long> sn_time_map = new ConcurrentHashMap<>();
 	public Map<String, Long> sn_time_map_all = new ConcurrentHashMap<>();
 	// URI,访问统计,本地
-	public final Map<String, Long> STATS_URI_TIME_MAP = new ConcurrentHashMap<>();
+	public final Map<String, Long> STATS_URI_TIME_MAP2 = new ConcurrentHashMap<>();
 	public final Map<String, Integer> STATS_URI_COUNT_MAP = new ConcurrentHashMap<>();
 
 	public static StatsManager inst() {

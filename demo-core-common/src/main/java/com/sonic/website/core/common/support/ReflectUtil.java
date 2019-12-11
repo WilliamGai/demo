@@ -2,7 +2,10 @@ package com.sonic.website.core.common.support;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -52,7 +55,7 @@ public class ReflectUtil {
 	}
 
 	public static Map<String, Object> getFields(Object r) {
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new LinkedHashMap<>();
 		Stream.of(r.getClass().getDeclaredFields()).forEach(field -> {
 			field.setAccessible(true);
 			try {
@@ -62,6 +65,61 @@ public class ReflectUtil {
 			}
 		});
 		return map;
+	}
+	/**
+	 * 包括父类
+	 */
+	public static Map<String, Object> getFieldsInherit(Object r, Class<?> clazz) {
+		Map<String, Object> map = new LinkedHashMap<>();
+		Stream.of(clazz.getDeclaredFields()).forEach(field -> {
+			field.setAccessible(true);
+			try {
+				map.put(field.getName(), field.get(r));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		Class<?> superClazz = clazz.getSuperclass();
+		if(Object.class == superClazz){
+			return map;
+		}
+		map.putAll(getFieldsInherit(r, superClazz));
+		return map;
+	}
+	/** 包括父类  */
+	public static Map<String, Object> getFieldsInherit(Object r, Class<?> clazz, Predicate<Field> p) {
+		Map<String, Object> map = new LinkedHashMap<>();
+		Stream.of(clazz.getDeclaredFields()).forEach(field -> {
+			if(!p.test(field))
+				return;
+			field.setAccessible(true);
+			//LogCore.BASE.info("field.getName()={},getModifiers={},modifiers={},filter={}", field.getName(), field.getModifiers(), modifiers, filter);
+			try {
+				map.put(field.getName(), field.get(r));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		Class<?> superClazz = clazz.getSuperclass();
+		if(Object.class == superClazz){
+			return map;
+		}
+		map.putAll(getFieldsInherit(r, superClazz, p));
+		return map;
+	}
+
+	public static List<String> getFieldNames(Class<?> clazz) {
+		List<String> fieldNames = new ArrayList<>();
+		Stream.of(clazz.getDeclaredFields()).forEach(field -> {
+			field.setAccessible(true);
+			fieldNames.add(field.getName());
+		});
+		Class<?> superClazz = clazz.getSuperclass();
+		if(Object.class == superClazz){
+			return fieldNames;
+		}
+		fieldNames.addAll(getFieldNames(superClazz));
+		return fieldNames;
 	}
 
 	public static Map<String, Object> getFields(Object r, Predicate<Field> p) {

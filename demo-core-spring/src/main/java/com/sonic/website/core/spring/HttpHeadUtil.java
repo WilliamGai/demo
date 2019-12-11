@@ -273,5 +273,24 @@ public class HttpHeadUtil {
 		// LogCore.BASE.info("====={},{},{}", method.getDeclaringClass().getName(), method.getName(),method.getAnnotation(RequestMapping.class));
 		return v3;
 	}
-
+	
+	public static List<String> getReqMapings(Object handler){
+		List<String[]> list = new ArrayList<>();
+		List<String> mappings = new ArrayList<>();
+		String[] classMappingStrs = Util.toNullDefalut(handler.getClass().getAnnotation(RequestMapping.class), RequestMapping::value, new String[] { "" });
+		for (Method m : handler.getClass().getDeclaredMethods()) {
+			String[] methodStrs = Util.toNullDefalut(m.getAnnotation(RequestMapping.class), RequestMapping::value, new String[] {});
+			if (!Util.isEmpty(methodStrs)) {
+				list.add(methodStrs);
+			}
+		}
+		for (String str : classMappingStrs) {
+			for (String[] ss : list) {
+				for (String s : ss) {
+					mappings.add(str + s);
+				}
+			}
+		}
+		return mappings;
+	}
 }
