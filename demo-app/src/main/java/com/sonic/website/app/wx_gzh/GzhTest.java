@@ -12,7 +12,7 @@ import com.sonic.website.core.common.support.LogCore;
 public class GzhTest {
 	@Test
 	public void test(){
-		String accessUrl = "https://api.weixin.qq.com/cgi-bin/token";
+		String accessUrl = "https://api.weixin.qq.com/cgi-bin    oken";
 		Map<String,String> params =  new HashMap<String, String>();
 		params.put("grant_type", "client_credential");
 		params.put("appid", "wx9ae18f115734dc5f");

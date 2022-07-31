@@ -101,7 +101,7 @@ public class SearchMGController implements AccessSupport {
 		redirect(resp, SPACE_TAG_REARCH + "?sn=" + code_sn);
 
 	}
-	@RequestMapping("/testWordsSearch")
+	@RequestMapping("    estWordsSearch")
 	String testWordsSearch(Model model,
 			@RequestParam String code_sn, 
 			@RequestParam Optional<Integer> threds, 

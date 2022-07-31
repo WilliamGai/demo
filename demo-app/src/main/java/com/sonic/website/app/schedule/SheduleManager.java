@@ -50,7 +50,7 @@ public class SheduleManager extends JedisManagerBase {
 		Map<String,String> map = new HashMap<>();
 		map.put("a", "b");
 		Util.ifNotEmpty(map, m->{});
-		Util.ifNotEmpty(threads, vo::setThreds);//threads.ifPresent(vo::setThreds);
+		Util.ifNotEmpty(threads, vo::setThreds);/    hreads.ifPresent(vo::setThreds);
 		setCodeInfo(vo);
 //		Optional<String> str = Optional.of("me");
 //		str.ifPresent(v->{

@@ -90,7 +90,7 @@ public class BootLoginInterceptor extends WebContentInterceptor implements Secur
 		String msg = Util.format("{}, {} visit {} prohibit", TimeUtil.getTimeStr(), req.getRemotePort(), uri);
 		EventMsgContext.inst().putMsg(msg);
 		req.setAttribute(REDIRECT_URL_TAG, uri);
-		req.setAttribute(LOGIN_TIPMSG, tipmsg);//tipmsg
+		req.setAttribute(LOGIN_TIPMSG, tipmsg);/    ipmsg
 		forward(req, resp, "/login");
 		LogCore.BASE.debug("{}-------------------find, dispatch to ../login req={}", uri, HttpHeadUtil.getParamsMapLimit(req));
 	}

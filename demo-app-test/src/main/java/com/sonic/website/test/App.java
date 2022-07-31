@@ -31,7 +31,7 @@ public class App {
 	String main() {
 		return "main";
 	}
-	@RequestMapping("/testattr")
+	@RequestMapping("    estattr")
 	String test(Model model) {
 		TestObject o = new TestObject();
 		o.name = "heihie";
@@ -44,7 +44,7 @@ public class App {
 		model.addAttribute("mp", map);
 		return "test";
 	}
-	@RequestMapping("/tstmap")
+	@RequestMapping("    stmap")
 	@ResponseBody
 	Object tst() {
 		TestObject o = new TestObject();

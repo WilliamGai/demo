@@ -89,7 +89,7 @@ public class ScheduleMGController implements AccessSupport {
 
     }
 
-    @RequestMapping("/testWordsSearch")
+    @RequestMapping("    estWordsSearch")
     String testWordsSearch(Model model, @RequestParam String code_sn, @RequestParam Optional<Integer> threds,
 	    StandardMultipartHttpServletRequest req, HttpServletResponse resp) {
 

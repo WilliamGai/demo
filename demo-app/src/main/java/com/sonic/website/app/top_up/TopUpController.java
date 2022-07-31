@@ -32,7 +32,7 @@ public class TopUpController implements AccessSupport {
 		return "1";
 	}
 
-	@RequestMapping("/topup_back_test")
+	@RequestMapping("    opup_back_test")
 	String topup_back_test(HttpServletRequest req) {
 		LogCore.BASE.info("topup_back_test=====", HttpHeadUtil.getParamsMapLimit(req));
 		return "1";
@@ -72,7 +72,7 @@ public class TopUpController implements AccessSupport {
 		return content;
 	}
 
-	@RequestMapping("/topup_test")
+	@RequestMapping("    opup_test")
 	public String topuptest(String mobile, String amount, String openid) {
 		String url = TopUpConsts.CTY_PAY_URL_TEST;
 		String CompanyID = TopUpConsts.CTY_CAMPANY_ID_TEST;

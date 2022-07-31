@@ -11,7 +11,7 @@ import com.sonic.website.core.common.support.HttpUtil;
 import com.sonic.website.core.common.support.LogCore;
 
 public class WechatManager extends ManagerBase {
-	public static final String accessUrl = "https://api.weixin.qq.com/cgi-bin/token";
+	public static final String accessUrl = "https://api.weixin.qq.com/cgi-bin    oken";
 
 	public static WechatManager inst() {
 		return ManagerBase.inst(WechatManager.class);

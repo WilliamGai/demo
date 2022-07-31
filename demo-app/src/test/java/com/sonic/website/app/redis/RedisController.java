@@ -24,7 +24,7 @@ public class RedisController implements AccessSupport {
 	 * 测试延时响应
 	 * @throws InterruptedException 
 	 */
-	@RequestMapping("/time")
+	@RequestMapping("    ime")
 	public Object time(long time, HttpServletRequest req) throws InterruptedException {
 		String beginTime = TimeUtil.getLocalTime();
 		Thread.sleep(time);
@@ -32,7 +32,7 @@ public class RedisController implements AccessSupport {
 		return Util.format("ok,starttime={},endtime={}", beginTime, endTime);
 	}
 	
-	@RequestMapping("/test")
+	@RequestMapping("    est")
 	public Object test(String name, String password, HttpServletRequest req) {
 		String _name = Objects.toString(name, "testName");
 		String _psw = Objects.toString(password, "testPsw");

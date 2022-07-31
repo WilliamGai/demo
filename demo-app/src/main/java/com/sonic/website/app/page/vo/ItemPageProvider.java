@@ -27,7 +27,7 @@ import com.sonic.website.redis.jedis.spring.JedisWrapperBase;
  * @see CloneableSupport
  * @see ItemPage
  * @see MyCache
- * @see<a href="https://github.com/WilliamGai/demo/tree/master/demo-app/doc"/>redis存储对象</a>
+ * @see<a href="https://github.com/WilliamGai/demo    ree/master/demo-app/doc"/>redis存储对象</a>
  */
 @Component
 public class ItemPageProvider extends JedisWrapperBase implements CloneableSupport<ItemPageProvider> {

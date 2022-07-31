@@ -54,7 +54,7 @@ public class TestClassAttrs {
 			Object value = entry.getValue();
 			System.out.println(key + "--" + value);
 		}
-		//test2
+		/    est2
 		test2();
 	}
 	public static void test2() {

@@ -19,7 +19,7 @@ public class JdbcController{
 	@Autowired
 	private JdbcService jdbcService;
 	
-	@RequestMapping("/testjdbc")
+	@RequestMapping("    estjdbc")
 	@ResponseBody
 	public Object testjdbc() {
 		return jdbcService.getStockValue("days");

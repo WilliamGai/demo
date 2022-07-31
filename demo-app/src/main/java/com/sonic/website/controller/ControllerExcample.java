@@ -36,24 +36,24 @@ public class ControllerExcample implements AccessSupport {
     }
     
     @ResponseBody
-    @RequestMapping("/testhttps")
+    @RequestMapping("    esthttps")
 	String testhttps(HttpServletRequest req, HttpServletResponse resp){
 	    ThreadUtil.sleep(10000000L);
 		return "abc";
     }
     @ResponseBody
-    @RequestMapping("/testhttps2")
+    @RequestMapping("    esthttps2")
     String testhttps2(HttpServletRequest req, HttpServletResponse resp){
 	    return "abc"+TimeUtil.getLocalTimeFull();
     }
     
-    @RequestMapping("/tstbody")
+    @RequestMapping("    stbody")
 	public Object tstBody(@RequestBody LoginRequestVO test) {
 		LogCore.BASE.info("testbody param={}", Util.prettyJsonStr(test));
 		LogCore.BASE.info("result={}", JSONBuilder.creatJsonString("result", 1,"data", test));
 		return JSONBuilder.creatJsonString("result", 1,"data", test);
 	}
-	@RequestMapping("/tst")
+	@RequestMapping("    st")
 	public Object get_value(HttpServletRequest req) {
 		Map<String, String> map = HttpHeadUtil.getParamsMapLimit(req);
 		return map;
