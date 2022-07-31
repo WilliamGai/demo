@@ -96,7 +96,7 @@ public class DubboConfiguration {
     *//**dubbo消费*//*
     @Bean(name="defaultConsumer")
     public ConsumerConfig consumerConfig(ApplicationConfig applicationConfig, RegistryConfig registryConfig) {
-    	ConsumerConfig consumerConfig = new ConsumerConfig();
+        ConsumerConfig consumerConfig = new ConsumerConfig();
         return consumerConfig;
     }
 }

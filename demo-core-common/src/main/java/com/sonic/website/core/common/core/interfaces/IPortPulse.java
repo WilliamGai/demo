@@ -6,6 +6,6 @@ import com.sonic.website.core.common.core.Port;
  */
 @FunctionalInterface
 public interface IPortPulse {
-	/** 任务执行 */
-	public abstract void execute(Port port);
+    /** 任务执行 */
+    public abstract void execute(Port port);
 }

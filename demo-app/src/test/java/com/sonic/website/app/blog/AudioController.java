@@ -26,29 +26,29 @@ import com.sonic.website.app.security.interfaces.SecureAccessSupport;
 @RequestMapping("/mg")
 public class AudioController implements SecureAccessSupport{
 
-	private static final String UPLOAD_AUDIO_PATH = "/upload/audio";
+    private static final String UPLOAD_AUDIO_PATH = "/upload/audio";
 
-	@RequestMapping("/audio")
-	public Object audio(Model model,String filter, HttpServletRequest req) {
-		String rootPath = getRootFilePath(req);
-	
-		File dir = new File(rootPath + UPLOAD_AUDIO_PATH);
-		if(dir.isDirectory()){
-			List<FileInfo> list = Stream.of(dir.listFiles()).map(FileInfo::new).collect(Collectors.toList());
-			model.addAttribute("list", list);
-		}
-		model.addAttribute("path", UPLOAD_AUDIO_PATH);
-		return "audio";
-	}
-	@RequestMapping("/add_audio")
-	void add_audio(@RequestParam Optional<String> id,  StandardMultipartHttpServletRequest freq, HttpServletResponse resp) throws IOException {
-		FileManager.inst().uploadFileSimple(freq, UPLOAD_AUDIO_PATH, Function.identity());
-		resp.sendRedirect("audio");
-	}
-	
-	@ResponseBody
-	@RequestMapping("/ad")
-	public Object aa() {
-		return "audio";
-	}
+    @RequestMapping("/audio")
+    public Object audio(Model model,String filter, HttpServletRequest req) {
+        String rootPath = getRootFilePath(req);
+    
+        File dir = new File(rootPath + UPLOAD_AUDIO_PATH);
+        if(dir.isDirectory()){
+            List<FileInfo> list = Stream.of(dir.listFiles()).map(FileInfo::new).collect(Collectors.toList());
+            model.addAttribute("list", list);
+        }
+        model.addAttribute("path", UPLOAD_AUDIO_PATH);
+        return "audio";
+    }
+    @RequestMapping("/add_audio")
+    void add_audio(@RequestParam Optional<String> id,  StandardMultipartHttpServletRequest freq, HttpServletResponse resp) throws IOException {
+        FileManager.inst().uploadFileSimple(freq, UPLOAD_AUDIO_PATH, Function.identity());
+        resp.sendRedirect("audio");
+    }
+    
+    @ResponseBody
+    @RequestMapping("/ad")
+    public Object aa() {
+        return "audio";
+    }
 }

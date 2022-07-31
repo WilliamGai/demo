@@ -37,7 +37,7 @@ import java.util.Set;
  * @since v0.1.0
  */
 public class DataBase implements CheckObject{
-	
+    
     /**
      * Redis Database Pool Object.
      */

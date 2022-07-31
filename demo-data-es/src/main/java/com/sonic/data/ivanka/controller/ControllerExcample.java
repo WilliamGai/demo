@@ -29,53 +29,53 @@ import com.sonic.website.core.spring.manger.SpringManager;
 @Order(value = 5)
 public class ControllerExcample implements AccessSupport {
     public static class LoginRequestVO implements Serializable{
-		private static final long serialVersionUID = 1L;
-		public String openid;
-    	public String sign;
+        private static final long serialVersionUID = 1L;
+        public String openid;
+        public String sign;
     }
     
     @ResponseBody
     @RequestMapping("/testhttps")
-	String testhttps(HttpServletRequest req, HttpServletResponse resp){
-	    ThreadUtil.sleep(10000000L);
-		return "abc";
+    String testhttps(HttpServletRequest req, HttpServletResponse resp){
+        ThreadUtil.sleep(10000000L);
+        return "abc";
     }
     @ResponseBody
     @RequestMapping("/testhttps2")
     String testhttps2(HttpServletRequest req, HttpServletResponse resp){
-	    return "abc"+TimeUtil.getLocalTimeFull();
+        return "abc"+TimeUtil.getLocalTimeFull();
     }
     
     @RequestMapping("/tstbody")
-	public Object tstBody(@RequestBody LoginRequestVO test) {
-		LogCore.BASE.info("testbody param={}", Util.prettyJsonStr(test));
-		LogCore.BASE.info("result={}", JSONBuilder.creatJsonString("result", 1,"data", test));
-		return JSONBuilder.creatJsonString("result", 1,"data", test);
-	}
-	@RequestMapping("/tst")
-	public Object get_value(HttpServletRequest req) {
-		Map<String, String> map = HttpHeadUtil.getParamsMapLimit(req);
-		return map;
-	}
+    public Object tstBody(@RequestBody LoginRequestVO test) {
+        LogCore.BASE.info("testbody param={}", Util.prettyJsonStr(test));
+        LogCore.BASE.info("result={}", JSONBuilder.creatJsonString("result", 1,"data", test));
+        return JSONBuilder.creatJsonString("result", 1,"data", test);
+    }
+    @RequestMapping("/tst")
+    public Object get_value(HttpServletRequest req) {
+        Map<String, String> map = HttpHeadUtil.getParamsMapLimit(req);
+        return map;
+    }
 
-	@RequestMapping("/downloadhits/{os}")
-	public String download(HttpServletRequest req, @PathVariable String os,String openid, String ip) {
-		int real_ip = req.getRemotePort();
-		LogCore.BASE.info("downloadhits openid={},realIp={},os={}",openid, real_ip, os);
-		StatsManager.inst().incr(os);
-		return os;
-	}
-	
-	@ResponseBody
-	@RequestMapping("/lookenv")
-	Object lookenv(HttpServletRequest req, HttpServletResponse resp){
-		return SpringManager.inst().getEnvironmentJsonStr();
-	}
-	@ResponseBody
-	@RequestMapping("/lookproperty")
-	Object lookenv(HttpServletRequest req, HttpServletResponse resp, String key){
-		redirect(resp, "lookenv");
-//		forward(req, resp, "lookenv");
-		return null;
-	}
+    @RequestMapping("/downloadhits/{os}")
+    public String download(HttpServletRequest req, @PathVariable String os,String openid, String ip) {
+        int real_ip = req.getRemotePort();
+        LogCore.BASE.info("downloadhits openid={},realIp={},os={}",openid, real_ip, os);
+        StatsManager.inst().incr(os);
+        return os;
+    }
+    
+    @ResponseBody
+    @RequestMapping("/lookenv")
+    Object lookenv(HttpServletRequest req, HttpServletResponse resp){
+        return SpringManager.inst().getEnvironmentJsonStr();
+    }
+    @ResponseBody
+    @RequestMapping("/lookproperty")
+    Object lookenv(HttpServletRequest req, HttpServletResponse resp, String key){
+        redirect(resp, "lookenv");
+//        forward(req, resp, "lookenv");
+        return null;
+    }
 }

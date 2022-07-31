@@ -27,11 +27,11 @@ public final class Version {
 
     static {
         // 检查是否存在重复的jar包
-    	Version.checkDuplicate(Version.class);
-	}
+        Version.checkDuplicate(Version.class);
+    }
 
     public static String getVersion(){
-    	return VERSION;
+        return VERSION;
     }
     
     public static boolean isInternalVersion() {
@@ -96,31 +96,31 @@ public final class Version {
         }
     }
 
-	public static void checkDuplicate(Class<?> cls) {
-		checkDuplicate(cls.getName().replace('.', '/') + ".class");
-	}
+    public static void checkDuplicate(Class<?> cls) {
+        checkDuplicate(cls.getName().replace('.', '/') + ".class");
+    }
 
-	public static void checkDuplicate(String path) {
-		try {
-			// 在ClassPath搜文件
-			Enumeration<URL> urls = ClassHelper.getCallerClassLoader(Version.class).getResources(path);
-			Set<String> files = new HashSet<String>();
-			while (urls.hasMoreElements()) {
-				URL url = urls.nextElement();
-				if (url != null) {
-					String file = url.getFile();
-					if (file != null && file.length() > 0) {
-						files.add(file);
-					}
-				}
-			}
-			// 如果有多个，就表示重复
-			if (files.size() > 1) {
-				logger.error("Duplicate class " + path + " in " + files.size() + " jar " + files);
-			}
-		} catch (Throwable e) { // 防御性容错
-			logger.error(e.getMessage(), e);
-		}
-	}
+    public static void checkDuplicate(String path) {
+        try {
+            // 在ClassPath搜文件
+            Enumeration<URL> urls = ClassHelper.getCallerClassLoader(Version.class).getResources(path);
+            Set<String> files = new HashSet<String>();
+            while (urls.hasMoreElements()) {
+                URL url = urls.nextElement();
+                if (url != null) {
+                    String file = url.getFile();
+                    if (file != null && file.length() > 0) {
+                        files.add(file);
+                    }
+                }
+            }
+            // 如果有多个，就表示重复
+            if (files.size() > 1) {
+                logger.error("Duplicate class " + path + " in " + files.size() + " jar " + files);
+            }
+        } catch (Throwable e) { // 防御性容错
+            logger.error(e.getMessage(), e);
+        }
+    }
 
 }

@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface NeedLogin {
-	LoginResource value() default LoginResource.AJAX;
+    LoginResource value() default LoginResource.AJAX;
 }

@@ -14,15 +14,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class DemoBeanFactoryPostProcessor implements BeanFactoryPostProcessor, ApplicationContextAware {
-	private ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
-	}
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
-	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		DemoScanner scanner = new DemoScanner((BeanDefinitionRegistry) beanFactory);
-		scanner.setResourceLoader(this.applicationContext);
-		scanner.scan("com.sonic");// org.sonic 或者空的双引号
-	}
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        DemoScanner scanner = new DemoScanner((BeanDefinitionRegistry) beanFactory);
+        scanner.setResourceLoader(this.applicationContext);
+        scanner.scan("com.sonic");// org.sonic 或者空的双引号
+    }
 }

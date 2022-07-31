@@ -4,5 +4,5 @@ package com.sonic.website.core.common.support;
  * @param <K>
  */
 public interface KeySupport<K> {
-	public K getKey() ;
+    public K getKey() ;
 }

@@ -20,15 +20,15 @@ import com.sonic.website.core.spring.interfaces.AccessSupport;
 @Order(value = 8)
 public class ItemPageController implements AccessSupport {
 
-	@ResponseBody
-	@RequestMapping("/page_rst")
-	public Object getPageByJson(String template_id, String id){
-		ItemPageManager.inst().visit(template_id, id);
-		return ItemPageManager.inst().getItemPageById(template_id, id);
-	}
-	@RequestMapping("/pages_rst")
-	Object articles(String template_id) {
-		List<ItemPage> pages = ItemPageManager.inst().getAllItemPagesWithSort(template_id);
-		return pages.stream().collect(Collectors.toMap(ItemPage::getId, Function.identity(), (oldValue, newValue)->newValue, LinkedHashMap::new));
-	}
+    @ResponseBody
+    @RequestMapping("/page_rst")
+    public Object getPageByJson(String template_id, String id){
+        ItemPageManager.inst().visit(template_id, id);
+        return ItemPageManager.inst().getItemPageById(template_id, id);
+    }
+    @RequestMapping("/pages_rst")
+    Object articles(String template_id) {
+        List<ItemPage> pages = ItemPageManager.inst().getAllItemPagesWithSort(template_id);
+        return pages.stream().collect(Collectors.toMap(ItemPage::getId, Function.identity(), (oldValue, newValue)->newValue, LinkedHashMap::new));
+    }
 }

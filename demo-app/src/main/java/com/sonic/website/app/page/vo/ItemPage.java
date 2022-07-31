@@ -40,92 +40,92 @@ import com.sonic.website.core.common.vo.VOBase;
  * @see ItemPageProvider#saveOrUpdateItemPage
  */
 public class ItemPage extends VOBase implements CloneableSupport<ItemPage>{
-	private String id;		//用户指定,unique
-	private String name;	//用户指定
-	private transient long visits;   //阅读次数,hash的一个值,ItemPage反序列化后恢复
-	private Map<String, Item> items = new HashMap<>();
-	 
-	public ItemPage() {
-		super();
-	}
-	public ItemPage(String id, String name) {
-		if(Util.isEmpty(id)){
-			return;
-		}
-		this.id = id;
-		this.name = Objects.toString(name, "undifined");
-	}
-	public ItemPage(Map<String, Item> items) {
-		if(Util.isEmpty(items)){
-			return;
-		}
-		ItemPage page = new ItemPage();
-		page.items = items;
-	}
-	/*增加或覆盖*/
-	public ItemPage putItems(String key, Item item) {
-		items.put(key, item);
-		return this;
-	}
-	/*不存在才可以增加,如果返回null说明增加成功,反之返回已经存在的值*/
-	public ItemPage putIfAbsent(String key, Item item) {
-		items.putIfAbsent(key, item);
-		return this;
-	}
-	
-	public String getId() {
-		return id;
-	}
+    private String id;        //用户指定,unique
+    private String name;    //用户指定
+    private transient long visits;   //阅读次数,hash的一个值,ItemPage反序列化后恢复
+    private Map<String, Item> items = new HashMap<>();
+     
+    public ItemPage() {
+        super();
+    }
+    public ItemPage(String id, String name) {
+        if(Util.isEmpty(id)){
+            return;
+        }
+        this.id = id;
+        this.name = Objects.toString(name, "undifined");
+    }
+    public ItemPage(Map<String, Item> items) {
+        if(Util.isEmpty(items)){
+            return;
+        }
+        ItemPage page = new ItemPage();
+        page.items = items;
+    }
+    /*增加或覆盖*/
+    public ItemPage putItems(String key, Item item) {
+        items.put(key, item);
+        return this;
+    }
+    /*不存在才可以增加,如果返回null说明增加成功,反之返回已经存在的值*/
+    public ItemPage putIfAbsent(String key, Item item) {
+        items.putIfAbsent(key, item);
+        return this;
+    }
+    
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public long getVisits() {
-		return visits;
-	}
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public long getVisits() {
+        return visits;
+    }
 
-	public void setVisits(long visits) {
-		this.visits = visits;
-	}
+    public void setVisits(long visits) {
+        this.visits = visits;
+    }
 
-	public Map<String, Item> getItems() {
-		return items;
-	}
-	
-	public Item getItem(String key) {
-		return items.get(key);
-	}
-	
-	public void setItems(Map<String, Item> items) {
-		this.items = items;
-	}
+    public Map<String, Item> getItems() {
+        return items;
+    }
+    
+    public Item getItem(String key) {
+        return items.get(key);
+    }
+    
+    public void setItems(Map<String, Item> items) {
+        this.items = items;
+    }
 
-	public Item removeItem(String key) {
-		return items.remove(key);
-	}
-	public Map<String, String> createItemsStringMap() {
-		if(Util.isEmpty(items)){
-			return new HashMap<>();
-		}
-		return items.values().stream().collect(Collectors.toMap(Item::getKey, Item::toJSONString));
-	}
-	
-	@Override
-	public Object cloneThis() throws CloneNotSupportedException {
-		return clone();
-	}
-	@Override
-	public ItemPage afterInit() {
-		items = new HashMap<>(items);
-		return this;
-	}
+    public Item removeItem(String key) {
+        return items.remove(key);
+    }
+    public Map<String, String> createItemsStringMap() {
+        if(Util.isEmpty(items)){
+            return new HashMap<>();
+        }
+        return items.values().stream().collect(Collectors.toMap(Item::getKey, Item::toJSONString));
+    }
+    
+    @Override
+    public Object cloneThis() throws CloneNotSupportedException {
+        return clone();
+    }
+    @Override
+    public ItemPage afterInit() {
+        items = new HashMap<>(items);
+        return this;
+    }
 }

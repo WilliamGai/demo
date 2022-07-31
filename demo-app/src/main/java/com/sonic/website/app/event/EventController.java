@@ -36,43 +36,43 @@ import com.sonic.website.core.spring.interfaces.AccessSupport;
 @Order(value = 8)
 @RequestMapping("/hourlinks")
 public class EventController implements AccessSupport {
-	/**
-	 * 推送记录
-	 * 不要返回,方法返回依然输出会出现异常：
-	 * <pre>
-	 * HTTP Status 500 - Request processing failed; nested exception is
-	 *  java.lang.IllegalStateException: getOutputStream() has already been called for this response
-	 * </pre>
-	 * */
-	@RequestMapping("/doevent_trace")
-	@ResponseBody
-	void doevent_trace(HttpServletRequest req, HttpServletResponse resp){
-		resp.setContentType("text/event-stream");
-		resp.setHeader("expires", "-1");
-		resp.setHeader("cache-control", "no-cache");
-		
-		while(true){
-			try {
-				Thread.sleep(1000);
-				while(!EventMsgContext.inst().getMsgDeque(req).isEmpty()){
-					String s= "data:" + EventMsgContext.inst().getMsgDeque(req).pollLast() + "\n\n";
-					resp.getOutputStream().write(s.getBytes());
-					if(LogCore.BASE.isDebugEnabled()){
-						LogCore.BASE.debug("servlet={} ,request={},threadId={}, s={}",this.hashCode(), req.hashCode(),Thread.currentThread().getId(), s);
-					}
-				}
-			} catch (Exception e) {
-				LogCore.BASE.error("trace err", e);
-				EventMsgContext.inst().unregist(req);
-				return;//结束
-			}
-			try {
-				resp.flushBuffer();
-			} catch (IOException e) {//前端页面关闭或刷新
-				LogCore.BASE.error("{} ,{},threadId={}, end message={}",this.hashCode(), req.hashCode(),Thread.currentThread().getId(), e.getMessage());
-				EventMsgContext.inst().unregist(req);
-				return;//结束
-			}
-		}
-	}
+    /**
+     * 推送记录
+     * 不要返回,方法返回依然输出会出现异常：
+     * <pre>
+     * HTTP Status 500 - Request processing failed; nested exception is
+     *  java.lang.IllegalStateException: getOutputStream() has already been called for this response
+     * </pre>
+     * */
+    @RequestMapping("/doevent_trace")
+    @ResponseBody
+    void doevent_trace(HttpServletRequest req, HttpServletResponse resp){
+        resp.setContentType("text/event-stream");
+        resp.setHeader("expires", "-1");
+        resp.setHeader("cache-control", "no-cache");
+        
+        while(true){
+            try {
+                Thread.sleep(1000);
+                while(!EventMsgContext.inst().getMsgDeque(req).isEmpty()){
+                    String s= "data:" + EventMsgContext.inst().getMsgDeque(req).pollLast() + "\n\n";
+                    resp.getOutputStream().write(s.getBytes());
+                    if(LogCore.BASE.isDebugEnabled()){
+                        LogCore.BASE.debug("servlet={} ,request={},threadId={}, s={}",this.hashCode(), req.hashCode(),Thread.currentThread().getId(), s);
+                    }
+                }
+            } catch (Exception e) {
+                LogCore.BASE.error("trace err", e);
+                EventMsgContext.inst().unregist(req);
+                return;//结束
+            }
+            try {
+                resp.flushBuffer();
+            } catch (IOException e) {//前端页面关闭或刷新
+                LogCore.BASE.error("{} ,{},threadId={}, end message={}",this.hashCode(), req.hashCode(),Thread.currentThread().getId(), e.getMessage());
+                EventMsgContext.inst().unregist(req);
+                return;//结束
+            }
+        }
+    }
 }

@@ -17,28 +17,28 @@ import com.sonic.website.core.spring.HttpHeadUtil;
  * 所有匹配 /mg/*的訪問
  */
 public class BootLoginInterceptor implements HandlerInterceptor {
-	public final AtomicLong _count = new AtomicLong();// 计数器
+    public final AtomicLong _count = new AtomicLong();// 计数器
 
-	/* 1*/
-	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object arg2) throws ServletException, IOException {
-			String uri = req.getRequestURI();
-			Object _old_user = req.getSession().getAttribute("user");
-			if(null != _old_user){
-				return true;
-			}
-			req.setAttribute("redirect_url", uri);
-			req.getRequestDispatcher("/login").forward(req, resp);//转发
-			LogCore.BASE.debug("{}-------------------find, dispatch to ../login req={}", uri, HttpHeadUtil.getParamsMapLimit(req));
-			return false;
-	}
+    /* 1*/
+    public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object arg2) throws ServletException, IOException {
+            String uri = req.getRequestURI();
+            Object _old_user = req.getSession().getAttribute("user");
+            if(null != _old_user){
+                return true;
+            }
+            req.setAttribute("redirect_url", uri);
+            req.getRequestDispatcher("/login").forward(req, resp);//转发
+            LogCore.BASE.debug("{}-------------------find, dispatch to ../login req={}", uri, HttpHeadUtil.getParamsMapLimit(req));
+            return false;
+    }
 
-	/* 3 */
-	public void afterCompletion(HttpServletRequest req, HttpServletResponse resp, Object arg2, Exception arg3)
-			throws Exception {
-	}
+    /* 3 */
+    public void afterCompletion(HttpServletRequest req, HttpServletResponse resp, Object arg2, Exception arg3)
+            throws Exception {
+    }
 
-	/* 2 */
-	public void postHandle(HttpServletRequest req, HttpServletResponse resp, Object arg2, ModelAndView arg3)
-			throws Exception {
-	}
+    /* 2 */
+    public void postHandle(HttpServletRequest req, HttpServletResponse resp, Object arg2, ModelAndView arg3)
+            throws Exception {
+    }
 }

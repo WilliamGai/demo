@@ -24,14 +24,14 @@ public class Main {
 ;            logger.info("Use container type(" + Arrays.toString(args) + ") to run dubbo serivce.");
             
             if ("true".equals(System.getProperty(SHUTDOWN_HOOK_KEY))) {
-	            Runtime.getRuntime().addShutdownHook(new Thread() {
-	                public void run() {
-	                	synchronized (Main.class) {
+                Runtime.getRuntime().addShutdownHook(new Thread() {
+                    public void run() {
+                        synchronized (Main.class) {
                             running = false;
                             Main.class.notify();
                         }
-	                }
-	            });
+                    }
+                });
             }
             
             System.out.println(new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]").format(new Date()) + "service server started!");

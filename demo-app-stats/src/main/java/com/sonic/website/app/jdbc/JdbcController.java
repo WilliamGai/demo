@@ -16,29 +16,29 @@ import com.sonic.website.core.common.support.LogCore;
 @Controller
 public class JdbcController{
 
-	@Autowired
-	private JdbcService jdbcService;
-	
-	@RequestMapping("    estjdbc")
-	@ResponseBody
-	public Object testjdbc() {
-		return jdbcService.getStockValue("days");
-	}
-	
-	public Object initRedis() {
-		new Thread(() -> {
-			StopWatch stopWatch = new StopWatch("initRedis");
-			stopWatch.start("jdbc");
-			Map<String, String> map = jdbcService.getAllDataValueMapByBytes();
-			stopWatch.stop();
-			stopWatch.start("redis");
-			map.forEach((k, v) -> {
-//				JSONObject json = JSONObject.parseObject(v);
-//				String[] ss = {json.getString("a"),json.getString("b")};
-			});
-			stopWatch.stop();
-			LogCore.BASE.info("map'size{},\n{}", map.size(), stopWatch.prettyPrint());
-		}).start();
-		return "just return";
-	}
+    @Autowired
+    private JdbcService jdbcService;
+    
+    @RequestMapping("    estjdbc")
+    @ResponseBody
+    public Object testjdbc() {
+        return jdbcService.getStockValue("days");
+    }
+    
+    public Object initRedis() {
+        new Thread(() -> {
+            StopWatch stopWatch = new StopWatch("initRedis");
+            stopWatch.start("jdbc");
+            Map<String, String> map = jdbcService.getAllDataValueMapByBytes();
+            stopWatch.stop();
+            stopWatch.start("redis");
+            map.forEach((k, v) -> {
+//                JSONObject json = JSONObject.parseObject(v);
+//                String[] ss = {json.getString("a"),json.getString("b")};
+            });
+            stopWatch.stop();
+            LogCore.BASE.info("map'size{},\n{}", map.size(), stopWatch.prettyPrint());
+        }).start();
+        return "just return";
+    }
 }

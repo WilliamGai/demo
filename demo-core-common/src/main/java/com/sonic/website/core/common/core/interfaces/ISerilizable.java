@@ -15,6 +15,6 @@ import com.sonic.website.core.common.serialize.DistributedUtil;
  * @see DistributedUtil#read(java.io.DataInputStream)
  */
 public interface ISerilizable {
-	public void writeTo(OutputStream out) throws IOException;
-	public void readFrom(InputStream in) throws IOException;
+    public void writeTo(OutputStream out) throws IOException;
+    public void readFrom(InputStream in) throws IOException;
 }

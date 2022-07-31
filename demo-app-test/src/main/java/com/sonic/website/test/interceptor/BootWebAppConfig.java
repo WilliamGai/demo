@@ -8,10 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class BootWebAppConfig extends WebMvcConfigurerAdapter {
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new BootLoginInterceptor()).addPathPatterns("/mg/**");
-		registry.addInterceptor(new BootInterceptor()).addPathPatterns("/**");
-		super.addInterceptors(registry);
-	}
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new BootLoginInterceptor()).addPathPatterns("/mg/**");
+        registry.addInterceptor(new BootInterceptor()).addPathPatterns("/**");
+        super.addInterceptors(registry);
+    }
 }

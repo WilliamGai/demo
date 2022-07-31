@@ -20,19 +20,19 @@ import com.sonic.website.core.common.extension.threadpool.fixed.FixedThreadPool;
  * @See {@link LimitedThreadPool}
  */
 public class LimitedThreadPool {
-	static String name = "demo thread pool";
-	static int cores = 0;
-	static int threads = 200;
-	static int queues = 0;
+    static String name = "demo thread pool";
+    static int cores = 0;
+    static int threads = 200;
+    static int queues = 0;
 
-	public static final Executor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(cores, threads, Long.MAX_VALUE,
-	            TimeUnit.MILLISECONDS,
-	            queues == 0 ? new SynchronousQueue<Runnable>()
-	                        : (queues < 0 ? new LinkedBlockingQueue<Runnable>()
-	                                    : new LinkedBlockingQueue<Runnable>(queues)),
-	            new NamedThreadFactory(name, true), new AbortPolicyWithReport(name));
+    public static final Executor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(cores, threads, Long.MAX_VALUE,
+                TimeUnit.MILLISECONDS,
+                queues == 0 ? new SynchronousQueue<Runnable>()
+                            : (queues < 0 ? new LinkedBlockingQueue<Runnable>()
+                                        : new LinkedBlockingQueue<Runnable>(queues)),
+                new NamedThreadFactory(name, true), new AbortPolicyWithReport(name));
 
-	public static void execute(Runnable command) {
-		THREAD_POOL_EXECUTOR.execute(command);
-	}
+    public static void execute(Runnable command) {
+        THREAD_POOL_EXECUTOR.execute(command);
+    }
 }

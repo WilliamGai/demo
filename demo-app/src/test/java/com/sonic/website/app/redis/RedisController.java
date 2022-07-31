@@ -17,46 +17,46 @@ import com.sonic.website.core.spring.interfaces.AccessSupport;
 @RestController
 public class RedisController implements AccessSupport {
 
-	@Autowired
-	RedisCacheService redisCacheService;
+    @Autowired
+    RedisCacheService redisCacheService;
 
-	/**
-	 * 测试延时响应
-	 * @throws InterruptedException 
-	 */
-	@RequestMapping("    ime")
-	public Object time(long time, HttpServletRequest req) throws InterruptedException {
-		String beginTime = TimeUtil.getLocalTime();
-		Thread.sleep(time);
-		String endTime = TimeUtil.getLocalTime();
-		return Util.format("ok,starttime={},endtime={}", beginTime, endTime);
-	}
-	
-	@RequestMapping("    est")
-	public Object test(String name, String password, HttpServletRequest req) {
-		String _name = Objects.toString(name, "testName");
-		String _psw = Objects.toString(password, "testPsw");
-		UserVO o = redisCacheService.getUser(_name, _psw);
-//		Integer i = jdbcTemplate.queryForObject("select value from t_value where name='1'", int.class);
-		String sid = req.getSession().getId();
-		return   System.getProperty("user.dir") + o+",sessionid="+sid;
-	}
+    /**
+     * 测试延时响应
+     * @throws InterruptedException 
+     */
+    @RequestMapping("    ime")
+    public Object time(long time, HttpServletRequest req) throws InterruptedException {
+        String beginTime = TimeUtil.getLocalTime();
+        Thread.sleep(time);
+        String endTime = TimeUtil.getLocalTime();
+        return Util.format("ok,starttime={},endtime={}", beginTime, endTime);
+    }
+    
+    @RequestMapping("    est")
+    public Object test(String name, String password, HttpServletRequest req) {
+        String _name = Objects.toString(name, "testName");
+        String _psw = Objects.toString(password, "testPsw");
+        UserVO o = redisCacheService.getUser(_name, _psw);
+//        Integer i = jdbcTemplate.queryForObject("select value from t_value where name='1'", int.class);
+        String sid = req.getSession().getId();
+        return   System.getProperty("user.dir") + o+",sessionid="+sid;
+    }
 
-	@RequestMapping("/redis/get")
-	public UserVO getUser(String name, String password) {
-		return redisCacheService.getUser(name, password);
-	}
+    @RequestMapping("/redis/get")
+    public UserVO getUser(String name, String password) {
+        return redisCacheService.getUser(name, password);
+    }
 
-	@RequestMapping("/redis/clear")
-	public Object clearUser(String name, String no) {
-		redisCacheService.clearUser(no, name);
-		return "clear";
-	}
+    @RequestMapping("/redis/clear")
+    public Object clearUser(String name, String no) {
+        redisCacheService.clearUser(no, name);
+        return "clear";
+    }
 
-	@RequestMapping("/redis/put")
-	public Object putUser(String name, String no) {
-		String _name = Objects.toString(name, "testName");
-		String _no = Objects.toString(no, "testNo");
-		return redisCacheService.putUser(_no, _name);
-	}
+    @RequestMapping("/redis/put")
+    public Object putUser(String name, String no) {
+        String _name = Objects.toString(name, "testName");
+        String _no = Objects.toString(no, "testNo");
+        return redisCacheService.putUser(_no, _name);
+    }
 }

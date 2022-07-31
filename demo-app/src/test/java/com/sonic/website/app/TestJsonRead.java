@@ -15,22 +15,22 @@ import com.sonic.website.core.common.support.Util;
  */
 public class TestJsonRead {
 
-	public static void main2(String args[]) throws Exception {
-	    
-	    JSONArray ja = new JSONArray();  
-	    ja.add("a");
-	    ja.add("b");
-	    ja.add("c");
-	    JSONObject json = new JSONObject();
-	    json.put("hei", ja.toJSONString());
-		LogCore.BASE.info("{}",ja.toJSONString());
+    public static void main2(String args[]) throws Exception {
+        
+        JSONArray ja = new JSONArray();  
+        ja.add("a");
+        ja.add("b");
+        ja.add("c");
+        JSONObject json = new JSONObject();
+        json.put("hei", ja.toJSONString());
+        LogCore.BASE.info("{}",ja.toJSONString());
 
-		String line = FileTool.readLine("b.txt");
-		LogCore.BASE.info("{}",line);
-		JSONArray arr = JSONArray.parseArray(line);
-		List<Object>list = Arrays.asList(arr.toArray());
-		LogCore.BASE.info("{}",Util.prettyJsonStr(list));
-		LogCore.BASE.info("{}",json.toString());
-		
-	}
+        String line = FileTool.readLine("b.txt");
+        LogCore.BASE.info("{}",line);
+        JSONArray arr = JSONArray.parseArray(line);
+        List<Object>list = Arrays.asList(arr.toArray());
+        LogCore.BASE.info("{}",Util.prettyJsonStr(list));
+        LogCore.BASE.info("{}",json.toString());
+        
+    }
 }

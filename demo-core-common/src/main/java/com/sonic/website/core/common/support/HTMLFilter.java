@@ -6,7 +6,7 @@ import java.util.function.Function;
 public final class HTMLFilter {
 
     public static String filter(String message) {
-    	LogCore.BASE.info("{}",message);
+        LogCore.BASE.info("{}",message);
         if (message == null)
             return (null);
         char content[] = new char[message.length()];
@@ -33,13 +33,13 @@ public final class HTMLFilter {
         return (result.toString());
     }
     public static String printHtml(String message){
-    	if(Util.isEmpty(message)){
-    		return message;
-    	}
-    	return filter(message, (s)->s.replace("&lt;", "<br>&lt;"));
+        if(Util.isEmpty(message)){
+            return message;
+        }
+        return filter(message, (s)->s.replace("&lt;", "<br>&lt;"));
     }
     public static String filter(String message, Function<String, String> andthen_func){
-    	Objects.requireNonNull(andthen_func, "function is null!");
-    	return andthen_func.apply(filter(message));
+        Objects.requireNonNull(andthen_func, "function is null!");
+        return andthen_func.apply(filter(message));
     }
 }

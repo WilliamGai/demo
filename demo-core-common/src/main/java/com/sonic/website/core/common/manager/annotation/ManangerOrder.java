@@ -8,9 +8,9 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface ManangerOrder {
-	/**
-	 * The order value. the smaller the the earlier
-	 * <p>Default is Integer.Max
-	 */
-	int value() default Integer.MAX_VALUE;
+    /**
+     * The order value. the smaller the the earlier
+     * <p>Default is Integer.Max
+     */
+    int value() default Integer.MAX_VALUE;
 }

@@ -13,26 +13,26 @@ import com.sonic.website.core.common.support.LogCore;
 public class SpringAwareManager extends ManagerBase implements ApplicationContextAware {
     private static ApplicationContext context = null;
     
-	@Autowired
-	ApplicationContext appContext;
-	
-	public static SpringAwareManager inst() {
-		return ManagerBase.inst(SpringAwareManager.class);
-	}
-	
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		context = applicationContext;
-		LogCore.BASE.info("SpringAwareManager inited!");
-	}
+    @Autowired
+    ApplicationContext appContext;
+    
+    public static SpringAwareManager inst() {
+        return ManagerBase.inst(SpringAwareManager.class);
+    }
+    
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
+        LogCore.BASE.info("SpringAwareManager inited!");
+    }
     public ApplicationContext getApplicationContext() {
         return context;
     }
     public ApplicationContext getAppContext() {
         return appContext;
     }
-	@Override
-	public void init() {
-	}
+    @Override
+    public void init() {
+    }
 }
  

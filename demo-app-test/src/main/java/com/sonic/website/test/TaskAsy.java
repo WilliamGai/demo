@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import com.sonic.website.core.common.support.LogCore;
 @Component
 public class TaskAsy {
-	public static SecureRandom random = new SecureRandom();
+    public static SecureRandom random = new SecureRandom();
 
-	@Async
+    @Async
     public Future<Long> doTaskOne() throws Exception {
         LogCore.BASE.info("{},{}开始做任务一", Thread.currentThread().getName(), Thread.currentThread().getId());
         long start = System.currentTimeMillis();
@@ -21,8 +21,8 @@ public class TaskAsy {
         long interval = end - start;
         LogCore.BASE.info("{},{}完成任务一，耗时：{}毫秒", Thread.currentThread().getName(), Thread.currentThread().getId(), interval);
         return new AsyncResult<Long>(interval);
-	}
-	@Async
+    }
+    @Async
     public Future<Long> doTaskTwo() throws Exception {
         LogCore.BASE.info("{},{}开始做任务二", Thread.currentThread().getName(), Thread.currentThread().getId());
         long start = System.currentTimeMillis();
@@ -31,8 +31,8 @@ public class TaskAsy {
         long interval = end - start;
         LogCore.BASE.info("{},{}完成任务二，耗时：{}毫秒", Thread.currentThread().getName(), Thread.currentThread().getId(), interval);
         return new AsyncResult<Long>(interval);
-	}
-	@Async
+    }
+    @Async
     public Future<Long> doTaskThree() throws Exception {
         LogCore.BASE.info("{}, {}开始做任务三", Thread.currentThread().getName(), Thread.currentThread().getId());
         long start = System.currentTimeMillis();
@@ -41,5 +41,5 @@ public class TaskAsy {
         long interval = end - start;
         LogCore.BASE.info("{}，{}完成任务三，耗时：{}毫秒", Thread.currentThread().getName(), Thread.currentThread().getId(), interval);
         return new AsyncResult<Long>(interval);
-	}
+    }
 }

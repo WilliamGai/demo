@@ -20,29 +20,29 @@ import de.codecentric.boot.admin.config.EnableAdminServer;
 @Controller
 @SpringBootApplication(scanBasePackages={"com.sincetimes.website"})  
 public class App {
-	@RequestMapping("/p")
-	@ResponseBody
-	String home() {
-		return Sys.getPropertiesJSONString();
-	}
-	
-	@Autowired
-	JedisServiceDemo jedisService;
-	
-	@RequestMapping("/hello")
-	@ResponseBody
-	String hello() {
-		String now = jedisService.getSet("now", TimeUtil.getLocalTime());
-		return "Hello app security server!"+now;
-	}
-	@RequestMapping("/main")
-	String main() {
-		return "main";
-	}
-	
-	public static void main(String[] args) throws Exception {
-		ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
-		AppStarter.initManagers(context);
-		LogCore.SECURITY.info("app started args={}", Arrays.toString(args));
-	}
+    @RequestMapping("/p")
+    @ResponseBody
+    String home() {
+        return Sys.getPropertiesJSONString();
+    }
+    
+    @Autowired
+    JedisServiceDemo jedisService;
+    
+    @RequestMapping("/hello")
+    @ResponseBody
+    String hello() {
+        String now = jedisService.getSet("now", TimeUtil.getLocalTime());
+        return "Hello app security server!"+now;
+    }
+    @RequestMapping("/main")
+    String main() {
+        return "main";
+    }
+    
+    public static void main(String[] args) throws Exception {
+        ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
+        AppStarter.initManagers(context);
+        LogCore.SECURITY.info("app started args={}", Arrays.toString(args));
+    }
 }

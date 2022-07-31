@@ -18,5 +18,5 @@ import com.sonic.website.core.common.manager.annotation.ManangerOrder;
 @ManangerOrder
 public @interface CompomentTest {
 
-	String value() default "";
+    String value() default "";
 }

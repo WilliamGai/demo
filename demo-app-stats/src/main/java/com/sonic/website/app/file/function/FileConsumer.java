@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @FunctionalInterface
 public interface FileConsumer {
-	void consumeFile(MultipartFile m);
+    void consumeFile(MultipartFile m);
 }

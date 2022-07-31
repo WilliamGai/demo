@@ -7,8 +7,8 @@ package com.sonic.website.support;
  * @date 2017年11月7日 下午5:23:59
  */
 public class TestB extends TestA{
-	@Override
-	public void doSth() throws RuntimeException{
-		return;
-	}
+    @Override
+    public void doSth() throws RuntimeException{
+        return;
+    }
 }

@@ -8,5 +8,5 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface RedisDataBaseSelect {
-	int value() default 1;
+    int value() default 1;
 }

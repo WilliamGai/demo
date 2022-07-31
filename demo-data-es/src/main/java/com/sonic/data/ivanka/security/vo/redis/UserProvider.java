@@ -20,47 +20,47 @@ import com.sonic.website.redis.jedis.spring.JedisWrapperBase;
  */
 @Component
 public class UserProvider extends JedisWrapperBase{
-	private static final String USERS_SET = "users^set";
-	private static final String USER_LATEST_ID_KEY = "users_latest_id";//用户自增ID键
-	
-	public static UserProvider inst() {
-		return SpringManager.inst().getBean(UserProvider.class);
-	}
-	
-	public void saveOrUpdateUser(UserVO user) {
-		zadd(USERS_SET, 0, user.getName());
-		set(user.getName(), user.toJSONString());
-	}
+    private static final String USERS_SET = "users^set";
+    private static final String USER_LATEST_ID_KEY = "users_latest_id";//用户自增ID键
+    
+    public static UserProvider inst() {
+        return SpringManager.inst().getBean(UserProvider.class);
+    }
+    
+    public void saveOrUpdateUser(UserVO user) {
+        zadd(USERS_SET, 0, user.getName());
+        set(user.getName(), user.toJSONString());
+    }
 
-	public UserVO getUserByName(String name) {
-		String json= get(name);
-		return UserVO.parseObject(json, UserVO.class);
-	}
-	/**
-	 * @see JedisWrapper#zcard
-	 */
-	public Long getUsersNum(){
-		return zcard(USERS_SET);
-	}
-	public Map<String, UserVO> getAllUsers() {
-		Set<String> _set = zrange(USERS_SET, 0, -1);
-		return _set.stream()
-				.map(this::getUserByName)
-				.filter(Objects::nonNull)
-				.collect(Collectors.toMap(UserVO::getName, Function.identity()));
-	}
+    public UserVO getUserByName(String name) {
+        String json= get(name);
+        return UserVO.parseObject(json, UserVO.class);
+    }
+    /**
+     * @see JedisWrapper#zcard
+     */
+    public Long getUsersNum(){
+        return zcard(USERS_SET);
+    }
+    public Map<String, UserVO> getAllUsers() {
+        Set<String> _set = zrange(USERS_SET, 0, -1);
+        return _set.stream()
+                .map(this::getUserByName)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toMap(UserVO::getName, Function.identity()));
+    }
 
-	public void deleteUser(String name) {
-		del(name);
-		zrem(USERS_SET, name);
-	}
+    public void deleteUser(String name) {
+        del(name);
+        zrem(USERS_SET, name);
+    }
 
-	public Boolean existUserByName(String name) {
-		return exist(name);
-	}
+    public Boolean existUserByName(String name) {
+        return exist(name);
+    }
 
-	public Integer applyNewUserId() {
-		return incr(USER_LATEST_ID_KEY).intValue();
-	}
-	
+    public Integer applyNewUserId() {
+        return incr(USER_LATEST_ID_KEY).intValue();
+    }
+    
 }

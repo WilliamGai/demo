@@ -12,21 +12,21 @@ public class StringSerializer implements Serializer<String> {
     private final Charset charset;
 
     public StringSerializer() {
-	this(Charset.forName("UTF8"));
+    this(Charset.forName("UTF8"));
     }
 
     public StringSerializer(Charset charset) {
-	this.charset = charset;
+    this.charset = charset;
     }
 
     @Override
     public byte[] serialize(String data) throws SerializeException {
-	return (data == null ? null : data.getBytes(charset));
+    return (data == null ? null : data.getBytes(charset));
     }
 
     @Override
     public String deserialize(byte[] bytes) throws SerializeException {
-	return (bytes == null ? null : new String(bytes, charset));
+    return (bytes == null ? null : new String(bytes, charset));
     }
 
 }

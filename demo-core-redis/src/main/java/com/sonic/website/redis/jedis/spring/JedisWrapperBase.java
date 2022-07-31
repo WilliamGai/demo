@@ -15,11 +15,11 @@ import com.sonic.website.redis.jedis.interfaces.JedisWrapper;
 @Component
 public abstract class JedisWrapperBase implements JedisWrapper{
 
-	@Autowired
-	public JedisPoolTemplate jedisTemplate;
-	
-	@Override
-	public JedisPoolTemplate template() {
-		return jedisTemplate;
-	}
+    @Autowired
+    public JedisPoolTemplate jedisTemplate;
+    
+    @Override
+    public JedisPoolTemplate template() {
+        return jedisTemplate;
+    }
 }

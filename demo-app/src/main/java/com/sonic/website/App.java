@@ -37,45 +37,45 @@ import de.codecentric.boot.admin.config.EnableAdminServer;
 @RestController
 @SpringBootApplication(scanBasePackages={"com.sonic.website"})
 public class App extends SpringBootServletInitializer{
-	public static String START_TAG = "=================";
+    public static String START_TAG = "=================";
 
-	@RequestMapping("/")
-	@ResponseBody
-	String home(HttpServletResponse resp){
-		return "hello  app";
-	}
+    @RequestMapping("/")
+    @ResponseBody
+    String home(HttpServletResponse resp){
+        return "hello  app";
+    }
 
-	@RequestMapping("/welcome")
-	@ResponseBody
-	String method(HttpServletRequest req, HttpServletResponse resp) {
-		LogCore.BASE.info("{}", HttpHeadUtil.getParamsMapLimit(req));
-		return Util.format("welcome {}, dir is{}", SpringManager.inst().getSysProperty("app_name"), System.getProperty("user.dir"));
-	}
+    @RequestMapping("/welcome")
+    @ResponseBody
+    String method(HttpServletRequest req, HttpServletResponse resp) {
+        LogCore.BASE.info("{}", HttpHeadUtil.getParamsMapLimit(req));
+        return Util.format("welcome {}, dir is{}", SpringManager.inst().getSysProperty("app_name"), System.getProperty("user.dir"));
+    }
 
-	/**  外部tomcat启动的时候首先执行  */
-	@Override
-	public SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		LogCore.BASE.info(START_TAG + "configure", builder.sources(App.class));// AppConfig
-		return builder.sources(App.class);
-	}
-	@Autowired
-	JedisPoolTemplate jedisTemplate;
-	
-	/** 外部tomcat启动的时不执行此方法 {@link CommandLineRunner#run(String...)}*/
-	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
-		AppStarter.initManagers(context);
-		LogCore.BASE.info(START_TAG + "app started!,dir={},os={},args={}", Sys.getAppDir(), Sys.getOs(),
-				Arrays.toString(args));
-		LogCore.BASE.info(START_TAG + "profiles={}", Arrays.toString(context.getEnvironment().getActiveProfiles()));
-		LogCore.BASE.info(START_TAG + "app_name={}", SpringManager.inst().getSysProperty("app_name"));// application.properties
-		LogCore.BASE.info(START_TAG + "server.port={}", SpringManager.inst().getSysProperty("server.port"));// application.properties
-		LogCore.BASE.info(START_TAG + "upload_path={}", SpringManager.inst().getSysProperty("upload_path"));// application.properties
-		LogCore.BASE.info(START_TAG + "http://localhost:{}/login", SpringManager.inst().getSysProperty("server.port"));
-		LogCore.BASE.info(START_TAG + "test App={}", context.getBean(App.class));
-		LogCore.BASE.info(START_TAG + "test DruidConfig={}", context.getBean(DruidConfig.class));
-		LogCore.BASE.info(START_TAG + "test DemoBeanFactoryPostProcessor={}", context.getBean(DemoBeanFactoryPostProcessor.class));
-		LogCore.BASE.info(START_TAG + "test ArticleManager={}", context.getBean(ArticleManager.class));
+    /**  外部tomcat启动的时候首先执行  */
+    @Override
+    public SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        LogCore.BASE.info(START_TAG + "configure", builder.sources(App.class));// AppConfig
+        return builder.sources(App.class);
+    }
+    @Autowired
+    JedisPoolTemplate jedisTemplate;
+    
+    /** 外部tomcat启动的时不执行此方法 {@link CommandLineRunner#run(String...)}*/
+    public static void main(String[] args) {
+        ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
+        AppStarter.initManagers(context);
+        LogCore.BASE.info(START_TAG + "app started!,dir={},os={},args={}", Sys.getAppDir(), Sys.getOs(),
+                Arrays.toString(args));
+        LogCore.BASE.info(START_TAG + "profiles={}", Arrays.toString(context.getEnvironment().getActiveProfiles()));
+        LogCore.BASE.info(START_TAG + "app_name={}", SpringManager.inst().getSysProperty("app_name"));// application.properties
+        LogCore.BASE.info(START_TAG + "server.port={}", SpringManager.inst().getSysProperty("server.port"));// application.properties
+        LogCore.BASE.info(START_TAG + "upload_path={}", SpringManager.inst().getSysProperty("upload_path"));// application.properties
+        LogCore.BASE.info(START_TAG + "http://localhost:{}/login", SpringManager.inst().getSysProperty("server.port"));
+        LogCore.BASE.info(START_TAG + "test App={}", context.getBean(App.class));
+        LogCore.BASE.info(START_TAG + "test DruidConfig={}", context.getBean(DruidConfig.class));
+        LogCore.BASE.info(START_TAG + "test DemoBeanFactoryPostProcessor={}", context.getBean(DemoBeanFactoryPostProcessor.class));
+        LogCore.BASE.info(START_TAG + "test ArticleManager={}", context.getBean(ArticleManager.class));
 
-	}
+    }
 }

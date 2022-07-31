@@ -558,17 +558,17 @@ public class ThreadPoolConstants {
 
     public static final String LOCAL_PROTOCOL                      = "injvm";
 
-    public static final String AUTO_ATTACH_INVOCATIONID_KEY 	   = "invocationid.autoattach";
+    public static final String AUTO_ATTACH_INVOCATIONID_KEY        = "invocationid.autoattach";
     
-    public static final String SCOPE_KEY						   = "scope";
+    public static final String SCOPE_KEY                           = "scope";
     
-    public static final String SCOPE_LOCAL						   = "local";
+    public static final String SCOPE_LOCAL                           = "local";
     
-    public static final String SCOPE_REMOTE						   = "remote";
+    public static final String SCOPE_REMOTE                           = "remote";
     
-    public static final String SCOPE_NONE						   = "none";
+    public static final String SCOPE_NONE                           = "none";
     
-    public static final String RELIABLE_PROTOCOL				   = "napoli";
+    public static final String RELIABLE_PROTOCOL                   = "napoli";
     
     public static final String TPS_LIMIT_RATE_KEY                  = "tps";
 

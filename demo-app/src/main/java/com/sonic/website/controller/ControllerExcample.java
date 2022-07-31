@@ -30,65 +30,65 @@ import com.sonic.website.manager.DataManager;
 @Order(value = 5)
 public class ControllerExcample implements AccessSupport {
     public static class LoginRequestVO implements Serializable{
-		private static final long serialVersionUID = 1L;
-		public String openid;
-    	public String sign;
+        private static final long serialVersionUID = 1L;
+        public String openid;
+        public String sign;
     }
     
     @ResponseBody
     @RequestMapping("    esthttps")
-	String testhttps(HttpServletRequest req, HttpServletResponse resp){
-	    ThreadUtil.sleep(10000000L);
-		return "abc";
+    String testhttps(HttpServletRequest req, HttpServletResponse resp){
+        ThreadUtil.sleep(10000000L);
+        return "abc";
     }
     @ResponseBody
     @RequestMapping("    esthttps2")
     String testhttps2(HttpServletRequest req, HttpServletResponse resp){
-	    return "abc"+TimeUtil.getLocalTimeFull();
+        return "abc"+TimeUtil.getLocalTimeFull();
     }
     
     @RequestMapping("    stbody")
-	public Object tstBody(@RequestBody LoginRequestVO test) {
-		LogCore.BASE.info("testbody param={}", Util.prettyJsonStr(test));
-		LogCore.BASE.info("result={}", JSONBuilder.creatJsonString("result", 1,"data", test));
-		return JSONBuilder.creatJsonString("result", 1,"data", test);
-	}
-	@RequestMapping("    st")
-	public Object get_value(HttpServletRequest req) {
-		Map<String, String> map = HttpHeadUtil.getParamsMapLimit(req);
-		return map;
-	}
-	
-	@RequestMapping("/get_value")
-	public Object get_value(String name) {
-		String v = DataManager.inst().get(name);
-		return JSONBuilder.creatJsonString("result", 1,"data", v);
-	}
-	
-	@RequestMapping("/get_bivalue")
-	public Object get_bivalue(String key) {
-		String[] ss =  DataManager.inst().getBiValue(key);
-		return JSONBuilder.creatJsonString("result", 1,"key",ss[0], "name",ss[1], "value",ss[2]);
-	}
+    public Object tstBody(@RequestBody LoginRequestVO test) {
+        LogCore.BASE.info("testbody param={}", Util.prettyJsonStr(test));
+        LogCore.BASE.info("result={}", JSONBuilder.creatJsonString("result", 1,"data", test));
+        return JSONBuilder.creatJsonString("result", 1,"data", test);
+    }
+    @RequestMapping("    st")
+    public Object get_value(HttpServletRequest req) {
+        Map<String, String> map = HttpHeadUtil.getParamsMapLimit(req);
+        return map;
+    }
+    
+    @RequestMapping("/get_value")
+    public Object get_value(String name) {
+        String v = DataManager.inst().get(name);
+        return JSONBuilder.creatJsonString("result", 1,"data", v);
+    }
+    
+    @RequestMapping("/get_bivalue")
+    public Object get_bivalue(String key) {
+        String[] ss =  DataManager.inst().getBiValue(key);
+        return JSONBuilder.creatJsonString("result", 1,"key",ss[0], "name",ss[1], "value",ss[2]);
+    }
 
-	@RequestMapping("/downloadhits/{os}")
-	public String download(HttpServletRequest req, @PathVariable String os,String openid, String ip) {
-		int real_ip = req.getRemotePort();
-		LogCore.BASE.info("downloadhits openid={},realIp={},os={}",openid, real_ip, os);
-		StatsManager.inst().incr(os);
-		return os;
-	}
-	
-	@ResponseBody
-	@RequestMapping("/lookenv")
-	Object lookenv(HttpServletRequest req, HttpServletResponse resp){
-		return SpringManager.inst().getEnvironmentJsonStr();
-	}
-	@ResponseBody
-	@RequestMapping("/lookproperty")
-	Object lookenv(HttpServletRequest req, HttpServletResponse resp, String key){
-		redirect(resp, "lookenv");
-//		forward(req, resp, "lookenv");
-		return null;
-	}
+    @RequestMapping("/downloadhits/{os}")
+    public String download(HttpServletRequest req, @PathVariable String os,String openid, String ip) {
+        int real_ip = req.getRemotePort();
+        LogCore.BASE.info("downloadhits openid={},realIp={},os={}",openid, real_ip, os);
+        StatsManager.inst().incr(os);
+        return os;
+    }
+    
+    @ResponseBody
+    @RequestMapping("/lookenv")
+    Object lookenv(HttpServletRequest req, HttpServletResponse resp){
+        return SpringManager.inst().getEnvironmentJsonStr();
+    }
+    @ResponseBody
+    @RequestMapping("/lookproperty")
+    Object lookenv(HttpServletRequest req, HttpServletResponse resp, String key){
+        redirect(resp, "lookenv");
+//        forward(req, resp, "lookenv");
+        return null;
+    }
 }

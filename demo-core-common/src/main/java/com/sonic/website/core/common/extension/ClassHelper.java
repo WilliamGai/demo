@@ -24,14 +24,14 @@ public class ClassHelper {
         return caller.getClassLoader();
     }
     
-	/**
-	 * get class loader 
-	 * 
-	 * @param cls
-	 * @return class loader
-	 */
+    /**
+     * get class loader 
+     * 
+     * @param cls
+     * @return class loader
+     */
     public static ClassLoader getClassLoader(Class<?> cls) {
-    	ClassLoader cl = null;
+        ClassLoader cl = null;
         try {
             cl = Thread.currentThread().getContextClassLoader();
         } catch (Throwable ex) {
@@ -59,7 +59,7 @@ public class ClassHelper {
      * @see java.lang.Thread#getContextClassLoader()
      */
     public static ClassLoader getClassLoader() {
-    	return getClassLoader(ClassHelper.class);
+        return getClassLoader(ClassHelper.class);
     }
 
     /**

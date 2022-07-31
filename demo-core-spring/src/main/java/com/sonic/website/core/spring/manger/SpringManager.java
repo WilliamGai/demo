@@ -19,57 +19,57 @@ import com.sonic.website.core.common.support.LogCore;
 @ManangerOrder(value = -1)
 public class SpringManager extends ManagerBase implements ApplicationListener<ContextRefreshedEvent> {
 
-	@Value("${upload_path:./}")
-	public String upload_path;
+    @Value("${upload_path:./}")
+    public String upload_path;
 
-	@Autowired
-	private Environment env;// 这个类自己没有序列化
+    @Autowired
+    private Environment env;// 这个类自己没有序列化
 
-	private ApplicationContext applicationContext = null;
+    private ApplicationContext applicationContext = null;
 
-	public static SpringManager inst() {
-		return ManagerBase.inst(SpringManager.class);
-	}
+    public static SpringManager inst() {
+        return ManagerBase.inst(SpringManager.class);
+    }
 
-	public Environment getEnvironment() {
-		return env;
-	}
+    public Environment getEnvironment() {
+        return env;
+    }
 
-	public String getSysProperty(String key) {
-		return env.getProperty(key);
-	}
+    public String getSysProperty(String key) {
+        return env.getProperty(key);
+    }
 
-	public <T> T getSysProperty(String key, Class<T> targetType, T defaultValue) {
-		return env.getProperty(key, targetType, defaultValue);
-	}
+    public <T> T getSysProperty(String key, Class<T> targetType, T defaultValue) {
+        return env.getProperty(key, targetType, defaultValue);
+    }
 
-	public Object getEnvironmentJsonStr() {
-		return JSON.toJSONString(env, SerializerFeature.PrettyFormat, SerializerFeature.WriteClassName,
-				SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);
-	}
+    public Object getEnvironmentJsonStr() {
+        return JSON.toJSONString(env, SerializerFeature.PrettyFormat, SerializerFeature.WriteClassName,
+                SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);
+    }
 
-	@Override
-	public void onApplicationEvent(ContextRefreshedEvent event) {
-		if (applicationContext == null) {
-			applicationContext = event.getApplicationContext();
-		}
-		LogCore.BASE.info("springManager injected! {}", applicationContext);
-	}
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        if (applicationContext == null) {
+            applicationContext = event.getApplicationContext();
+        }
+        LogCore.BASE.info("springManager injected! {}", applicationContext);
+    }
 
-	public ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
 
-	public Object getBean(String beanId) {
-		return applicationContext.getBean(beanId);
-	}
+    public Object getBean(String beanId) {
+        return applicationContext.getBean(beanId);
+    }
 
-	public <T> T getBean(Class<T> requiredType) {
-		return applicationContext.getBean(requiredType);
-	}
+    public <T> T getBean(Class<T> requiredType) {
+        return applicationContext.getBean(requiredType);
+    }
 
-	@Override
-	public void init() {
-		LogCore.BASE.info("springManager init! {}", applicationContext);
-	}
+    @Override
+    public void init() {
+        LogCore.BASE.info("springManager init! {}", applicationContext);
+    }
 }

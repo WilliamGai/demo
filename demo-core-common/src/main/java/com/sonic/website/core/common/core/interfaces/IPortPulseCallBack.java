@@ -5,5 +5,5 @@ import com.sonic.website.core.common.core.Port;
 @FunctionalInterface
 @Deprecated
 public interface IPortPulseCallBack<T> {
-	T doInPort(Port port);
+    T doInPort(Port port);
 }

@@ -7,22 +7,22 @@ public class SerializeException extends RuntimeException {
     private static final long serialVersionUID = -1794106024265600424L;
 
     public SerializeException(String str) {
-	super(str);
+    super(str);
     }
 
     public SerializeException(Throwable e) {
-	super(e);
+    super(e);
     }
 
     public SerializeException(Throwable e, String str) {
-	super(str, e);
+    super(str, e);
     }
 
     public SerializeException(String str, Object... params) {
-	super(Util.format(str, params));
+    super(Util.format(str, params));
     }
 
     public SerializeException(Throwable e, String str, Object... params) {
-	super(Util.format(str, params), e);
+    super(Util.format(str, params), e);
     }
 }

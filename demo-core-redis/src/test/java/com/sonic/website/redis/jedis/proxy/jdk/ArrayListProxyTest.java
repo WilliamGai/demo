@@ -25,7 +25,7 @@ public class ArrayListProxyTest {
         System.out.println("------PPP "+proxy.getClass().getSuperclass());
         System.out.println("------PPP "+proxy.getClass());
 
-	        List list2 = (List) proxy;
+            List list2 = (List) proxy;
         System.out.println(".add(\"盖怡超\"); ");
         ((List) proxy).add("盖怡超");
 

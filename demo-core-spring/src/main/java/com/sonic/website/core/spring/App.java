@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @SpringBootApplication
 public class App{
-	@RequestMapping("/hello")
-	@ResponseBody
-	String home() {
-		return "Hello core spring";
-	}
-	
-	public static void main(String[] args) throws Exception {
-		ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
-		AppStarter.initManagers(context);
-	}
+    @RequestMapping("/hello")
+    @ResponseBody
+    String home() {
+        return "Hello core spring";
+    }
+    
+    public static void main(String[] args) throws Exception {
+        ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
+        AppStarter.initManagers(context);
+    }
 }

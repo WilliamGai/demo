@@ -24,23 +24,23 @@ import com.sonic.website.core.spring.interfaces.AccessSupport;
 @RequestMapping("/mg")
 public class MGControllerExcample implements AccessSupport {
 
-	/**
-	 * 修改变量
-	 */
-	@RequestMapping("/mg")
-	String gm(Model model, HttpServletRequest req) {
-		List<DataVO> list = new ArrayList<>();
-		list.sort((x,y) -> x.name.compareTo(y.name));
-		LogCore.BASE.debug("all constants :{}", list);
-		
-		model.addAttribute("constant_list", list);
-		Object _old_user = req.getSession().getAttribute("user");
-		if(_old_user instanceof UserVO && "admin".equals(((UserVO)_old_user).getName())){
-			Collection<UserVO> user_list = SecurityManager.inst().getAllUsers();
-			model.addAttribute("user_list", user_list);
-		}
-		return "mg";
-	}
+    /**
+     * 修改变量
+     */
+    @RequestMapping("/mg")
+    String gm(Model model, HttpServletRequest req) {
+        List<DataVO> list = new ArrayList<>();
+        list.sort((x,y) -> x.name.compareTo(y.name));
+        LogCore.BASE.debug("all constants :{}", list);
+        
+        model.addAttribute("constant_list", list);
+        Object _old_user = req.getSession().getAttribute("user");
+        if(_old_user instanceof UserVO && "admin".equals(((UserVO)_old_user).getName())){
+            Collection<UserVO> user_list = SecurityManager.inst().getAllUsers();
+            model.addAttribute("user_list", user_list);
+        }
+        return "mg";
+    }
 
 
 }

@@ -13,12 +13,12 @@ import com.sonic.website.core.common.support.LogCore;
 @ControllerAdvice
 public class ExeptionHandler {
 
-	@ExceptionHandler(value = Exception.class)
-	public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
-		LogCore.BASE.error("error occur:", e);
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("e", e);
-		mv.addObject("uri", req.getRequestURI());
-		return mv;
-	}
+    @ExceptionHandler(value = Exception.class)
+    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
+        LogCore.BASE.error("error occur:", e);
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("e", e);
+        mv.addObject("uri", req.getRequestURI());
+        return mv;
+    }
 }

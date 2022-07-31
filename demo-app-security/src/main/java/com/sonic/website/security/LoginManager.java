@@ -8,20 +8,20 @@ import com.sonic.website.core.common.support.ParamResult;
 
 @Component
 public class LoginManager extends ManagerBase {
-	@Value("${password}")
-	public String password;
+    @Value("${password}")
+    public String password;
 
-	public static LoginManager inst() {
-		return ManagerBase.inst(LoginManager.class);
-	}
-	
-	@Override
-	public void init() {
-		LogCore.BASE.info("password={}", password);
-	}
+    public static LoginManager inst() {
+        return ManagerBase.inst(LoginManager.class);
+    }
+    
+    @Override
+    public void init() {
+        LogCore.BASE.info("password={}", password);
+    }
 
-	public ParamResult pass(String password2) {
-		return null;
-	}
+    public ParamResult pass(String password2) {
+        return null;
+    }
 
 }

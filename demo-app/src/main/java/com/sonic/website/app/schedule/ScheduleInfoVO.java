@@ -30,26 +30,26 @@ public class ScheduleInfoVO extends VOBase implements Serializable {
     }
 
     public ScheduleInfoVO(String sn, String create_by, String name, String desc, int threads) {
-	super();
-	this.sn = sn;
-	this.name = name;
-	this.desc = desc;
-	this.create_by = create_by;
-	this.create_time = System.currentTimeMillis();
-	this.threds = threads;
+    super();
+    this.sn = sn;
+    this.name = name;
+    this.desc = desc;
+    this.create_by = create_by;
+    this.create_time = System.currentTimeMillis();
+    this.threds = threads;
     }
 
     /** 快捷转json串 */
     public String toJSONString() {
-	return JSON.toJSONString(this);
+    return JSON.toJSONString(this);
     }
 
     /** 快捷从字符串转对象 **/
     public static ScheduleInfoVO parseObject(String jsonStr) {
-	if (Util.isEmpty(jsonStr)) {
-	    return null;
-	}
-	return JSON.parseObject(jsonStr, ScheduleInfoVO.class);
+    if (Util.isEmpty(jsonStr)) {
+        return null;
+    }
+    return JSON.parseObject(jsonStr, ScheduleInfoVO.class);
     }
 
     public void setName(String name) {

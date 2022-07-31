@@ -9,23 +9,23 @@ import com.sonic.website.core.common.support.LogCore;
 
 @Component
 public class SpringUtil implements ApplicationContextAware {
-	private static ApplicationContext context = null;
+    private static ApplicationContext context = null;
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		context = applicationContext;
-		LogCore.BASE.info("init globle context:{}", context.getClass());
-	}
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
+        LogCore.BASE.info("init globle context:{}", context.getClass());
+    }
 
-	public static ApplicationContext getContext() {
-		return context;
-	}
+    public static ApplicationContext getContext() {
+        return context;
+    }
 
-	public Object getBean(String beanId) {
-		return context.getBean(beanId);
-	}
+    public Object getBean(String beanId) {
+        return context.getBean(beanId);
+    }
 
-	public <T> T getBean(Class<T> requiredType) {
-		return context.getBean(requiredType);
-	}
+    public <T> T getBean(Class<T> requiredType) {
+        return context.getBean(requiredType);
+    }
 }
