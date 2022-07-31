@@ -1,22 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>demo-app-test</artifactId>
-	<name>${project.artifactId}</name>
-	<description>test st</description>
-	<url>http://maven.apache.org</url>
-	<parent>
-		<groupId>com.sonic.website</groupId>
-		<artifactId>demo-app-parent</artifactId>
-		<version>0.0.1</version>
-		<relativePath>../demo-app-parent</relativePath>
-	</parent>
-	<dependencies>
-		<dependency>
-			<groupId>com.sonic.website</groupId>
-			<artifactId>demo-core-spring</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		
-	</dependencies>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>demo-app-test</artifactId>
+    <name>${project.artifactId}</name>
+    <description>test st</description>
+    <url>http://maven.apache.org</url>
+    <parent>
+        <groupId>com.sonic.website</groupId>
+        <artifactId>demo-app-parent</artifactId>
+        <version>0.0.1</version>
+        <relativePath>../demo-app-parent</relativePath>
+    </parent>
+    <dependencies>
+        <dependency>
+            <groupId>com.sonic.website</groupId>
+            <artifactId>demo-core-spring</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        
+    </dependencies>
 </project>
