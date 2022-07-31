@@ -84,7 +84,7 @@ public class BootLoginInterceptor extends WebContentInterceptor implements Secur
 	
 	private void failAndForwardLogin(HttpServletRequest req, HttpServletResponse resp, String uri, String tipmsg) {
 		req.setAttribute(REDIRECT_URL_TAG, uri);
-		req.setAttribute(LOGIN_TIPMSG, tipmsg);//tipmsg
+		req.setAttribute(LOGIN_TIPMSG, tipmsg);/    ipmsg
 		forward(req, resp, "/login");
 		LogCore.BASE.debug("{}-------------------find, dispatch to ../login req={}", uri, HttpHeadUtil.getParamsMapLimit(req));
 	}
