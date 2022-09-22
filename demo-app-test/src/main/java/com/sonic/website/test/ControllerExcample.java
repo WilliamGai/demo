@@ -106,7 +106,7 @@ public class ControllerExcample implements AccessSupport {
 
     @RequestMapping("/tstasy")
     public Object tstasy1(HttpServletRequest req) {
-//        Map<String, String> map = HttpHeadUtil.getParamsMapLimit(req);
+        Map<String, String> map = HttpHeadUtil.getParamsMapLimit(req);
         Long sum = -1L;
         try {
             Future<Long> task1 = taskasy.doTaskOne();
